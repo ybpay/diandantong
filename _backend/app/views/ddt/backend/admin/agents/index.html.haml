@@ -1,0 +1,74 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 区域代理列表
+    
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12.form-group
+        =search_form_for @q, url: backend_agents_path, html: {class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :name_cont, placeholder: Ddt::Agent.human_attribute_name(:name), class: 'input-small form-control'
+          = f.input_field :agent_zones_name_cont, placeholder: Ddt::AgentZone.human_attribute_name(:name), class: 'input-small form-control'
+          = f.input_field :agent_type_eq, collection: Ddt::Agent.agent_type_collection, prompt: Ddt::Agent.human_attribute_name(:agent_type), include_blank: true, class: 'form-control'
+          = f.input_field :exclusive_eq, as: :boolean
+          = f.label :exclusive_eq, Ddt::Agent.human_attribute_name(:exclusive)
+          = f.input_field :balance_eq, placeholder: Ddt::Agent.human_attribute_name(:balance), class: 'input-small form-control'
+          = f.input_field :created_at_gteq, as: :date, placeholder: Ddt::Agent.human_attribute_name(:created_at), class: 'form-control'
+          %label{style: 'font-size: 20px'} ~
+          = f.input_field :created_at_lteq, as: :date, placeholder: Ddt::Agent.human_attribute_name(:created_at), class: 'form-control'
+          = f.submit "搜索", class: 'btn btn-primary'
+    .row
+      .col-lg-12
+        = link_to '新增代理', new_backend_agent_path, :class=>"btn btn-primary btn-sm"
+        = link_to '导出csv', backend_agents_path(format: :csv), :class=>"btn btn-info btn-sm"
+
+  .row
+    .col-lg-12
+      .ibox 
+        .ibox-content
+          %table.table.table-striped
+            %tr
+              %th.col-sm-1= sort_link(@q, :agent_no, Ddt::Agent.human_attribute_name(:agent_no))
+              %th.col-sm-1= sort_link(@q, :name, Ddt::Agent.human_attribute_name(:name))
+              %th.col-sm-1= sort_link(@q, :is_oem, Ddt::Agent.human_attribute_name(:is_oem))
+              %th.col-sm-1= sort_link(@q, :agent_type, Ddt::Agent.human_attribute_name(:agent_type))
+              %th.col-sm-1= sort_link(@q, :exclusive, Ddt::Agent.human_attribute_name(:exclusive))
+              %th.col-sm-3 代理期限
+              %th.col-sm-1= sort_link(@q, :balance, Ddt::Agent.human_attribute_name(:balance))
+              %th.col-sm-1= sort_link(@q, :created_at, Ddt::Agent.human_attribute_name(:created_at))
+              %th
+
+            - @agents.each do |agent|
+              %tr
+                %td= link_to agent.agent_no,[:backend, agent]
+                %td= link_to agent.name,[:backend, agent]
+                %td= agent.is_oem_name
+                %td= agent.agent_type_name
+                %td= agent.exclusive? ? '是' : '否'
+                %td
+                  - agent.agent_rels.each do |agent_rel|
+                    = agent_rel.agent_zone.name rescue '<空>'
+                    \(
+                    = agent_rel.agent_from.strftime("%Y-%m-%d")
+                    \~
+                    = agent_rel.agent_to.strftime("%Y-%m-%d")
+                    \)
+                    - days = (agent_rel.agent_to - agent_rel.agent_from)/(24*3600)
+                    - if days > 365
+                      %span.label.label-danger= "#{days}天" 
+                    - else 
+                      %span= "#{days}天" 
+                  %br
+                %td= agent.balance
+                %td= agent.created_at.strftime("%Y-%m-%d")
+                %td
+                  = link_to t('Edit'), edit_backend_agent_path(agent)
+                  = link_to '重置密码', reset_password_backend_agent_path(agent)
+                  = link_to t('Destroy'), [:backend, agent], :method => :delete, :data => { :confirm => '删除代理商，会把代理商的代理资源进行施放回收， 您确定?' }
+
+              = no_record_hint(@agents)
+
+          %br
+
+          .pull-right= will_paginate @agents , renderer: BootstrapPagination::Rails, bootstrap: 3

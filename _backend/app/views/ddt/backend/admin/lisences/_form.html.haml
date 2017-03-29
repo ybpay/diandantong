@@ -1,0 +1,15 @@
+= simple_form_for([:backend, @lisence], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@lisence)
+
+    .form-inputs
+      = f.input :lisence_no
+      = f.input :price
+      = f.input :is_used, class: "ace ace-switch ace-switch-4"
+      = f.input :increment_days
+      = f.input :lisence_type, collection: Ddt::Lisence.lisence_type_collection, include_blank: false, hint: "许可类型，显示的是所有类型，请按需选择"
+      = f.input :agent_id, collection: Ddt::Agent.all
+      = f.input :note
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"

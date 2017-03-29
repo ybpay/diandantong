@@ -1,0 +1,1 @@
+json.partial! partial: 'branch', locals: { branch: @branch }

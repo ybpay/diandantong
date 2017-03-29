@@ -1,0 +1,79 @@
+
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 付款方式设置
+    .p
+      \提示：
+      %span 只有系统和门店都设置支持时，付款方式才有效
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          = simple_form_for @branch, url: [:update_all, :backend, @current_shop, @branch, :pay_method_settings], method: :put do |f|
+            %table.table.table-striped
+              %thead
+                %tr
+                  %th.col-sm-1
+                  %th.col-sm-1 积分抵扣
+                  %th.col-sm-1 余额抵扣
+                  %th.col-sm-1 支付宝
+                  %th.col-sm-1 微信支付
+                  %th.col-sm-1 百度钱包
+                  %th.col-sm-1 现金结账
+                  %th.col-sm-1 到店付款
+                  %th.col-sm-1 货到付款
+                  %th.col-sm-1 会员卡支付
+                  %th.col-sm-1 银行卡
+              %tbody
+                %tr
+                  %td 外卖
+                  = f.fields_for :delivery_pay_method_setting do |sf|
+                    - [:credits_deduction, :card_deduction, :alipay, :wechatpay, :baidupay, nil, nil, :pay_on_receive, :vip_card_pay, :bank_card_pay].each do |pay_method|
+                      %td
+                        - if pay_method.present? && @current_shop.pay_method_can?(:delivery, pay_method)
+                          = sf.input_field "can_#{pay_method}"
+                %tr
+                  %td 堂点
+                  = f.fields_for :eat_in_hall_pay_method_setting do |sf|
+                    - [:credits_deduction, :card_deduction, :alipay, :wechatpay, :baidupay, :pay_on_face, nil, nil, :vip_card_pay, :bank_card_pay].each do |pay_method|
+                      %td
+                        - if pay_method.present? && @current_shop.pay_method_can?(:eat_in_hall, pay_method)
+                          = sf.input_field "can_#{pay_method}"
+                %tr
+                  %td 快餐
+                  = f.fields_for :fastfood_pay_method_setting do |sf|
+                    - [:credits_deduction, :card_deduction, :alipay, :wechatpay, :baidupay, :pay_on_face, nil, nil, :vip_card_pay, :bank_card_pay].each do |pay_method|
+                      %td
+                        - if pay_method.present? && @current_shop.pay_method_can?(:fastfood, pay_method)
+                          = sf.input_field "can_#{pay_method}"
+                %tr
+                  %td 预订
+                  = f.fields_for :reservation_pay_method_setting do |sf|
+                    - [:credits_deduction, :card_deduction, :alipay, :wechatpay, :baidupay, nil, :pay_on_arrive, nil, :vip_card_pay, :bank_card_pay].each do |pay_method|
+                      %td
+                        - if pay_method.present? && @current_shop.pay_method_can?(:reservation, pay_method)
+                          = sf.input_field "can_#{pay_method}"
+                %tr
+                  %td 团购
+                  = f.fields_for :groupon_pay_method_setting do |sf|
+                    - [:credits_deduction, :card_deduction, :alipay, :wechatpay, :baidupay, nil, nil, nil, :vip_card_pay, nil].each do |pay_method|
+                      %td
+                        - if pay_method.present? && @current_shop.pay_method_can?(:groupon, pay_method)
+                          = sf.input_field "can_#{pay_method}"
+                %tr
+                  %td 买单
+                  = f.fields_for :payment_pay_method_setting do |sf|
+                    - [nil, nil, :alipay, :wechatpay, :baidupay, nil, nil, nil, :vip_card_pay, nil].each do |pay_method|
+                      %td
+                        - if pay_method.present? && @current_shop.pay_method_can?(:payment, pay_method)
+                          = sf.input_field "can_#{pay_method}"
+
+            = f.submit "更新", class: 'btn btn-primary'
+
+        .clearfix
+
+
+
+

@@ -1,0 +1,34 @@
+<div class="ddb-footer-cart">
+  <div class="ddb-cart-bar overflow-ellipsis" ng-click="toggle_content()">
+    <i class="fa fa-caret-up" ng-class="{'fa-caret-up': !show_content, 'fa-caret-down': show_content, 'red': show_content}"></i>
+    <span class="ddb-cart-total red">{{cart.total|currency:currency}}</span>
+    <span class="ddb-cart-item-total" ng-show="cart.total != cart.item_total">{{cart.item_total|currency:currency}}</span>
+  </div>
+  <div class="ddb-cart-content" ng-show="show_content">
+    <div class="ddb-cart-empty list-item" ng-show="cart.item_count == 0">
+      空空如也
+    </div>
+    <div class="ddb-cart-line-items">
+      <div class="ddb-cart-line-item" ng-repeat="line_item in cart.line_items" ng-show="line_item.quantity > 0">
+        <div class="ddb-item-name">
+          {{ ::line_item.name }}
+          <span ng-show="line_item.note">[{{::line_item.note}}]</span>
+        </div>
+        <div class="ddb-item-price overflow-ellipsis">
+          {{::line_item.price | currency:currency}}
+        </div>
+        <div class="ddb-item-actions">
+          <div class="ddb-item-action" ng-click="remove_itemable(line_item, snap)">
+            <i class="fa fa-minus red"></i>
+          </div>
+          <div class="ddb-item-quantity">
+            {{line_item.quantity}}
+          </div>
+          <div class="ddb-item-action" ng-click="add_itemable(line_item, snap)" ng-class="{'active': can_plus(line_item)}">
+            <i class="fa fa-plus red"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

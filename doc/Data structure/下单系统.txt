@@ -1,0 +1,31 @@
+===========================================================================
+================== 店内桌台管理 + 二维码扫码下单
+===========================================================================
+Table 餐桌
+  name: string
+  table_zone: references
+  current_order: references
+  workflow_state: 进入“开台”——“已下单”——“已结账”——“翻台”——“空闲”，扫码等于开台
+  branch: references
+
+
+TableZone 餐桌区域或类型
+  name: string
+  tables_count_for_reservation: integer 供预订的桌台数量
+  min_reservation_price: decimal 最低消费,0表示无最低消费
+  branch: references
+  tables_count: integer 桌子数量
+  has_many :tables
+  has_many :reservation_time_points
+
+ReservationTimePoint 订座开放时间段
+  time_point: time
+  table_zone: references
+  branch: references
+  has_many :orders
+
+
+BaseOrder 基础订单
+  time_point: time 用户选择的timepoint不能因为ReservationTimePoint被修改而出错
+  reservation_time: date, index:true
+  reservation_time_point: references, index:true

@@ -1,0 +1,15 @@
+.materials
+  .add_material
+    %i.plus.fa.fa-plus.fa-3x
+    .op
+      %a.oplink{ href: "#{new_backend_shop_material_path(@current_shop)}?type=text"}
+        %i.fa.fa-font.fa-2x
+        %strong 文本
+      %a.oplink{ href: "#{new_backend_shop_material_path(@current_shop)}?type=news"}
+        %i.fa.fa-picture-o.fa-2x
+        %strong 图文
+      / %a.oplink{ href: "#{new_backend_shop_material_path(@current_shop)}?type=music"}
+      /   %i.fa.fa-music.fa-2x
+      /   %strong 音频
+  .show_materials
+    = render partial: 'material', collection: @materials, as: :material

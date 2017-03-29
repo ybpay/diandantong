@@ -1,0 +1,27 @@
+#ddb-loading {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  padding: 1em;
+  min-width: 150px;
+  font-size: 20px;
+  min-height: 7.6em;
+  background: rgba(40, 40, 40, 0.75);
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  opacity: 0.9;
+  color: #FFF;
+  text-align: center;
+  z-index: 1020;
+  margin: -75px 0 0 -75px;
+  i {
+    margin-top: 25px;
+    font-size: 40px;
+  }
+
+  .caption {
+    color: white;
+    margin: 10px 0 15px;
+  }
+}

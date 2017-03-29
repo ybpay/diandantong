@@ -1,0 +1,17 @@
+%tr.exchange-code-tr{ :"data-id" => exchange_code.id}
+  %td= exchange_code.code
+  %td= exchange_code_state_label(exchange_code)
+  %td= exchange_code.created_at
+  %td= exchange_code.exchangeable.exchange_detail.html_safe
+  %td
+    - if exchange_code.is_pending?
+      - exchangeable = exchange_code.exchangeable
+      - if exchangeable.is_a?(Ddt::Coupon) && (exchangeable.applied? || exchangeable.expired?)
+        = exchangeable.applied? ? "优惠券已使用" : "优惠券已过期"
+      - else
+        = link_to "完成兑换", [:exchange, :backend, @current_shop, exchange_code], :class => "btn btn-xs btn-primary", remote: true, method: :put, :"data-confirm" => "确认兑换"
+    - else
+      - state_change = exchange_code.state_changes.first
+      = "操作者： #{state_change.operator.to_label rescue ''}"
+      %br/
+      = "操作时间：#{state_change.created_at rescue ''}"

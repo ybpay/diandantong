@@ -1,0 +1,6 @@
+.header
+  %h3= "#{@product.name} #{t('activerecord.models.ddt/variant')} 列表"
+.form-group
+  = new_btn([@product, :variant], remote: true)
+
+= render :partial => "table", locals: { variants: @variants }

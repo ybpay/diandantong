@@ -1,0 +1,24 @@
+.header
+  %h2= "#{t('activerecord.models.ddt/asset_tag')} 列表"
+
+= link_to tag(:icon,:class=>"fa fa-plus"), new_backend_asset_tag_path(), :class => "btn btn-xs btn-primary"
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th= Ddt::AssetTag.human_attribute_name(:name)
+      %th= Ddt::AssetTag.human_attribute_name(:count)
+      %th
+  %tbody
+    - @asset_tags.each do |asset_tag|
+      %tr
+        %td= asset_tag.name
+        %td= asset_tag.count
+        %td
+          = link_to tag(:icon,:class=>"fa fa-edit"), edit_backend_asset_tag_path(asset_tag), :class => "btn btn-xs btn-success"
+          = link_to tag(:icon,:class=>"fa fa-trash-o"), [:backend, asset_tag], :method => :delete, :data => { :confirm => '确定删除?' }, :class => "btn btn-xs btn-danger"
+
+    = no_record_hint(@asset_tags)
+%br
+.pull-right= will_paginate @asset_tags , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

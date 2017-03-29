@@ -1,0 +1,50 @@
+-#
+-# 资源索引页
+-# 需要设置好
+-# @model_objects 资源对象列表
+-# @q             ransack 对象列表
+-#
+- model_name = @model_name
+- model_class = @model_class
+- model_objects = model_objects || []
+- model_columns = model_columns || []
+- is_sington = false if is_sington.nil?
+- enable_new_btn = true if enable_new_btn.nil?
+- crud_url = crud_url || {}
+- crud_url[:edit] = ->(object){[:edit,:backend,@current_shop,object]} if crud_url[:edit].nil? rescue nil
+- crud_url[:show] = ->(object){[:backend, @current_shop, object]} if crud_url[:show].nil? rescue nil
+- crud_url[:delete] = ->(object){[:backend, @current_shop, object]} if crud_url[:delete].nil? rescue nil
+
+.header
+  %h3= "#{t("activerecord.models.ddt/#{model_name}")} 列表"
+
+- if enable_new_btn
+  .form-group
+    = new_btn(model_name)
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      -# standard columns
+      - model_columns.each do |column|
+        - column_name = column.is_a?(Array) ? column[0] : column
+        %th.col-sm-1= sort_link(@q, column_name, model_class.human_attribute_name(column_name))
+      %th
+
+  %tbody
+    - model_objects.each do |object|
+      %tr
+        - model_columns.each do |column|
+          %td
+            - if column.is_a? Array
+              = column[1].call(object)
+            - else
+              = object.send(column)
+        %td
+          = link_to tag(:icon,:class=>"fa fa-bars"), crud_url[:show].call(object) , :class => "btn btn-xs btn-info"
+          = link_to tag(:icon,:class=>"fa fa-edit"), crud_url[:edit].call(object) , :class => "btn btn-xs btn-success"
+          = link_to tag(:icon,:class=>"fa fa-trash-o"), crud_url[:delete].call(object), :method => :delete, :data => { :confirm => '确定删除?' }, :class => "btn btn-xs btn-danger"
+    = no_record_hint(model_objects)
+%br
+.pull-right= will_paginate model_objects , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

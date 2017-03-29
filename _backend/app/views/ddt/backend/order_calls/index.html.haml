@@ -1,0 +1,30 @@
+%h2= "#{t('activerecord.models.ddt/order_call')} 列表"
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-2= Ddt::OrderCall.human_attribute_name(:to)
+                %th.col-sm-2= Ddt::OrderCall.human_attribute_name(:call_sid)
+                %th.col-sm-2= Ddt::OrderCall.human_attribute_name(:duration)
+                %th.col-sm-1= Ddt::OrderCall.human_attribute_name(:state)
+                %th.col-sm-5= Ddt::OrderCall.human_attribute_name(:text)
+
+            %tbody
+              - @order_calls.each do |order_call|
+                %tr
+                  %td= order_call.to
+                  %td= order_call.call_sid
+                  %td= order_call.duration
+                  %td= order_call.state
+                  %td= order_call.text
+
+              = no_record_hint(@order_calls)
+          %br
+          .pull-right= will_paginate @order_calls , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br
+
+

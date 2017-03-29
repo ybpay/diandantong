@@ -1,0 +1,63 @@
+= simple_form_for([:backend, @shop], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@shop)
+
+    .form-inputs
+      .col-sm-6
+        = f.input :name
+      .col-sm-6
+        = f.input :slug, hint: '须英文字母开头,且仅包含英文字母和数字', disabled: !current_account.is_admin?
+      .col-sm-6
+        = f.input :enable_foreign, hint: "如果您是中国大陆地区以外的运营平台，请务必勾选此项，因此才能使用谷歌地图等一系列功能"
+      - if @shop.enable_foreign
+        .col-sm-6= f.input :foreign_currency_symbol
+        .col-sm-6= f.input :foreign_time_zone, collection: ActiveSupport::TimeZone.all.map{|t| [t.to_s, t.name]}
+        .col-sm-6= f.input :foreign_tax_rate
+        .clearfix
+      .col-sm-6
+        = f.input :telephone
+      .clearfix
+      - if current_account.is_admin?
+        .col-sm-6= f.input :city_code
+        .col-sm-6= f.input :charge_method
+        .col-sm-6= f.input :shop_type, collection: Ddt::Shop.shop_type_collection, include_blank: false
+        .col-sm-6= f.input :max_branches_limit
+        .col-sm-6= f.input :expiration_time
+        .col-sm-6= f.input :hide_support_brand
+        .col-sm-6= f.input :use_custom_brand
+        .col-sm-6= f.input :is_open
+        .col-sm-6= f.input :is_ban
+        .col-sm-6= f.input :custom_brand_name
+        .col-sm-6= f.input :custom_brand_link
+        .col-sm-6= f.input :is_hide_signup_link
+        .col-sm-6= f.input :agent_no, collection: Ddt::Agent.all.map{|agent| [agent.name, agent.agent_no]}
+        .col-sm-6= f.input :is_suspicious, collection: [['可疑商户', true], ['正常商户', false]]
+        .col-sm-6= f.input :is_custom_system_weixin_notification
+        .col-sm-6= f.input :custom_system_weixin_template_id
+        .col-sm-6= f.input :custom_domain
+        .col-sm-6= f.input :debug
+        .col-sm-6= f.input :sale_employee_id, collection: Ddt::SaleEmployee.all
+
+      .col-sm-6= f.input :use_shop_name_for_queue
+      .clearfix
+      .hr-line-dashed
+      .col-sm-6= f.input :image, as: :image_preview, hint: '推荐图片尺寸为400*400'
+      .col-sm-6= f.input :rect_image, as: :image_preview, hint: '推荐图片尺寸为900*500'
+      .col-sm-6= f.input :vip_logo, as: :image_preview, hint: '推荐图片尺寸为300*150'
+      .clearfix
+      .hr-line-dashed
+      .col-sm-6= f.input :introduction, :as => :ckeditor, :input_html => { :ckeditor => {:toolbar => 'mini'} }
+
+
+      = advanced_options do
+        .col-sm-6= f.input :force_fetch_user_info
+        .col-sm-6= f.input :is_set_as_third_part_url, hint: "只有在将本系统设置为你的开发者URL的情况下，我们才能识别并判断用户是否已经关注您的公众帐号。取消此项，对于新的微信用户，我们将不再弹窗提醒关注"
+        .col-sm-6= f.input :service_email, hint: '例： service@diandantong.com'
+        .col-sm-6= f.input :sina_weibo, hint: '新浪微博网址, 例： http://weibo.com/ddt '
+        .col-sm-6= f.input :is_valid_phone, hint: '若有特殊手机号码需求，请勿开启，如短号'
+        .clearfix
+    .form-actions
+      .col-sm-6
+        .col-xs-offset-4
+          = f.button :submit, :class => "btn btn-primary btn-sm"
+    .clearfix

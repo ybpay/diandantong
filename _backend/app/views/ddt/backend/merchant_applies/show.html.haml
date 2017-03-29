@@ -1,0 +1,30 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/merchant_apply')} 详情"
+.model-show
+  %p
+    %b
+      = Ddt::MerchantApply.human_attribute_name(:user)
+      \:
+    = link_to @merchant_apply.user.to_label, backend_shop_user_path(@current_shop, @merchant_apply.user)
+  %p
+    %b
+      = Ddt::MerchantApply.human_attribute_name(:phone)
+      \:
+    = @merchant_apply.phone
+  %p
+    %b
+      = Ddt::MerchantApply.human_attribute_name(:note)
+      \:
+    = @merchant_apply.note
+  %p
+    %b
+      = Ddt::MerchantApply.human_attribute_name(:state)
+      \:
+    = @merchant_apply.workflow_state_name
+  %p
+    %b
+      = Ddt::MerchantApply.human_attribute_name(:created_at)
+      \:
+    = @merchant_apply.created_at
+  .space
+= link_to t('Back'), backend_shop_merchant_applies_path(@current_shop), :class => "btn btn-default btn-sm"

@@ -1,0 +1,26 @@
+require "test_helper"
+module Ddt
+  module BillTemplate
+    module Order
+      class AppendProductBillTest < TestCase::Base
+        let(:order){
+          order = example_eat_in_hall_order
+          order.append(variant.to_line_itemable)
+          order.reload
+        }
+        let(:printer){ create(:normal_printer, branch: branch) }
+        def test_render
+          bill = BillTemplate::Order::AppendProductBill.new(order: order, printer: printer).render
+          assert bill.include?(order.number)
+          assert bill.include?(variant.name)
+        end
+
+        def test_preview
+          bill = BillTemplate::Order::AppendProductBill.preview(branch)
+          assert bill.include?("B12016020112000001")
+          assert bill.include?("鱼香茄子")
+        end
+      end
+    end
+  end
+end

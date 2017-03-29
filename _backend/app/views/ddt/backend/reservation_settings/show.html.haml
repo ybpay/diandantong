@@ -1,0 +1,25 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h2= "#{t('activerecord.models.ddt/reservation_setting')} 详情"
+    .ibox-content.header
+      .row
+        .col-md-6.form-group
+          %b
+            = Ddt::ReservationSetting.human_attribute_name(:average_consumption)
+            \:
+          = @reservation_setting.average_consumption
+        .col-md-6.form-group
+          %b
+            = Ddt::ReservationSetting.human_attribute_name(:prepayment_type)
+            \:
+          = @reservation_setting.prepayment_type_name
+        .col-md-6.form-group
+          %b
+            = Ddt::ReservationSetting.human_attribute_name(:max_reservation_days)
+            \:
+          = @reservation_setting.max_reservation_days
+
+        .space
+
+      = link_to t('Edit'), edit_backend_shop_branch_reservation_setting_path(@current_shop, @current_branch), :class => "btn btn-primary btn-sm"

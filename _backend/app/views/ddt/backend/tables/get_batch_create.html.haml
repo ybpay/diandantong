@@ -1,0 +1,17 @@
+.ibox
+  .ibox-title
+    %h2 批量创建桌台
+  .ibox-content
+    = simple_form_for(@batch_create_table_form, url: [:post_batch_create, :backend, @current_shop, @current_branch, :tables], method: :post , html: { class: 'form-horizontal'}) do |f|
+      .form-inputs
+        .col-sm-6
+          = f.input :start_name, label: "起始桌台号", placeholder: '例如：C001'
+        .col-sm-6
+          = f.input :capacity, as: :integer, label: "可供就餐人数"
+        .col-sm-6
+          = f.input :table_zone_id, collection: @current_branch.table_zones, :include_blank => false, label: "桌台类型", hint: raw("<a href='#{new_backend_shop_branch_table_zone_path(@current_shop, @current_branch)}'>新建桌台类型</a>")
+        .col-sm-6
+          = f.input :count, as: :integer, label: "创建桌台数量", hint: "根据创建的桌台数量，系统会自动依据起始桌台号依次递增, 例如C001, C002, C003, C004.....,一次最多创建10张桌台"
+        .clearfix
+      .form-actions.col-xs-offset-2
+        = f.submit "创建", :class => "btn btn-primary"

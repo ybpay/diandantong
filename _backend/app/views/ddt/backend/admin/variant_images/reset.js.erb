@@ -1,0 +1,2 @@
+bootbox.hideAll();
+$(".variant-image-tr[data-id='<%= @variant_image.id%>']").replaceWith("<%= j render partial: 'variant_image', locals:{ variant_image: @variant_image }%>")

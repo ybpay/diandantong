@@ -1,0 +1,16 @@
+.ddb-fields
+  = form_tag [:backend, @current_shop, @promotion.branch, @promotion, :promotion_actions].compact, remote: true do
+    .ddb-field-title 动作
+    .ddb-add-field
+      = select_tag :'promotion_action[type]', options_for_promotion_action_types(@promotion)
+      = button_tag tag(:icon, class: 'fa fa-plus'), class: 'btn btn-xs btn-success', title: "添加"
+  = form_for [:backend, @current_shop, @promotion.branch, @promotion].compact, :method => :put do |f|
+    .promotion-policy-select
+    #actions.ddb-fields-list
+      - if @promotion.actions.any?
+        = render partial: 'ddt/backend/_promotion/promotion_action', collection: @promotion.actions, locals: { promotion: @promotion }
+      - else
+        .no-objects-found
+          暂无动作
+
+    = button_tag tag(:icon, class: 'fa fa-refresh') + ' 更新', class: 'btn btn-block btn-primary'

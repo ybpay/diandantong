@@ -1,0 +1,9 @@
+%tr.line-item-trace-point-table-tr{ :'data-id' => trace.id }
+  %td= trace.name
+  %td= index + 1
+  %td= order_change_log.type_name
+  %td= order_change_log.operator_name
+  %td= trace.created_at
+  %td= order_change_log.description
+  %td= trace.state_name
+  %td

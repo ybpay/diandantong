@@ -1,0 +1,11 @@
+= simple_form_for([:backend, @current_shop, @zone], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@zone)
+
+    .form-inputs
+      = f.input :name
+      = f.association :parent_zone, collection: @current_shop.zones.reject{|z| z.id == @zone.id}, hint: '若无上级区域，请留空', label_method: :name_with_parent
+      = f.input :branch_ids_string, input_html: { data: { url: backend_shop_branches_path(@current_shop, multiple: true), saved: @zone.branches.map(&:select_json), placeholder: "请选择门店" }, class: 'ddb-select2'}
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"

@@ -1,0 +1,5 @@
+<% if @materials.size > 0 %>
+  bootbox.alert("<div><%= j render partial:'ddt/backend/materials/material', collection: @materials %></div>");
+<% else %>
+  bootbox.alert("<div>您还没有素材，请先<%= j link_to '创建',backend_shop_materials_path(@current_shop) %></div>");
+<% end %>  

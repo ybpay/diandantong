@@ -1,0 +1,3 @@
+bootbox.hideAll();
+var item = $(".coupon-tr[data-id='<%= @coupon.id%>']")
+item.fadeOut("fast", 'swing', function(){ item.remove() });

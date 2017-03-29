@@ -1,0 +1,57 @@
+// fix select2
+.select2-container{
+  padding: 0;
+  border: none;
+  font-size: 14px;
+  height: auto;
+  zoom: 1;
+  -webkit-user-select: none;
+  min-width: 120px;
+  &.input-sm{ width: 100px; }
+  &.input-md{ width: 160px; }
+  &.input-lg{ width: 220px; }
+  .select2-choices{
+    border: 1px solid #CBD5DD;
+  }
+  .select2-choice{
+    border-radius: 2px;
+    border: 1px solid #CBD5DD;
+    height: 32px;
+    line-height: 32px;
+  }
+}
+
+
+.select2-container-multi .select2-choices{
+  background-image: none;
+  .select2-search-choice{
+    background: #f1f1f1;
+    border: 1px solid #ededed;
+    border-radius: 2px;
+    box-shadow: none;
+    color: #333333;
+    cursor: default;
+    line-height: 16px;
+    margin: 3px 0 3px 5px;
+    padding: 3px 18px 3px 5px;
+    position: relative;
+  }
+}
+
+.select2-container-multi .select2-search-choice-close{
+  left: initial;
+  right: 3px;
+}
+
+.select2-container.select2-container-active .select2-choice{
+  border: 1px solid #1ab394;
+}
+
+.select2-container-multi.select2-container-active .select2-choices{
+  border: 1px solid #1ab394;
+}
+
+.select2-drop-active {
+  border: 1px solid #1ab394;
+  border-top: none;
+}

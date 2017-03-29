@@ -1,0 +1,6 @@
+$('#rules').append('<%= j render(partial: "ddt/backend/_promotion/promotion_rule", object: @promotion_rule, locals: { promotion: @promotion }) %>');
+$('#rules .no-objects-found').hide();
+$('#promotion_rule_type').html('<%= j options_for_promotion_rule_types(@promotion) %>');
+setTimeout(function(){
+  $(document).trigger('page:load')
+}, 100)

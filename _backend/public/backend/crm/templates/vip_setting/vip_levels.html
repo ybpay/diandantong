@@ -1,0 +1,89 @@
+<md-content layout="column" layout-padding layout-margin>
+  <md-toolbar class="md-tall md-accent" ng-if="vip_level_not_unique">
+    <h2 class="md-toolbar-tools">
+      <span>警告：您有多个会员等级设置成一样。请确保所有等级都不一样</span>
+    </h2>
+  </md-toolbar>
+  <div class="crm-table" layout="column" md-whiteframe="2">
+    <md-toolbar class="crm-table-header" layout="row">
+      <div class="crm-table-header-content" layout="row" flex="90" layout-align="space-around center">
+          <div class="crm-table-th" flex>级别名称</div>
+          <div class="crm-table-th" flex>级别</div>
+          <div class="crm-table-th" flex>折扣</div>
+          <div class="crm-table-th" flex>会员数量</div>
+          <div class="crm-table-th" flex>自动升级</div>
+          <div class="crm-table-th" flex>累计消费升级</div>
+          <div class="crm-table-th" flex>累计充值升级</div>
+          <div class="crm-table-th" flex>累计积分升级</div>
+      </div>
+      <div class="crm-table-header-action" flex="10" layout="row" layout-align="center center">
+        <md-button class="md-icon-button" ng-click="new_vip_level($event)">
+          <md-tooltip md-direction="top">添加会员级别</md-tooltip>
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-content class="crm-table-content" layout="column">
+      <div class="crm-table-row" layout="row" ng-repeat-start="vl in vip_levels" ng-hide="vl.is_default">
+        <div class="crm-table-row-content" flex="90" layout="row" layout-align="space-around center">
+          <div class="crm-table-td" flex>{{vl.name}}</div>
+          <div class="crm-table-td" flex>{{vl.level}}</div>
+          <div class="crm-table-td" flex>{{vl.discount}}</div>
+          <div class="crm-table-td" flex>{{vl.vip_infos_count}}</div>
+          <div class="crm-table-td" flex>{{vl.auto_upgrade ? "自动" : "无"}}</div>
+          <div class="crm-table-td" flex>
+            <span ng-show="vl.auto_upgrade">{{vl.upgrade_total_amount || "无"}}</span>
+          </div>
+          <div class="crm-table-td" flex>
+            <span ng-show="vl.auto_upgrade">{{vl.upgrade_recharge_money || "无"}}</span>
+          </div>
+          <div class="crm-table-td" flex>
+            <span ng-show="vl.auto_upgrade">{{vl.upgrade_get_credits || "无"}}</span>
+          </div>
+        </div>
+        <div class="crm-table-row-action" flex="10" layout="row" layout-align="space-around center">
+          <md-button ng-click="toggle_action(vl)" class="md-icon-button">
+            <md-tooltip md-direction="right">操作</md-tooltip>
+            <md-icon>menu</md-icon>
+          </md-button>
+          <!-- <md-menu>
+            <md-button ng-click="$mdOpenMenu($event)" class="md-icon-button">
+              <md-tooltip md-direction="right">操作</md-tooltip>
+              <md-icon>menu</md-icon>
+            </md-button>
+            <md-menu-content width="2">
+              <md-menu-item>
+                <md-button ng-click="edit_vip_level(vl)">
+                  <md-icon>edit</md-icon>
+                  编辑
+                </md-button>
+              </md-menu-item>
+              <md-menu-item>
+                <md-button ng-click="destroy_vip_level(vl)">
+                  <md-icon>delete</md-icon>
+                  删除
+                </md-button>
+              </md-menu-item>
+           </md-menu-content>
+          </md-menu> -->
+        </div>
+      </div>
+      <div class="crm-table-row row-action" layout="row" ng-repeat-end ng-show="vl.show_action">
+        <div class="crm-table-row-content" flex="100" layout="row" layout-align="end center">
+          <div class="crm-table-td">
+            <md-button ng-click="destroy_vip_level(vl)">
+              <md-icon>delete</md-icon>
+              删除
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="edit_vip_level(vl, $event)">
+              <md-icon>edit</md-icon>
+              编辑
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </md-content>
+  </div>
+</md-content>

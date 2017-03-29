@@ -1,0 +1,47 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/form_element')}"
+    .alert.alert-info
+      %p.row
+        %strong 温馨提示！
+        %br/
+        1.添加文本输入框后，访客下单时会要求其输入文本形式的下单信息。
+        %br/
+        2.下拉列表框添加后，访客下单时会要求其输入文本形式选择指定的选项信息。
+        %br/
+        3.上下拖拽可调整显示顺序。
+
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content
+    .table-responsive
+      .dataTables_wrapper{role: "grid"}
+        .row
+          = form_tag save_sequence_backend_shop_branch_form_elements_path(@current_shop, @current_branch), remote: true, id: "sequence_form" do
+            = hidden_field_tag :sequence
+          = link_to '添加文本输入框', new_backend_shop_branch_form_element_path(@current_shop, @current_branch), class: "btn btn-primary btn-sm", remote: true
+          = link_to '添加下拉列表框', new_select_backend_shop_branch_form_elements_path(@current_shop, @current_branch), class: "btn btn-primary btn-sm", remote: true
+        = render partial: "list", locals: { form_elements: @form_elements }
+
+:javascript
+  $(document).on("ajax:replace:form_elements", init_form_element_sortable)
+  function init_form_element_sortable(){
+    var stop = function(e, u){
+      var original_ids = $('#sequence').val();
+
+      var ids = [];
+      $("#remote_sortable_list li").each(function(){
+        ids.push($(this).attr("data-id"));
+      });
+
+      if (ids != original_ids) {
+        $("#sequence").val(ids);
+        $("#sequence_form").submit();
+      }
+    }
+    $("#remote_sortable_list").sortable({ stop: stop }).disableSelection();
+  }
+  $(function(){
+    init_form_element_sortable()
+  })
+

@@ -1,0 +1,76 @@
+===========================================================================
+================== 资产系统
+===========================================================================
+
+钱包日志 WalletLog
+  shop:references, index: true
+  from_owner: references, polymorphic:true,  index: true
+  to_owner: references, polymorphic:true, index: true
+  type: string, index: true
+  order: references
+  from_wallet: references， class_name: 'AbstractWallet'
+  to_wallet: references, class_name: 'AbstractWallet'
+  workflow_state: string, index: true
+  finished_at: datetime, index: true
+  created_at: datetime, index: true
+
+
+积分钱包日志
+CreditWalletLog < WalletLog
+  credits: integer
+
+储值卡钱包日志
+WalletWalletLog < WalletLog
+  amount: decimal
+
+
+虚拟钱包 AbstractWallet
+  owner: references, polymorphic: true
+  type: string
+
+钱包 UserWallet < AbstractWallet
+  methods:
+    recharge(merchain_wallet, amount)
+    exchange_consume(merchain_wallet, amount) 客户换购 无订单
+    authorize(merchain_wallet, amount)
+    purchase(wallet_log)
+    rollback(wallet_log)
+    total_obtain 历史累计获得多少
+    total_consume 历史累计消费多少
+    balance 当前余额
+
+积分钱包 CreditsWallet < UserWallet
+  total_obtain_credits: integer
+  total_given_credits: integer
+  credits_blance: integer
+  注： 支持一些系统促销允许设置消费一元钱可以获得多少积分，促销的范围可以是shop,branch, product
+
+储值卡钱包 CardWallet < UserWallet
+  total_obtain_wallet: decimal
+  total_given_wallet: decimal
+  wallet_blance: decimal
+
+门店钱包 MerchantWallet  < AbstractWallet
+  methods
+    transer(merchain_wallet, amount)
+
+平台商积分钱包 ShopCreditWallet < MerchantWallet
+平台商储值卡钱包 ShopCardWallet < MerchantWallet
+门店积分钱包 BranchCreditWallet < MerchantWallet
+门店储值卡钱包 BranchCardWallet < MerchantWallet
+
+Shop:
+  one_credit_for_money_of: decimal 1积分可用于消费多少钱的产品
+  credit_wallet: has_one
+  card_wallet: has_one
+
+Branch
+  credit_wallet: has_one
+  card_wallet: has_one
+
+
+User:
+  credit_wallet: has_one
+  card_wallet: has_one
+
+

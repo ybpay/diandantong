@@ -1,0 +1,9 @@
+= simple_form_for @withdraw, :url => [:backend, @current_shop, @withdraw], method: :post, html: { class: 'form-horizontal'}, wrapper: :horizontal_form_long do |f|
+  = f.input :alipay_account_id, readonly: true
+  = f.input :alipay_account_name, readonly: true
+  = f.input :amount, as: :decimal, label: '金额',
+    hint: "当前余额 <span style='color:red'>#{@wallet.amount}</span>, 提款额不可以少于 <span style='color:red'>#{Ddt::Withdraw::MIN_AMOUNT}</span> 元".html_safe
+  = f.input :note, as: :text, label: '备注'
+  .form-actions.col-xs-offset-2
+    = f.submit '提取', :class => "btn btn-primary btn-sm"
+    = link_to t('Back'),[:backend, @current_shop, :collection_logs], :class => "btn btn-default btn-sm"

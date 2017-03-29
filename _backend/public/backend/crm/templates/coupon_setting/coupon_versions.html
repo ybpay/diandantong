@@ -1,0 +1,63 @@
+<md-content layout="column" layout-padding layout-margin>
+  <div class="crm-table" layout="column" md-whiteframe="2">
+    <md-toolbar class="crm-table-header" layout="row">
+      <div class="crm-table-header-content" layout="row" flex="90" layout-align="space-around center">
+          <div class="crm-table-th" flex>券名</div>
+          <div class="crm-table-th" flex>类型</div>
+          <div class="crm-table-th" flex>适用范围</div>
+          <div class="crm-table-th" flex>面值</div>
+      </div>
+      <div class="crm-table-header-action" flex="10" layout="row" layout-align="center center">
+        <md-button class="md-icon-button" ng-click="new_coupon_version($event)">
+          <md-tooltip md-direction="top">添加优惠券</md-tooltip>
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-content class="crm-table-content" layout="column">
+      <div class="crm-table-row" layout="row" ng-repeat-start="cv in coupon_versions">
+        <div class="crm-table-row-content" flex="90" layout="row" layout-align="space-around center">
+          <div class="crm-table-td" flex>{{cv.name}}</div>
+          <div class="crm-table-td" flex>{{cv.coupon_type_name}}</div>
+          <div class="crm-table-td" flex>
+            <span>
+              <md-tooltip md-direction="top" ng-if="cv.coupon_appliable_branch_scope_policy == 'appliable_to_part_branch'">
+                {{cv.branch_names}}
+              </md-tooltip>
+              {{cv.coupon_appliable_branch_scope_policy_name}}
+            </span>
+          </div>
+          <div class="crm-table-td" flex>{{cv.value_desc}}</div>
+        </div>
+        <div class="crm-table-row-action" flex="10" layout="row" layout-align="space-around center">
+          <md-button ng-click="toggle_action(cv)" class="md-icon-button">
+            <md-tooltip md-direction="right">操作</md-tooltip>
+            <md-icon>menu</md-icon>
+          </md-button>
+        </div>
+      </div>
+      <div class="crm-table-row row-action" layout="row" ng-repeat-end ng-show="cv.show_action">
+        <div class="crm-table-row-content" flex="100" layout="row" layout-align="end center">
+          <div class="crm-table-td">
+            <md-button ng-click="coupon_photos(cv, $event)">
+              <md-icon>image</md-icon>
+              图片
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="destroy_coupon_version(cv)">
+              <md-icon>delete</md-icon>
+              删除
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="edit_coupon_version(cv, $event)">
+              <md-icon>edit</md-icon>
+              编辑
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </md-content>
+  </div>
+</md-content>

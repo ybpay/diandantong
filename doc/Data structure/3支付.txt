@@ -1,0 +1,84 @@
+========================================================
+支付
+========================================================
+
+Payment
+---------------
+shop_id				和 branch_id 一起，支持浏览和统计
+branch_id			可以用来管理与子店铺的分成
+order_id			把订单和支付关联起来，因为订单不一定有单一的支付行为
+amount	: decimal : precision: 10, scale: 0			支付金额
+workflow_state		支付状态：checkout, processing,pending , completed, failed
+payment_method_id	支付方式
+pid                 门店 id
+transation_id		交易号，以便对象
+query
+body
+
+- methods -
+    create   创建 payment，进入 checkout 状态
+    process  运行支付，processing，然后 pending 状态，防止重复请求
+    notify   进入 completed 或  failure
+     (对 branch.wallet.foo / 根据是否代收，放入不同的钱包)
+
+checkout: Checkout has not been completed
+processing: The payment is being processed (temporary – intended to prevent double submission)
+pending: The payment has been processed but is not yet complete (ex. authorized but not captured)
+failed: The payment was rejected (ex. credit card was declined)
+void: The payment should not be counted against the order
+completed: The payment is completed. Only payments in this state count against the order total
+
+
+PaymentMethod 		对客户添加的每种支付方式，都存一个记录
+---------------- 	
+shop_id				
+type 				支付宝/微信/系统代收
+name 				
+description 		
+active 				是否激活（使前台可显示）
+preferences
+
+XXXXXXXXXXXXXXXXXXXXXXXXXX
+分成计算：利用 Payment.branch_id 可以计算当月如何向分子店铺分帐，但具体的银行操作我们不参与。
+
+
+代收款的处理 (对每种支付平台创建一个代收款钱包，对方也得配置收款帐号)
+ProxyWallet < BaseWallet
+branches 	amount+
+shop 		amount+
+
+
+偏好
+===============================
+支付宝
+-------------------------------
+pid
+pkey
+email
+
+
+微信支付
+-------------------------------
+
+  create_table "weixinpay_feedbacks", force: true do |t|
+    t.string   "feedback_id"
+    t.string   "openid"
+    t.string   "appid"
+    t.string   "trade_id"
+    t.text     "body"
+    t.string   "msg_type"
+    t.integer  "shop_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "weixinpay_warnings", force: true do |t|
+    t.string   "error_type"
+    t.string   "appId"
+    t.text     "description"
+    t.text     "alarm_content"
+    t.text     "body"
+    t.integer  "shop_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end

@@ -1,0 +1,97 @@
+<div class="shop-show-page main-view fashion-layout" ng-style="{'background': 'url(' + custom_weixin_info.background_image+')', 'background-size': 'cover',  'background-repeat': 'no-repeat'}"  ng-if="['fashion', 'fashion2'].indexOf(custom_weixin_info.layout_type) > -1">
+  <div class="fashion-hot-links {{custom_weixin_info.layout_type}}">
+    <a ng-click="hot_link.link.indexOf('eat_in_hall') >= 0 ? toggle_show_eat_in_hall_select() : go(hot_link.link)" class="hot-link" ng-repeat='hot_link in hot_links' ng-class="{'border-right': $index%3 != 2}">
+      <div class="title">{{::hot_link.label}}</div>
+    </a>
+
+    <a class="hot-link" ng-click="go_page('my', '/user/profile')">
+      <div class="title">个人中心</div>
+    </a>
+  </div>
+</div>
+
+<div common-footer ng-if="['classic', 'classic2'].indexOf(custom_weixin_info.layout_type) > -1"></div>
+<div ng-if="['classic', 'classic2'].indexOf(custom_weixin_info.layout_type) > -1" id="shop-section" class="main-view">
+  <div class="shop-header">
+    <div class="location-address overflow-ellipsis"> <i class="fa fa-map-marker"></i> 您的位置：{{formatted_address||'定位中'}} </div>
+    <!-- <div class="location-btn" ng-click="relocation()">
+      重新定位
+    </div> -->
+  </div>
+  <ng-swiper-slider sliders="shop.branch_sliders" ng-click="click_slider"></ng-swiper-slider>
+
+  <ng-swiper-tab ng-if="is_classic_layout()">
+    <div class="swiper-slide" ng-repeat="hot_link_group in hot_link_groups">
+      <div class="hot-links">
+        <div class="hot-link-group" ng-if="sub_group[0].label" ng-repeat="sub_group in hot_link_group">
+          <div class="hot-link" ng-repeat="hot_link in sub_group" ng-if="hot_link.label">
+            <a tab-slider-key="{{::hot_link.link}}">
+              <div class="hot-link-icon" style="background-color: {{::hot_link.icon_background_color}};"  ng-if="!hot_link.image">
+                <i class="fa {{::hot_link.icon}}"></i>
+              </div>
+              <img class="hot-link-image" ng-src="{{::hot_link.image}}" ng-if="hot_link.image">
+              <div class="title">{{::hot_link.label}}</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-swiper-tab>
+
+  <div class="hot-links"  ng-if="!is_classic_layout() && hot_link_groups.length> 0">
+    <div class="hot-link-group" ng-repeat="hot_link_group in hot_link_groups">
+      <div class="hot-link" ng-repeat="hot_link in hot_link_group" style="color: white;">
+        <a ng-click="hot_link.link.indexOf('eat_in_hall') >= 0 ? toggle_show_eat_in_hall_select() : go(hot_link.link)">
+          <div class="hot-link-icon" style="background-color: {{::hot_link.icon_background_color}};"  ng-if="!hot_link.image">
+            <i class="fa {{::hot_link.icon}}"></i>
+          </div>
+          <img class="hot-link-image" ng-src="{{::hot_link.image}}" ng-if="hot_link.image">
+          <div class="title">{{::hot_link.label}}</div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="usable-links-section" ng-if="is_classic_layout() && usable_link_groups.length > 0">
+    <div class="usable-link-group" ng-repeat="usable_link_group in usable_link_groups">
+      <a class="usable-link" ng-repeat="usable_link in usable_link_group"  ng-click="go(usable_link.link)">
+        <div class="link-content">
+          <div class="image" ng-style="{'background': 'url(\'{{usable_link.image}}\') center center no-repeat'}">
+          </div>
+          <div class="title overflow-ellipsis {{color_class(usable_link)}}">
+            {{::usable_link.title}}
+          </div>
+          <div class="keywords overflow-ellipsis">
+            {{::usable_link.keywords}}
+          </div>
+        </div>
+      </a>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="promotion-section" ng-if="is_classic_layout() && promotions.length > 0">
+    <div class="subject" ng-href="#/promotions">促销推荐</div>
+    <a ng-click="go('/promotions/' + promotion.id)" ng-repeat="promotion in promotions|limitTo: 5" class="promotion">
+      <div class="image" ng-style="{'background': 'url(\'{{promotion.image}}\') center center no-repeat'}">
+      </div>
+      <div class="title overflow-ellipsis">
+        {{promotion.name}}
+      </div>
+      <div class="keywords promotion-keyword">{{promotion.keywords}}</div>
+    </a>
+  </div>
+
+  <div class="promotion-section" ng-if="is_classic_layout() && tuans.length > 0">
+    <div class="subject">热门团购</div>
+    <a ng-click="go_page('cart', '/tuans/'+ tuan.id)" ng-repeat="tuan in tuans|limitTo: 5" class="promotion overflow-ellipsis">
+      <div class="image" ng-style="{'background': 'url(\'{{tuan.image}}\') center center no-repeat'}">
+      </div>
+      <div class="title overflow-ellipsis">
+        {{tuan.name}}
+      </div>
+      <div class="keywords overflow-ellipsis">{{tuan.description}}</div>
+      <div class="price">{{tuan.groupon_price|currency: shop.currency}}</div>
+    </a>
+  </div>
+</div>

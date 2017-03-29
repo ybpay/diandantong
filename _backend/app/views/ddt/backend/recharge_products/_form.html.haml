@@ -1,0 +1,11 @@
+= simple_form_for([:backend, @current_shop, @recharge_product], remote: true, html: { class: 'form-horizontal'}, wrapper: :horizontal_form_long, remote: true) do |f|
+  = f.error_notification :message => error_message_in_html(@recharge_product)
+
+  .form-inputs
+    = f.input :name
+    = f.input :price
+    = f.input :recharge_amount
+    = f.input :extra_credits
+    = f.input :first_recharge_available_amount
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"

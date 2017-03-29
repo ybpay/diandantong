@@ -1,0 +1,72 @@
+<md-dialog flex="60">
+  <md-toolbar class="md-toolbar-tools">
+    <h2 ng-hide="recharge_product.id">添加充值套餐</h2>
+    <h2 ng-show="recharge_product.id">编辑充值套餐</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <form name="form" layout="column">
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">充值套餐名称</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="recharge_product.name" placeholder="充值套餐名称">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">充值金额</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="recharge_product.price" placeholder="充值金额">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">到账金额</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="recharge_product.recharge_amount" placeholder="到账金额">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">赠送积分</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="recharge_product.extra_credits" placeholder="赠送积分">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">充值后可用金额</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="recharge_product.first_recharge_available_amount" placeholder="充值后可用金额">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">支持所有门店</label>
+        <div class="crm-form-control" flex="80">
+          <md-checkbox ng-model="recharge_product.support_all_branch" class="md-primary"></md-checkbox>
+        </div>
+      </div>
+      <div ng-if="has_feature('model_branch_group')">
+        <div class="crm-form-line" layout="row" layout-align="left center" ng-hide="recharge_product.support_all_branch">
+          <label class="crm-form-label" flex="20">支持门店分组</label>
+          <div class="crm-form-control" flex="80">
+            <select2 ng-model="recharge_product.branch_group_ids" multiple options="branch_group_select_options"></select2>
+          </div>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-hide="recharge_product.support_all_branch">
+        <label class="crm-form-label" flex="20">支持门店</label>
+        <div class="crm-form-control" flex="80">
+          <select2 ng-model="recharge_product.branch_ids" multiple options="branch_select_options"></select2>
+        </div>
+      </div>
+    </form>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <md-button flex flex="50" ng-click="close()" class="md-primary">
+      取消
+    </md-button>
+    <md-button flex flex="50" ng-click="submit()" class="md-primary md-raised">
+      确认
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

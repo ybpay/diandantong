@@ -1,0 +1,61 @@
+.branches{
+  padding-bottom: 200px;
+}
+.branch-btn{
+  float: left;
+  position: relative;
+  width: 240px;
+  height: 80px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px #ddd;
+  border-radius: 10px;
+  padding: 15px 20px;
+  overflow: hidden;
+  margin:10px;
+  background: #fff;
+  cursor: pointer;
+  .shop-name{
+    color: $color-theme;
+    font-size: 15px;
+  }
+  .branch-name{
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .dot{
+    position: absolute;
+    background: #ddd;
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    top: 10px;
+    right: 18px;
+    box-shadow: 0 0 2px #ddd;
+  }
+  &:before{
+    content: "";
+    position:absolute;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    right: 0;
+    border-top: 10px solid $color-theme;
+    border-right: 10px solid $color-theme;
+    border-bottom: 10px solid transparent;
+    border-left: 10px solid transparent;
+  }
+  &:after{
+    content: "";
+    position:absolute;
+    width: 20px;
+    height: 20px;
+    bottom: 0;
+    left: 0;
+    border-top: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid $color-theme;
+    border-left: 10px solid $color-theme;
+  }
+
+}

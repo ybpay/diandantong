@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t('activerecord.models.ddt/delivery_setting')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Show'), backend_shop_branch_delivery_setting_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

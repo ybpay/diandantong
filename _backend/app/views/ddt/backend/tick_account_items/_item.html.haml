@@ -1,0 +1,7 @@
+%tr.tick-account-item{ :"data-id" => item.id }
+  %td= link_to item.order_number, backend_shop_order_path(@current_shop, item.order_id)
+  %td= item.amount
+  %td= item.state_name
+  %td
+    - if item.is_pending?
+      = link_to "结", [:complete, :backend, @current_shop, @current_branch, @tick_account, item], class: "btn btn-primary btn-xs", data: { remote: true, method: :put }, title: "设为己结"

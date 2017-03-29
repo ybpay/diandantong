@@ -1,0 +1,43 @@
+.header
+  %h3= "提醒会员用户， 用微信绑定会员"
+
+- unless @current_shop.short_message_setting.use_sms
+  .alert.alert-info
+    %strong 温馨提示
+    %p
+      该功能使用短信来提醒，您没有开启短信功能, 暂时无法使用该功能
+      请在平台
+      = link_to "短信设置里", backend_shop_short_message_setting_path(@current_shop)
+      开启该功能
+-else
+  .form-group
+    = link_to "提醒全部", remind_bind_backend_shop_vip_infos_path(@current_shop), remote: true, method: "post", class: "btn btn-primary"
+    = link_to "提醒选中", remind_bind_backend_shop_vip_infos_path(@current_shop), remote: true, method: "post", class: "btn btn-primary batch_op_action", confirmtxt: "确认提醒这些会员？"
+
+  %table.table.table-striped.table-bordered
+    %thead
+      %tr
+        %th.col-sm-1
+          = check_box_tag "all_vip_infos", "", false, id: "batch_op_select_all", data: {model: "vip_info", token: form_authenticity_token}
+          %label{for: "all_vip_infos"} 全选
+        %th.col-sm-1= sort_link(@q, :vip_no, Ddt::VipInfo.human_attribute_name(:vip_no))
+        %th.col-sm-1= sort_link(@q, :name, Ddt::VipInfo.human_attribute_name(:name))
+        %th.col-sm-1= sort_link(@q, :phone, Ddt::VipInfo.human_attribute_name(:phone))
+        %th.col-sm-1= sort_link(@q, :vip_level_name, Ddt::VipLevel.human_attribute_name(:name))
+        %th.col-sm-1= sort_link(@q, :total_amount, Ddt::VipInfo.human_attribute_name(:total_amount))
+        %th.col-sm-1= sort_link(@q, :is_verified, Ddt::VipInfo.human_attribute_name(:is_verified))
+
+    %tbody
+      - @vip_infos.each do |vip_info|
+        %tr
+          %td= check_box_tag "vip_info[id][]", vip_info.id, false
+          %td= vip_info.vip_no
+          %td= vip_info.name
+          %td= vip_info.phone
+          %td= vip_info.vip_level.name
+          %td= vip_info.total_amount_in_currency
+          %td= verify_label(vip_info)
+      = no_record_hint(@vip_infos)
+  %br
+  .pull-right= will_paginate @vip_infos , renderer: BootstrapPagination::Rails, bootstrap: 3
+  %br

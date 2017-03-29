@@ -1,0 +1,157 @@
+<md-dialog flex="60">
+  <md-toolbar class="md-toolbar-tools">
+    <h2 ng-hide="cv.id">添加优惠券</h2>
+    <h2 ng-show="cv.id">编辑优惠券</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <form name="form" layout="column">
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">券名</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="cv.name" placeholder="券名">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">优惠券类型</label>
+        <div class="crm-form-control" flex="80">
+          <md-select ng-model="cv.coupon_type">
+            <md-option value="amount_match">满减优惠券</md-option>
+            <md-option value="product_match">菜品优惠券</md-option>
+          </md-select>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.coupon_type == 'amount_match'">
+        <label class="crm-form-label" flex="20">可用金额</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="cv.coupon_min_usable_amount" placeholder="满多少金额可用">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.coupon_type == 'amount_match'">
+        <label class="crm-form-label" flex="20">面值</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="cv.norminal_value" placeholder="面值">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.coupon_type == 'product_match'">
+        <label class="crm-form-label" flex="20">菜品SKU</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="cv.product_sku" placeholder="多个菜品SKU用','隔开, 例如: S001,S002">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">过期类型</label>
+        <div class="crm-form-control" flex="80">
+          <md-select ng-model="cv.expired_type">
+            <md-option value="fixed_expired_time">统一过期时间</md-option>
+            <md-option value="after_send_expired_time">领取后若干天过期</md-option>
+          </md-select>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.expired_type == 'fixed_expired_time'">
+        <label class="crm-form-label" flex="20">开始可用时间</label>
+        <div class="crm-form-control" flex="80">
+          <adm-dtp ng-model='cv.usable_starts_at'></adm-dtp>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.expired_type == 'fixed_expired_time'">
+        <label class="crm-form-label" flex="20">可用过期时间</label>
+        <div class="crm-form-control" flex="80">
+          <adm-dtp ng-model='cv.usable_expires_at'></adm-dtp>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.expired_type == 'after_send_expired_time'">
+        <label class="crm-form-label" flex="20">发放后几天内有效</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="cv.usable_days_after_send" placeholder="发放后几天内有效">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">最多发放数</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="cv.max_grant_limit" placeholder="最大可设置成1000,000">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">最多领取数/人</label>
+        <div class="crm-form-control" flex="80">
+          <input ng-model="cv.max_count_each_user" placeholder="置空为不限制数量">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">支持积分兑换</label>
+        <div class="crm-form-control" flex="80">
+          <md-switch ng-model="cv.can_exchange" class="md-primary"></md-switch>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.can_exchange">
+        <label class="crm-form-label" flex="20">兑换所需积分</label>
+        <div class="crm-form-control" flex="80">
+          <input ng-model="cv.credit_count" placeholder="兑换所需积分">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">支持堂点</label>
+        <div class="crm-form-control" flex="80">
+          <md-switch ng-model="cv.support_eat_in_hall" class="md-primary"></md-switch>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">支持外卖</label>
+        <div class="crm-form-control" flex="80">
+          <md-switch ng-model="cv.support_delivery" class="md-primary"></md-switch>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">适用范围</label>
+        <div class="crm-form-control" flex="80">
+          <md-select ng-model="cv.coupon_appliable_branch_scope_policy">
+            <md-option value="appliable_to_any_branch">门店通用</md-option>
+            <md-option value="appliable_to_part_branch">部分门店</md-option>
+          </md-select>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-show="cv.coupon_appliable_branch_scope_policy == 'appliable_to_part_branch'">
+        <label class="crm-form-label" flex="20">适用门店</label>
+        <div class="crm-form-control" flex="80">
+          <select2 ng-model="cv.branch_ids" multiple options="branch_select_options"></select2>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">描述</label>
+        <div class="crm-form-control" flex="80">
+          <textarea ng-model="cv.description" placeholder="描述"/>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center" ng-repeat="inst in cv.coupon_usage_instructions" ng-hide="inst._destroy">
+        <label class="crm-form-label" flex="20">使用须知</label>
+        <div class="crm-form-control" flex="60">
+          <input ng-model="inst.content" placeholder="">
+        </div>
+        <div class="crm-form-control" flex="20">
+          <md-button class="md-warn" ng-click="inst._destroy = true;">
+            <md-icon>delete</md-icon>
+            删除
+          </md-button>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20"></label>
+        <div class="crm-form-control" flex="80">
+          <md-button class="md-primary md-raised" ng-click="add_instruction()">添加使用须知</md-icon-button>
+        </div>
+      </div>
+    </form>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <md-button flex flex="50" ng-click="close()" class="md-primary">
+      取消
+    </md-button>
+    <md-button flex flex="50" ng-click="submit()" class="md-primary md-raised">
+      确认
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

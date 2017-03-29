@@ -1,0 +1,62 @@
+.header
+  %h3= "#{t("activerecord.models.ddt/payment_log")} 列表"
+
+.form-group
+  = search_form_for @q, url: backend_shop_payment_logs_path(@current_shop), html: {class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+    = f.input_field :created_at_gteq, as: :date, placeholder: Ddt::PaymentLog.human_attribute_name(:created_at), class: 'input-medium'
+    = f.input_field :created_at_lteq, as: :date, placeholder: Ddt::PaymentLog.human_attribute_name(:created_at), class: 'input-medium'
+    = f.input_field :branch_id_eq, collection: @branches, include_blank: true, prompt: Ddt::PaymentLog.human_attribute_name(:branch)
+    = f.input_field :order_number_eq, placeholder: Ddt::PaymentLog.human_attribute_name(:order_number)
+    = f.input_field :out_trade_no_cont, placeholder: Ddt::PaymentLog.human_attribute_name(:out_trade_no)
+    = f.input_field :payment_state_eq, collection: Ddt::Payment.workflow_state_collection, include_blank: true, prompt: Ddt::PaymentLog.human_attribute_name(:payment_state)
+    = f.input_field :payment_method_name_cont, collection: Ddt::PaymentMethod.method_type_collection, include_blank: true, prompt: Ddt::PaymentLog::human_attribute_name(:payment_method_name)
+
+    = f.submit "搜索", class: "btn btn-sm btn-success"
+
+%table.table.table-striped.table-bordered#data-table
+  %thead
+    %tr
+      - show_for nil, Ddt::PaymentLog do
+        - attr_tab_head :created_at, sort_link: true
+        - attr_tab_head :branch, sort_link: true
+        - attr_tab_head :order_number, :out_trade_no, :payment_method_name, :payment_state, sort_link: true
+        %th 流水当前状态
+        %th 流水删除标记
+        - attr_tab_head :amount, :multi_pay_item, :event
+  %tbody
+    - @payment_logs.each do |payment_log|
+      %tr{name: 'data-row', data: {id: payment_log.id, extra: (@current_account.is_admin? or Rails.env.development?) ? payment_log.extra : ""}}
+        - show_for payment_log do
+          %td= payment_log.created_at.strftime('%Y-%m-%d %H:%M:%S')
+          %td= payment_log.branch.name
+          %td=(link_to payment_log.order_number, [:backend, @current_shop, payment_log.branch, payment_log.order]) rescue nil
+          %td=(link_to "#{payment_log.out_trade_no}", backend_shop_payments_path(@current_shop, "q[id_eq]" => payment_log.payment.id))
+          %td= payment_log.payment_method_name
+          %td= Ddt::Payment.workflow_state_name(payment_log.payment_state.to_sym)
+          %td= payment_log.payment.workflow_state_name
+          %td= payment_log.payment.deleted?
+          %td= payment_log.amount
+          %td= payment_log.multi_pay_item
+          %td= payment_log.event_name
+    = no_record_hint(@payment_logs)
+%br
+.pull-right= will_paginate @payment_logs , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br
+
+- if @current_account.is_admin? or Rails.env.development?
+  %nav.navbar.navbar-default.navbar-fixed-bottom#extra-nav(style="background:#535353")
+    .navbar-inner.navbar-content-center
+      %pre.text-muted.credit#extra-pre(style="padding:10px")
+
+  :javascript
+    $(function(){
+      $("tr[name=data-row]").on("mouseover", function(){
+        var extra = $(this).data().extra
+        $("#extra-pre").html(pd.json(extra))
+        $("#extra-nav").show()
+      });
+      $("#data-table").on("mouseout", function(){
+        $("#extra-pre").html("")
+        $("#extra-nav").hide()
+      });
+    });

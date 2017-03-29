@@ -1,0 +1,42 @@
+- if material.is_news?
+  .news
+    - material.articles.each_with_index do |article, index|
+      - if index == 0
+        .cover
+          .smimg
+            = avoid_nil_material_article_cover(article.image.medium.url)
+            .title
+              = avoid_nil_material_article_title(article.title)
+            - if is_edit_material?
+              .edit_mask
+                = article_edit_link(@current_shop,material,article)
+      - else
+        .item{id: article.id}
+          .pic
+            = avoid_nil_material_article_smpic(article.image.thumb.url)
+          .title
+            = avoid_nil_material_article_title(article.title)
+          - if is_edit_material?
+            .edit_mask
+              = article_edit_link(@current_shop,material,article)
+              = article_del_link(@current_shop, material, article)
+    -if is_edit_material? && !first_step(material)
+      .add
+        %a{ href: new_backend_shop_material_article_path(@current_shop, material), 'data-remote' => 'true'}
+          %i.plus.fa.fa-plus.fa-2x
+
+
+- elsif material.is_text?
+  .text
+    .words
+      = avoid_nil_material_content(material.content)
+- elsif material.is_music?
+  .music
+    .title
+      = avoid_nil_material_title(material.title)
+    .music_url
+      = avoid_nil_material_music_url(material.music_url)
+    .music_url
+      = avoid_nil_material_hq_music_url(material.hq_music_url)
+    .description
+      = avoid_nil_material_description(material.description)

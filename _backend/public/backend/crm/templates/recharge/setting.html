@@ -1,0 +1,32 @@
+<md-content layout="column" layout-padding layout-margin>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">充值方式</label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-radio-group ng-model="setting.recharge_type" layout="row" layout-align="start center">
+        <md-radio-button value="recharge_product" class="md-primary">固定充值品</md-radio-button>
+        <md-radio-button value="temp_recharge_product" class="md-primary">手动输入</md-radio-button>
+      </md-radio-group>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-switch ng-model="setting.disable_recharge_when_query" class="md-primary">手动查询会员禁用充值</md-switch>
+      <!-- <md-checkbox class="md-primary" ng-model="setting.disable_recharge_when_query">手动查询会员禁用充值</md-checkbox> -->
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-switch ng-model="setting.allow_credits_exchange_and_get" class="md-primary">允许积分兑换和充值</md-switch>
+    </div>
+  </div>
+  <div class="crm-form-line no-border-bottom" layout="row" layout-align="left left">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90">
+      <md-button class="md-primary md-raised" ng-click="update()">
+        更新
+      </md-button>
+    </div>
+  </div>
+</md-content>

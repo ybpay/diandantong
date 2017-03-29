@@ -1,0 +1,22 @@
+%tr{id: "_#{page.id}"}
+  - if @mode && controller_name == "devices"
+    %td= check_box_tag "page[id][]", page.id, false, id: "device_id_#{page.id}"
+  %td= page.page_id
+  %td
+    %img{src: page.icon_url, width: "100px", height: "100px"}
+  %td= page.title
+  %td= page.description
+  %td= page.count
+  %td= page.comment
+  - if @mode.blank?
+    %td
+      = link_to tag(:icon,:class=>"fa fa-refresh"), backend_shop_wechat_account_shake_around_page_path(@current_shop, @wechat_account, page), remote: true, title: "刷新", class: "btn btn-success btn-xs"
+
+      = link_to tag(:icon,:class=>"fa fa-bars"), backend_shop_wechat_account_shake_around_page_shake_infos_path(@current_shop, @wechat_account, page), class: "btn btn-default btn-xs", title: "摇一摇日志"
+
+      = link_to tag(:icon,:class=>"fa fa-edit"), edit_backend_shop_wechat_account_shake_around_page_path(@current_shop, @wechat_account, page), title: "编辑", class: "btn btn-primary btn-xs"
+
+      -if page.count == 0
+        = link_to tag(:icon,:class=>"fa fa-trash"), backend_shop_wechat_account_shake_around_page_path(@current_shop, @wechat_account, page), method: :DELETE,remote: true, "data-confirm" => "确认删除？", title: "删除", class: "btn btn-danger btn-xs"
+
+      = link_to "管理绑定", get_bind_backend_shop_wechat_account_shake_around_page_path(@current_shop, @wechat_account, page), class: "btn btn-primary btn-xs"

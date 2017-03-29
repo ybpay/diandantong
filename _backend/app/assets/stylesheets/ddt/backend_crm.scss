@@ -1,0 +1,9 @@
+$nprogress-color: #a3e9a4;
+$nprogress-height: 2px;
+@import 'nprogress';
+@import 'nprogress-bootstrap';
+@import url(https://fonts.googleapis.com/icon?family=Material+Icons);
+@import "thirdparty/angular-material";
+@import "thirdparty/ADM-dateTimePicker";
+@import "select2";
+@import "crm/*";

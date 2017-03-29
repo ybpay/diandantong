@@ -1,0 +1,102 @@
+<div class="page-footer order-footer" ng-show="!activeSheet || activeSheet==''">
+  <!-- <div class="service-item">
+      <a ng-click="refresh()" class="orange service-btn">刷新</a>
+    </div> -->
+    <div class="service-item">
+      <a ng-click="go_back()" class="gray service-btn">返回</a>
+    </div>
+
+    <div class="service-item">
+      <a ng-click="activeSheet = 'service'" class="green service-btn">服务</a>
+    </div>
+
+    <div class="service-item">
+      <a ng-click="activeSheet = 'order'" class="yellow service-btn">操作</a>
+    </div>
+
+    <div class="service-item" ng-show="can_append_itemable()">
+      <a ng-click="go_append_itemable()" class="red service-btn">加菜{{can_pay_online()}}</a>
+    </div>
+
+    <div class="service-item buy">
+      <a class="submit－btn service-btn" ng-show="is_my_order() && can_pay_online()" ng-click="pay_online()">支付</a>
+      <a class="submit－btn service-btn" ng-show="is_my_order() && can_pay()" ng-click="pay()">支付</a>
+      <a class="submit－btn service-btn" ng-show="is_my_order() && can_request_pay()" ng-click="request_pay()">请求买单</a>
+    </div>
+
+    <div class="clear"></div>
+</div>
+<div>
+  <div class="weui_mask_transition"
+    ng-class="{'weui_fade_toggle': activeSheet && activeSheet!= ''}"
+    ng-style="{'display': activeSheet && activeSheet!= '' ? 'block': 'none'}"
+    id="mask"
+    ng-show="activeSheet && activeSheet!= ''" ng-click="activeSheet=''"></div>
+  <div class="weui_actionsheet" ng-class="{'weui_actionsheet_toggle': activeSheet && activeSheet!= ''}" id="weui_actionsheet">
+      <div class="weui_actionsheet_menu">
+          <div class="weui_actionsheet_cell" ng-show="activeSheet == 'order' &&'eat_in_hall' == order_type" ng-click="activeSheet=''; refresh()">刷新</div>
+          <div class="weui_actionsheet_cell" ng-show="activeSheet == 'order' &&can_go_comment()" ng-click="activeSheet='';go_comment()">评价</div>
+          <div class="weui_actionsheet_cell" ng-show="activeSheet == 'order' &&can_exchange_code()" ng-click="activeSheet='';go_exchange_code()">兑换码</div>
+          <div class="weui_actionsheet_cell" ng-show="activeSheet == 'order' &&can_ship" ng-click="activeSheet='';ship()">确认收货</div>
+          <div class="weui_actionsheet_cell"
+                  ng-show="activeSheet == 'service' && ((order_type === 'eat_in_hall' || order_type === 'delivery' || order_type === 'fastfood') && order.line_items.length > 0) && can_hasten()"
+                  ng-click="activeSheet='';hasten();"
+                  ng-class="{'disable': !can_hasten_now()}">催单{{hasten_countdown()}}</div>
+
+          <div class="weui_actionsheet_cell"
+                  ng-show="activeSheet == 'service' &&( (order_type === 'eat_in_hall' || order_type === 'fastfood') && order.line_items.length > 0) && can_call_waiter()"
+                  ng-click="activeSheet='';show_options()"
+                  ng-class="{'disable': !can_call_waiter_now()}">呼叫服务员{{call_waiter_countdown()}}</div>
+      </div>
+      <div class="weui_actionsheet_action">
+          <div class="weui_actionsheet_cell" ng-click="activeSheet = ''">关闭</div>
+      </div>
+  </div>
+</div>
+
+
+  <div ng-show="can_call_waiter() && choose_waiter_service_item==true">
+    <div class="ddb-box">
+      <div class="box-mask-dark" ng-click="show_options(false)"></div>
+      <div class="service-items">
+        <div class="service-item-cell"
+            ng-repeat="waiter_service_item in branch.waiter_service_items">
+          <a class="service-item" ng-click="call_waiter(waiter_service_item.name)">{{waiter_service_item.name}}</a>
+        </div>
+
+        <div class="service-item-cell">
+          <a class="service-item" ng-click="call_waiter('其他服务')">其他</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div ng-show="can_request_pay() && choose_request_pay_method ==true">
+    <div class="ddb-box">
+      <div class="box-mask-dark" ng-click="show_pay_methods(false)"></div>
+      <div class="service-items">
+        <div class="service-item-cell"
+            ng-repeat="pay_method in pay_method_options">
+          <a class="service-item" ng-click="post_request_pay(pay_method)">{{pay_method}}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+<!--
+  <div ng-show="choose_hasten_line_item ==true">
+    <div class="ddb-box">
+      <div class="box-mask-dark" ng-click="choose_hasten_line_item = false"></div>
+      <div class="hasten-items">
+        <div class="hasten-tiem-cell">
+          <a class="hasten-item" ng-click="hasten()">催整单</a>
+        </div>
+        <div class="hasten-item-cell"
+            ng-repeat="line_item in order.line_items">
+            <a class="hasten-item" ng-click="hasten(line_item.id)">{{line_item.name}}</a>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  </span>
+</div>

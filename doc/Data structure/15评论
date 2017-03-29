@@ -1,0 +1,16 @@
+
+需要成功消费的用户才能评论，每次只能评论一次
+
+表 comments
+commentable_type :         : 当commentable_type 为 Ddt::Comment 的时候，为回复评论
+commentable_id   :
+user_id          :
+content          : string
+rating           : integer : 评分
+state            : string  : 状态 pending published closed
+order_id                     由哪个订单产生的评论
+branch_id
+shop_id
+
+created_at
+updated_at

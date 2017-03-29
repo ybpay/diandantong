@@ -1,0 +1,163 @@
+<div common-header></div>
+<div common-footer></div>
+<div id="ddb-branch-show" class="main-view">
+  <div class='avatar-part'>
+    <div class="avatar">
+      <img ng-src="{{branch.image}}" alt="">
+    </div>
+    <div class="branch-info">
+      <div class="name">{{branch.name}}<span class="tag label-blue" ng-if="!branch.is_in_service">休息中</span></div>
+      <div class="comments-level red">
+        <rating-stars ng-rating="branch.rating">
+        </rating-stars>
+      </div>
+      <div class="facilities" ng-if="branch_type.show_wifi || branch_type.show_parking">
+        <span class="facility" ng-if="branch_type.show_wifi && branch.support_wifi">
+          <i class="fa fa-wifi"></i> 支持Wifi
+        </span>
+        <span class="facility" ng-if="branch_type.show_parking">
+          <i class="fa fa-paypal"></i>
+          停车位:
+          <span ng-if="!branch.support_parking">无</span>
+          <span ng-if="branch.support_parking">{{branch.parking_space_count}}个</span>
+        </span>
+      </div>
+      <div class="average-consume">
+        <span class="red">{{::branch.average_consumption|currency:currency}}</span>/人
+        <span class="button" ng-click="toggleFavorite()" ng-class="{'border-green': !branch.is_followed, 'border-gray': branch.is_followed}">
+          <span ng-if="!branch.is_followed">收藏</span><span ng-if="branch.is_followed">已收藏</span>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="operation-navs" ng-if="!current_shop.is_single">
+    <div class="operation-nav-item" ng-class="{'inavailable' : !branch.use_reservation_setting}" ng-if="::branch_type.show_reservation_img">
+      <a ng-click="go_to('reservation')">
+        <div class="icon red" ng-if="!branch_type.reservation_img"><i class="fa fa-dot-circle-o"></i></div>
+        <img class="icon" ng-if="branch_type.reservation_img" ng-src="{{::branch_type.reservation_img}}"/>
+        <div class="text">{{::branch_type.reservation_img_text||'预订'}}</div>
+      </a>
+    </div>
+    <div class="operation-nav-item" ng-class="{'inavailable' : !branch.use_eat_in_hall_setting}" ng-if="::branch_type.show_order_in_seat_img">
+      <a ng-click="branch.use_eat_in_hall_setting ? toggle_show_eat_in_hall_select() : '' ">
+        <div class="icon red" ng-if="!branch_type.order_in_seat_img"><i class="fa fa-cutlery"></i></div>
+        <img class="icon" ng-if="branch_type.order_in_seat_img" ng-src="{{::branch_type.order_in_seat_img}}"/>
+        <div class="text">{{::branch_type.order_in_seat_img_text||'点菜'}}</div>
+      </a>
+    </div>
+    <div class="operation-nav-item" ng-class="{'inavailable' : !branch.use_delivery_setting}" ng-if="::branch_type.show_delivery_img">
+      <a ng-click="go_to('delivery')">
+        <div class="icon red" ng-if="!branch_type.delivery_img"><i class="fa fa-truck"></i></div>
+        <img class="icon" ng-if="branch_type.delivery_img" ng-src="{{::branch_type.delivery_img}}"/>
+        <div class="text">{{::branch_type.delivery_img_text||'外卖'}}</div>
+      </a>
+    </div>
+    <div class="operation-nav-item" ng-class="{'inavailable' : !branch.use_fastfood_setting}" ng-if="branch.use_fastfood_setting && branch_type.show_fastfood_img">
+      <a ng-click="go_to('fastfood')">
+        <div class="icon red" ng-if="!branch_type.fastfood_img"><i class="fa fa-delicious"></i></div>
+        <img class="icon" ng-if="branch_type.fastfood_img" ng-src="{{::branch_type.fastfood_img}}"/>
+        <div class="text">{{::branch_type.fastfood_img_text||'快餐'}}</div>
+      </a>
+    </div>
+    <div class="operation-nav-item" ng-class="{'inavailable' : !branch.use_queue_setting}" ng-if="::branch_type.show_queue_img">
+      <a ng-click="go_to('queue')">
+        <div class="icon red" ng-if="!branch_type.queue_img"><i class="fa fa-weixin"></i></div>
+        <img class="icon" ng-if="branch_type.queue_img" ng-src="{{::branch_type.queue_img}}"/>
+        <div class="text">{{::branch_type.queue_img_text||'排队'}}</div>
+      </a>
+    </div>
+    <div class="operation-nav-item" ng-class="{'inavailable' : !branch.use_pay_online_setting}" ng-if="::branch_type.show_pay_online_img">
+      <a ng-click="go_to('pay_online')">
+        <div class="icon red" ng-if="!branch_type.pay_online_img"><i class="fa fa-cc-visa"></i></div>
+        <img class="icon" ng-if="branch_type.pay_online_img" ng-src="{{::branch_type.pay_online_img}}"/>
+        <div class="text">{{::branch_type.pay_online_img_text||'买单'}}</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="notification-section">
+    <div class="notice">
+      <i class="fa fa-volume-up red"></i>
+      <marquee behavior="alternate" scrollamount="1" scrolldelay="1"> &nbsp; {{branch.notice}} &nbsp;</marquee>
+    </div>
+  </div>
+
+  <div class="space-12"></div>
+
+  <div class="branch-promotion-section" ng-if="branch.tuans.length > 0">
+    <div class="subject">商家优惠</div>
+    <a class="promotion" ng-repeat="tuan in branch.tuans" ng-click="go_page('cart', '/tuans/'+tuan.id)">
+      <div class="promotion-image">
+        <img ng-src="{{tuan.image}}"/>
+      </div>
+      <div class="promotion-info">
+        <div class="name overflow-ellipsis">{{tuan.name}}</div>
+        <div class="desc">
+          <div class="groupon-price red">
+            {{tuan.groupon_price|currency:currency}}
+          </div>
+          <div class="norminal-value">
+            {{tuan.norminal_value|currency:currency}}
+          </div>
+          <div class="sales">
+            已售 {{tuan.base_coupons_count}}
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="space-12"></div>
+
+  <div class="intro-section">
+    <a class="branch-item arrow-right" href="#/branches/{{branch.id}}/introduction">
+      <div class="gray icon">
+        <i class="fa fa-clock-o gray"></i>
+      </div>
+      <div class="label">门店详情</div>
+    </a>
+    <div class="location-label">
+      <div class="gray icon">
+        <i class="fa fa-map-marker"></i>
+      </div>
+      <div class="address">{{branch.address}}</div>
+
+      <div class="red phone">
+        <a href="tel:{{branch.phone}}"><i class="fa fa-phone"></i></a>
+      </div>
+      <div class="red location-address" ng-click="open_location()">
+        <i class="fa fa-map-marker"></i>
+      </div>
+    </div>
+    <div class="branch-item">
+      <div class="gray icon">
+        <i class="fa fa-clock-o gray"></i>
+      </div>
+      <span class="label">营业时间：</span><span ng-repeat="service_period in branch.service_periods">{{service_period.start_at|date: 'HH:mm'}}~{{service_period.end_at|date: 'HH:mm'}}<span ng-if=" ! $last ">, </span></span>
+    </div>
+    <div class="branch-item" ng-if="branch.qq_no">
+      <div class="red icon">
+        <i class="fa fa-qq"></i>
+      </div>
+      {{branch.qq_no}}
+    </div>
+    <div class="branch-item" ng-if="branch.wechat_no">
+      <div class="green icon">
+        <i class="fa fa-weixin"></i>
+      </div>
+      {{branch.wechat_no}}
+    </div>
+  </div>
+
+  <div class="space-12"></div>
+
+  <div class="comments-section">
+    <a ng-href="#/branches/{{branch.id}}/comments">
+      <div class="list-item arrow-right">查看所有评论({{branch.comments_count}})</div>
+    </a>
+    <comment-list ng-comments="branch.comments">
+    </comment-list>
+  </div>
+  <div class="space-12"></div>
+</div>

@@ -1,0 +1,56 @@
+.ibox
+  .ibox-title
+    %h2.inline= "编辑#{t("activerecord.models.#{@model_class.to_s.underscore}")}"
+    - switch_label = (@payment_method.is_a? Ddt::WechatpayMethodV336) ? '切换到 2.7 版本' : '切换到 3.3.6 版本'
+    = link_to switch_label, [:switch_version, :backend, @current_shop, @model_class], class: 'btn btn-primary'
+    .vspace-10
+  .ibox-content
+    .alert.alert-info
+      - if @payment_method.is_a? Ddt::WechatpayMethodV336
+        %p 当前微信支付版本为3.3.6，适用于2014年9月23日后申请的微信支付。
+        %p 设置帮助：
+        %p 1. 原始ID从微信公众账号后台（后面简称为'微信后台'）公众号设置获得
+        %p 2. appid, appSecret 从微信后台开发者中心获得
+        %p
+          3. 在微信后台 -> 开发者中心 -> 高级接口中修改OAuth2.0网页授权的授权回调页面域名为
+          = Ddt::Host::DEPLOY
+        %p 4. 商户ID 从微信后台 -> 微信支付 -> 商户信息获得，对应名称为财付通商户号
+        %p 5. paySignKey 为登陆财付通商户后台，进入密码安全 -> API 安全，设置API密钥。
+        %p
+          6. 在微信后台 -> 微信支付配置支付授权目录为
+          = "http://#{Ddt::Host::DEPLOY}/weixin/shops/"
+        %p
+          7. 告警URL为
+          = "http://#{Ddt::Host::DEPLOY}/oapi/v1/payments/warning"
+        %p
+          8. 反馈URL为
+          = "http://#{Ddt::Host::DEPLOY}/oapi/v1/payments/feedback"
+      - else
+        %p 当前微信支付版本为2.7，适用于2014年9月23日前申请的微信支付。
+        %p 设置帮助：
+        %p 1. appid 从微信公众平台后台（后面简称'微信后台'）开发者中心获得
+        %p 2. 商户ID 从微信后台 -> 微信支付 -> 商户信息获得，对应名称为财付通商户号
+        %p 3. paySignKey 和 partner key 从申请微信支付时，微信返回的确认邮件中获得
+        %p
+          4. 在微信后台 -> 微信支付配置支付授权目录为
+          = "http://#{Ddt::Host::DEPLOY}/weixin/shops/"
+        %p
+          5. 告警URL为
+          = "http://#{Ddt::Host::DEPLOY}/oapi/v1/payments/warning"
+        %p
+          6. 反馈URL为
+          = "http://#{Ddt::Host::DEPLOY}/oapi/v1/payments/feedback"
+
+    = simple_form_for(@payment_method, :url => polymorphic_path([:backend, @current_shop, @model_class]), :html => { class: 'form-horizontal'}) do |g|
+      - g.with_options disabled: (disabled rescue nil) do |f|
+        = f.error_notification :message => error_message_in_html(@payment_method)
+        .form-inputs
+          .col-sm-6
+            = f.input :name, readonly: true
+            - [:description, :active, *@model_class.all_preference_getters].each do |attr|
+              = f.input attr
+            = f.button :submit, :class => 'btn btn-primary btn-sm'
+          .clearfix
+
+
+

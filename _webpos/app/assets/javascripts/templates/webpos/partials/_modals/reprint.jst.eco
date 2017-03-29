@@ -1,0 +1,28 @@
+<wp-modal wp-show="reprint_modal.show">
+  <div class="wp-modal-header">小票补打</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group">
+      <div class="wp-form-label">选择打印机</div>
+      <div>
+        <wp-btn ng-click="reprint_modal.click_printer(target)" ng-repeat="target in reprint_targets"
+           ng-class="{'active': target.active}">{{target.name}}</wp-btn>
+        <div class="wp-no-record" ng-hide="reprint_targets.length > 0">当前没有可选的打印机</div>
+      </div>
+    </div>
+    <div class="wp-form-group">
+      <div class="wp-form-label">备注</div>
+      <wp-input input-model="reprint_modal.note" input-type="text" input-size="middle"></wp-input>
+    </div>
+
+    <div class="wp-form-group">
+      <div class="wp-form-label"></div>
+      <div class="wp-form-action">
+        <wp-btn ng-click="reprint_modal.submit()"
+                class="default-action"
+                ng-class="{'disabled': !reprint_modal.can_submit()}">确定</wp-btn>
+        <wp-btn ng-click="reprint_modal.cancel()">取消</wp-btn>
+
+      </div>
+    </div>
+  </div>
+</wp-modal>

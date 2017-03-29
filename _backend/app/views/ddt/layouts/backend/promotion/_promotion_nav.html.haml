@@ -1,0 +1,16 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .tabs-container
+        %ul.nav.nav-tabs#promotion
+          - if @promotion && @promotion.persisted?
+            %li{class: ('active' if %W[order_promotions event_promotions product_promotions].include? controller_name)}
+              = link_to '基础信息', [:edit, :backend, @current_shop, @promotion.branch, @promotion]
+            %li{class: ('active' if %W[promotion_rules].include? controller_name)}
+              = link_to '规则设置', [:backend, @current_shop, @promotion.branch, @promotion, :promotion_rules]
+            %li{class: ('active' if %W[promotion_actions].include? controller_name)}
+              = link_to '动作设置', [:backend, @current_shop, @promotion.branch, @promotion, :promotion_actions]
+        .tab-content
+          .tab-pane.active
+            .panel-body
+              = yield

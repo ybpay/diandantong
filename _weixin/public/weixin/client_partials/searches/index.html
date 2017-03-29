@@ -1,0 +1,33 @@
+<div common-footer></div>
+<div id="search-word-page">
+  <div class="ddb-nav-header search-header">
+    <div class="search-input">
+      <span class="fa fa-microphone green voice-input" ng-click="startRecord()" ng-if="!is_recording"></span>
+      <span class="fa fa-microphone-slash red voice-input" ng-click="stopRecord()" ng-if="is_recording"></span>
+      <input type="text" placeholder="输入门店名称" ng-model="word" class="query-word"/>
+    </div>
+    <div class="operation-button green search-cancel" ng-click="back()">取消</div>
+  </div>
+  <div class="main-view">
+    <div class="section" ng-if="is_recording">
+      <div class="list-item center">
+        正在录音，点击<strong ng-click="stopRecord()" class="red"> 结束 </strong>录音 ...
+      </div>
+    </div>
+    <div class="keywords-section">
+      <div class="keyword" ng-repeat="search_word in search_words" ng-class="{'label-green': $index%5==0, 'label-red': $index%5==1, 'label-orange': $index%5==2, 'label-blue': $index%5==3, 'label-pink': $index%5==4}"
+              ng-click="update(search_word)">
+        {{search_word}}
+      </div>
+      <div class="space"></div>
+    </div>
+    <div class="search-result">
+      <div class="no-record" ng-if="(branch_results.length == 0) && word">
+        没有结果
+      </div>
+      <a class="list-item" ng-repeat="branch in branch_results" ng-href="#/branches/{{branch.id}}">
+        {{branch.name}}
+      </a>
+    </div>
+  </div>
+</div>

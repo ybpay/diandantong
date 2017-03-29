@@ -1,0 +1,1 @@
+json.partial! partial: '/ddt/weixin/branches/branches', locals: { branches: @branches }

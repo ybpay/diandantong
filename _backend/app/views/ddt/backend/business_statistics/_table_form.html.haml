@@ -1,0 +1,23 @@
+= form_for :business_statistic, url: [:table, :backend, @current_shop, :business_statistics], method: :get, html: { class: 'form-inline', role: 'form', id: 'table_form'}, builder: SimpleForm::FormBuilder do |f|
+  = f.input_field :branch_id, data: {"local-datas" => current_account.is_boss? ? @current_shop.branches : current_account.manage_branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2'
+  - if @tables.present?
+    = f.input_field :table_id, collection: @tables.map{|t| [t.name_with_zone, t.id]}, class: 'input-medium', include_blank: true, prompt: "选择桌台"
+  = f.input_field :start_time, as: :datetime, placeholder: "开始时间", class: 'input-medium'
+  %label{style: 'font-size:20px;'} ~
+  = f.input_field :end_time, as: :datetime, placeholder: "结束时间", class: 'input-medium'
+  = f.submit "搜索", class: 'btn btn-sm btn-success', onClick: "$(this).closest('form').attr('action', '#{ table_backend_shop_business_statistics_path(@current_shop, format: :html) }')"
+  = f.submit "导出csv表格", class: 'btn btn-sm btn-info', onClick: "$(this).closest('form').attr('action', '#{ table_backend_shop_business_statistics_path(@current_shop, format: :csv) }')"
+
+= form_for :load_table, url: [:load_tables, :backend, @current_shop, :business_statistics], method: :get, builder: SimpleForm::FormBuilder, remote: true, html: {style: "display: none;", id: 'load_tables_form'} do |f|
+  = f.input_field :branch_id
+
+:javascript
+  $("#business_statistic_branch_id").off("change");
+  $("#business_statistic_branch_id").on("change", function(){
+    var branch_id = $(this).val();
+    if(branch_id){
+      $("#load_table_branch_id").val(branch_id);
+      $("#load_tables_form").submit();
+    }
+  })
+  init_ddb_select2();

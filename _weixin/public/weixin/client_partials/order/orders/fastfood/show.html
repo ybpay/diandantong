@@ -1,0 +1,69 @@
+<div class="order-show has-footer" id="fast-food-show">
+  <div ng-include src="partial('order/orders/show-order-state')"></div>
+  <div class="order-actions">
+    <a class="order-action-item" ng-click="go_page('main', '#/branches/'+branch.id)">
+      {{branch.name}}
+      <i class="weui_cell_ft"></i>
+    </a>
+    <a class="order-action-item weui_cells_access" ng-click="cancel()" ng-if="can_cancel()">
+      <div class="label">取消订单</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+  </div>
+
+  <div class="food-number-section" ng-if="order.pay_item_state == 'paid'">
+    <div class="food-number">
+      <span class="number">{{order.food_number}}</span><br />
+    </div>
+    <div class="food-number-hint">以上是您的牌号，请凭号到取餐台取餐</div>
+  </div>
+  <div class="fastfood-pay-section" ng-if="order.pay_item_state == 'unpaid'">
+    <div class="center red" ng-hide="order.pay_method == 'pay_on_face'">请先支付该订单，厨房才会开始处理哦</div>
+    <div class="center red" ng-show="order.pay_method == 'pay_on_face'">请到收银台支付该订单，厨房才会开始处理哦</div>
+    <a class="check-pay-btn" ng-click="paid()" ng-show="order.pay_method == 'pay_on_face'">
+        支付好了
+    </a>
+  </div>
+
+  <div class="line-items-section">
+    <div class="item">
+      订单号：{{::order.number}}
+    </div>
+    <div class="item">
+      点餐时间：{{order.placed_at | date:'yyyy-MM-dd HH:mm'}}
+    </div>
+    <div class="item">
+      共<span class="red">{{order.item_count}}</span>份 总计：<span class="red">{{order.total|currency:currency}} </span>
+      <span ng-if="enable_foreign && order.tax_total>0">(税 {{order.tax_total|currency:currency}})</span>
+      <span ng-if='enable_foreign && order.tax_total==0'>（免税）</span>
+    </div>
+    <div class="item" ng-if="order.invoice">
+      发票类型: {{order.invoice.invoice_type}}
+    </div>
+    <div class="item" ng-if="order.invoice">
+      发票抬头: {{order.invoice.title}}
+    </div>
+
+
+    <div class="item" ng-repeat="line_item in order.line_items">
+      <div class="item-label">
+        {{line_item.name_with_note}}<span ng-if="line_item.gift" class="red">(赠)</span>
+        ×
+        {{line_item.active_quantity}}{{line_item.unit_name}}
+      </div>
+      <div class="item-subtotal">
+        <span class="total orange">{{line_item.total | currency: currency}}</span>
+        <span class="original-amount" ng-if="line_item.amount != line_item.total">{{line_item.amount|currency: currency}}</span>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="order-info-section">
+    <div ng-repeat="item in order.order_items" class="item">
+        <span class="label">{{item.name}}</span>
+        <span class="value"> {{item.value}}</span>
+      </div>
+  </div>
+  <div ng-include src="partial('order/orders/show-footer')"></div>
+</div>

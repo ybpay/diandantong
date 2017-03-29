@@ -1,0 +1,53 @@
+.ibox-content
+  .col-md-6
+    = simple_form_for([:update_branch_nav, :backend, @current_shop, @branch_type], html: { class: 'form-horizontal'}) do |f|
+      - f.with_options disabled: (disabled rescue nil) do |f|
+        = f.error_notification :message => error_message_in_html(@branch_type)
+
+        .form-inputs
+          = f.input :show_reservation_img
+          = f.input :reservation_img_text
+          .col-xs-offset-5
+            = f.input :reservation_img
+            -if @branch_type.reservation_img.present?
+              = f.input :remove_reservation_img, as: :boolean, label: '删除图片'
+
+          = f.input :show_order_in_seat_img
+          = f.input :order_in_seat_img_text
+          .col-xs-offset-5
+            = f.input :order_in_seat_img
+            -if @branch_type.order_in_seat_img.present?
+              = f.input :remove_order_in_seat_img, as: :boolean, label: '删除图片'
+
+          = f.input :show_delivery_img
+          = f.input :delivery_img_text
+          .col-xs-offset-5
+            = f.input :delivery_img
+            -if @branch_type.delivery_img.present?
+              = f.input :remove_delivery_img, as: :boolean, label: '删除图片'
+
+          = f.input :show_fastfood_img
+          = f.input :fastfood_img_text
+          .col-xs-offset-5
+            = f.input :fastfood_img
+            -if @branch_type.fastfood_img.present?
+              = f.input :remove_fastfood_img, as: :boolean, label: '删除图片'
+
+          = f.input :show_queue_img
+          = f.input :queue_img_text
+          .col-xs-offset-5
+            = f.input :queue_img
+            -if @branch_type.queue_img.present?
+              = f.input :remove_queue_img, as: :boolean, label: '删除图片'
+
+          = f.input :show_pay_online_img
+          = f.input :pay_online_img_text
+          .col-xs-offset-5
+            = f.input :pay_online_img
+            -if @branch_type.pay_online_img.present?
+              = f.input :remove_pay_online_img, as: :boolean, label: '删除图片'
+
+
+        .form-actions.col-xs-offset-2
+          = f.button :submit, :class => "btn btn-primary btn-sm"
+  .clearfix

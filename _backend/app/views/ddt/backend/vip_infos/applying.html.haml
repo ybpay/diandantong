@@ -1,0 +1,43 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "会员申请 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = search_form_for @q, url: applying_backend_shop_vip_infos_path(@current_shop), html: {class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :name_cont, placeholder: Ddt::VipInfo.human_attribute_name(:name), class: 'form-control'
+          = f.input_field :phone_eq, placeholder: Ddt::VipInfo.human_attribute_name(:phone), class: 'form-control'
+          = f.input_field :total_amount_gteq, placeholder: '累计消费大于', class: 'form-control'
+          = f.submit "搜索", class: 'btn btn-success'
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::VipInfo.human_attribute_name(:name)
+                %th.col-sm-1= Ddt::VipInfo.human_attribute_name(:phone)
+                %th.col-sm-1= Ddt::VipInfo.human_attribute_name(:sex)
+                %th.col-sm-1= Ddt::VipInfo.human_attribute_name(:total_amount)
+                %th.col-sm-1= Ddt::VipInfo.human_attribute_name(:last_placed_at)
+                %th.col-sm-2
+
+            %tbody
+              - @vip_infos.each do |vip_info|
+                %tr
+                  %td= vip_info.name
+                  %td= vip_info.phone
+                  %td= vip_info.sex_name
+                  %td= vip_info.total_amount_in_currency
+                  %td= vip_info.last_placed_at.try(:strftime, "%F %T")
+                  %td
+                    = link_to '同意', agree_backend_shop_vip_info_path(@current_shop, vip_info), method: :put, title: "通过会员申请"
+                    = link_to '拒绝', reject_backend_shop_vip_info_path(@current_shop, vip_info),  method: :put, title: "拒绝会员申请"
+
+          %br
+          .pull-right= will_paginate @vip_infos , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br
+

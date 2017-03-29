@@ -1,0 +1,46 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/vip_level')} 列表"
+
+.alert.alert-warning
+  %strong 会员级别说明
+  %p
+    默认会员: 默认会员是系统默认会员级别，该会员级别折扣为1(即不打折), 默认用户都归入该级别.
+    %br
+    对于不同的会员级别，系统会根据该级别所享用的会员折扣，从小到大（享受的折扣越大，为越高级的级别）排列。
+    %br
+    微信用户在申请会员后，您通过申请后，该用户的会员级别为第二个会员级别（即为您建立的会员级别的最低那个）。
+
+.form-group
+  = new_btn(:vip_level)
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-1= sort_link(@q, :name, Ddt::VipLevel.human_attribute_name(:name))
+      %th.col-sm-1= sort_link(@q, :discount, Ddt::VipLevel.human_attribute_name(:discount))
+      %th.col-sm-1= sort_link(@q, :vip_infos_count, Ddt::VipLevel.human_attribute_name(:vip_infos_count))
+      %th.col-sm-1= sort_link(@q, :auto_upgrade, Ddt::VipLevel.human_attribute_name(:auto_upgrade))
+      %th.col-sm-1= sort_link(@q, :upgrade_recharge_money, Ddt::VipLevel.human_attribute_name(:upgrade_recharge_money))
+      %th.col-sm-1= sort_link(@q, :upgrade_total_amount, Ddt::VipLevel.human_attribute_name(:upgrade_total_amount))
+      %th.col-sm-1= sort_link(@q, :upgrade_get_credits, Ddt::VipLevel.human_attribute_name(:upgrade_get_credits))
+      %th.col-sm-1
+
+  %tbody
+    - @vip_levels.each do |vip_level|
+      %tr
+        %td= vip_level.name
+        %td= vip_level.discount
+        %td= vip_level.vip_infos.count
+        %td= vip_level.auto_upgrade ? '是' : '否'
+        %td= vip_level.upgrade_recharge_money
+        %td= vip_level.upgrade_total_amount
+        %td= vip_level.upgrade_get_credits
+        %td
+          - unless vip_level.is_default?
+            = info_btn(vip_level)
+            = edit_btn(vip_level)
+            = delete_btn(vip_level)
+    = no_record_hint(@vip_levels)
+%br
+.pull-right= will_paginate @vip_levels , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

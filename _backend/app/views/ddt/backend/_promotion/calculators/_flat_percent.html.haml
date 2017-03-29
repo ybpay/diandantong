@@ -1,0 +1,6 @@
+- calculator.preferences.keys.map do |key|
+  - field_name = "#{prefix}[calculator_attributes][preferred_#{key}]"
+  = label_tag field_name, I18n.t("calculators.keys.#{key.to_s}")
+  = preference_field_tag(field_name, calculator.get_preference(key), type: calculator.preference_type(key))
+%br/
+%span 100表示不打折， 80表示打8折

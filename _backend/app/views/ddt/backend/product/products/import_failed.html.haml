@@ -1,0 +1,6 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/product')} 错误提示文件"
+
+= link_to "下载错误提示文件", error_products_backend_shop_branch_products_path(@current_shop, @current_branch, format: 'csv'), :class => "btn btn-danger btn-sm"
+
+= link_to t('Back'), backend_shop_branch_products_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

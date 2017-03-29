@@ -1,0 +1,28 @@
+<div wp-include src="partial('header')"></div>
+<div wp-footbar branch-id='{{branch.id}}' ng-if="branch"></div>
+<div class="navigation-toolbar" ng-class="{'active':navigation_msg}">{{navigation_msg}}</div>
+
+<div class="main-view">
+    <div class="wp-subject">
+        打印机列表
+        <i class="fa fa-print red" ng-click="test_print_all()"></i>
+    </div>
+    <wp-table-row>
+        <div class="wp-table-col col-3">名称</div>
+        <div class="wp-table-col col-1">编号</div>
+        <div class="wp-table-col col-1">状态</div>
+        <div class="wp-table-col col-1">打印状态</div>
+        <div class="wp-table-col col-1">剩余任务</div>
+        <div class="wp-table-col col-1">最后出单</div>
+        <div class="wp-table-col col-1"></div>
+    </wp-table-row>
+    <wp-table-row ng-repeat="printer in printers track by printer.id">
+        <div class="wp-table-col col-3">{{printer.name}}</div>
+        <div class="wp-table-col col-1">{{printer.number}}</div>
+        <div class="wp-table-col col-1" ng-class="{'red': printer.state == 'offline'}">{{printer.state_name}}</div>
+        <div class="wp-table-col col-1" ng-class="{'red': printer.print_state == 'error'}">{{printer.print_state_name}}</div>
+        <div class="wp-table-col col-1">{{printer.new_print_record_count}}</div>
+        <div class="wp-table-col col-1" ng-class="{'red': not_print_success_for_some_time(printer)}">{{format_timestamp(printer.last_print_success_at) | date:'yyyy-MM-dd HH:mm:ss'}}</div>
+        <div class="wp-table-col col-1" ng-click="test_print(printer)"><i class="fa fa-print red"></i></div>
+    </wp-table-row>
+</div>

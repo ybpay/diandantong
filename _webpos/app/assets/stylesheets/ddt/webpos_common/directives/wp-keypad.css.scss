@@ -1,0 +1,113 @@
+.wp-keypad {
+  position: fixed;
+  left:0px;
+  bottom: 100px;
+  padding: 13px;
+  z-index: 10000;
+  background: #666;
+  @include border-radius(10px);
+  @include background-image-gradient(#999999, #666666);
+  @include box-shadow(rgba(0, 0, 0, 0.4) 0 0 25px);
+  &:disabled button{
+    opacity: .5;
+  }
+  .button-wrapper {
+    overflow: auto;
+    button {
+      @include border-radius(5px);
+      @include background-image-gradient(#ffffff, #e5e5e5);
+      @include box-shadow(rgba(0, 0, 0, 0.3) 0px 3px 10px);
+      display: block;
+      float: left;
+      width: 60px;
+      height: 60px;
+      padding: 10px 0px;
+      margin: 0 10px 10px 0;
+      border: none;
+      font-size: 30px;
+      &.smaller {
+        font-size: 16px;
+      }
+      &.button-wide {
+        width: 82px;
+      }
+      &.pressed {
+        @include background-image-gradient(#dadada, #bebebe);
+        @include box-shadow(rgba(0, 0, 0, 0.3) 0px 0px 4px);
+      }
+    }
+    .blank{
+      display: block;
+      float: left;
+      width: 30px;
+      height: 60px;
+      padding: 10px 0px;
+      margin: 0 10px 10px 0;
+      border: none;
+      font-size: 30px;
+    }
+  }
+  .drag-indicator {
+    position: absolute;
+    width: 24px;
+    height: 80px;
+    top: 115px;
+    right: 20px;
+    > span {
+      display: block;
+      height: 80px;
+      width: 0px;
+      border-left: 1px solid #666666;
+      border-right: 1px solid #999999;
+      float: left;
+      margin-right: 3px;
+    }
+  }
+  .close {
+    @include border-radius(15px);
+    opacity: 0.3;
+    @include box-shadow(black 0px 1px 2px inset);
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 15px;
+    right: 20px;
+    background: #fff;
+    border: none;
+    &:before {
+      font-family: Arial;
+      content: "X";
+      opacity: 0.6;
+      font-weight: bold;
+      color: #000;
+      font-size: 16px;
+    }
+  }
+  &.closed{
+    display: none;
+  }
+
+  &.wp-keypad-number{
+    height: 300px;
+    width: 290px;
+    .button-wrapper{
+      width: 250px;
+    }
+  }
+  &.wp-keypad-text{
+    height: 300px;
+    width: 880px;
+    .button-wrapper{
+      width: 820px;
+    }
+  }
+  &.wp-keypad-alpha{
+    left:150px;
+    bottom:0px;
+    height: 230px;
+    width: 820px;
+    .button-wrapper{
+      width: 800px;
+    }
+  }
+}

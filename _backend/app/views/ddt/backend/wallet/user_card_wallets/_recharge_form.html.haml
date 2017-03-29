@@ -1,0 +1,22 @@
+= simple_form_for @recharge, :url => "#{url_for([:recharge, :backend, @current_shop, @wallet])}?v=#{params[:v]}", remote: true, method: :put, html: { class: 'form-horizontal'}, wrapper: :horizontal_form_long do |f|
+  = f.input :cash_amount, as: :decimal, label: '充值金额', hint: '如充100送20, 这里填写100， 实际到帐那一项填写120'
+  = f.input :amount, as: :decimal, label: '实际到帐', hint: '实际到帐数额会同时在用户余额和平台总余额中增加'
+  = f.input :note, as: :text, label: '备注'
+  .form-actions.col-xs-offset-2
+    = f.submit '充值', :class => "btn btn-primary btn-sm submit_btn_recharge"
+:javascript
+  $('.submit_btn_recharge').on('click', function(){
+    var cash_amount = parseFloat($('#wallet_actions_recharge_cash_amount').val());
+    var recharge_amount = parseFloat($('#wallet_actions_recharge_amount').val());
+    var confirm_handler = function(result){
+      if(result){
+        $('#new_wallet_actions_recharge').submit();
+      }
+    }
+    if(cash_amount > recharge_amount){
+      bootbox.confirm("当前充值金额"+ cash_amount +"大于实际到帐金额" + recharge_amount + ", 您确认继续？", confirm_handler)
+    }else{
+      bootbox.confirm("当前充值金额" + cash_amount +", 实际到帐 "+recharge_amount+", 确认?", confirm_handler)
+    }
+    return false;
+  })

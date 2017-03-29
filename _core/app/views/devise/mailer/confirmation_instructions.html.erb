@@ -1,0 +1,87 @@
+<div style="background: #efefef;">
+ <table width="700" border="0" align="center" cellpadding="0" cellspacing="0" style="font-family: Microsoft Yahei">
+  <tbody>
+   <tr>
+    <td valign="bottom"></td>
+    <td height="20" align="right" valign="bottom" style="font-size: 12px">&nbsp; </td>
+   </tr>
+   <tr>
+    <td width="550" valign="bottom">
+     <div style="padding: 0 4px 5px 0;text-align: left;font-size: 12px;color: #999999;">
+       如果您并没有进行下面操作，请忽略该邮件。您不需要退订或进行其他进一步的操作。此邮件为系统自动发出的邮件，请勿直接回复
+     </div> </td>
+   </tr>
+  </tbody>
+ </table>
+ <table width="700" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tbody>
+   <tr>
+    <td width="700" height="22" style="background: url(http://gtms01.alicdn.com/tps/i1/T1j3kEFeBXXXbjUZgB-700-22.png) right"></td>
+   </tr>
+  </tbody>
+ </table>
+ <table width="700" align="center" cellpadding="0" cellspacing="0" style="background-color: #ffffff;margin:0 auto;font-family: 'microsoft yahei';">
+  <tbody>
+   <tr>
+    <td>
+     <table width="700" border="0" cellspacing="8" cellpadding="0">
+      <tbody>
+       <tr>
+        <td>
+         <div class="assistant" style="padding: 10px 0 0 0;line-height: 24px;font-size: 14px;font-family: Microsoft Yahei;">
+          <div style="color: #ff6600;width: 650px;font-size: 16px;text-indent:2em;">
+            <center>
+            <h1 style="color:#ff6600;">恭喜您，您的帐号已注册成功！</h1>
+            </center>
+            <% if @resource.is_boss? %>
+              <p>亲爱的<b><%= @resource.name %></b>，点单通欢迎您的申请使用
+                <font color="#f77616">
+
+                </font>，
+              </p>
+              <p>
+                <b><%= Ddt::Account.human_attribute_name(:name) %>:</b>
+                <%= @resource.name%>
+              </p>
+              <p>
+                <b><%= Ddt::Account.human_attribute_name(:login_id) %>:</b>
+                <%= @resource.login_id%>
+              </p>
+              <p>
+                <b><%= Ddt::Account.human_attribute_name(:email) %>:</b>
+                <%= @resource.email%>
+              </p>
+              <p>
+                请确认以上信息是您在点单通提交的注册信息，并点击下面的激活按钮激活您的帐号
+              </p>
+            <% elsif @resource.is_worker? %>
+              <p>亲爱的<%= @resource.shop.name %>用户<font color="#f77616"><b><%= @resource.name %></b></font>，</p>
+              <p>您好！</p>
+              <p>欢迎使用最专业的云餐厅, 您已成为<%= @resource.shop.name %>的门店管理员,</p>
+              <p>在管理您的门店之前您需要点击下面的激活按钮激活您的帐。</p>
+            <% end %>
+            <p>
+              <center>
+                <a style="text-decoration:none;background:#fd9200;border-radius:3px;height:40px;font-size:10px;width:190px;margin:20px 0 30px;font-family: 'Microsoft Yahei';cursor:pointer;padding:8px 56px; color:#fff;" href="<%= confirmation_url(@resource, :confirmation_token => @token) %>">激活帐号</a>
+              </center>
+            </p>
+            <p>
+                如以上链接无法点击，请将如下网址复制粘贴至浏览器进行激活：<%= confirmation_url(@resource, :confirmation_token => @token) %>
+            </p>
+          </div>
+         </div>
+         </td>
+       </tr>
+      </tbody>
+     </table> </td>
+   </tr>
+  </tbody>
+ </table>
+ <table width="700" border="0" cellpadding="0" cellspacing="0" align="center">
+  <tbody>
+   <tr>
+    <td width="700" height="22" style="background: url(http://gtms01.alicdn.com/tps/i1/T1OZ7HFd4XXXbjUZgB-700-22.png) 0 0 no-repeat"></td>
+   </tr>
+  </tbody>
+ </table>
+</div>

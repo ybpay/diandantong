@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h3= "新建#{t('activerecord.models.ddt/api_key')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Back'), backend_api_keys_path, :class => "btn btn-default btn-sm"

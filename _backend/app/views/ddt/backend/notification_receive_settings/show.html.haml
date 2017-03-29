@@ -1,0 +1,14 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h3= "#{t('activerecord.models.ddt/notification_receive_setting')} 详情"
+    .ibox-content.header
+      %p
+        %b
+          可接收消息
+          \:
+        %br/
+        =  raw @notification_receive_setting.active_settings_text.join("<br/>")
+      .space
+
+      = link_to t('Edit'), edit_backend_shop_account_notification_receive_setting_path(@current_shop, @account), :class => "btn btn-primary"

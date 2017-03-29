@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="cell">
+    <div class="page__hd">
+        <h1 class="page__title">新用户注册</h1>
+        <p class="page__desc">第三步：注册成功</p>
+    </div>
+  </div>
+  <div class="weui-msg">
+    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+    <div class="weui-msg__text-area">
+        <h2 class="weui-msg__title">注册完成</h2>
+        <p class="weui-msg__desc">请在电脑上打开后台http://cy.diandantong.com进行菜品和门店管理操作。</a></p>
+    </div>
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="http://cy.diandantong.com" class="weui-btn weui-btn_primary">立即前往</a>
+        </p>
+    </div>
+    <% unless @oem_brand.present? %>
+        <div class="weui-msg__extra-area">
+            <div class="weui-footer">
+                <p class="weui-footer__links">
+                    <a href="http://www.diandantong.com" class="weui-footer__link">点单通智慧餐饮 提供技术支持</a>
+                </p>
+                <p class="weui-footer__text">Copyright © 2010-2020 diandantong.com</p>
+            </div>
+        </div>
+    <% end %>
+    </div>
+</div>

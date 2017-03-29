@@ -1,0 +1,16 @@
+%table.table.table-striped.option-types-table
+  %thead
+    %tr
+      %th.col-sm-1= Ddt::OptionType.human_attribute_name(:name)
+      %th.col-sm-1= Ddt::OptionType.human_attribute_name(:option_values)
+      %th.col-sm-2
+  %tbody
+    - option_types.each do |option_type|
+      %tr
+        %td= option_type.name
+        %td= option_type.option_values.map(&:name).join(",")
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, @current_branch, option_type], @current_branch.option_types, option_type)
+          = edit_btn(option_type, remote: true)
+          = delete_btn(option_type, remote: true)
+    = no_record_hint(option_types)

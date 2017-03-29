@@ -1,0 +1,23 @@
+<div data-ng-keypad="alpha" data-ng-draggable class="wp-keypad wp-keypad-alpha">
+  <div>
+    <div class="button-wrapper">
+      <button ng-repeat="key in ['Q','W','E','R','T','Y','U','I','O','P']" data-ng-key="{{key}}">{{key}}</button>
+      <div class="clearfix"></div>
+      <div class="blank"></div>
+      <button ng-repeat="key in ['A','S','D','F','G','H','J','K','L']" data-ng-key="{{key}}">{{key}}</button>
+      <div class="clearfix"></div>
+      <div class="blank"></div>
+      <div class="blank"></div>
+      <button ng-repeat="key in ['Z','X','C','V','B','N','M']" data-ng-key="{{key}}">{{key}}</button>
+      <button data-ng-key="[CLEAR]" class="smaller">清空</button>
+      <button data-ng-key="[BACKSPACE]" class="smaller"><i class="fa fa-long-arrow-left"></i></button>
+    </div>
+    <div class="drag-indicator">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <button class="close" data-ng-click="close()"></button>
+  </div>
+  </div>

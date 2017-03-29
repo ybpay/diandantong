@@ -1,0 +1,52 @@
+.vip-amount-chart
+:javascript
+  $(document).ready(function(){
+    $('.vip-amount-chart').highcharts({
+      chart: {
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name}"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@recharge_actual_amount_statistic.tick_interval},
+        categories: #{raw @recharge_actual_amount_statistic.labels}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: ''
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        borderWidth: 0
+      },
+      series: [{
+          name: "会员充值实收",
+          data: #{@recharge_actual_amount_statistic.query.values.map(&:to_f).to_json}
+        },{
+          name: "会员充值非实收",
+          data: #{@recharge_not_actual_amount_statistic.query.values.map(&:to_f).to_json}
+        },{
+          name: "会员支付实收",
+          data: #{@pay_actual_amount_statistic.query.values.map(&:to_f).to_json}
+        },{
+          name: "会员支付非实收",
+          data: #{@pay_not_actual_amount_statistic.query.values.map(&:to_f).to_json}
+        }]
+    });
+  });

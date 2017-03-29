@@ -1,0 +1,56 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/system_message')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = form_for @q, url: [:backend, @current_shop, :system_messages], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :message_type_eq, collection: Ddt::SystemMessage.message_type_collection, include_blank: true, prompt: "选择类型", class: 'form-control'
+          = f.input_field :created_at_gteq, as: :date, placeholder: "开始时间", class: 'input-medium'
+          %label{style: 'font-size:20px;'} ~
+          = f.input_field :created_at_lteq, as: :date, placeholder: "结束时间", class: 'input-medium'
+          = f.submit '搜索', class: 'btn btn-success'
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1{ style: "width:2%;"}
+                  = check_box_tag "all_system_messages", "", false, title: '全选', id: "batch_op_select_all", data: {model: "system_message", token: form_authenticity_token}
+                  %label{for: "all_orders"}
+                %th.col-sm-2= sort_link(@q, :message_type, Ddt::SystemMessage.human_attribute_name(:message_type))
+                %th.col-sm-2= sort_link(@q, :created_at, Ddt::SystemMessage.human_attribute_name(:created_at))
+                %th.col-sm-7= Ddt::SystemMessage.human_attribute_name(:content)
+                %th.col-sm-1= Ddt::SystemMessage.human_attribute_name(:is_read)
+
+            %tbody
+              - @system_messages.each do |system_message|
+                %tr
+                  %td= check_box_tag "system_message[id][]", system_message.id, false, id: "system_message_id_#{system_message.id}"
+                  %td= system_message.message_type_name
+                  %td= system_message.created_at.strftime("%F %T")
+                  %td= link_to system_message.content.slice(0, 15)||"<空>", backend_shop_system_message_path(@current_shop, system_message)
+                  %td
+                    - if system_message.is_read?
+                      %i.fa.fa-envelope
+                    - else
+                      %i.fa.fa-envelope-o
+              = no_record_hint(@system_messages)
+
+          .row
+            .col-lg-12
+              .form-group.pull-left
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+                    批量操作
+                    %span.caret
+                  %ul.dropdown-menu
+                    %li
+                      = link_to "删除", batch_delete_selected_backend_shop_system_messages_path(@current_shop, @current_branch, @current_account), class: "batch_op_action"
+          %br
+          .pull-right= will_paginate @system_messages , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

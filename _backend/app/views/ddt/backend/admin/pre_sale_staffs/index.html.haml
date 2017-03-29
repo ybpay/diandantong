@@ -1,0 +1,33 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/pre_sale_staff')} 列表"
+
+    = link_to tag(:icon,:class=>"fa fa-plus"), new_backend_pre_sale_staff_path(), :class => "btn btn-xs btn-primary"
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::SaleEmployee.human_attribute_name(:name)
+                %th.col-sm-1= Ddt::SaleEmployee.human_attribute_name(:phone)
+                %th.col-sm-1= Ddt::SaleEmployee.human_attribute_name(:qq)
+                %th.col-sm-1= Ddt::SaleEmployee.human_attribute_name(:email)
+                %th.col-sm-2
+            %tbody
+              - @pre_sale_staffs.each do |pre_sale_staff|
+                %tr
+                  %td= pre_sale_staff.name
+                  %td= pre_sale_staff.phone
+                  %td= pre_sale_staff.qq
+                  %td= pre_sale_staff.email
+                  %td
+                    = link_to '详情', backend_pre_sale_staff_path(pre_sale_staff), :class => "btn btn-xs btn-info"
+                    = link_to '编辑', edit_backend_pre_sale_staff_path(pre_sale_staff), :class => "btn btn-xs btn-success"
+                    = link_to '删除', [:backend, pre_sale_staff], :method => :delete, :data => { :confirm => '确定删除?' }, :class => "btn btn-xs btn-danger"
+
+              = no_record_hint(@pre_sale_staffs)
+          %br
+          .pull-right= will_paginate @pre_sale_staffs , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

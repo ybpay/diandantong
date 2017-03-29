@@ -1,0 +1,82 @@
+<div wp-include src="partial('header')"></div>
+<div wp-footbar branch-id='{{branch.id}}' ng-if="branch"></div>
+
+<div class="main-view">
+  <div wp-include src="partial('_cells/product_choose')"></div>
+  <div wp-include src="partial('_modals/edit_line_item')"></div>
+  <div class="op-part">
+    <div class="actions">
+      <wp-btn-sm  ng-show="cart.line_items.length"
+                  ng-click="clear()">清空</wp-btn-sm> 
+      <wp-btn-sm  ng-show="cart.line_items.length"
+                  ng-click="place_cart()">落单</wp-btn-sm>
+      <wp-btn-sm  ng-show="cart.line_items.length"
+                  ng-click="batch_change_note()">批量品注</wp-btn-sm>
+      <div class="space"></div>
+    </div>
+    <div class="table-cart-line-item-index" wp-scroll-zone>
+      <div class="table-table-name">
+        {{table.name_with_zone}}
+        <span class="table-order-total" ng-show="cart.line_items.length">合计: {{cart.total|currency:shop.currency}}</span>
+      </div>
+      <div class="wp-form-group">
+        <div class="wp-form-label wp-form-label-  xs">备注</div>
+        <wp-input input-model="note" input-type="text"></wp-input>
+      </div>
+    
+      <table class="wp-table-sm" ng-show="cart.line_items.length">
+        <thead>
+          <th width="10%">序号</th>
+          <th width="50%">名称</th>
+          <th width="15%">数量</th>
+          <th width="25%">单价</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat-start="line_item in cart.line_items | orderBy:'index':true"
+              ng-click="change_active_line_item(line_item)"
+              ng-class="{active:line_item.active, odd: (cart.line_items.length-$index)% 2 == 1}"
+              class="transition">
+            <td class="black">{{cart.line_items.length-$index}}</td>
+            <td>
+              {{line_item.name}}
+              <span ng-show="line_item.note">[{{line_item.note}}]</span>
+              <span class="red" ng-show="line_item.gift">(赠)</span>
+            </td>
+            <td>{{line_item.quantity}} </td>
+            <td>{{line_item.price |currency:''}}</td>
+          </tr>
+          <tr ng-repeat-end class="actions" ng-show="line_item.active">
+            <td colspan="4">
+              <div class="cart-action-btn" ng-click="add_itemable(line_item)">
+                <i class="fa fa-plus fa-2x red"></i>
+              </div>
+              <div class="cart-action-btn" ng-click="remove_itemable(line_item)">
+                <i class="fa fa-minus fa-2x red"></i>
+              </div>
+              <wp-btn-sm class="fillet" ng-click="edit_line_item(line_item)" ng-show="true">
+                修改
+              </wp-btn-sm>
+              <wp-btn-sm class="fillet" ng-click="change_note(line_item)">
+                品注
+              </wp-btn-sm>
+              <wp-btn-sm class="fillet" ng-click="change_gift(line_item)"
+                         ng-class="{active: line_item.gift}">
+                赠菜
+              </wp-btn-sm>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+
+    </div>
+    <div class="actions" ng-show="cart.line_items.length > 5">
+      <wp-btn-sm  ng-show="cart.line_items.length"
+                  ng-click="clear()">清空</wp-btn-sm>
+      <wp-btn-sm  ng-show="cart.line_items.length"
+                  ng-click="place_cart()">落单</wp-btn-sm>
+      <div class="space"></div>
+    </div>
+  </div>
+</div>
+

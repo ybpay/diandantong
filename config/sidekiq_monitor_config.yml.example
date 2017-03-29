@@ -1,0 +1,28 @@
+defaults: &defaults
+  critical:
+    size: 100
+    latency: 60
+  default:
+    size: 200
+    latency: 120
+  normal:
+    size: 200
+    latency: 120
+  seldom:
+    size: 300
+    latency: 120
+  harly:
+    size: 300
+    latency: 120
+  statistics:
+    size: 50
+    latency: 300
+  heavy_statistics:
+    size: 20
+    latency: 1000
+development:
+  <<: *defaults
+test:
+  <<: *defaults
+production:
+  <<: *defaults

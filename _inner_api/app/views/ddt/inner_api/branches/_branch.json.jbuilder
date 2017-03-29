@@ -1,0 +1,1 @@
+json.extract! branch, :id, :name, :introduction, :phone, :address, :latitude, :longitude, :branch_category_name, :shop_id

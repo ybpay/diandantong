@@ -1,0 +1,8 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'list' %>",
+  title: "选择公共图片"
+});
+setTimeout(function(){
+  init_ddb_select2()
+}, 200)

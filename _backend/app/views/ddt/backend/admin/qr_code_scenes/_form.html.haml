@@ -1,0 +1,16 @@
+= simple_form_for([:backend, @qr_code_scene], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@qr_code_scene)
+
+  .col-sm-6
+    .form-inputs
+      = f.input :slug
+      = f.input :shop_id
+      = f.input :branch_id
+      = f.input :qr_code_assign_log_id
+      = f.input :is_enable
+      = f.input :preferred_redirect_url
+    
+
+    .form-actions
+      .col-xs-offset-4
+        = f.button :submit, :class => "btn btn-primary"

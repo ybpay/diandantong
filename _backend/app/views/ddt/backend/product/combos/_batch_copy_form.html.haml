@@ -1,0 +1,17 @@
+.header
+  %h3= "套餐将复制到目标门店，请选择目标门店"
+  .alert.alert-info
+    = @message.present? ? @message : "复制套餐需要一定的时间， 请耐心等待"
+
+= form_tag([:post_batch_copy, :backend, @current_shop, @current_branch, :combos], class: 'form-horizontal', remote: true, method: :post) do
+  .field.form-group
+    .col-xs-3.control-label
+      = label_tag "选择目标门店"
+    .col-xs-9
+      = text_field_tag :branch_ids, "", data: { url: backend_shop_branches_path(@current_shop, :"q[id_not_eq]" => @current_branch.id, multiple: true)}, class: 'ddb-select2 col-xs-6'
+  - if @ids.present?
+    = hidden_field_tag :ids, @ids
+  .form-actions.col-xs-offset-2{style: "margin-top: 100px;"}
+    = submit_tag "确认", :class => "btn btn-primary btn-sm"
+:javascript
+  $(function(){init_ddb_select2();});

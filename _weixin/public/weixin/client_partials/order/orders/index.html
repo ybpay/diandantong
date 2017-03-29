@@ -1,0 +1,28 @@
+<div id="orders-index">
+  <div class="header-bar">
+    <div class="tab-group">
+      <div class="tab-group-items">
+        <a class="tab-item" ng-click="change_filter_tab('all')"  ng-class="{'active': tab_key == 'all'}">全部</a>
+        <a class="tab-item" ng-click="change_filter_tab('confirmed')" ng-class="{'active': tab_key == 'confirmed'}">已确认</a>
+        <a class="tab-item" ng-click="change_filter_tab('completed')" ng-class="{'active': tab_key == 'completed'}">已完成</a>
+        <a class="tab-item" ng-click="change_filter_tab('no-comments')" ng-class="{'active': tab_key == 'no-comments'}">待评价</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="has-header has-footer">
+    <div class="no-record" ng-if="orders.length == 0">没有订单数据</div>
+
+    <div class="order-item"ng-repeat="order in orders">
+      <div class="line1" ng-click="go_detail(order)" >
+        <span class="placed-at">下单时间：{{::order.placed_at|moment}}</span>
+        <span class="state" ng-class="{'active': !is_finished_state(order)}"> {{order.state_name}} </span>
+      </div>
+      <div class="line2">
+        <span class="total" ng-click="go_detail(order)" > 共{{::order.item_count}}份菜品 总计：{{order.total|currency: currency}} </span>
+        <span class="comment" ng-if="order.is_commented">已评价</span>
+        <a class="comment-btn" ng-if="!order.is_commented" ng-href="#/branches/{{order.branch_id}}/orders/{{order.id}}/comment/new">评价</a>
+      </div>
+    </div>
+  </div>
+</div>

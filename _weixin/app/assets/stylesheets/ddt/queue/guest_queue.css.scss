@@ -1,0 +1,62 @@
+#guest-queue-page {
+  min-height: 100%;
+  background-color: $bg_color; 
+  .branch-section {
+    background-color: white;
+    padding: 10px 128px 10px 10px;
+    border-bottom: 1px solid $light-gray;
+    min-height: 60px;
+    .name {
+      font-size: 15px;
+      line-height: 1.5em;
+      color: $dark;
+    }
+    .address {
+      font-size: 13px;
+      color: $dark-gray;
+    }
+    img {
+      width: 108px;
+      float: right;
+      margin-right: -118px;
+      border-radius: 3px;
+    }
+  }
+  .my-guest-queue, .queue-setting-state-section,  .new-guest-queue-form{
+    margin-top: 10px;
+    border-bottom: 1px solid $light-gray;
+    border-top: 1px solid $light-gray;
+    background-color: white;
+  }
+  .my-guest-queue {
+    padding: 10px;
+    .guest-no {
+      line-height: 2em;
+      font-size: 40px;
+      text-align: center;
+    }
+
+    .guest_num_at_front {
+      font-size: 18px;
+      text-align: center;
+    }
+  }
+
+  .queue-setting-state-section {
+    .row:last-child .col{
+      border-bottom: 0;
+    }
+    .queue-setting-title .col{
+      font-size: 14px;
+    }
+    .col {
+      color: $dark-gray;
+      padding: 5px 0;
+      font-size: 13px;
+      line-height: 1.5em;
+      text-align: center;
+      border-bottom: 1px dashed $light-gray;
+    }
+  }
+
+}

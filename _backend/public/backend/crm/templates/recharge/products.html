@@ -1,0 +1,60 @@
+<md-content layout="column" layout-padding layout-margin>
+  <div class="crm-table" layout="column" md-whiteframe="2">
+    <md-toolbar class="crm-table-header" layout="row">
+      <div class="crm-table-header-content" layout="row" flex="90" layout-align="space-around center">
+          <div class="crm-table-th" flex>名称</div>
+          <div class="crm-table-th" flex>充值金额</div>
+          <div class="crm-table-th" flex>到账金额</div>
+          <div class="crm-table-th" flex>赠送积分</div>
+          <div class="crm-table-th" flex>充值后可用金额</div>
+          <div class="crm-table-th" flex>支持门店(分组)</div>
+      </div>
+      <div class="crm-table-header-action" flex="10" layout="row" layout-align="center center">
+        <md-button class="md-icon-button" ng-click="new_recharge_product($event)">
+          <md-tooltip md-direction="top">添加充值套餐</md-tooltip>
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-content class="crm-table-content" layout="column">
+      <div class="crm-table-row" layout="row" ng-repeat-start="rp in recharge_products">
+        <div class="crm-table-row-content" flex="90" layout="row" layout-align="space-around center">
+          <div class="crm-table-td" flex>{{rp.name}}</div>
+          <div class="crm-table-td" flex>{{rp.price}}</div>
+          <div class="crm-table-td" flex>{{rp.recharge_amount}}</div>
+          <div class="crm-table-td" flex>{{rp.extra_credits}}</div>
+          <div class="crm-table-td" flex>{{rp.first_recharge_available_amount}}</div>
+          <div class="crm-table-td" flex>
+            <span ng-show="rp.support_all_branch">所有门店</span>
+            <div ng-hide="rp.support_all_branch">
+              <span>{{rp.branch_group_names}}</span>
+              <span>{{rp.branch_names}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="crm-table-row-action" flex="10" layout="row" layout-align="space-around center">
+          <md-button ng-click="toggle_action(rp)" class="md-icon-button">
+            <md-tooltip md-direction="right">操作</md-tooltip>
+            <md-icon>menu</md-icon>
+          </md-button>
+        </div>
+      </div>
+      <div class="crm-table-row row-action" layout="row" ng-repeat-end ng-show="rp.show_action">
+        <div class="crm-table-row-content" flex="100" layout="row" layout-align="end center">
+          <div class="crm-table-td">
+            <md-button ng-click="destroy_recharge_product(rp)">
+              <md-icon>delete</md-icon>
+              删除
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="edit_recharge_product(rp, $event)">
+              <md-icon>edit</md-icon>
+              编辑
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </md-content>
+  </div>
+</md-content>

@@ -1,0 +1,16 @@
+.ibox
+  .ibox-title
+    %h2= "#{t('activerecord.models.ddt/kitchen_setting')} 详情"
+  .ibox-content
+    .col-md-6
+      .model-show
+        %p
+          %b
+            = Ddt::KitchenSetting.human_attribute_name(:warning_wait_minitue)
+            \:
+          = @kitchen_setting.warning_wait_minitue
+
+        .space
+      .space
+      = link_to t('Edit'), edit_backend_shop_branch_kitchen_setting_path(@current_shop, @current_branch), :class => "btn btn-primary btn-sm"
+    .clearfix

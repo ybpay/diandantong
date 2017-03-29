@@ -1,0 +1,13 @@
+.ibox
+  .ibox-title
+    %h3= "修改备注"
+  .ibox-content
+    .col-md-6
+      = simple_form_for([:backend, @current_shop, @wechat_account, @device], html: { class: 'form-horizontal'}, remote: true) do |f|
+        - f.with_options disabled: (disabled rescue nil) do |f|
+          = f.error_notification :message => error_message_in_html(@device)
+          .form-inputs
+            = f.input :comment, hint: "不超过15个汉字或30个英文字母"
+          .form-actions.col-xs-offset-2
+            = f.button :submit, "保存", :class => "btn btn-primary btn-sm"
+    .clearfix

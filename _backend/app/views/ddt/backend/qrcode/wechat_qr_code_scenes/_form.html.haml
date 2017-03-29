@@ -1,0 +1,49 @@
+= simple_form_for([:backend, @current_shop, @wechat_qr_code_scene], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@wechat_qr_code_scene)
+
+    .col-lg-6
+      .form-inputs
+        = f.input :gonghao_open_id, collection: @current_shop.wechat_accounts, label_method: :account_name, value_method: :gonghao_open_id, include_blank: false, label: "公众号", hint: "必须为认证的服务号", disabled: !@wechat_qr_code_scene.new_record?
+        = f.input :name
+        = f.input :limit_scene_type, collection: Ddt::WechatQrCodeScene.limit_scene_type_collection
+
+
+        .scene-type-branch
+          = f.input :branch_id, input_html: { data: {"local-datas" => @current_shop.branches.map(&:select_json), useas: "local_select", single: true, "selected-id" => @wechat_qr_code_scene.branch_id, placeholder: "请选择门店"}, class: 'ddb-select2'}, hint: "扫码返回门店消息"
+        .scene-type-material
+          = f.input :material_id, as: :hidden
+          .show_material{style: 'margin-left:220px'}
+            -if @wechat_qr_code_scene.material.present?
+              已选素材：
+              %span#material_name_show
+                = @wechat_qr_code_scene.material.material_name
+              = link_to tag(:icon,:class=>"fa fa-eye"), backend_shop_material_path(@current_shop,@wechat_qr_code_scene.material), title:'查看该素材',id: 'show_material_link', remote: true
+            -else
+              %span#material_name_show
+                还未选择
+              = link_to tag(:icon,:class=>"fa fa-eye"), '', title:'查看该素材',style: 'display:none;',id: 'show_material_link', remote: true
+            = link_to choose_material_backend_shop_materials_path(@current_shop),title:'更改素材', remote: true do
+              %i.fa.fa-pencil
+
+      .form-actions.col-xs-offset-4
+        = f.button :submit
+
+:javascript
+  $(function(){
+    function change_scene_type(scene_type){
+      $('.scene-type-material').hide();
+      $('.scene-type-branch').hide();
+      if(scene_type == 'material_message'){
+        $('.scene-type-material').show();
+      }else if(scene_type == 'branch_message' || scene_type == 'queue_message' || scene_type == 'fastfood_message'){
+        $('.scene-type-branch').show();
+      }
+    }
+
+    $('#wechat_qr_code_scene_limit_scene_type').change(function(e){
+      change_scene_type(e.target.value)
+    })
+
+    change_scene_type("#{@wechat_qr_code_scene.limit_scene_type}")
+  })

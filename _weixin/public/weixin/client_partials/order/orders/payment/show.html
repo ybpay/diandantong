@@ -1,0 +1,47 @@
+<div class="order-show has-footer" id="payment-show">
+  <div ng-include src="partial('order/orders/show-order-state')"></div>
+  <div class="order-actions">
+    <a class="order-action-item" ng-click="go_page('main', '#/branches/'+branch.id)">
+      {{branch.name}}
+      <i class="weui_cell_ft"></i>
+    </a>
+
+    <a class="order-action-item weui_cells_access" ng-click="cancel()" ng-if="can_cancel()">
+      <div class="label">取消订单</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+  </div>
+
+  <div class="line-items-section">
+    <div class="item">
+      订单号：{{::order.number}}
+    </div>
+    <div class="item">
+      下单时间：{{order.placed_at | date:'yyyy-MM-dd HH:mm'}}
+    </div>
+    <div class="item">
+      合计：<strong class="red">{{order.total|currency:currency}}</strong>
+    </div>
+
+
+    <div class="item" ng-repeat="line_item in order.line_items">
+      <div class="item-label">
+        {{line_item.name_with_note}}
+        ×
+        {{line_item.active_quantity}}{{line_item.unit_name}}
+      </div>
+      <div class="item-subtotal">
+        <span class="total orange">{{line_item.price|currency: currency}}</span>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="order-info-section">
+    <div ng-repeat="item in order.order_items" class="item">
+        <span class="label">{{item.name}}</span>
+        <span class="value"> {{item.value}}</span>
+      </div>
+  </div>
+  <div ng-include src="partial('order/orders/show-footer')"></div>
+</div>

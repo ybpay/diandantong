@@ -1,0 +1,3 @@
+bootbox.hideAll();
+$("#_<%= @device.id%>").replaceWith("<%= j render partial: 'tr', locals: {device: @device} %>");
+bootbox.alert("操作成功");

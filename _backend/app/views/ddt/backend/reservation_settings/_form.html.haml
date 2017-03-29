@@ -1,0 +1,11 @@
+= simple_nested_form_for([:backend, @current_shop, @current_branch, @reservation_setting], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@reservation_setting)
+
+  .form-inputs
+
+    = f.input :average_consumption
+    = f.input :prepayment_type, collection: Ddt::ReservationSetting.prepayment_type_collection, include_blank: false
+    = f.input :max_reservation_days, hint: '单位：天'
+
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"

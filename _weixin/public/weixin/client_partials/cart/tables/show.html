@@ -1,0 +1,17 @@
+<div class='choose-guest-num' class="main-view">
+  <div class="weui_panel">
+      <div class="weui_panel_hd">请选择用餐人数</div>
+      <div class="weui_panel_bd">
+          <div class="weui_media_box weui_media_text">
+            <span ng-click="change_guest_num(guest_num)" ng-repeat="guest_num in guest_nums" class="button" ng-class="{'bg-red': active_guest_num == guest_num, 'dark-gray': active_guest_num != guest_num}">
+              {{::guest_num}}
+            </span>        
+          </div>
+      </div>
+  </div>
+  <div class="weui_opr_area padding">
+      <p class="weui_btn_area">
+          <div class="weui_btn weui_btn_primary" ng-click="open_table()">开始点菜</div>
+      </p>
+  </div>
+</div>

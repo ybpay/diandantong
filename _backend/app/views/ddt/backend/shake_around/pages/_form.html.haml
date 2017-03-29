@@ -1,0 +1,17 @@
+= simple_form_for([:backend, @current_shop, @wechat_account, @page], html: { class: 'form-horizontal'}) do |f|
+
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@page)
+    .form-inputs
+      = f.input :icon_url, as: :file
+      = f.input :title
+      = f.input :description
+      .select.col-xs-offset-2
+        = raw("#{render '/ddt/backend/branch_sliders/auto_insert_url', {input_field_id: 'shake_around_page_page_url', version: 'whole_url', querys: {_shake_around: @wechat_account.id}}}")
+      = f.input :page_url
+      = f.input :comment
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, "保存", :class => "btn btn-primary btn-sm"
+
+= link_to t('Back'), backend_shop_wechat_account_shake_around_pages_path(@current_shop, @wechat_account), :class => "btn btn-default btn-sm"

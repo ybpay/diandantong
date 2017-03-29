@@ -1,0 +1,16 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/category')}列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .m-b-sm
+    .row
+      .col-lg-12
+        = new_btn(:category, label: '根分类', remote: true)
+  .row
+    .col-lg-12
+      %div.dd.col-sm-6.categories{ data: { base_url: backend_shop_branch_categories_path(@current_shop, @current_branch)}}
+        %ol.dd-list
+          = render :partial => "item", :collection => @categories, :as => :category
+          = no_record_hint(@categories)
+

@@ -1,0 +1,9 @@
+- key = :discount
+- field_name = "#{param_prefix}[preferred_#{key}]"
+= text_field_tag "#{param_prefix}[variant_ids_string]", promotion_action.variant_ids_string, :class => "ddb-select2",  data: { url: backend_shop_branch_products_path(@current_shop, @current_branch), saved: promotion_action.variants.map(&:select_json) }, placeholder: "请选择商品"
+%br/
+.col-sm-3
+  = label_tag field_name, '折扣'
+.input-group.col-sm-3
+  = text_field_tag(field_name, promotion_action.get_preference(key), type: promotion_action.preference_type(key), class: 'form-control')
+  .input-group-addon %

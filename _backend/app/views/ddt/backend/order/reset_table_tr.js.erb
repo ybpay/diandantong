@@ -1,0 +1,2 @@
+bootbox.hideAll();
+$('.order-table-tr[data-id=<%= @order.id %>]').replaceWith("<%= j render partial: '/ddt/backend/orders/table_tr', locals:{ order: @order.reload}%>")

@@ -1,0 +1,17 @@
+defaults: &defaults
+  master_secret: 
+  app_key: 
+  apns_production: development #production or development
+  oem_master_secret: 
+  oem_app_key: 
+  oem_apns_production: development 
+  
+  
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults

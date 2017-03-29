@@ -1,0 +1,43 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/branch_group')} 列表"
+    .form-group
+    = link_to "新建 #{t('activerecord.models.ddt/branch_group')}", new_backend_shop_branch_group_path(@current_shop), :class=>"btn btn-primary btn-sm"
+
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .form-group
+        = search_form_for @q, url: backend_shop_branch_groups_path(@current_shop), html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :name_cont, placeholder: Ddt::BranchGroup.human_attribute_name(:name)
+          = f.input_field :branches_name_cont, placeholder: Ddt::Branch.human_attribute_name(:name)
+          = f.submit '搜索', class: 'btn btn-sm btn-success'
+
+
+    .row
+      .col-lg-12
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th.col-sm-1= sort_link(@q, :name, Ddt::BranchGroup.human_attribute_name(:name))
+              %th.col-sm-10 门店列表
+              %th
+
+          %tbody
+            - @branch_groups.each do |branch_group|
+              %tr
+                %td= branch_group.name
+                %td
+                  - branch_group.branches.each do |branch|
+                    = link_to branch.name, backend_shop_branch_path(@current_shop, branch)
+                %td
+                  = info_btn(branch_group)
+                  = edit_btn(branch_group)
+                  = delete_btn(branch_group)
+
+            = no_record_hint(@branch_groups)
+        %br
+        .pull-right= will_paginate @branch_groups , renderer: BootstrapPagination::Rails, bootstrap: 3
+        %br

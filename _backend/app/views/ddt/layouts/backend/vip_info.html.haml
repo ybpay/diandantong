@@ -1,0 +1,18 @@
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs
+            %li{class: (params[:q].blank? || params[:q][:vip_level_id_eq].blank?) ? 'active' : nil}
+              = link_to "所有会员", backend_shop_vip_infos_path(@current_shop)
+
+            - @vip_levels.each do |vip_level|
+              %li{class: ( params[:q].present? && params[:q][:vip_level_id_eq] == vip_level.id ? 'active' : nil)}
+                = link_to "#{vip_level.name}", backend_shop_vip_infos_path(@current_shop, {q: {vip_level_id_eq: vip_level.id}})
+
+          .tab-content
+            .tab-pane.in.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend"

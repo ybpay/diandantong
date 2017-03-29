@@ -1,0 +1,6 @@
+- field_name = "#{param_prefix}[abstract_coupon_version_id]"
+.col-sm-3
+  = label_tag field_name, I18n.t("promotion.actions.events.coupon_version")
+.col-sm-3.input-group
+  = select_tag field_name, options_from_collection_for_select(@current_shop.coupon_versions.usable, :id, :name, selected: promotion_action.coupon_version.try(:id)), include_blank: true
+%div 若没有优惠券可在活动与推广中心——优惠券中设置

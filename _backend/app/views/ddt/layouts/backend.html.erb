@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @current_shop.try(:support_brand_name).presence || "点单通 - #{slogan_word}"%></title>
+  <%= stylesheet_link_tag "ddt/basic", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "ddt/backend", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "ddt/basic", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "ddt/backend", "data-turbolinks-track" => true %>
+  <% if @current_account.present? and !@current_account.is_admin? %>
+      <%= subscribe_to "/messages/accounts/#{@current_account.id}" %>
+  <% end %>
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" ></meta>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport" ></meta>
+  <!--[if IE 7]>
+    <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
+  <![endif]-->
+
+  <!-- page specific plugin styles -->
+
+  <!-- fonts -->
+  <!-- ace settings handler -->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+  <!--[if lt IE 9]>
+  <script src="/assets/js/html5shiv.js"></script>
+  <script src="/assets/js/respond.min.js"></script>
+  <![endif]-->
+  <%= yield :header %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div id="wrapper">
+
+      <!-- Navigation -->
+      <%= render 'ddt/layouts/navigation' %>
+
+      <!-- Page wraper -->
+      <div id="page-wrapper" class="<%= @page_bg_class.presence||'gray-bg'%>" style="min-height: 903px;">
+
+          <!-- Page wrapper -->
+          <%= render 'ddt/layouts/topnavbar' %>
+
+          <%= bootstrap_flash %>
+          <div class="pub_sub">
+            <%= render '/ddt/backend/pub_sub'%>
+          </div>
+          <!-- Main view  -->
+          <%- unless browser.modern? %>
+              <div class="alert alert-warning">
+                <p>检测到您当前使用的浏览器版本过于陈旧, 推荐下载主流浏览器继续使用, 链接:<a href="http://www.chromeliulanqi.com/" target="_blank">chrome谷歌浏览器</a> <a href="http://www.firefox.com.cn/download/" target="_blank">火狐浏览器</a></p>
+              </div>
+            <% else %>
+              <%= content_for?(:content) ? yield(:content) : yield %>
+            <% end %>
+
+          <!-- Footer -->
+          <%= render 'ddt/layouts/footer' %>
+
+          <!-- modal -->
+          <%- if content_for? :modal %>
+            <%= yield(:modal) %>
+          <% end %>
+
+      </div>
+      <!-- End page wrapper-->
+  </div>
+  <div class="choose_branches">
+      <%= render '/ddt/backend/choose_branches' %>
+  </div>
+  <%- if @current_account.present? and !@current_account.is_admin? %>
+    <%- init_notification_options = { current_account_id: @current_account.id, root_url: asset_root_url}.to_json %>
+    <div class="hide" id="init-notification-options" data="<%= init_notification_options %>">
+    </div>
+  <% end %>
+  <%= yield :javascript %>
+
+
+</body>
+</html>

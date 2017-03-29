@@ -1,0 +1,120 @@
+
+<div class="container">
+  <div class="button" ng-if="can_index_delivery()">
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="back()">返回</a>
+  </div>
+  <div class="button">
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="refresh()">刷新信息</a>
+
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="confirm()" ng-if="can_confirm()">确认</a>
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="assign_to_self()" ng-if="can_assign_to_self()">抢单</a>
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="hasten()" ng-if="can_hasten()">催单</a>
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="start_ship()" ng-if="can_start_ship()">正在配送</a>
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="finish_ship()" ng-if="can_finish_ship()">完成配送</a>
+    <a class="weui_btn weui_btn_mini weui_btn_primary" ng-click="complete()" ng-if="can_complete()">完成</a>
+  </div>
+  <div class="cell">
+    <div class="bd">
+
+      <div class="weui_cells_title">概要</div>
+      <div class="weui_cells">
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary"><p>店家</p></div>
+          <div class="weui_cell_ft">{{::branch.name}}</div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary"><p>单号</p></div>
+          <div class="weui_cell_ft">{{::order.number}}</div>
+        </div>
+        <div class="weui_cell" ng-if="order.food_number">
+          <div class="weui_cell_bd weui_cell_primary"><p>牌号</p></div>
+          <div class="weui_cell_ft">{{order.food_number}}</div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary"><p>点单时间</p></div>
+          <div class="weui_cell_ft">{{order.placed_at | date:'yyyy-MM-dd HH:mm'}}</div>
+        </div>
+      </div>
+
+      <div class="weui_cells_title">状态</div>
+      <div class="weui_cells">
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary"><p>订单状态</p></div>
+          <div class="weui_cell_ft">{{order.state_name}}</div>
+        </div>
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary"><p>支付状态</p></div>
+          <div class="weui_cell_ft">{{order.pay_item_state_name}}</div>
+        </div>
+        <div class="weui_cell" ng-if="order.shipment_state_name">
+          <div class="weui_cell_bd weui_cell_primary"><p>配送状态</p></div>
+          <div class="weui_cell_ft">{{order.shipment_state_name}}</div>
+        </div>
+      </div>
+
+      <div class="weui_cells_title">内容</div>
+      <div class="weui_cells">
+        <div class="weui_cell" ng-repeat="line_item in order.all_line_items">
+          <div class="weui_cell_bd weui_cell_primary">
+            <span ng-if="line_item.is_append" class="blue">[加]</span>
+            <span ng-if="line_item.is_subtract" class="red">[退]</span>
+            <span ng-if="line_item.gift" class="red">(赠)</span>
+            {{line_item.name_with_note}}
+            ×
+            <span ng-hide="line_item.is_subtract">{{line_item.active_quantity}}</span>
+            <span ng-show="line_item.is_subtract">{{line_item.quantity}}</span>
+            {{line_item.unit_name}}
+          </div>
+          <div class="weui_cell_ft">
+            <span class="total orange">{{line_item.total | currency: currency}}</span>
+            <span class="original-amount" ng-if="line_item.amount != line_item.total">{{line_item.amount|currency: currency}}</span>
+          </div>
+        </div>
+        <div class="weui_cell" ng-if="order.shipment_total">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>配送费</p>
+          </div>
+          <div class="weui_cell_ft" ng-if="order.shipment_total > 0">
+            <span class="red"><strong>{{order.shipment_total|currency:currency}}</strong></span>
+          </div>
+          <div class="weui_cell_ft" ng-if="order.shipment_total == 0">
+            <span class="red"><strong>免配送费</strong></span>
+          </div>
+        </div>
+
+        <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+            <p>
+              合计:
+            </p>
+          </div>
+          <div class="weui_cell_ft">
+            <span class="red">{{order.item_count}}份</span>，<strong class="red">{{order.total|currency:currency}}</strong>
+                <span ng-if="enable_foreign &&order.tax_total>0">(税 {{order.tax_total|currency:currency}})</span><span ng-if='enable_foreign && order.tax_total==0'>（免税）</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="weui_cells_title">详细</div>
+      <div class="weui_cells">
+        <div class="weui_cell" ng-repeat="order_item in order.order_items">
+          <div class="weui_cell_bd weui_cell_primary"><p>{{order_item.name}}</p></div>
+          <div class="weui_cell_ft">{{order_item.value}}</div>
+        </div>
+      </div>
+
+      <div class="weui_cells weui_cells_access">
+        <a class="weui_cell" ng-href="tel:{{branch.phone}}">
+          <div class="weui_cell_bd weui_cell_primary">
+            商家客服: <span class="right orange">{{branch.phone}}</span>
+          </div>
+          <div class="weui_cell_ft"></div>
+        </a>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,11 @@
+development:
+  server: "http://localhost:9292/faye/faye"
+  secret_token: "secret"
+test:
+  server: "http://localhost:9292/faye/faye"
+  secret_token: "secret"
+production:
+  server: "http://cy.diandantong.com/faye/faye"
+  secret_token: "secret"
+  # If this is not set there is no expiration.
+  # signature_expiration: 3600 # one hour

@@ -1,0 +1,97 @@
+<div class="master-part product-choose-cell">
+  <div class="menu-part" wp-scroll-zone>
+    <div>
+      <div class="menu" ng-repeat="choose_way in choose_ways"
+              ng-click="change_active_choose_way(choose_way)"
+              ng-class="{active: active_choose_way == choose_way }">
+        {{::choose_way.label}}
+      </div>
+    </div>
+  </div>
+  <div class="table-state-summary">
+      <div class="item" ng-click="syncProducts()">
+        同步菜品
+      </div>
+  </div>
+  <div class="master-part-with-menu" wp-scroll-zone>
+    <div ng-show="active_choose_way.value == 'variant'">
+      <wp-alpha-search-input input-model="search_key" class="search_key"></wp-alpha-search-input>
+      <div class="clearfix"></div>
+      <div ng-hide="search_key">
+        <div>
+          <wp-btn-sm  class="fillet" ng-repeat="category in categories"
+                      ng-class="{'active': category == active_category}"
+                      ng-click="change_active_category(category)">
+            {{::category.name}}
+          </wp-btn-sm>
+        </div>
+        <div class="clearfix"></div>
+        <div>
+          <wp-btn-sm  class="fillet" ng-class="{'active':active_sub_category==null}"
+                      ng-click="change_active_sub_category(null)"
+                      ng-show="is_show_default_sub_category(active_category)">
+            默认
+          </wp-btn-sm>
+          <wp-btn-sm  class="fillet" ng-repeat="sub in active_category.subs"
+                      ng-class="{'active':sub==active_sub_category}"
+                      ng-click="change_active_sub_category(sub)">
+                      {{::sub.name}}
+          </wp-btn-sm>
+        </div>
+        <div class="clearfix"></div>
+        <div class="products">
+          <wp-btn-md class="product-btn" ng-repeat="product in current_category_products_with_filter()"
+                      ng-class="{'disabled': show_disabled(product)}"
+                      ng-click="change_active_product(product)"
+                      class="hover">
+            <div class="product-name">{{::product.name}}</div>
+            <div class="product-price" >{{get_wait_minute_of_product(product)}}</div>
+          </wp-btn-md>
+          <div class="space"></div>
+        </div>
+      </div>
+      <div ng-show="search_key">
+        <div class="products">
+          <wp-btn-md class="product-btn hover" ng-repeat="product in search_products"
+                      ng-class="{'disabled': show_disabled(product)}"
+                      ng-click="change_active_product(product)">
+            <div class="product-name">{{::product.name}}</div>
+            <div class="product-price" >{{get_wait_minute_of_product(product)}}</div>
+          </wp-btn-md>
+          <div class="space"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <wp-modal wp-show="active_product">
+    <div class="wp-modal-header">{{active_product.name}} 规格选择</div>
+    <div class="wp-modal-content">
+      <wp-btn-md  ng-repeat="variant in active_product.variants"
+                  ng-click="choose_variant(variant)"
+                  ng-show="active_product"
+                  class="product-btn hover"
+                  ng-class="{'disabled': variant.estimate_clear}">
+        <div class="product-name">{{::variant.name}}</div>
+        <div class="product-price" >{{get_wait_minute_of_variant(variant)}}</div>
+      </wp-btn-md>
+    </div>
+  </wp-modal>
+  <wp-modal wp-show="wait_time_modal.show">
+    <div class="wp-modal-header">{{wait_time_modal.variant.name}} (单位: 分钟)</div>
+    <div class="wp-modal-content">
+      <wp-btn-sm  ng-repeat="minute in wait_time_modal.minutes()"
+                  ng-click="wait_time_modal.choose_minute(minute)"
+                  class="hover">
+          {{::minute}}
+      </wp-btn-sm>
+      <div class="clearfix"></div>
+      <wp-btn-sm ng-click="wait_time_modal.pre_page()" ng-show="wait_time_modal.page != 1">
+        <i class="fa fa-chevron-left"></i>
+      </wp-btn-sm>
+      <wp-btn-sm ng-click="wait_time_modal.next_page()">
+        <i class="fa fa-chevron-right"></i>
+      </wp-btn-sm>
+    </div>
+  </wp-modal>
+  <div ng-include src="partial('_directives/wp-keypad-alpha')"></div>
+</div>

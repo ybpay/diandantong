@@ -1,0 +1,41 @@
+
+.table-binds{
+  .table-bind{
+    display: inline-block;
+    min-width: 100px;
+    width: auto;
+    height: 58px;
+    border-radius: 5px;
+    padding: 5px;
+    .table{
+      display: inline-block;
+      width: 100px;
+      height: 45px;
+      text-align: center;
+      line-height: 45px;
+      font-size: 18px;
+      color: white;
+      border-radius:5px;
+      background-color: #428bca;
+      cursor: pointer;
+    }
+  }
+  .binded{
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: #87b87f;
+    border: solid 1px #ccc;
+    .table:hover{
+      color: #a94442;
+      background-color: #ebccd1;
+    }
+  }
+
+  .nobind{
+    background-color: white;
+    .table:hover{
+      color: white;
+      background-color: #87b87f;
+    }
+  }
+}

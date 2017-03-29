@@ -1,0 +1,36 @@
+
+<div class="edit-password-box">
+  <% if resource.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% resource.errors.full_messages.each do |msg| %>
+          <li><%= msg %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="box">
+    <div class="box-form">
+      <h4 class="header red">重置密码</h4>
+      <hr />
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put}) do |f| %>
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="inputs">
+          <div class="input">
+            <%= f.password_field :password, placeholder: "新密码", required: true, autofocus: true, class: "input-field", data: { :rel=> 'tooltip', :placement => 'right'}, :title=> "请输入您的新密码" %>
+          </div>
+          <div class="input">
+            <%= f.password_field :password_confirmation, placeholder: "确认新密码", required: true, class: "input-field", data: { :rel=> 'tooltip', :placement => 'right'}, :title=> "请再输一遍密码"%>
+          </div>
+        </div>
+
+        <div class="submit-action">
+          <%= f.submit "保存", class: "submit-btn"%>
+        </div>        
+      <% end %>      
+      <%= render "ddt/agentsys/agents/shared/links" %>
+    </div>
+  </div>
+</div>

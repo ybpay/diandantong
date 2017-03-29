@@ -1,0 +1,4 @@
+json.categories @current_branch.categories_cache_version
+json.products @current_branch.products_cache_version
+json.combos @current_branch.combos_cache_version
+json.table_zones @current_branch.table_zones_cache_version

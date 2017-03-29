@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= @branch.name rescue @current_shop.name %></title>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= content_for?(:content) ? yield(:content) : yield %>
+</body>
+</html>

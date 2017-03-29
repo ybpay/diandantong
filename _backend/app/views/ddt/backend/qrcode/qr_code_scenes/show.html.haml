@@ -1,0 +1,52 @@
+%h3= "#{t('activerecord.models.ddt/qr_code_scene')} 详情"
+.ibox-content
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:owner)
+      \:
+    = @qr_code_scene.owner
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:name)
+      \:
+    = @qr_code_scene.name
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:gonghao_open_id)
+      \:
+    = @qr_code_scene.gonghao_open_id
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:scan_times)
+      \:
+    = @qr_code_scene.scan_times
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:qrcode_scaners_count)
+      \:
+    = @qr_code_scene.qrcode_scaners_count
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:builtin)
+      \:
+    = @qr_code_scene.builtin
+
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:preferred_redirect_url)
+      \:
+    = @qr_code_scene.preferred_redirect_url
+  .col-md-6.form-group
+    %b
+      = Ddt::BaseQrCodeScene.human_attribute_name(:url)
+      \:
+    = image_tag @qr_code_scene.url, width: 100
+  .clearfix
+  .col-md-6.form-group
+    = link_to t('Edit'), edit_backend_shop_qr_code_scene_path(@current_shop, @qr_code_scene), :class => "btn btn-primary btn-sm"
+    = link_to '删除此二维码', [:backend, @current_shop, @qr_code_scene], :method => :delete, :data => { :confirm => '确定删除?' }, class: 'btn btn-danger btn-sm'
+  .clearfix
+    
+
+= render partial: '/ddt/backend/qrcode/qrcode_scan_relations/index', locals: {qrcode_scan_relations: @qr_code_scene.qrcode_scan_relations.paginate(page: params[:page], per_page: 15)}
+

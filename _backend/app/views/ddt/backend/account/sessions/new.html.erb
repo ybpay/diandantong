@@ -1,0 +1,121 @@
+<div class="loginColumns animated fadeInDown">
+    <div class="ibox-title">
+      账户登录
+    </div>
+    <div class="ibox-content">
+      <div class="row">
+        <div class="col-md-6 b-r">
+          <% if @oem_brand.present? %>
+            <%= image_tag(@oem_logo_url, style: "margin: 8% 15% 5% 15%; width: 70%; display: block;") %>
+          <% elsif @oem_logo.blank? %>
+            <%= image_tag asset_url("ddt/images/qrcode_for_gh_764a5843438b_258.jpg"), style: "margin: 8% 15% 5% 15%; width: 70%; display: block;" %>
+            <p class="text-center">扫一扫</p>
+            <p class="text-center">关注点单通官方微信</p>
+          <% end %>
+        </div>
+        <div class="col-md-6">
+            <%= form_for(resource, as: resource_name, url: session_path(resource_name), role: "form", class: 'm-t') do |f| %>
+                <div class="form-group login-type">
+                  <a href="javascript:void(0)" class="change-login-sub active">员工登录</a>
+                  <a href="javascript:void(0)" class="change-login-main">管理员登录</a>
+                </div>
+                <div class="form-group hide">
+                  <%= f.text_field :login, :placeholder=> '登陆账号'%>
+                  <span><i class="icon-user fa fa-user"></i></span>
+                </div>
+                <%
+                   if resource.login.present?
+                     login_main, login_sub = resource.login.split(':')
+                     cookies[:login_main_id] = login_main
+                   else
+                     login_main = cookies[:login_main_id]
+                   end
+                %>
+                <div class="form-group">
+                  <%= text_field_tag :login_main, login_main, :placeholder=> '企业账号', class: 'form-control', required: true %>
+                </div>
+                <div class="form-group">
+                  <%= text_field_tag :login_sub, login_sub, :placeholder=> '员工账号', class: 'form-control' %>
+                </div>
+                <div class="form-group">
+                  <%= f.password_field :password, :placeholder=>"密码", class: 'form-control', required: true %>
+                </div>
+                <div class="form-group">
+                  <%= f.check_box :remember_me, as: :boolean if devise_mapping.rememberable? %>
+                  <label for="account_remember_me">下次自动登录</label>
+                </div>
+                <%= f.submit '登录', :class=> 'btn btn-primary block full-width m-b submit-action'%>
+                <% unless custom_domain_shop.present? && custom_domain_shop.is_hide_signup_link %>
+                    <%= link_to "注册新用户", new_backend_register_form_path(agent_no: params[:agent_no]), class: "btn btn-sm btn-white btn-block" %>
+                <% end %>
+            <% end %>
+            <p class="m-t" id="problem-list">
+              <small>
+                <a href="<%= new_account_password_path(agent_no: params[:agent_no]) %>">
+                  忘记密码?
+                </a>
+                <%- if devise_mapping.confirmable? %>
+                  <a href="<%= new_account_confirmation_path(agent_no: params[:agent_no]) %>">
+                    无法激活账户?
+                  </a>
+                <% end %>
+                <a href="<%= new_account_unlock_path(agent_no: params[:agent_no]) %>">
+                  账户解锁?
+                </a>
+                <a href="<%=  agentsys_root_path%>">
+                  代理登录?
+                </a>
+              </small>
+            </p>
+          </div>
+      </div>
+  </div>
+</div>
+
+<style type="text/css">
+  #problem-list a, #problem-list a:hover{
+    text-decoration: none;
+    color: #676a6c !important;
+  }
+  .login-type a {
+      text-decoration: none;
+      color: #d2d2d2 !important;
+      display: inline;
+  }
+  .login-type a.active {
+      color: #676a6c !important;
+  }
+  .login-type a.change-login-main {
+    padding-left: 10px;
+  }
+  .login-type a.change-login-sub{
+    padding-right: 10px;
+    border-right: 1px solid #e7eaec;
+  }
+</style>
+<script type="text/javascript">
+    // login page init
+    $(function () {
+        $(".submit-action").on("click", function () {
+          var login_main = $("#login_main").val();
+          var login_sub = $("#login_sub").val();
+          var login_id = login_main + (login_sub.length > 0 ? ":" + login_sub : "");
+          $("#account_login").val(login_id);
+          return true;
+        });
+
+        $('.change-login-sub').click(function(){
+          $('#login_sub').parent('.form-group').show();
+          $('.change-login-sub').addClass('active');
+          $('.change-login-main').removeClass('active');
+
+        });
+        $('.change-login-main').click(function(){
+          $('#login_sub').val('');
+          $('#login_sub').parent('.form-group').hide();
+          $('.change-login-sub').removeClass('active');
+          $('.change-login-main').addClass('active');
+        });
+
+    });
+</script>

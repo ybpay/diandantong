@@ -1,0 +1,94 @@
+<div common-footer></div>
+<div id="my-section" class="vip-section main-view" style="background: url('http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/my.jpg')center center no-repeat;
+    background-size: cover; box-sizing: border-box; padding-bottom: 55px;">
+    <div class="left" style="position: absolute; left: 0; right: 45%; bottom: 60px; padding: 10px; text-align: center; ">
+      <div class="popaholic-logo">
+        <img src="http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/logo.png" style="width: 60px; height: 60px; display: block; margin: auto; padding: 10px;"/>
+      </div>
+      <div class="popaholic-brand" style="border: 1px solid white; padding: 5px 10px; line-height: 20px;">
+        <div style="border-bottom: 1px solid white; padding: 5px;color: white; ">
+          珀·赫丽
+        </div>
+        <div style="padding: 5px; color: white; ">
+          <a ng-click="go('/user/update-vip-info')" ng-if="user && !user.is_vip && !user.vip_info.is_apply_vip" style="background-color: #f4cb1c; display: block; padding: 5px;">
+            激活会员卡
+          </a>      
+          <a ng-if="user && !user.is_vip && user.vip_info.is_apply_vip" style="background-color: #f4cb1c; display: block; padding: 5px;">
+            等待审核会员身份
+          </a>
+          <div style="background-color: #f4cb1c; display: block; padding: 5px;" ng-if="user.is_vip">
+            会员卡号：{{user.vip_info.vip_no}}
+          </div>
+        </div>
+      </div>
+      <div class="balance-group" style="margin-top: 10px;background-color: transparent;font-size: 13px;" ng-if="user && user.is_vip">
+        <div class="balance-item" style="border-width:0;">
+          <div style="color: white;">
+            累计消费
+          </div>
+          <div style="color: #f4cb1c;">
+            {{ user.vip_info.total_amount || 0 | currency:shop.currency}}
+          </div>
+        </div>
+        <div class="balance-item" style="border-width:0;">
+          <div style="color: white;">
+            积分
+          </div>
+          <div style="color: #f4cb1c;">
+            {{ user.credits_wallet }}
+          </div>
+        </div>
+        <div class="balance-item" style="border-width:0;">
+          <div style="color: white;">
+            等级
+          </div>
+          <div style="color: #f4cb1c;">
+            {{user.vip_info.vip_level_name}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="right" style="position: absolute; left: 55%; right: 0; bottom: 60px; padding: 10px;">
+      <div ng-repeat="item_group in item_groups">
+        <div class="my-item" ng-repeat="item in item_group" ng-click="item.click()">
+          <div ng-if="item.label == '订单中心'" style="padding: 5px 0;">
+            <div class="label" style="color: white; line-height: 30px; padding-left: 35px;">
+              <img src="http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/orders_nav.png" style="display: inline-block; width: 30px; height: 30px; float: left; margin-left: -35px;"/>
+              {{item.label}}
+            </div>
+          </div>
+          <div ng-if="item.label == '我的卡券'" style="padding: 5px 0;">
+            <div class="label" style="color: white; line-height: 30px; padding-left: 35px;">
+              <img src="http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/my_coupons.png" style="display: inline-block; width: 30px; height: 30px; float: left; margin-left: -35px;"/>
+              券包
+            </div>
+          </div>
+          <div ng-if="item.label == '积分兑换'" style="padding: 5px 0;">
+            <div class="label" style="color: white; line-height: 30px; padding-left: 35px;">
+              <img src="http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/exchange_nav.png" style="display: inline-block; width: 30px; height: 30px; float: left; margin-left: -35px;"/>
+              {{item.label}}
+            </div>
+          </div>
+          <div ng-if="item.label == '会员付款码'" style="padding: 5px 0;">
+            <div class="label" style="color: white; line-height: 30px; padding-left: 35px;">
+              <img src="http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/my_pay_code.png" style="display: inline-block; width: 30px; height: 30px; float: left; margin-left: -35px;"/>
+              {{item.label}}
+            </div>
+          </div>
+          <div ng-if="item.label == '我的收藏'" style="padding: 5px 0;">
+            <div class="label" style="color: white; line-height: 30px; padding-left: 35px;">
+              <img src="http://ddt-weixin-pages.oss-cn-hangzhou.aliyuncs.com/shop_popaholic/my_favorite.png" style="display: inline-block; width: 30px; height: 30px; float: left; margin-left: -35px;"/>
+              {{item.label}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+
+    
+  </div>
+
+</div>

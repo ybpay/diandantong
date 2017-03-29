@@ -1,0 +1,52 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h2= "#{t('activerecord.models.ddt/vip_level')} 详情"
+
+    .ibox-content.header
+      .row
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:shop)
+            \:
+          = "#{@censor_report.shop.name} (shop_id=#{@censor_report.shop.id})"
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:title)
+            \:
+          = @censor_report.title
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:desc)
+            \:
+          = @censor_report.desc
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:base_user_id)
+            \:
+          = @censor_report.base_user.name
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:auditor_id)
+            \:
+          = @censor_report.auditor.try(:name)
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:audited_at)
+            \:
+          = @censor_report.audited_at
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:created_at)
+            \:
+          = @censor_report.created_at
+        .col-md-6.form-group
+          %b
+            = Ddt::CensorReport.human_attribute_name(:updated_at)
+            \:
+          = @censor_report.updated_at
+
+
+
+        .space
+      = link_to t('Back'), backend_censor_reports_path(), :class => "btn btn-default btn-sm"

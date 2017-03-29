@@ -1,0 +1,14 @@
+= simple_form_for([:backend, @current_shop, material], html: { class: 'form-horizontal'}, wrapper: :vertical_form) do |f|
+  = f.error_notification :message => error_message_in_html(material)
+
+  .form-inputs
+    = f.input :msg_type, as: :hidden
+    = f.input :material_name
+    = f.input :title
+    = f.input :music_url
+    = f.input :hq_music_url
+    = f.input :description, as: :text
+
+
+  .form-actions
+    = f.button :submit, class: "btn btn-primary"

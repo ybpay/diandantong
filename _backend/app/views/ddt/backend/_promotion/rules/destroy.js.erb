@@ -1,0 +1,5 @@
+$(".ddb-promotion-rule[data-id=<%= params[:id]%>]").remove();
+$('#promotion_rule_type').html('<%= j options_for_promotion_rule_types(@promotion) %>');
+<%- if @promotion.rules.blank? %>
+  $('#rules .no-objects-found').show();
+<%- end%>

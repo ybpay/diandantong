@@ -1,0 +1,15 @@
+.menu-content{
+  .menu-group-header{
+    .md-button:not([disabled]):hover{
+      background-color: rgba(158,158,158,0.2);
+    }
+  }
+  .menu-group-item{
+    a.md-button{
+      opacity: 0.4;
+    }
+    > .md-button{
+      padding-left: 30px!important;
+    }
+  }
+}

@@ -1,0 +1,8 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @waiter_service_item], html: { class: 'form-horizontal', remote: true}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@waiter_service_item)
+
+  .form-inputs
+    = f.input :name
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"

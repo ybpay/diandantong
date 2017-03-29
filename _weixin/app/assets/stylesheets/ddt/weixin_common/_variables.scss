@@ -1,0 +1,44 @@
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+$gray-darker:            lighten(#000, 13.5%) !default; // #222
+$gray-dark:              lighten(#000, 20.0%) !default; // #333
+$gray:                   lighten(#000, 33.5%) !default; // #555
+$gray-light:             lighten(#000, 46.7%) !default; // #777
+$gray-lighter:           lighten(#000, 85.7%) !default;
+$gray-lightest:          lighten(#000, 93.5%) !default; // #eee
+
+$color-red:             #ef4437 !default;
+
+$color-primary:         #428bca !default;
+$color-success:         #5cb85c !default;
+$color-info:            #5bc0de !default;
+$color-warning:         #f0ad4e !default;
+$color-danger:          #d9534f !default;
+$color-red:          #f34b3f !default;
+$color-orange:          #FFA500 !default;
+$color-pink:          #ff7994 !default;
+$color-blue:          #34afbe !default;
+$color-green:          #28a267 !default;
+$color-gray:          #959595 !default;
+
+// theme color
+$color-theme: #ff2d4b;
+$color-theme-dark: #dc1432;
+$color-theme-darker: #C00A24;
+$color-background-defualt: #fafafa;
+
+
+// Type
+// --------------------------------------------------
+$font-family-default: Helvetica, Tahoma, Arial, STXihei, "华文细黑", "Microsoft YaHei", "微软雅黑", SimSun, "宋体", Heiti, "黑体", sans-serif !default;
+$font-size-default: 14px !default;
+$font-weight: 500 !default;
+$font-weight-light: 400 !default;
+$line-height-default: 21px !default;
+
+// Borders
+// --------------------------------------------------
+$border-default: 1px solid #ddd !default;
+$border-radius: 6px !default;

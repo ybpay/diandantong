@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html ng-app="ddt_manage">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta content="telephone=no" name="format-detection" />
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+  <%- @wx_config.sort.each do |key, value|%>
+    <meta content="<%= value %>" name="<%= key%>">
+  <% end if @wx_config.present? %>
+  <meta content="<%= @shop_json||'{}' %>" name="shop_json"/>
+  <meta content="<%= @user_json||'{}' %>" name="user_json"/>
+  <meta content="<%= Rails.env %>" name="env"/>
+  <meta content="<%= Ddt::WeixinApi.oauth_userinfo_url(Ddt::WeixinConfig.gonghao.app_id, my_weixin_shop_url(@current_shop, _ng_path: '/user/profile', force_fetch: true))%>" name="oauth_user_info_url">
+  <meta content="<%= Rails.application.config.action_controller.asset_host %>" name="cdn_cache_domain">
+  <meta name="wechat_account_be_verified" content="<%=@current_shop.primary_wechat_account.try(:account_verified?) %>">
+  <title><%= @current_shop.name %></title>
+  <%= stylesheet_link_tag "ddt/common", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "ddt/order", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "thirdparty/zepto.min", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+  <%= javascript_include_tag "angular", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+  <%= javascript_include_tag "ddt/business-manage", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= content_for?(:content) ? yield(:content) : yield %>
+  <%= render 'modal_and_toast' %>
+</body>
+</html>

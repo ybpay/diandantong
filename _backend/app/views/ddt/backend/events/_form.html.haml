@@ -1,0 +1,70 @@
+
+.col-md-6
+  .event_form
+    = simple_form_for([:backend, @current_shop, @event], html: { class: 'form-horizontal'}, remote: true) do |f|
+      .form-inputs
+        = f.error_notification :message => error_message_in_html(@event)
+        = f.input :event_type, as: :hidden
+        = f.input :material_id, as: :hidden
+        -if params[:flag] == 'keyword' || @event.event_type == 'keyword_autoreply'
+          = f.input :event_key
+        = f.input :reply_type, collection: Ddt::Event::REPLY_TYPES
+
+        = f.input :system_keyword, collection: Ddt::Event::system_keyword_collection
+        .show_material{style: 'margin-left:220px'}
+          -if @event.material.present?
+            已选素材：
+            %span#material_name_show
+              = @event.material.material_name
+            = link_to tag(:icon,:class=>"fa fa-eye"), backend_shop_material_path(@current_shop,@event.material), title:'查看该素材',id: 'show_material_link', remote: true
+          -else
+            %span#material_name_show
+              还未选择
+            = link_to tag(:icon,:class=>"fa fa-eye"), '', title:'查看该素材',style: 'display:none;',id: 'show_material_link', remote: true
+          = link_to choose_material_backend_shop_materials_path(@current_shop),title:'更改素材', remote: true do
+            %i.fa.fa-pencil
+      .form-actions.col-xs-offset-2
+        = f.button :submit, '保存配置'
+.clearfix
+
+
+
+
+  :javascript
+    $(function(){
+      function event_type_change(eventtype){
+        if(eventtype == 'system_keyword'){
+          $('.event_system_keyword').show();
+          $('.show_material').hide();
+        }else if(eventtype == 'material'){
+          $('.event_system_keyword').hide();
+          $('.show_material').show();
+        }
+      }
+      function new_init(){
+        $('.event_system_keyword').hide();
+        $('.show_material').hide();
+
+      }
+
+      function edit_init(is_system_keyword){
+        if(is_system_keyword == "true"){
+          $('.event_system_keyword').show();
+          $('.show_material').hide();
+          $('#event_reply_type').val('system_keyword');
+        }else{
+          $('.event_system_keyword').hide();
+          $('.show_material').show();
+          $('#event_reply_type').val('material');
+        }
+      }
+
+      $('#event_reply_type').change(function(e){
+        event_type_change(e.target.value);
+      })
+      if("#{ @event && @event.id.present? }"=='true'){
+        edit_init("#{ @event.is_system_keyword }");
+      }else{
+        new_init();
+      }
+    })

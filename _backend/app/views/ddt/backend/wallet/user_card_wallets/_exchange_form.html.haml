@@ -1,0 +1,5 @@
+= simple_form_for @exchange, :url => "#{url_for([:exchange, :backend, @current_shop, @wallet])}?v=#{params[:v]}", remote: true, method: :put, html: { class: 'form-horizontal'}, wrapper: :horizontal_form_long do |f|
+  = f.input :amount, as: :decimal, label: '兑换余额', hint: '兑换余额会同时在用户余额和平台总余额中扣除'
+  = f.input :note, as: :text, label: '备注'
+  .form-actions.col-xs-offset-2
+    = f.submit '兑换', :class => "btn btn-primary btn-sm", :data => {:confirm => t('Are you sure?')}

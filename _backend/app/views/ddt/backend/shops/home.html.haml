@@ -1,0 +1,78 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-9
+    %h2 系统快捷入口
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-lg-4.col-md-6
+      .contact-box
+        %a.col-sm-12{href: backend_shop_orders_path(@current_shop)}
+          %h3.text-center
+            %strong 订单管理
+          %address 查看和管理系统后台的订单
+        .clearfix
+    - if has_module?(:wechat_base)
+      .col-lg-4.col-md-6
+        .contact-box
+          %a.col-sm-12{href: backend_shop_wechat_accounts_path(@current_shop)}
+            %h3.text-center
+              %strong 微信公众账号配置
+            %address 点单通与微信公众账号进行系统对接，公众号自动回复，微信菜单的设置
+          .clearfix
+    .col-lg-4.col-md-6
+      .contact-box
+        %a.col-sm-12{href: branch_link(@current_branch, [:backend, @current_shop, @current_branch, :eat_in_hall_setting])}
+          %h3.text-center
+            %strong 堂点桌台设置
+          %address 根据餐厅的需要，设置桌台类型、桌台名称、用餐人数以及桌台二维码
+        .clearfix
+    .col-lg-4.col-md-6
+      .contact-box
+        %a.col-sm-12{href: branch_link(@current_branch, [:backend, @current_shop, @current_branch, :printers])}
+          %h3.text-center
+            %strong 厨房打印管理
+          %address 根据餐厅后厨需要配置订单打印、厨房分单、打印数量以及打印规格
+        .clearfix
+    - if has_module?(:pay_base)
+      .col-lg-4.col-md-6
+        .contact-box
+          %a.col-sm-12{href: backend_shop_alipay_methods_path(@current_shop)}
+            %h3.text-center
+              %strong 微信支付、支付宝
+            %address 为餐厅的店内收银、公众号的自助消费支持微信支付和支付宝
+          .clearfix
+    - if has_module?(:crm)
+      .col-lg-4.col-md-6
+        .contact-box
+          %a.col-sm-12{href: crm_backend_shop_path(@current_shop)}
+            %h3.text-center
+              %strong 会员系统
+            %address 支持会员积分、余额、密码、会员充值套餐的管理等
+          .clearfix
+    - if has_module?(:event_promotion)
+      .col-lg-4.col-md-6
+        .contact-box
+          %a.col-sm-12{href: backend_shop_event_promotions_path(@current_shop)}
+            %h3.text-center
+              %strong 营销活动
+            %address 关注、转发、优惠券、红包、特价促销、满减互动的设置与推广
+          .clearfix
+    .col-lg-4.col-md-6
+      .contact-box
+        %a.col-sm-12{href: branch_link(@current_branch, [:backend, @current_shop, @current_branch, :products])}
+          %h3.text-center
+            %strong 产品管理
+          %address 对餐厅的菜品、规格、套餐、称重菜品、菜品分类等进行管理
+        .clearfix
+    - if has_module?(:wechat_base)
+      .col-lg-4.col-md-6
+        .contact-box
+          %a.col-sm-12{href: backend_shop_branch_sliders_path(@current_shop)}
+            %h3.text-center
+              %strong 微信幻灯片广告
+            %address 对微信公众账号内的幻灯片广告进行图片、文字、链接的设置
+          .clearfix
+
+:css
+  .contact-box {
+    min-height: 150px;
+  }

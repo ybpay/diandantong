@@ -1,0 +1,164 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h2 代理商详情
+    .ibox-content
+      .row
+        - if notice.present?
+          .alert.alert-success= notice 
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:agent_no)
+          \:
+          = @agent.agent_no
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:is_oem)
+          \:
+          = @agent.is_oem_name
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:can_create_account)
+          \:
+          = @agent.can_create_account? ? "允许创建帐户" : "不允许"
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:agent_type)
+          \:
+          = @agent.agent_type_name
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:exclusive)
+          \:
+          = @agent.exclusive? ? '是' : '否'
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:brand)
+          \:
+          = @agent.brand
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:page_footer)
+          \:
+          = @agent.page_footer
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:domain)
+          \:
+          = @agent.domain
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:wechat_introduce_url)
+          \:
+          = @agent.wechat_introduce_url
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:email)
+          \:
+          = @agent.email
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:phone)
+          \:
+          = @agent.phone
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:name)
+          \:
+          = @agent.name
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:company_name)
+          \:
+          = @agent.company_name
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:balance)
+          \:
+          = @agent.balance
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:discount)
+          \:
+          = @agent.discount
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:agent_type)
+          \:
+          = @agent.agent_type_name
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:can_buy_printer_code)
+          \:
+          = @agent.can_buy_printer_code? ? "可以" : "不可以"
+
+        -if @agent.can_buy_printer_code?
+          .form-group.col-md-6
+            %b= Ddt::Agent.human_attribute_name(:db_printer_code_price)
+            \:
+            = @agent.db_printer_code_price
+
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:can_sale_multiple_store)
+          \:
+          = @agent.can_sale_multiple_store? ? "是" : "否"
+        
+        .form-group.col-md-6
+          %b= Ddt::Agent.human_attribute_name(:alipay_agent_id)
+          \:
+          = @agent.alipay_agent_id
+        .clearfix
+        .hr-line-dashed
+        .form-group.col-md-6
+          %b
+            = Ddt::Agent.human_attribute_name(:logo)
+          %br
+          = image_tag @agent.logo.thumb.url, width: 150
+        .form-group.col-md-6
+          %b
+            = Ddt::Agent.human_attribute_name(:rect_logo)
+          %br
+          = image_tag @agent.rect_logo.thumb.url, height: 150
+      .row
+        .form-group.col-md-12
+          = link_to '编辑', edit_backend_agent_path(@agent), class: 'btn btn-primary'
+      .row
+        .form-group.col-md-12
+          %b= Ddt::Agent.human_attribute_name(:agent_rels)
+        .form-group.col-md-12
+          %table.table.table-striped
+            %thead
+              %th= Ddt::AgentRel.human_attribute_name(:agent_zone_id)
+              %th= Ddt::AgentRel.human_attribute_name(:agent_from)
+              %th= Ddt::AgentRel.human_attribute_name(:agent_to)
+              %th 代理时间
+            %tbody
+              - @agent.agent_rels.each do |agent_rel|
+                %tr
+                  %td= link_to agent_rel.agent_zone.name, [:backend, agent_rel.agent_zone] if agent_rel.agent_zone.present?
+                  %td= agent_rel.agent_from.strftime("%Y-%m-%d")
+                  %td= agent_rel.agent_to.strftime("%Y-%m-%d")
+                  %td
+                    - days = (agent_rel.agent_to - agent_rel.agent_from)/(24*3600)
+                    - if days > 365
+                      %span.label.label-danger= "#{days}天" 
+                    - else 
+                      %span= "#{days}天" 
+      .row            
+        .form-group.col-md-12
+          %b= Ddt::Agent.human_attribute_name(:shops)
+        .form-group.col-md-12
+          %table.table.table-striped
+            %thead
+              %th= Ddt::Shop.human_attribute_name(:name)
+              %th= Ddt::Shop.human_attribute_name(:phone)
+              %th 注册时间
+              %th 剩余配额
+            %tbody
+              - @agent.shops.each do |shop|
+                %tr
+                  %td= link_to shop.label, [:backend, shop]
+                  %td= shop.phone
+                  %td= shop.created_at.strftime("%F %T")
+                  %td
+                    = "到期时间：#{shop.expiration_time.strftime('%Y-%m-%d')}"
+      .row
+        .form-group.col-md-12
+          %b= Ddt::Agent.human_attribute_name(:agent_logs)
+        .form-group.col-md-12
+          %table.table.table-striped
+            %thead
+              %th= Ddt::AgentLog.human_attribute_name(:log_type)
+              %th= Ddt::AgentLog.human_attribute_name(:balance_delta)
+              %th= Ddt::AgentLog.human_attribute_name(:description)
+              %th= Ddt::AgentLog.human_attribute_name(:created_at)
+            %tbody
+              - @agent.agent_logs.each do |agent_log|
+                %tr
+                  %td= agent_log.log_type_name
+                  %td= number_to_currency(agent_log.balance_delta, unit: '¥')
+                  %td= agent_log.description
+                  %td= agent_log.created_at

@@ -1,0 +1,66 @@
+
+.guest-no{
+  font-size: 18px;
+  color: #28a267;
+}
+
+.queue-btn{
+  border:none!important;
+  border-radius: 20px!important;
+  padding: 0 1px;
+  min-width: 70px;
+}
+
+#create-queue-btn{
+  width: 80%;
+  border-radius: 20px;
+  font-size: 20px;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+.wp-table-sm{
+  width: 100%;
+  text-align: center;
+  font-size: 16px;
+  thead{
+    color: $gray-light;
+    height: 30px;
+    padding: 5px 0;
+    line-height: 30px;
+    th{
+      text-align: center;
+      font-weight: normal;
+    }
+  }
+  tbody{
+    color: $gray;
+    tr{
+      overflow: hidden;
+      height: 50px;
+      line-height: 30px;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      cursor: pointer;
+      &.odd{
+        background-color: #E6EDF3;
+      }
+      &.active{
+        background-color: $color-orange;
+        color: white;
+        .wp-table-col.binded{
+          background-color: $color-orange;
+        }
+      }
+      &.actions{
+        .cart-action-btn{
+          line-height: 48px;
+          font-size: 14px;
+        }
+        .wp-btn-block{
+          border: none;
+        }
+      }
+    }
+  }
+}

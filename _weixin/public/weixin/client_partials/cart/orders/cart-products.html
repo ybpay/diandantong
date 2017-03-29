@@ -1,0 +1,20 @@
+<div class="section cart-products">
+  <div class="product-item" ng-repeat="line_item in cart.line_items">
+    <img ng-src="{{line_item.image}}" ng-if="line_item.image"/>
+    <div class="name">
+      {{line_item.name_with_note}}
+    </div>
+    <div class="price-section">
+      <div class="cart-op">
+        <span class="button minus-button active" ng-show="line_item.quantity>0" ng-click="remove_itemable(line_item, false)"><i class="fa fa-minus"></i></span>
+        <span class="quantity-button" ng-show="line_item.quantity>0">{{line_item.quantity}}</span>
+        <span class="button plus-button" ng-class="{'active': can_plus(line_item)}" ng-click="add_itemable(line_item, false)"><i class="fa fa-plus"></i></span>
+      </div>
+      <span class="price">{{line_item.price|currency:currency}}/{{line_item.unit_name}} </span>
+      <span class="original-amount" ng-if="line_item.price != line_item.original_price">{{line_item.original_price}} </span>
+      <br/>
+      <span class="final-amount"> 小计：{{line_item.total|currency:currency}}</span>
+      <span class="original-amount" ng-if="line_item.amount != line_item.total">{{line_item.amount|currency:''}}</span>
+    </div>
+  </div>
+</div>

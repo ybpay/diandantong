@@ -1,0 +1,10 @@
+.ibox
+  .ibox-title
+    %h3= "编辑#{t('activerecord.models.ddt/voucher_version')}"
+  .ibox-content
+    .col-md-6
+      = render 'form'
+      = link_to t('Show'), [:backend, @current_shop, @voucher_version], :class => "btn btn-default btn-sm"
+      \
+      = link_to t('Back'), backend_shop_voucher_versions_path(@current_shop), :class => "btn btn-default btn-sm"
+    .clearfix

@@ -1,0 +1,12 @@
+development:
+  server: "http://sdp.diandantong.com/api"
+  api_key: "21dR+/NjCdAa1G87Iu06SdNOnpI31V+iga9jQImx/m4uUTxpHcSl8rTfMjLJkaMsnQid05KHvdrCopLvkbSGMA=="
+  access_id: 1
+test:
+  server: "http://localhost:3010/api"
+  api_key: "secret"
+  access_id: 5
+production:
+  server: "http://sdp.diandantong.com/api"
+  api_key: "secret"
+  access_id: 5

@@ -1,0 +1,1 @@
+json.(@credits_setting, :exchange_radio, :auto_clear_credits)

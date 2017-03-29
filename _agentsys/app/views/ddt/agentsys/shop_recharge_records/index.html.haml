@@ -1,0 +1,40 @@
+.col-lg-10
+  %h3= "#{t('activerecord.models.ddt/shop_recharge_record')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::ShopRechargeRecord.human_attribute_name(:id)
+                %th.col-sm-1= Ddt::ShopRechargeRecord.human_attribute_name(:shop)
+                %th.col-sm-1= Ddt::ShopRechargeRecord.human_attribute_name(:recharge_type)
+                %th.col-sm-1= Ddt::ShopRechargeRecord.human_attribute_name(:price)
+                %th.col-sm-1= Ddt::ShopRechargeRecord.human_attribute_name(:branch_num)
+                %th.col-sm-2= "#{Ddt::ShopRechargeRecord.human_attribute_name(:beginning_time)}/#{Ddt::ShopRechargeRecord.human_attribute_name(:ending_time)}"
+                %th.col-sm-1= Ddt::ShopRechargeRecord.human_attribute_name(:increment_days)
+                %th.col-sm-3= Ddt::ShopRechargeRecord.human_attribute_name(:note)
+                %th.col-sm-2= Ddt::ShopRechargeRecord.human_attribute_name(:created_at)
+
+            %tbody
+              - @shop_recharge_records.each do |record|
+                %tr
+                  %td= record.id
+                  %td= link_to record.shop.name.presence||record.shop.slug, [:agentsys, record.shop]
+                  %td= record.recharge_type_name
+                  %td= record.price
+                  %td= record.branch_num
+                  %td
+                    = record.beginning_time
+                    \/
+                    = record.ending_time
+                  %td
+                    = record.increment_days
+                    \天
+                  %td= record.note
+                  %td= record.created_at
+
+        .pull-right= will_paginate @shop_recharge_records , renderer: BootstrapPagination::Rails, bootstrap: 3

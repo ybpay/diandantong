@@ -1,0 +1,14 @@
+.search
+  %br
+    查找您要插入的文章
+  %input{class: "form-control ddb-select2", type: "url", id: "search_article2", data: { single: "true", url: backend_shop_articles_path(@current_shop, version: version, querys: querys), column: "title_const", placeholder: "输入文章标题进行搜索"}}
+
+:javascript
+  $(function() {
+    init_ddb_select2();
+
+    $("#search_article2").on("change", function(e){
+      var link = $(this).select2("val");
+      $("##{input_field_id}").val(link)
+    })
+  });

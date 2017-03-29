@@ -1,0 +1,9 @@
+bootbox.hideAll();
+<% if @send_coupon_form.present? %>
+  bootbox.dialog({
+    message: "<%= j render 'send_coupon_form' %>",
+    title: "发放优惠券"
+  });
+<% else %>
+  bootbox.alert("当前操作结果为空");
+<% end %>

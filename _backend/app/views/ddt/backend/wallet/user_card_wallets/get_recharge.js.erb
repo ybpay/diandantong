@@ -1,0 +1,5 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'recharge_form' %>",
+  title: "用户余额充值 <%= @wallet.owner.to_label%>"
+});

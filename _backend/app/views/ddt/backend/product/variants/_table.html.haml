@@ -1,0 +1,33 @@
+%table.table.table-striped.table-bordered.variants-table
+  %thead
+    %tr
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:id)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:option_values)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:price)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:vip_price)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:sku)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:stock_quantity)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:sale_quantity)
+      %th.col-sm-1= Ddt::Variant.human_attribute_name(:nfc_code)
+      %th.col-sm-2
+
+  %tbody
+    - variants.each do |variant|
+      %tr
+        %td= variant.id
+        %td= variant.options_text
+        %td= variant.price
+        %td= variant.vip_price
+        %td= variant.sku
+        %td
+          = variant.stock_quantity
+          - if variant.estimate_clear?
+            %span.label.label-default 已沽清
+        %td= variant.sale_quantity
+        %td= variant.nfc_code
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, @current_branch, @product, variant], @product.variants, variant)
+          = edit_btn([@product, variant], remote: true)
+          = delete_btn([@product, variant], remote: true)
+          = link_to tag(:icon, class: "fa fa-image"), [:backend, @current_shop, @current_branch, @product, variant, :variant_images], :class => "btn btn-xs btn-purple", title: "图片管理", :'data-rel' => "tooltip"
+  = no_record_hint(variants)

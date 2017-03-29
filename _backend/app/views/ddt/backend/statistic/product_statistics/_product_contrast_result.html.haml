@@ -1,0 +1,27 @@
+%table.statistic-table.sortable-table.tablesorter
+  %thead
+    %tr
+      %th{rowspan: 2} SKU
+      %th{rowspan: 2} 类别
+      %th{rowspan: 2} 名称
+      %th{rowspan: 2} 合计金额
+      %th{rowspan: 2} 合计数量
+      - @current_shop.branches.each do |branch|
+        %th{colspan: 2}
+          = branch.name
+
+    %tr
+      - @current_shop.branches.each do |branch|
+        %th 实收金额
+        %th 结算数量
+  %tbody
+    - @statistic.body.each do |row|
+      %tr
+        - row.each do |value|
+          %td= value
+
+  %tfoot{class: 'alert alert-warning'}
+    - @statistic.foot.each do |foot_row|
+      %tr
+        - foot_row.each do |value|
+          %td= value

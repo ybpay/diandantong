@@ -1,0 +1,28 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/base_user')} 列表(根据用户OpenID查找)"
+
+.form-group
+  = link_to '所有用户', backend_shop_base_users_path(@current_shop), class: 'btn btn-default btn-sm'
+
+.form-group
+  =search_form_for @q, url: @search_form_path, html:{class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+    = f.input_field :wechat_users_user_open_id_cont, placeholder: "用户OpenID"
+    = f.input_field :id_eq, placeholder: Ddt::BaseUser.human_attribute_name(:id)
+    = f.submit "搜索", class: 'btn btn-sm btn-success'
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-1= sort_link(@q, :id, Ddt::BaseUser.human_attribute_name(:id))
+      %th.col-sm-2 用户OpenID
+      %th.col-sm-1= sort_link(@q, :phone, Ddt::BaseUser.human_attribute_name(:phone))
+      %th.col-sm-1= sort_link(@q, :placed_orders_count, Ddt::BaseUser.human_attribute_name(:placed_orders_count))
+      %th.col-sm-1= sort_link(@q, :type, Ddt::BaseUser.human_attribute_name(:type))
+      %th.col-sm-1= sort_link(@q, :created_at, Ddt::BaseUser.human_attribute_name(:created_at))
+      %th.col-sm-1
+
+  %tbody
+    = render partial: "user_tr_with_user_open_id", collection: @base_users, as: :base_user
+    = no_record_hint(@base_users)
+%br
+.pull-right= will_paginate @base_users , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

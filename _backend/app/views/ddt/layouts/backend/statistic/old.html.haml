@@ -1,0 +1,12 @@
+- content_for(:content) do
+  .tabbable
+    %ul.nav.nav-tabs
+
+      %li{class: ('active' if controller_name == "revenue_statistics" && %W[index details promotion].include?(action_name))}
+        = link_to '营业报表', [:backend, @current_shop, :revenue_statistics]
+      %li{class: ('active' if controller_name == "revenue_statistics" && %W[recharge_record].include?(action_name))}
+        = link_to '会员充值消费记录', [:recharge_record, :backend, @current_shop, :revenue_statistics]
+  .tab-content
+    .tab-pane.in.active
+      = yield
+= render template: "ddt/layouts/backend"

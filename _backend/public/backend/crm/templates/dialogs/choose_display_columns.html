@@ -1,0 +1,32 @@
+<md-dialog flex="90">
+  <md-toolbar class="md-toolbar-tools">
+    <h2>选择显示项</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <h3>可选项</h3>
+    <div>
+      <md-button ng-repeat="column in all_columns" ng-click="choose_column(column, $index)" class="md-raised" ng-hide="column.selected">
+        {{::column.label}}
+      </md-button>
+    </div>
+    <h3>显示项</h3>
+    <div layout="row" layout-align="center center">
+      <md-button ng-repeat="column in select_columns" ng-click="remove_column(column, $index)" class="md-raised md-primary">
+        {{::column.label}}
+        <md-icon class="md-18">close</md-icon>
+      </md-button>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <md-button flex flex="50" ng-click="close()" class="md-primary">
+      取消
+    </md-button>
+    <md-button flex flex="50" ng-click="submit()" class="md-primary md-raised">
+      确认
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

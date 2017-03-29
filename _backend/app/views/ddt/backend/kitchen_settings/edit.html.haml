@@ -1,0 +1,8 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t('activerecord.models.ddt/kitchen_setting')}"
+  .ibox-content
+    .col-md-6
+      = render 'form'
+      = link_to t('Show'), backend_shop_branch_kitchen_setting_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"
+    .clearfix

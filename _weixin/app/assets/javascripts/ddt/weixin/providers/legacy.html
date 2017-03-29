@@ -1,0 +1,602 @@
+<script>
+        var reservation_configs = [
+          {
+            path:         '/branches/:branch_id/reservation_time_points',
+            templateUrl:  '/weixin/client_partials/reservation_time_points/index.html',
+            controller:   'reservationTimePointsController',
+            page: 'cart'
+          }
+        ]
+
+        var branch_configs = [
+          {
+            path:         '/branches',
+            templateUrl:  '/weixin/client_partials/branches/index.html',
+            controller:   'branchesController'
+          },
+          {
+            path:         '/delivery_branches',
+            templateUrl:  '/weixin/client_partials/branches/delivery_index.html',
+            controller:   'deliveryBranchesController'
+          },
+          {
+            path:         '/branches/:branch_id',
+            templateUrl:  '/weixin/client_partials/branches/show.html',
+            controller:   'branchController'
+          },
+          {
+            path:         '/branches/:branch_id/introduction',
+            templateUrl:  '/weixin/client_partials/branches/introduction.html',
+            controller:   'branchController'
+          }
+        ];
+
+        var search_configs = [
+          {
+            path:         '/search',
+            templateUrl:  '/weixin/client_partials/searches/index.html',
+            controller:   'searchController'
+          }
+        ];
+
+        var combo_configs = [
+          {
+            path:         '/branches/:branch_id/combos',
+            templateUrl:  '/weixin/client_partials/combos/index.html',
+            controller:   'combosController'
+          },
+          {
+            path:         '/branches/:branch_id/orders/:order_id/:order_type/append_combo',
+            templateUrl:  '/weixin/client_partials/combos/index.html',
+            controller:   'combosController',
+            page: 'cart'
+          }
+        ]
+
+        var product_configs = [
+          {
+            path:         '/branches/:branch_id/products/delivery',
+            templateUrl:  '/weixin/client_partials/products/delivery.html',
+            controller:   'deliveryProductsController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/products/eat_in_hall',
+            templateUrl:  '/weixin/client_partials/products/eat_in_hall.html',
+            controller:   'eatInHallProductsController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/products/reservation',
+            templateUrl:  '/weixin/client_partials/products/reservation.html',
+            controller:   'reservationProductsController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/products/queue_pre_ordering',
+            templateUrl:  '/weixin/client_partials/products/queue_pre_ordering.html',
+            controller:   'queuePreOrderingProductsController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/products/fastfood',
+            templateUrl:  '/weixin/client_partials/products/fastfood.html',
+            controller:   'fastfoodProductsController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/products/search',
+            templateUrl:  '/weixin/client_partials/products/search.html',
+            controller:   'searchProductsController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/products/:product_id',
+            templateUrl:  '/weixin/client_partials/products/show.html',
+            controller:   'productController',
+            page: 'cart'
+          }
+        ]
+
+        var promotion_configs = [
+          {
+            path:         '/promotions',
+            templateUrl:  '/weixin/client_partials/promotions/index.html',
+            controller:   'promotionsController'
+          },
+          {
+            path:         '/promotions/:promotion_id',
+            templateUrl:  '/weixin/client_partials/promotions/show.html',
+            controller:   'promotionController'
+          }
+        ];
+
+        var queue_configs = [{
+          path:           '/branches/:branch_id/guest_queue',
+          templateUrl:    '/weixin/client_partials/guest_queues/show.html',
+          controller:     'guestQueueController',
+          page: 'queue'
+        },{
+          path:           '/branches/:branch_id/guest_queues/new_guest',
+          templateUrl:    '/weixin/client_partials/guest_queues/new_guest.html',
+          controller:     'newGuestQueueController',
+          page: 'queue'
+        },{
+          path:           '/branches/:branch_id/guest_queue_qr_code/:qr_code_id',
+          templateUrl:    '/weixin/client_partials/guest_queues/bind_user.html',
+          controller:     'bindUserGuestQueueController',
+          page: 'queue'
+        }];
+
+        var pay_online_configs = [{
+          path:           '/branches/:branch_id/pay_online',
+          templateUrl:    '/weixin/client_partials/pay_onlines/new.html',
+          controller:     'newPayOnlineController',
+          page: 'cart'
+        }];
+
+        var order_configs = [
+          {
+            path:         '/branches/:branch_id/orders/delivery/new',
+            templateUrl:  '/weixin/client_partials/orders/delivery/new.html',
+            controller:   'newDeliveryOrderController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/eat_in_hall/new',
+            templateUrl:  '/weixin/client_partials/orders/eat_in_hall/new.html',
+            controller:   'newEatInHallOrderController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/fastfood/new',
+            templateUrl:  '/weixin/client_partials/orders/fastfood/new.html',
+            controller:   'newFastfoodOrderController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/reservation/new',
+            templateUrl:  '/weixin/client_partials/orders/reservation/new.html',
+            controller:   'newReservationOrderController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/groupon/new',
+            templateUrl:  '/weixin/client_partials/orders/groupon/new.html',
+            controller:   'newGrouponOrderController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/recharge/new',
+            templateUrl:  '/weixin/client_partials/orders/recharge/new.html',
+            controller:   'newRechargeOrderController',
+            page: 'cart'
+          },
+          {
+            path:         '/orders/nav',
+            templateUrl:  '/weixin/client_partials/orders/nav.html',
+            controller:   'ordersNavController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/delivery',
+            templateUrl:  '/weixin/client_partials/orders/delivery/index.html',
+            controller:   'deliveryOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/reservation',
+            templateUrl:  '/weixin/client_partials/orders/reservation/index.html',
+            controller:   'reservationOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/eat_in_hall',
+            templateUrl:  '/weixin/client_partials/orders/eat_in_hall/index.html',
+            controller:   'eatInHallOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/fastfood',
+            templateUrl:  '/weixin/client_partials/orders/fastfood/index.html',
+            controller:   'fastfoodOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/groupon',
+            templateUrl:  '/weixin/client_partials/orders/groupon/index.html',
+            controller:   'grouponOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/recharge',
+            templateUrl:  '/weixin/client_partials/orders/recharge/index.html',
+            controller:   'rechargeOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/orders/payment',
+            templateUrl:  '/weixin/client_partials/orders/payment/index.html',
+            controller:   'paymentOrdersController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/delivery/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/delivery/show.html',
+            controller:   'deliveryOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/reservation/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/reservation/show.html',
+            controller:   'reservationOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/eat_in_hall/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/eat_in_hall/show.html',
+            controller:   'eatInHallOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/fastfood/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/fastfood/show.html',
+            controller:   'fastfoodOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/groupon/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/groupon/show.html',
+            controller:   'grouponOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/recharge/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/recharge/show.html',
+            controller:   'rechargeOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/payment/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/payment/show.html',
+            controller:   'paymentOrderController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/order_success/:order_id/:order_type',
+            templateUrl:  '/weixin/client_partials/orders/order_success.html',
+            controller:   'orderSuccessController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/:order_type/:order_id/invoice',
+            templateUrl:  '/weixin/client_partials/orders/invoice/new.html',
+            controller:   'invoiceController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/:order_id/:order_type/append_itemable',
+            templateUrl:  '/weixin/client_partials/orders/append_itemable.html',
+            controller:   'orderAppendItemableController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/orders/invitation/:order_id',
+            templateUrl:  '/weixin/client_partials/orders/invitation/show.html',
+            controller:   'invitationOrderController',
+            page: 'order'
+          }
+        ];
+
+        var order_comment_configs = [
+          {
+            path:         '/branches/:branch_id/orders/:order_id/comment',
+            templateUrl:  '/weixin/client_partials/orders/comment/show.html',
+            controller:   'orderCommentController',
+            page: 'order'
+          },
+          {
+            path:         '/branches/:branch_id/orders/:order_id/comment/new',
+            templateUrl:  '/weixin/client_partials/orders/comment/new.html',
+            controller:   'newOrderCommentController',
+            page: 'order'
+          }
+        ];
+
+        var address_configs = [
+          {
+            path:         '/addresses',
+            templateUrl:  '/weixin/client_partials/addresses/index.html',
+            controller:   'addressesController',
+            page: 'cart'
+          },
+          {
+            path:         '/addresses/new',
+            templateUrl:  '/weixin/client_partials/addresses/new.html',
+            controller:   'newAddressController',
+            page: 'cart'
+          },
+          {
+            path:         '/addresses/:address_id/edit',
+            templateUrl:  '/weixin/client_partials/addresses/new.html',
+            controller:   'editAddressController',
+            page: 'cart'
+          },{
+            path:         '/addresses/:address_id/chose_location',
+            templateUrl:  '/weixin/client_partials/addresses/chose_location.html',
+            controller:   'choseAddressLocationController',
+            page: 'cart'
+          },{
+            path:         '/addresses/chose_location',
+            templateUrl:  '/weixin/client_partials/addresses/chose_location.html',
+            controller:   'choseAddressLocationController',
+            page: 'cart'
+          }
+        ];
+
+        var user_configs = [
+          {
+            path:         '/user/profile',
+            templateUrl:  '/weixin/client_partials/user/profile.html',
+            controller:   'userController',
+            page: 'my'
+          },
+          {
+            path:         '/user/vip-info',
+            templateUrl:  '/weixin/client_partials/user/vip-info.html',
+            controller:   'userController',
+            page: 'my'
+          },
+          {
+            path:         '/user/scan-code',
+            templateUrl:  '/weixin/client_partials/user/scan-code.html',
+            controller:   'userScanCodeController',
+            page: 'my'
+          },
+          {
+            path:         '/user/update-vip-info',
+            templateUrl:  '/weixin/client_partials/user/update-vip-info.html',
+            controller:   'userUpdateVipInfoController',
+            page: 'my'
+          },
+          {
+            path:         '/user/update-pay-password',
+            templateUrl:  '/weixin/client_partials/user/update-pay-password.html',
+            controller:   'userUpdatePayPasswordController',
+            page: 'my'
+          },
+          {
+            path:         '/user/bind-vip',
+            templateUrl:  '/weixin/client_partials/user/bind-vip.html',
+            controller:   'userBindVipController',
+            page: 'my'
+          },
+          {
+            path:         '/user/card-wallet-log',
+            templateUrl:  '/weixin/client_partials/user/card-wallet-log.html',
+            controller:   'userCardWalletLogController',
+            page: 'my'
+          }
+        ];
+
+        var favorite_branch_configs = [
+          {
+            path:         '/favorite_branches',
+            templateUrl:  '/weixin/client_partials/favorite_branches/index.html',
+            controller:   'favoriteBranchesController',
+            page: 'my'
+          }
+        ];
+
+        var comments_configs = [
+          {
+            path:         '/branches/:branch_id/comments',
+            templateUrl:  '/weixin/client_partials/comments/index.html',
+            controller:   'commentsController'
+          }
+        ];
+
+        var table_configs = [
+          {
+            path:         '/branches/:branch_id/tables/:table_id',
+            templateUrl:  '/weixin/client_partials/tables/show.html',
+            controller:   'tableController',
+            page: 'cart'
+          },
+          {
+            path:         '/branches/:branch_id/tables/:table_id/merge_order_itemables',
+            templateUrl:  '/weixin/client_partials/tables/merge_order_itemables.html',
+            controller:   'tableMergeOrderItemablesController',
+            page: 'cart'
+          }
+        ]
+
+        var article_config = [
+          {
+            path:         '/articles/:article_id',
+            templateUrl:  '/weixin/client_partials/articles/show.html',
+            controller:   'articleController'
+          }];
+
+        var sign_record_configs = [
+          {
+            path:         '/sign_records',
+            templateUrl:  '/weixin/client_partials/sign_records/index.html',
+            controller:   'signRecordsController',
+            page: 'my'
+          }
+        ]
+
+        var tuan_configs = [
+          {
+            path:         '/tuans',
+            templateUrl:  '/weixin/client_partials/tuans/index.html',
+            controller:   'tuansController'
+          },
+          {
+            path:         '/tuans/:tuan_id',
+            templateUrl:  '/weixin/client_partials/tuans/show.html',
+            controller:   'tuanController'
+          }
+        ]
+
+        var coupon_configs = [
+          {
+            path:         '/user/coupon_nav',
+            templateUrl: '/weixin/client_partials/coupon/nav.html',
+            controller:   'userController',
+            page: 'my'
+          },
+          {
+            path:         '/user/coupons',
+            templateUrl:  '/weixin/client_partials/coupon/coupons/index.html',
+            controller:   'couponsController',
+            page: 'my'
+          },
+          {
+            path:         '/user/coupons/:base_coupon_id',
+            templateUrl:  '/weixin/client_partials/coupon/coupons/show.html',
+            controller:   'couponController',
+            page: 'my'
+          },
+          {
+            path:         '/user/groupons',
+            templateUrl:  '/weixin/client_partials/coupon/groupons/index.html',
+            controller:   'grouponsController',
+            page: 'my'
+          },
+          {
+            path:         '/user/groupons/:base_coupon_id',
+            templateUrl:  '/weixin/client_partials/coupon/groupons/show.html',
+            controller:   'grouponController',
+            page: 'my'
+          },
+          {
+            path:         '/user/vouchers',
+            templateUrl:  '/weixin/client_partials/coupon/vouchers/index.html',
+            controller:   'vouchersController',
+            page: 'my'
+          },
+          {
+            path:         '/user/vouchers/:base_coupon_id',
+            templateUrl:  '/weixin/client_partials/coupon/vouchers/show.html',
+            controller:   'voucherController',
+            page: 'my'
+          },
+          {
+            path:         '/user/sharable_coupons',
+            templateUrl:  '/weixin/client_partials/coupon/sharable_coupons/index.html',
+            controller:   'userSharableCouponsController',
+            page: 'my'
+          },
+          {
+            path:         '/user/sharable_coupons/:sharable_coupon_id',
+            templateUrl:  '/weixin/client_partials/coupon/sharable_coupons/show.html',
+            controller:   'userSharableCouponController',
+            page: 'my'
+          },
+          {
+            path:         '/sharable_coupons/:sharable_coupon_id',
+            templateUrl:  '/weixin/client_partials/sharable_coupons/show.html',
+            controller:   'sharableCouponController',
+            page: 'my'
+          }
+        ];
+
+        var wechat_share_records_configs = [
+          {
+            path:         '/wechat_share_records',
+            templateUrl:  '/weixin/client_partials/wechat_share_records/index.html',
+            controller:   'wechatShareRecordsController',
+            page: 'my'
+          },
+          {
+            path:         '/wechat_share_records/:wechat_share_record_id',
+            templateUrl:  '/weixin/client_partials/wechat_share_records/show.html',
+            controller:   'wechatShareRecordController',
+            page: 'my'
+          }
+        ]
+
+        var misc_configs = [
+          {
+            path:         '/censor-report',
+            templateUrl:  '/weixin/client_partials/censor_reports/new.html',
+            controller:   'censorReportController'
+          },
+          {
+            path:         '/merchant_apply',
+            templateUrl:  '/weixin/client_partials/merchant_applies/show.html',
+            controller:   'merchantApplyController'
+          },
+          {
+            path:         '/contact_us',
+            templateUrl: '/weixin/client_partials/user/contact_us.html',
+            controller: 'userController'
+          }
+        ]
+
+        var exchange_code_configs = [
+          {
+            path:         '/exchange_codes/:exchange_code_id',
+            templateUrl:  '/weixin/client_partials/exchange_codes/show.html',
+            controller:   'exchangeCodeController',
+            page: 'order'
+          }
+        ]
+
+        var recharge_products_configs = [
+          {
+            path:         '/recharge_products',
+            templateUrl:  '/weixin/client_partials/recharge_products/index.html',
+            controller:   'rechargeProductsController',
+            page: 'cart'
+          }
+        ]
+
+        all_configs = []
+        function add_config(config){
+          all_configs = all_configs.concat(config)
+        }
+
+        add_config(reservation_configs);
+        add_config(branch_configs);
+        add_config(product_configs);
+        add_config(combo_configs);
+        add_config(promotion_configs);
+        add_config(queue_configs);
+        add_config(order_configs);
+        add_config(address_configs);
+        add_config(user_configs);
+        add_config(favorite_branch_configs);
+        add_config(comments_configs);
+        add_config(pay_online_configs);
+        add_config(table_configs);
+        add_config(search_configs);
+        add_config(order_comment_configs);
+        add_config(article_config);
+        add_config(sign_record_configs);
+        add_config(tuan_configs);
+        add_config(coupon_configs);
+        add_config(misc_configs);
+        add_config(wechat_share_records_configs);
+        add_config(exchange_code_configs);
+        add_config(recharge_products_configs);
+
+        map_rules = {main: [],cart: [], order: [], my: [], queue: []}
+        all_configs.forEach(function(config){
+          var page = config.page || 'main';
+          var  r = config.path.replace(/:\w*_id\//g, '\\d+\/')
+            r = r.replace(/:order_type/, '\\w*')
+            r = r.replace(/:\w*id$/, '\\d+')
+            r = r.replace(/\//g, '\\/')
+          map_rules[page].push(new RegExp(r))
+        })
+        console.log('main: ' + map_rules.main)
+        console.log('cart: ' + map_rules.cart)
+        console.log('order: ' + map_rules.order)
+        console.log('my: ' + map_rules.my)
+        console.log('queue: ' + map_rules.queue)
+
+
+</script>

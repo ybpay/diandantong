@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html ng-app="ddt_cart">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta content="telephone=no" name="format-detection" />
+  <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
+  <%- @wx_config.sort.each do |key, value|%>
+    <meta content="<%= value %>" name="<%= key%>">
+  <% end if @wx_config.present? %>
+  <meta content="<%= @shop_json||'{}' %>" name="shop_json"/>
+  <meta content="<%= @user_json||'{}' %>" name="user_json"/>
+  <meta content="<%= Rails.env %>" name="env"/>
+  <meta content="<%= Ddt::WeixinApi.oauth_userinfo_url(Ddt::WeixinConfig.gonghao.app_id, my_weixin_shop_url(@current_shop, _ng_path: '/user/profile', force_fetch: true))%>" name="oauth_user_info_url">
+  <meta content="<%= Rails.application.config.action_controller.asset_host %>" name="cdn_cache_domain">
+  <meta name="wechat_account_be_verified" content="<%=@current_shop.primary_wechat_account.try(:account_verified?) %>">
+  <title><%= @current_shop.name %></title>
+  <% if @current_shop.enable_foreign %>
+      <script type="text/javascript" charset='utf-8' src='http://maps.googleapis.com/maps/api/js?key=<%= Ddt::GlobalSetting::GMAP_KEY%>&libraries=places&sensor=true'></script>
+  <% else %>
+    <script type="text/javascript" src="http://map.qq.com/api/js?v=2.exp&key=D6XBZ-7O2R5-P5HI6-QSCGE-33WGJ-DDFG4&libraries=convertor" charset='utf-8'></script>
+  <% end %>
+  <%= stylesheet_link_tag "ddt/common", media: "all", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "ddt/cart", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "http://res.wx.qq.com/open/js/jweixin-1.0.0.js", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "angular", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+  <%= javascript_include_tag "ddt/thirdparty", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+  <%= javascript_include_tag "ddt/business-s", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+  <%= javascript_include_tag "ddt/business-cart", "data-turbolinks-track" => true, crossorigin: "anonymous" %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+  <%= content_for?(:content) ? yield(:content) : yield %>
+  <%= render 'modal_and_toast' %>
+  <%= render 'wechat_account_float' %>
+  <!-- password_modal -->
+  <div ng-confirm-dialog ng-title="请输入支付密码" ng-confirm="password_modal.authenticate()" ng-cancel="password_modal.close()" ng-show="password_modal.show" ng-confirm-text="确定" ng-cancel-text="取消">
+    <div class="weui_cells">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>余额</p>
+            </div>
+            <div class="weui_cell_ft">{{password_modal.user.card_wallet}}</div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input" type="password" placeholder="请输入会员支付密码" ng-model="password_modal.password">
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- item_note_modal -->
+  <div ng-confirm-dialog ng-title="品注" ng-confirm="item_note_modal.submit()" ng-cancel="item_note_modal.close()" ng-show="item_note_modal.show" ng-confirm-text="确定" ng-cancel-text="取消">
+    <div class="button" ng-repeat="item_note in item_note_modal.item_notes"
+          ng-click="item_note_modal.toggle_item_note(item_note)"
+          ng-class="{'color-active': item_note.active, 'color-default': !item_note.active}">
+      {{item_note.name}}
+    </div>
+  </div>
+</body>
+</html>

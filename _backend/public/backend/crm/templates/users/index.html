@@ -1,0 +1,329 @@
+<md-content layout="column" layout-margin style="overflow-y:scroll;">
+  <div layout="row" layout-align="space-between center">
+    <div layout="row" class="query-form" >
+      <md-input-container>
+        <label>用户ID</label>
+        <input ng-model="q.user_id_eq">
+      </md-input-container>
+      <md-input-container>
+        <label>会员编号 会员姓名</label>
+        <input ng-model="q.vip_no_or_name_cont">
+      </md-input-container>
+      <md-input-container>
+        <label>会员手机号</label>
+        <input ng-model="q.phone_cont">
+      </md-input-container>
+      <md-input-container>
+        <label>级别</label>
+        <md-select ng-model="q.vip_level_id_eq">
+          <md-option>
+          </md-option>
+          <md-option ng-repeat="vip_level in vip_levels" value="{{vip_level.id}}">
+            {{::vip_level.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-button class="md-fab md-primary md-mini" ng-click="search()">
+        <md-tooltip md-direction="top">搜索</md-tooltip>
+        <md-icon>search</md-icon>
+      </md-button>
+      <md-button class="md-fab md-primary md-mini" ng-click="reset_search();search();">
+        <md-tooltip md-direction="top">重置搜索</md-tooltip>
+        <md-icon>refresh</md-icon>
+      </md-button>
+      <md-menu style="padding:0;">
+        <md-button class="md-fab md-mini md-primary" ng-click="$mdOpenMenu($event)">
+          <md-tooltip md-direction="top">导入导出</md-tooltip>
+          <md-icon md-menu-origin>cloud_download</md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ng-href="{{export_url('csv')}}">
+              导出csv
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-href="{{export_url('xls')}}">
+              导出xls
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="import_notice($event)">
+              导入会员文件格式要求
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ngf-select="import_file($files, $invalidFiles)"
+                  accept="*" ngf-max-height="1000" ngf-max-size="15MB"
+                  class="md-primary md-raised">
+              导入会员
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="show_import_file_error()">
+              导入错误文件下载
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+      <md-button class="md-fab md-primary md-mini" ng-click="toggle_advanced()">
+        <md-tooltip md-direction="top">更多选项</md-tooltip>
+        <md-icon>arrow_drop_down</md-icon>
+      </md-button>
+    </div>
+    <md-button class="md-fab md-primary md-mini" ng-click="choose_display_columns($event)">
+      <md-tooltip md-direction="top">选择显示项</md-tooltip>
+      <md-icon class="md-18">settings</md-icon>
+    </md-button>
+  </div>
+  <div layout="row" layout-align="start center" ng-show="advanced">
+    <div layout="row" class="query-form" >
+      <md-input-container>
+        <label>微信昵称</label>
+        <input ng-model="q.user_unique_user_nickname_cont">
+      </md-input-container>
+      <md-input-container>
+        <label>微信手机号</label>
+        <input ng-model="q.user_phone_cont">
+      </md-input-container>
+      <md-input-container>
+        <label>性别</label>
+        <md-select ng-model="q.sex_eq">
+          <md-option>
+          </md-option>
+          <md-option value="male">先生</md-option>
+          <md-option value="female">女士</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <md-checkbox ng-model="q.has_wechat_user" class="md-primary">微信用户</md-checkbox>
+      </md-input-container>
+      <md-input-container>
+        <md-checkbox ng-model="q.by_applying" class="md-primary">会员申请</md-checkbox>
+      </md-input-container>
+      <md-input-container>
+        <md-checkbox ng-model="q.blocked" class="md-primary">禁止下单</md-checkbox>
+      </md-input-container>
+    </div>
+  </div>
+  <div layout="row" layout-align="start center" ng-show="advanced">
+    <div layout="row" class="query-form">
+      <div class="query-form-item" layout="row">
+        <label>最后下单时间</label>
+        <adm-dtp ng-model='q.last_placed_at_gteq'></adm-dtp>
+        <label>~</label>
+        <adm-dtp ng-model='q.last_placed_at_lteq'></adm-dtp>
+      </div>
+      <md-input-container>
+        <label>排序</label>
+        <md-select ng-model="q.s">
+          <md-option></md-option>
+          <md-option value="vip_no asc">会员编号</md-option>
+          <md-option value="card_wallet_amount desc">会员余额</md-option>
+          <md-option value="credits_wallet_credits desc">会员积分</md-option>
+          <md-option value="total_amount desc">累计消费金额</md-option>
+          <md-option value="placed_orders_count desc">累计下单数</md-option>
+          <md-option value="card_wallet_total_recharge_money desc">累计充值金额</md-option>
+          <md-option value="credits_wallet_total_get_credits desc">累计获得积分</md-option>
+          <md-option value="credits_wallet_total_used_credits desc">累计使用积分</md-option>
+        </md-select>
+      </md-input-container>
+      <md-input-container>
+        <label>每页数量</label>
+        <md-select ng-model="per_page">
+          <md-option value="10">10/页</md-option>
+          <md-option value="20">20/页</md-option>
+          <md-option value="50">50/页</md-option>
+          <md-option value="100">100/页</md-option>
+        </md-select>
+      </md-input-container>
+    </div>
+    </div>
+  </div>
+
+  <div class="crm-table" layout="column" md-whiteframe="2">
+    <md-toolbar class="crm-table-header" layout="row">
+      <div class="crm-table-header-content" layout="row" flex="90" layout-align="space-around center">
+          <div class="crm-table-th" ng-show="show_batch_select">
+            <md-button class="md-icon-button" ng-click="toggle_select_all()">
+              <md-tooltip md-direction="top">{{ selected_all ? '全不选' : '全选'}}</md-tooltip>
+              <md-icon ng-hide="selected_all">check</md-icon>
+              <md-icon ng-show="selected_all">close</md-icon>
+            </md-button>
+          </div>
+          <div class="crm-table-th" flex ng-repeat="column in columns">{{::column.label}}</div>
+      </div>
+      <div class="crm-table-header-action" flex="10" layout="row" layout-align="center center">
+        <md-button class="md-icon-button" ng-click="new_vip_info($event)">
+          <md-tooltip md-direction="top">添加会员</md-tooltip>
+          <md-icon>add</md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+    <md-content class="crm-table-content" layout="column">
+      <div class="crm-table-row" layout="row" ng-show="vip_infos.length == 0">
+        <div class="crm-table-row-content" flex="100" layout="row" layout-align="space-around center">
+          <div class="crm-table-td" flex>暂无纪录</div>
+        </div>
+      </div>
+      <div class="crm-table-row" layout="row" ng-repeat-start="vi in vip_infos" >
+        <div class="crm-table-row-content" flex="90" layout="row" layout-align="space-around center">
+          <div class="crm-table-td" ng-show="show_batch_select">
+            <md-checkbox class="md-primary" ng-model="vi.selected"></md-checkbox>
+          </div>
+          <div class="crm-table-td" flex ng-repeat="column in columns">
+            <span ng-if="column.type == 'string'">{{vi[column.key]}}</span>
+            <span ng-if="column.type == 'bool'">{{::vi[column.key] ? '是' : '否'}}</span>
+            <span ng-if="column.type == 'datetime'">{{::vi[column.key] | date:'yyyy-MM-dd HH:mm'}}</span>
+            <span ng-if="column.type == 'date'">{{::vi[column.key] | date:'yyyy-MM-dd'}}</span>
+          </div>
+        </div>
+        <div class="crm-table-row-action" flex="10" layout="row" layout-align="space-around center">
+          <md-button ng-click="toggle_action(vi)" class="md-icon-button">
+            <md-tooltip md-direction="right">操作</md-tooltip>
+            <md-icon>menu</md-icon>
+          </md-button>
+        </div>
+      </div>
+      <div class="crm-table-row row-action" layout="row" ng-repeat-end ng-show="vi.show_action">
+        <div class="crm-table-row-content" flex="100" layout="row" layout-align="end center">
+          <div class="crm-table-td" ng-show="vi.is_wechat_user && vi.user_is_blocked">
+            <md-button ng-click="cancel_block(vi, $event)">
+              <md-icon>block</md-icon>
+              解除禁止
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-show="vi.is_wechat_user && !vi.user_is_blocked">
+            <md-button ng-click="block(vi, $event)">
+              <md-icon>block</md-icon>
+              禁止下单
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-show="vi.is_apply_vip">
+            <md-button class="md-primary md-raised" ng-click="apply_vip_action(vi, $event)">
+              会员申请中
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="order_logs(vi, $event)">
+              订单列表
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="credits_wallet_logs(vi, $event)">
+              积分日志
+            </md-button>
+          </div>
+
+          <div class="crm-table-td" ng-hide="vi.vip_level_is_default">
+            <md-button ng-click="card_wallet_logs(vi, $event)">
+              余额日志  
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-hide="vi.vip_level_is_default">
+            <md-button ng-click="coupon_logs(vi, $event)">
+              发券记录
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-hide="vi.vip_level_is_default">
+            <md-button ng-click="exchange_card_wallet(vi, $event)">
+              <md-icon>remove_circle_outline</md-icon>
+              余额兑换
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-hide="vi.vip_level_is_default">
+            <md-button ng-click="recharge_card_wallet(vi, $event)">
+              <md-icon>add_circle_outline</md-icon>
+              余额充值
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-hide="vi.vip_level_is_default">
+            <md-button ng-click="recharge_credits_wallet(vi, $event)">
+              <md-icon>add_circle_outline</md-icon>
+              积分充值
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-hide="vi.vip_level_is_default">
+            <md-button ng-click="edit_pay_password(vi, $event)">
+              <md-icon>fingerprint</md-icon>
+              修改支付密码
+            </md-button>
+          </div>
+          <div class="crm-table-td" ng-show="vi.is_wechat_user">
+            <md-button ng-click="send_coupon(vi, $event)">
+              <md-icon>receipt</md-icon>
+              发放优惠券
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="show_info(vi, $event)">
+              <md-icon>details</md-icon>
+              详情
+            </md-button>
+          </div>
+          <div class="crm-table-td">
+            <md-button ng-click="edit_info(vi, $event)">
+              <md-icon>edit</md-icon>
+              编辑
+            </md-button>
+          </div>
+        </div>
+      </div>
+    </md-content>
+  </div>
+  <div layout="row" layout-align="space-between center">
+    <div>
+      <md-button class="md-fab md-primary md-mini" ng-click="toggle_batch_select()">
+        <md-tooltip md-direction="top">批量选择</md-tooltip>
+        <md-icon>done_all</md-icon>
+      </md-button>
+      <md-menu ng-show="show_batch_select">
+        <md-button class="md-fab md-mini md-primary" ng-click="$mdOpenMenu($event)">
+          <md-tooltip md-direction="top">批量操作</md-tooltip>
+          <md-icon md-menu-origin>details</md-icon>
+        </md-button>
+        <md-menu-content width="4">
+          <md-menu-item>
+            <md-button ng-click="batch_credits_clear()">
+              清空积分
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="batch_send_coupon($event)">
+              发放优惠券
+            </md-button>
+          </md-menu-item>
+          <md-menu-item ng-show="q.by_applying">
+            <md-button ng-click="batch_apply_vip($event)">
+              批量通过会员申请
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="batch_destroy($event)">
+              删除
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
+    </div>
+    <section layout="row" layout-align="center center">
+      <md-button class="group-btn left" ng-click="p.previous_page().query()">
+        <md-tooltip md-direction="left">上一页</md-tooltip>
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+      <md-button class="group-btn middle">
+        <md-tooltip md-direction="top">当前页</md-tooltip>
+        {{p.current_page()}}
+      </md-button>
+      <md-button class="group-btn right" ng-click="p.next_page().query()">
+        <md-tooltip md-direction="right">下一页</md-tooltip>
+        <md-icon>arrow_forward</md-icon>
+      </md-button>
+    </section>
+    <div>
+      <md-button class="md-fab md-primary md-mini" ng-click="toggleHideLeftMenu()">
+        <md-icon>menu</md-icon>
+      </md-button>
+    </div>
+  </div>
+</md-content>

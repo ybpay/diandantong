@@ -1,0 +1,18 @@
+%tr.recharge-refund-tr{ :"data-id" => recharge_refund.id }
+  %td= recharge_refund.order_number
+  %td= recharge_refund.branch_name
+  %td= recharge_refund.state_name
+  %td= recharge_refund.cash_amount
+  %td= recharge_refund.credits
+  %td= recharge_refund.operator_name
+  %td= recharge_refund.created_at.strftime("%F %T")
+  - if recharge_refund.reviewer.present?
+    %td= recharge_refund.reviewer.try(:name) || recharge_refund.reviewer_id
+    %td= recharge_refund.review_time
+  - else
+    %td= ''
+    %td= ''
+  %td
+    - if recharge_refund.is_pending?
+      = link_to "完成", [:complete, :backend, @current_shop, recharge_refund], class: "btn btn-primary btn-sm", remote: true, method: :post, data: { confirm: "确认完成?" }
+      = link_to "撤销", [:cancel, :backend, @current_shop, recharge_refund], class: "btn btn-danger btn-sm", remote: true, method: :post, data: { confirm: "确认撤销?" }

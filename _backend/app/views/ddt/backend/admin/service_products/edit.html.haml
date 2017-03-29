@@ -1,0 +1,9 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t('activerecord.models.ddt/service_product')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Show'), backend_service_product_path(@service_product), :class=>"btn btn-sm"
+    \|
+    = link_to t('Back'), backend_service_products_path, :class=>"btn btn-sm"

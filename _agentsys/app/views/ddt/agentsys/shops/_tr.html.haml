@@ -1,0 +1,30 @@
+%tr{id: "_#{shop.id}"}
+  %td
+    = link_to "#{shop.slug}", [:agentsys, shop]
+    - if shop.is_ban?
+      %span.label.label-danger 已全面禁止
+  %td= shop.address
+  %td= link_to shop.shop_type_name, [:agentsys, :feature_modules_configs, {shop_id: shop.id}]
+  %td
+    = "#{shop.created_at.strftime('%Y-%m-%d')}"
+  %td
+    = "#{shop.expiration_time.strftime('%Y-%m-%d')}"
+    - if shop.expiration_time < DateTime.now
+      %span.label.label-danger 账户已过期
+    - elsif shop.expiration_time < 30.days.from_now
+      %span.label.label-info 即将到期
+  %td
+    = shop.is_give_up_name
+  %td
+    - if current_agentsys_agent.agent_no == shop.agent_no
+      - if shop.is_give_up?
+        = link_to "跟进该客户", follow_agentsys_shop_path(shop), method: :post, remote: true
+      - else
+        = link_to "放弃跟进", give_up_agentsys_shop_path(shop), method: :post, remote: true
+    = link_to "升级", index_group_agentsys_feature_modules_configs_path(shop_id: shop.id)
+
+    - if !shop.is_base? || current_agentsys_agent.is_hardware_level?
+      = link_to "续费", new_agentsys_shop_recharge_record_path(shop_id: shop.id)
+    - if shop.can_recharge_free?
+      = link_to "免费延长试用期", new_free_agentsys_shop_recharge_records_path(shop_id: shop.id)
+    = link_to "编辑", edit_agentsys_shop_path(shop)

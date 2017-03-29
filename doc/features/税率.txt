@@ -1,0 +1,12 @@
+1. 在 shop 增加 tax_rate
+  db && migration
+  后台修改设置
+2. 仅当 enable_foreign 时才效
+3. 订单计算完成后，最后添加 assignment，税 = 打折后产品价 * 税率
+4. 告知用户税率，故需要在 Cart 状态下，就存在，创建时生成。
+5. 如何实现 adjustment，还是不用 adjustment，如果不用，如何去显示。如果用 Source 是什么？
+6. 在 Order 中增加 tax_total，如果是国外，则启用此项。
+7. 在各个订单页面，显示 tax 的多少。
+  F i 外送 delivery/show
+  ii 堂点
+  iii 预订x

@@ -1,0 +1,24 @@
+%tbody.branches_tbody
+  - branches.each do |branch|
+    - cache(branch, expires_in: 1.day) do
+      %tr
+        %td= link_to branch.name, [:backend, @current_shop, branch]
+        %td= branch.expiration_time.try(:strftime, '%F')
+        / %td= branch.charge_method_name
+        %td= branch.branch_type.name rescue nil
+        %td
+          = link_to t("activerecord.models.ddt/product"), [:backend, @current_shop, branch, :products]
+          = link_to t("activerecord.models.ddt/combo"), [:backend, @current_shop, branch, :combos]
+          = link_to t("activerecord.models.ddt/order_promotion"), [:backend, @current_shop, branch, :order_promotions]
+          = link_to "产品优惠", [:backend, @current_shop, branch, :product_promotions]
+          = link_to t("activerecord.models.ddt/event_promotion"), [:backend, @current_shop, branch, :event_promotions]
+        %td
+          - url = change_position_backend_shop_branch_path(@current_shop,branch)
+          = change_position_form(url, branches, branch)
+        %td
+          = link_to "详情", [:backend, @current_shop, branch]
+          = link_to "修改", edit_backend_shop_branch_path(@current_shop, branch)
+  = no_record_hint(branches)
+
+- branches.select{|branch| branch.branch_category == 'others'}.each do|branch|
+  = javascript_tag("toastr.info('以下门店没有为其配置<门店行业>，请<a href=#{edit_backend_shop_branch_path(@current_shop, branch)} target='_blank'>点击立即设置</a>', '操作提示', {timeOut: 0, extendedTimeOut: 0})")

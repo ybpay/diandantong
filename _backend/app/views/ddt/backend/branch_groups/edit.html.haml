@@ -1,0 +1,10 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t('activerecord.models.ddt/branch_group')}"
+  .ibox-content
+    .col-md-6
+      = render 'form'
+      = link_to t('Show'), [:backend, @current_shop, @branch_group], :class => "btn btn-default btn-sm"
+      \
+      = link_to t('Back'), backend_shop_branch_groups_path(@current_shop), :class => "btn btn-default btn-sm"
+    .clearfix

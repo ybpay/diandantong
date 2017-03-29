@@ -1,0 +1,12 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @tag], html: { class: 'form-horizontal', remote: true}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@tag)
+
+  .form-inputs
+    = f.input :name
+    = f.input :color, as: :minicolors, hint: '默认为:#f34b3f'
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"
+
+:javascript
+  $('#product_tag_color').minicolors();

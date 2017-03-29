@@ -1,0 +1,8 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'form' %>",
+  title: "编辑"
+})
+setTimeout(function(){
+  $(document).trigger('page:load')
+}, 500)

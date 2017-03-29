@@ -1,0 +1,38 @@
+.alert.alert-info
+  如果您还没有开通微信摇一摇周边功能，请到
+  = link_to "微信周边官网", "https://zb.weixin.qq.com", target: '_blank'
+  申请开通, 开通后方可正常使用摇一摇周边相关功能
+
+.header
+  %h2 设备申请记录
+
+.form-group
+  = link_to '申请设备', new_backend_shop_wechat_account_shake_around_apply_log_path(@current_shop, @wechat_account), :class=>"btn btn-sm btn-primary"
+  = link_to '刷新记录', backend_shop_wechat_account_shake_around_apply_logs_path(@current_shop, @wechat_account), :class=>"btn btn-sm btn-success"
+
+%table.table.table-striped.table-bordered
+  %tr
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:apply_id)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:apply_reason)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:quantity)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:audit_status)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:audit_comment)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:apply_time)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:audit_time)
+    %th= Ddt::ShakeAround::ApplyLog.human_attribute_name(:comment)
+
+  - @apply_logs.each do |apply_log|
+    %tr
+      %td= apply_log.apply_id
+      %td= apply_log.apply_reason
+      %td= apply_log.quantity
+      %td= apply_log.audit_status_name
+      %td= apply_log.audit_comment
+      %td= apply_log.apply_time
+      %td= apply_log.audit_time
+      %td= apply_log.comment
+
+  = no_record_hint(@apply_logs)
+
+%br
+

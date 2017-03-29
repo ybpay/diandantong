@@ -1,0 +1,62 @@
+.ibox
+  %h2= "#{t('activerecord.models.ddt/queue_setting')} 详情"
+  .ibox-content
+    .col-md-8
+      .model-show
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:name)
+            \:
+          = @queue_setting.name
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:queue_qr_code)
+            \:
+          = image_tag @queue_setting.queue_qr_code.thumb.url
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:guest_num_le)
+            \:
+          = @queue_setting.guest_num_le
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:start_at)
+            \:
+          = @queue_setting.start_at.strftime("%H:%M")
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:end_at)
+            \:
+          = @queue_setting.end_at.strftime("%H:%M")
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:queue_no_prefix)
+            \:
+          = @queue_setting.queue_no_prefix
+        - if @queue_setting.current_queue_head
+          %p
+            %b
+              = Ddt::QueueSetting.human_attribute_name(:current_queue_head)
+              \:
+            = link_to @queue_setting.current_queue_head.guest_no, [:backend, @current_shop, @current_branch, @queue_setting, @queue_setting.current_queue_head ]
+
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:last_push_queue_item_at)
+            \:
+          = @queue_setting.last_push_queue_item_at
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:enabled)
+            \:
+          = @queue_setting.enabled_name
+        %p
+          %b
+            = Ddt::QueueSetting.human_attribute_name(:notify_number_in_advance)
+            \:
+          = @queue_setting.notify_number_in_advance
+
+      = link_to t('Edit'), edit_backend_shop_branch_queue_setting_path(@current_shop, @current_branch, @queue_setting), :class => "btn btn-primary"
+      \
+      = link_to '删除此队列', [:backend, @current_shop, @current_branch, @queue_setting], :method => :delete, :data => { :confirm => '确定删除?' }, :class => "btn btn-danger"
+    .clearfix

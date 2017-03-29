@@ -1,0 +1,56 @@
+<div common-header></div>
+<div ng-include src="partial('orders/show-footer')" ></div>
+<div ng-include src="partial('orders/wechat-account-float')" ></div>
+<div class="main-view order-show" id="delivery-order-show">
+  <div class="section">
+    <a class="list-item arrow-right" ng-href="#/branches/{{branch.id}}">
+      <i class="fa fa-bookmark-o"></i> {{::branch.name}}
+    </a>
+    <a class="list-item arrow-right" ng-href="tel:{{branch.phone}}">
+        <i class="fa fa-phone"></i> 商家客服：{{branch.phone}}
+    </a>
+    <a class="list-item" ng-click="cancel()" ng-if="can_cancel()">
+      <div class="service-button">
+        <i class="red fa fa-bell"></i> 取消订单
+      </div>
+    </a>
+    <a class="list-item" ng-click="go_invitation_order()" ng-if="can_go_invitation_order()">
+        <div class="service-button label-red">
+          向好友发邀请函
+        </div>
+    </a>
+  </div>
+  <div class="space-8"></div>
+  <div ng-include src="partial('orders/show-order-state')" ></div>
+  <div class="space-8"></div>
+  <div class="section no-bottom-border">
+    <div class="list-item time">
+      <span>订单号：{{::order.number}}</span><br/>
+      <span>下单时间：{{order.placed_at | date:'yyyy-MM-dd HH:mm'}}</span>
+    </div>
+    <div class="list-item">
+      点菜合计：
+      <span class="red">{{::order.item_count}}份</span>，
+      <strong class="red">{{::order.total|currency:currency}}</strong>
+      <span class="red">(预付 {{::order.amount_for_pay}})</span>
+      <span ng-if="order.tax_total>0">(税 {{order.tax_total|currency:currency}})</span><span ng-if='enable_foreign && order.tax_total==0'>（免税）</span>
+    </div>
+    <div class='list-item' ng-repeat="line_item in order.line_items">
+      <div class="name">
+        {{::line_item.name_with_note}}<span ng-if="line_item.gift" class="red">(赠)</span>
+      </div>
+      <div class="quantity-info">
+        <span class="quantity">{{::line_item.active_quantity}}份</span>
+          ×
+        <span class="price">{{::line_item.price|currency: currency}}</span>
+      </div>
+    </div>
+    <div class="list-item">
+      <div ng-repeat="item in order.order_items" class="order-item">
+        {{::item.name}}: {{::item.value}}
+      </div>
+    </div>
+  </div>
+  <div class="juchi"></div>
+
+</div>

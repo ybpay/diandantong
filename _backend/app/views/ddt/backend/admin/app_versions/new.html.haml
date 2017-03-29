@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h2= "新建#{t('activerecord.models.ddt/app_version')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Back'), backend_app_versions_path, :class => "btn btn-default btn-sm"

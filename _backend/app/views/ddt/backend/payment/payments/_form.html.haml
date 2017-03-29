@@ -1,0 +1,18 @@
+= simple_form_for(@payment, :url => [:backend, @current_shop, @payment], html: { class: 'form-horizontal'}) do |g|
+  - g.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@payment)
+    .form-inputs
+      = f.input :branch_id, collection: @current_shop.branches, :include_blank => false
+      = f.input :order_id
+      = f.input :amount
+      = f.input :workflow_state, collection: @model_class.workflow_spec.states.map {|k,v| [@model_class.human_attribute_name(k),v]}, :include_blank => false
+      = f.input :payment_method_id, collection: @current_shop.payment_methods, :include_blank => false
+      = f.input :partner_id
+      = f.input :out_trade_no
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => 'btn btn-primary btn-sm'
+
+= simple_show_link(@payment)
+= simple_back_link(@model_class)
+

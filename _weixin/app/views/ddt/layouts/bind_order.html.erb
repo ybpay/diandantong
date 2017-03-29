@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta content="telephone=no" name="format-detection" />
+  <title><%= @current_shop.name %></title>
+  <%= javascript_include_tag "zepto", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "bind_order", media: "all", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+  <%= yield(:header) %>
+</head>
+<body>
+  <%= content_for?(:content) ? yield(:content) : yield %>
+</body>
+</html>

@@ -1,0 +1,43 @@
+
+%header
+  %h3 当前可充值服务套餐
+
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.col-sm-2 套餐产品
+      %th.col-sm-7 包含功能模块
+      %th.col-sm-2 价格
+      %th.col-sm-1
+  %tbody
+    - feature_module_groups = Ddt::FeatureModuleGroup.all_values_without_base.select{|feature_module_group| Ddt::FeatureModuleGroup.can_upgrade_to?(@current_shop, @current_shop.max_branches_limit, feature_module_group[:name])}
+
+    - feature_module_groups.each do |fmg|
+      %tr
+        %td= fmg[:label]
+        %td= Ddt::FeatureModuleGroup.module_names(fmg[:name])
+        %td= "#{fmg[:price]}#{('/店' if fmg[:charge_by_branch])}"
+        %td
+          - if @current_shop.present?
+            - if @current_shop.shop_type == fmg[:name]
+              = link_to '续费', new_agentsys_shop_recharge_record_path(shop_id: @current_shop.id, feature_module_group: fmg[:name], increment_days: 365)
+            - else
+              = link_to '可升级', new_agentsys_shop_recharge_record_path(shop_id: @current_shop.id, feature_module_group: fmg[:name], increment_days: 0)
+
+%header
+  %h3 不可充值服务套餐
+%table.table.table-striped
+  %thead
+    %tr
+      %th.col-sm-2 套餐产品
+      %th.col-sm-7 包含功能模块
+      %th.col-sm-2 价格
+      %th.col-sm-1
+  %tbody
+    - Ddt::FeatureModuleGroup.all_values_without_base.select{|feature_module_group| !Ddt::FeatureModuleGroup.can_upgrade_to?(@current_shop, @current_shop.max_branches_limit, feature_module_group[:name]) }.each do |fmg|
+      %tr
+        %td= fmg[:label]
+        %td= Ddt::FeatureModuleGroup.module_names(fmg[:name])
+        %td= "#{fmg[:price]}#{('/店' if fmg[:charge_by_branch])}"
+        %td

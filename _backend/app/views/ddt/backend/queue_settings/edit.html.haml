@@ -1,0 +1,10 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t('activerecord.models.ddt/queue_setting')}"
+  .ibox-content
+    .col-md-6
+      = render 'form'
+      = link_to t('Show'), [:backend, @current_shop, @current_branch, @queue_setting], :class => "btn btn-default btn-sm"
+      \
+      = link_to t('Back'), backend_shop_branch_queue_settings_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"
+    .clearfix

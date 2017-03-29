@@ -1,0 +1,81 @@
+#addresses-index-page {
+  .section.address-list-section {
+    padding: 0;
+  }
+
+  .subject {
+    padding-left: 10px;
+  }
+  .address-item.active {
+    background-color: $color-red;
+    color: white;
+    a {color: white;}
+    border-bottom: 1px solid $color-red;
+  }
+  .address-item {
+    padding: 10px;
+    border-bottom: 1px solid $gray-lightest;
+    display: table;
+    width: 100%;
+    > div {
+      vertical-align: middle;
+      display: table-cell;
+    }
+    .address-info {
+      text-align: left;
+      width: 65%;
+    }
+    .op-info {
+      width: 35%;
+      text-align: right;
+      .circle {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border: 1px solid $gray-lighter;
+        text-align: center;
+        line-height: 30px;
+        border-radius: 1000px;
+        font-size: 10px;
+        color: $gray;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+      .circle:last-child {
+        margin-right: 0;
+      }
+      .circle i{
+        font-size: 20px;
+        line-height: 30px;
+        display: block;
+      }
+    }
+
+    .personal-info {
+      font-size: 17px;
+      // font-weight: bold;
+      line-height: 30px;
+      > div {
+        display: inline-block;
+      }
+    }
+    .address-content {
+      font-size: 13px;
+      .geoed-img{
+        width: 15px;
+      }
+    }
+  }
+
+  .address-item.active .circle {
+    color: white !important;
+    border-color: white;
+  }
+}
+
+#addresses-new-page {
+  height: 100%;
+  .section {
+    padding: 0;
+  }
+}

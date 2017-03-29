@@ -1,0 +1,40 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/branch')} 列表"
+    .p
+      - if @current_shop.max_branches_limit >= 100
+        = "您当前使用的 [ #{@current_shop.shop_type_name} ] 可创建门店数量无限制"
+      - else
+        = "您当前使用的 [ #{@current_shop.shop_type_name} ] 可创建门店数量最多为#{@current_shop.max_branches_limit}家"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = search_form_for @q, url: backend_shop_branches_path(@current_shop), html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :name_cont, placeholder: Ddt::Branch.human_attribute_name(:name), class: "form-control"
+          = f.input_field :branch_type_id_eq, collection: @current_shop.branch_types, prompt: Ddt::Branch.human_attribute_name(:branch_type), include_blank: true, class: "form-control"
+          = f.submit "搜索", class: 'btn btn-default'
+    .row
+      .col-sm-12
+        - if @current_shop.branches_count < @current_shop.max_branches_limit
+          = link_to "新建 #{t('activerecord.models.ddt/branch')}", new_backend_shop_branch_path(@current_shop), :class=>"btn btn-primary"
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-3= sort_link(@q, :name, Ddt::Branch.human_attribute_name(:name))
+                %th.col-sm-2= sort_link(@q, :expiration_time, Ddt::Branch.human_attribute_name(:expiration_time))
+                / %th.col-sm-1= sort_link(@q, :charge_method, Ddt::Branch.human_attribute_name(:charge_method))
+                %th.col-sm-2= sort_link(@q, :branch_type, Ddt::Branch.human_attribute_name(:branch_type))
+                %th.col-sm-2
+                %th.col-sm-1
+                %th.col-sm-2
+            = render 'tbody', {branches: @branches}
+
+          %br
+          .pull-right= will_paginate @branches , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

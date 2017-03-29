@@ -1,0 +1,6 @@
+%h3= "发放优惠券"
+.ibox-content
+  .col-md-6
+    = render 'form'
+    = link_to t('Back'), backend_shop_coupon_versions_path(@current_shop), :class => "btn btn-default btn-sm"
+  .clearfix

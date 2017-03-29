@@ -1,0 +1,17 @@
+<md-toolbar layout="row" class="md-whiteframe-z1" layout-align="left center">
+  <md-button class="menu" hide-gt-sm ng-click="toggleLeftMenu()" class="md-icon-button">
+    <md-icon>menu</md-icon>
+  </md-button>
+  <md-button hide-sm ng-click="goBack()" class="md-icon-button">
+    <md-icon>chevron_left</md-icon>
+  </md-button>
+  <h3>{{page.title}}</h3>
+</md-toolbar>
+<md-content layout="column">
+  <md-tabs>
+    <md-tab ui-sref="recharge.products" md-active="$state.includes('recharge.products')">充值品</md-tab>
+    <md-tab ui-sref="recharge.setting" md-active="$state.includes('recharge.setting')">设置</md-tab>
+  </md-tabs>
+  <md-content layout="column" ui-view="main">
+  </md-content>
+</md-content>

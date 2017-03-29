@@ -1,0 +1,8 @@
+= simple_form_for @send_coupon_form, url: send_coupon_backend_shop_vip_search_path(@current_shop, @filter), method: :post, remote: true, html: { class: 'form-horizontal'} do |f|
+  = f.error_notification :message => error_message_in_html(@send_coupon_form)
+  .form-inputs
+    = f.input :coupon_version_id, collection: @current_shop.coupon_versions, label: "优惠券"
+    = f.input :count, as: :integer, label: '发放数量'
+    = f.input :base_user_ids, as: :hidden
+  .form-actions.col-xs-offset-2
+    = f.submit "确认发放", :class => "btn btn-primary btn-sm", disable_with: "优惠券发放中..."

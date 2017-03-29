@@ -1,0 +1,52 @@
+.ibox
+  .ibox-title
+    %h2= "#{t('activerecord.models.ddt/sale_data_uploader_setting')} 详情"
+  .ibox-content
+    .col-md-6
+      .model-show
+        %p
+          %b
+            = Ddt::SaleDataUploaderSetting.human_attribute_name(:enable)
+            \:
+          = @sale_data_uploader_setting.enable? ? "是" : "否"
+        %p
+          %b
+            = Ddt::SaleDataUploaderSetting.human_attribute_name(:auto_upload_after_shift)
+            \:
+          = @sale_data_uploader_setting.auto_upload_after_shift? ? "是" : "否"
+
+        .space
+
+      - if current_account.is_admin? || @sale_data_uploader_setting.enable?
+        = link_to t('Edit'), edit_backend_shop_branch_sale_data_uploader_setting_path(@current_shop, @current_branch), :class => "btn btn-primary btn-sm"
+      - if @sale_data_uploader_setting.enable?
+        - shifts_collection = @current_branch.shifts.closed.limit(20).map{|s| [s.time_label, s.id]}
+        = link_to "上传基础数据", upload_base_backend_shop_branch_sale_data_uploader_setting_path(@current_shop, @current_branch), :class => "btn btn-primary btn-sm", method: :put, remote: true
+        %h3 上传订单数据
+        = simple_form_for(:uploader, url: upload_orders_backend_shop_branch_sale_data_uploader_setting_path(@current_shop, @current_branch), html: { class: 'form-horizontal'}) do |f|
+          .form-inputs
+            = f.input :start_time, as: :datetime, label: "开始时间", required: false
+            = f.input :end_time, as: :datetime, label: "结束时间", required: false
+            = f.input :shift_id, label: "班次", collection: shifts_collection, required: false
+
+          .form-actions.col-xs-offset-2
+            = f.submit "上传", :class => "btn btn-primary btn-sm"
+        %h3 查询订单上传状态
+        = simple_form_for(:uploader, url: query_orders_backend_shop_branch_sale_data_uploader_setting_path(@current_shop, @current_branch), html: { class: 'form-horizontal'}, remote: true) do |f|
+          .form-inputs
+            = f.input :start_time, as: :datetime, label: "开始时间", required: false
+            = f.input :end_time, as: :datetime, label: "结束时间", required: false
+            = f.input :shift_id, label: "班次", collection: shifts_collection, required: false
+
+          .form-actions.col-xs-offset-2
+            = f.submit "查询", :class => "btn btn-primary btn-sm"
+        %h3 补传订单数据
+        = simple_form_for(:uploader, url: reupload_orders_backend_shop_branch_sale_data_uploader_setting_path(@current_shop, @current_branch), html: { class: 'form-horizontal'}) do |f|
+          .form-inputs
+            = f.input :start_time, as: :datetime, label: "开始时间", required: false
+            = f.input :end_time, as: :datetime, label: "结束时间", required: false
+            = f.input :shift_id, label: "班次", collection: shifts_collection, required: false
+
+          .form-actions.col-xs-offset-2
+            = f.submit "补传", :class => "btn btn-primary btn-sm"
+    .clearfix

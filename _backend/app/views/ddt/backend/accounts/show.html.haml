@@ -1,0 +1,78 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      %h2= "#{t('activerecord.models.ddt/account')}详情"
+
+      - unless @branches_config_ok && @products_config_ok
+        .alert.alert-warning
+          %strong
+            警告：
+          - unless @branches_config_ok
+            %p
+              请为该厨师配置任职的门店。 点击编辑即可进行设置
+          - unless @products_config_ok
+            %p
+              您还没有为该厨师配置可以烹饪的菜， 该厨师还不能正常工作， 在门店下拉列表中厨师设置，可以进行配置。
+
+      .ibox-content.header
+        .row
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:name)
+              \:
+            = @account.name
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:email)
+              \:
+            = @account.email
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:login_main_id)
+              \:
+            = @account.login_id
+          - unless @account.built_in?
+            .col-md-6.form-group
+              %b
+                = Ddt::Account.human_attribute_name(:login_sub_id)
+                \:
+              = @account.login_id
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:notification_email)
+              \:
+            = @account.notification_email
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:receive_email)
+              \:
+            = @account.receive_email? ? "接收" : '不接收'
+
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:phone)
+              \:
+            = @account.phone
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:ban_login_app_when_no_open)
+              \:
+            = @account.ban_login_app_when_no_open? ? '是' : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:user_id)
+              \:
+            = @account.user.try(:nickname)
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:manage_branches)
+              \:
+            = @account.is_boss? ? '所有门店' : @account.manage_branches.map(&:name).join(',')
+          .col-md-6.form-group
+            %b
+              = Ddt::Account.human_attribute_name(:roles)
+              \:
+            = @account.roles.map(&:display_name).join(',')
+        .space
+
+        = link_to t('Edit'), edit_backend_shop_account_path(@current_shop, @account), :class => "btn btn-primary"

@@ -1,0 +1,54 @@
+- if @mode.blank?
+  .header
+    %h2 页面
+
+  .alert.alert-info
+    系统不自动从微信那边刷新页面列表, 如需更新，请手动刷新
+
+  - if params[:notice]
+    .alert.alert-danger
+      = params[:notice]
+
+  .form-group
+    = link_to "新建页面", new_backend_shop_wechat_account_shake_around_page_path(@current_shop, @wechat_account), class: "btn btn-sm btn-primary"
+    = link_to '刷新列表', refresh_backend_shop_wechat_account_shake_around_pages_path(@current_shop, @wechat_account), :class=>"btn btn-sm btn-success"
+- if @mode
+  .header
+    %h2 绑定管理
+- if @mode && @device
+  %table.table.table-striped.table-bordered
+    = render partial: 'th'
+    = render partial: 'tr', locals: {device: @device}
+
+
+- if @mode && @mode == "binded"
+  .alert.alert-info
+    以下是已绑定到该设备的页面
+
+  .form-group
+    = link_to '绑定更多页面', bindable_backend_shop_wechat_account_shake_around_device_path(@current_shop, @wechat_account, @device), :class=>"btn btn-sm btn-primary"
+    = link_to "解除绑定", unbind_backend_shop_wechat_account_shake_around_device_path(@current_shop, @wechat_account, @device), class: "btn btn-sm btn-primary batch_op_action", confirmtxt: "确认将该这些页面与该设备解绑？"
+
+- if @mode && @mode == "bindable"
+  .alert.alert-info
+    - if @pages.size > 0
+      请从下方选择页面， 选择后可以把页面配置到该设备
+    - else
+      当前没有可以绑定的页面
+
+  .form-group
+    = link_to "批量绑定页面", bind_backend_shop_wechat_account_shake_around_device_path(@current_shop, @wechat_account, @device), class: "btn btn-primary batch_op_action", confirmtxt: "确认将该这些页面配置到设备？"
+
+- if @mode.blank?
+  .form-group
+    =search_form_for @q, url: backend_shop_wechat_account_shake_around_pages_path(@current_shop, @wechat_account), html:{class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+      = f.input_field :page_id_eq, placeholder: Ddt::ShakeAround::Page.human_attribute_name(:page_id)
+      = f.submit "搜索", class: 'btn btn-xs btn-success'
+
+%table.table.table-striped.table-bordered
+  = render partial: 'ddt/backend/shake_around/pages/th'
+  = render partial: 'ddt/backend/shake_around/pages/tr', collection: @pages, as: :page
+  = no_record_hint(@pages)
+%br
+.pull-right= will_paginate @pages , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

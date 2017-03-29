@@ -1,0 +1,99 @@
+.panel.panel-default
+  .panel-heading 我的代理信息
+  .panel-body
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:name)
+        \:
+      = @agent.name
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:is_oem)
+        \:
+      = @agent.is_oem_name
+
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:domain)
+        \:
+      = @agent.domain
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:wechat_introduce_url)
+        \:
+      = @agent.wechat_introduce_url
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:brand)
+        \:
+      = @agent.brand
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:email)
+        \:
+      = @agent.email
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:phone)
+        \:
+      = @agent.phone
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:qq)
+        \:
+      = @agent.qq
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:agent_no)
+        \:
+      = @agent.agent_no
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:company_name)
+        \:
+      = @agent.company_name
+    - if @agent.is_oem?
+      %p
+        %b
+          = Ddt::Agent.human_attribute_name(:logo)
+          \:
+        = image_tag @agent.logo.thumb.url, width: 150
+      %p
+        %b
+          = Ddt::Agent.human_attribute_name(:rect_logo)
+          \:
+        = image_tag @agent.rect_logo.thumb.url, height: 150
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:balance)
+        \:
+      = number_to_currency(@agent.balance, :unit=>"¥")
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:email_address)
+        \:
+      = @agent.email_address
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:email_user_name)
+        \:
+      = @agent.email_user_name
+    %p
+      %strong
+        = Ddt::Agent.human_attribute_name(:agent_rels)
+        \:
+    %table.table.table-striped.table-bordered
+      %thead
+        %tr
+          %th= Ddt::AgentRel.human_attribute_name(:agent_zone_id)
+          %th= Ddt::AgentRel.human_attribute_name(:agent_time)
+      %tbody
+        - @agent.agent_rels.each do |agent_rel|
+          %tr
+            %td= agent_rel.agent_zone.name rescue ''
+            %td
+              = agent_rel.agent_from.strftime('%Y-%m-%d')
+              \~
+              = agent_rel.agent_to.strftime('%Y-%m-%d')
+    = link_to '修改个人信息', agentsys_edit_profile_path, :class=>"btn btn-default"
+    = link_to '返回', :back, :class=>"btn btn-success"

@@ -1,0 +1,30 @@
+<div class="main-view" id="card-wallet-log-page">
+  <div class="padding-10"></div>
+  <div class="weui_cells" ng-if="wallet_logs.length == 0">
+      <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p>对不起，暂时没有余额变更记录</p>
+          </div>
+      </div>
+  </div>
+  <div class="weui_cells" ng-repeat="wallet_log in wallet_logs">
+      <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p>{{::wallet_log.reason_name}}</p>
+          </div>
+          <div class="weui_cell_ft">时间：{{::wallet_log.created_at}}</div>
+      </div>
+      <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p ng-if="wallet_log.branch_name">门店：{{::wallet_log.branch_name}}</p>
+          </div>
+          <div class="weui_cell_ft" ng-if="wallet_log.note">备注：{{::wallet_log.note}}</div>
+      </div>
+      <div class="weui_cell" ng-if="wallet_log.amount || wallet_log.balance">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p ng-if="wallet_log.amount">变动金额：{{::wallet_log.amount}}</p>
+          </div>
+          <div class="weui_cell_ft" ng-if="wallet_log.balance">余额：{{::wallet_log.balance}}</div>
+      </div>
+  </div>
+</div>

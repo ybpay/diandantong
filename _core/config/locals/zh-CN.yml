@@ -1,0 +1,2025 @@
+
+zh-CN:
+  helpers:
+    submit:
+      create: "新建 %{model}"
+      submit: "保存 %{model}"
+      update: "更新 %{model}"
+      delete: "删除 %{model}"
+  action:
+    edit: 编辑
+    modify: 修改
+    update: 更新
+    submit: 提交
+  activerecord:
+    errors:
+      models:
+        ddt/branch:
+          attributes:
+            base:
+              exceed_limit: 无法创建新的门店，因为门店数量超过指定的数量
+    description:
+      ddt/order_promotion: 满减优惠适用于当用户下单满足指定条件时，商家给予订单指定额度的减免优惠。例如订单总额满100元，优惠5元。
+      ddt/product_promotion: 产品优惠适用于当用户下单满足指定条件时，商家给予指定产品减免优惠。例如小炒肉第二份半价。
+      ddt/event_promotion: 免赠促销适用于当用户满足活动指定的条件时，商家赠送虚拟或实物礼品给予鼓励。例如首次关注商家公众账号，赠送100积分。
+      ddt/qr_code_scene: 用户使用微信扫描二维码后可以直接跳转到指定的页面，进行操作。但是未关注用户不会自动关注。
+      ddt/wechat_qr_code_scene: 用户扫描微信参数二维码后，会自动关注您的公众账号并触发您指定的操作。但使用微信参数二维码前，请先确认您的公众账号（且必须将其设置为主公众账号）为认证的服务号才可正常使用。
+    models:
+      ddt/shop: 点单通帐号
+      ddt/branch: 门店
+      ddt/wechat_account: 公众账号
+      ddt/base_user: 用户
+      ddt/user: 微信用户
+      ddt/wifi_user: Wifi用户
+      ddt/web_user: 网站用户
+      ddt/phone_user: 电话用户
+      ddt/vip_info: 会员数据
+      ddt/vip_level: 会员级别
+      ddt/branch: 门店
+      ddt/branch_type: 门店分类
+      ddt/branch_group: 门店分组
+      ddt/delivery_setting: 外送设置
+      ddt/delivery_zone: 外送区域
+      ddt/eat_in_hall_setting: 堂点设置
+      ddt/reservation_setting: 预订设置
+      ddt/role: 角色
+      ddt/account: 账户
+      ddt/manageship: 权限
+      ddt/product: 产品
+      ddt/variant: 其他型号
+      ddt/variant_image: 产品图片
+      ddt/combo_image: 套餐图片
+      ddt/variant_package: 称重产品
+      ddt/option_type: 支持的规格类型
+      ddt/option_value: 选项值
+      ddt/category: 商品分类
+      ddt/combo: 套餐
+      ddt/combo_item: 套餐成员
+      ddt/groupon_version: 团购
+      ddt/groupon: 已发放团购券
+      ddt/voucher_version: 代金券产品
+      ddt/voucher: 已发放代金券
+      ddt/coupon_version: 优惠券类型
+      ddt/coupon: 已发放优惠券
+      ddt/table: 桌台
+      ddt/table_zone: 桌台类型
+      ddt/table_color: 桌台颜色
+      ddt/reservation_time_point: 预订开放时间段
+      ddt/queue_setting: 队列设置
+      ddt/branch_queue: 队列状态
+      ddt/guest_queue: 客人队列
+      ddt/zone: 区域
+      ddt/short_message: 短信
+      ddt/statistic: 统计报表
+      ddt/statistics_cache: 统计缓存
+      ddt/order: 订单
+      ddt/delivery_order: 外卖订单
+      ddt/reservation_order: 预订订单
+      ddt/eat_in_hall_order: 堂点订单
+      ddt/groupon_order: 团购订单
+      ddt/recharge_order: 充值订单
+      ddt/payment_order: 买单订单
+      ddt/line_item: 订单条目
+      ddt/phone_order: 电话下单
+      ddt/invoice: 发票
+      ddt/comment: 评论
+      ddt/payment: 支付
+      ddt/payment_log: 在线支付流水日志
+      ddt/alipay_method: 支付宝帐户
+      ddt/wechatpay_method_legacy: 微信支付帐户
+      ddt/wechatpay_method_v336: 微信支付帐户
+      ddt/baidupay_method: 百度钱包
+      ddt/promotion: 促销
+      ddt/order_promotion: 满减优惠
+      ddt/product_promotion: 产品优惠
+      ddt/event_promotion: 免赠促销
+      ddt/promotion_rule: 促销规则
+      ddt/promotion_action: 促销动作
+      ddt/discount_plan: 折扣方案
+      ddt/discount_plan_item: 折扣方案条目
+      ddt/shop_card_wallet: 平台余额
+      ddt/shop_credits_wallet: 平台积分
+      ddt/branch_card_wallet: 门店余额
+      ddt/branch_credits_wallet: 门店积分
+      ddt/user_card_wallet: 用户余额
+      ddt/user_credits_wallet: 用户积分
+      ddt/wallet_log: 日志
+      ddt/branch_slider: 首页幻灯片
+      ddt/material: 素材
+      ddt/article: 文章
+      ddt/event: 自动回复
+      ddt/message: 消息
+      ddt/message_thread: 会话
+      ddt/base_qr_code_scene: 二维码
+      ddt/qr_code_assign_log: 二维码分配日志
+      ddt/wechat_qr_code_scene: 微信参数二维码
+      ddt/qr_code_scene: 普通二维码
+      ddt/delivery_time: 配送时间
+      ddt/js_error: JS异常
+      ddt/js_error_count: JS异常计数
+      ddt/shop_recharge_record: 账户充值记录
+      ddt/printer_code: 打印机授权码
+      ddt/printer: 打印机
+      ddt/print_record: 打印记录
+      ddt/wechat_share_record: 微信分享记录
+      ddt/wechat_view_record: 微信分享阅读记录
+      ddt/custom_weixin_info: 微信模板风格
+      ddt/home_hot_link: 首页导航按钮
+      ddt/home_usable_link: 首页实用链接
+      ddt/registration: 账户信息
+      ddt/wechat_menu: 微信菜单
+      ddt/sign_record: 签到记录
+      ddt/agent: 代理商
+      ddt/agent_zone: 代理区域
+      ddt/agent_material: 代理资料
+      ddt/lisence: 授权许可
+      ddt/agent_material: 代理资料
+      ddt/d_file: 上传文件
+      ddt/address: 收货信息
+      ddt/form_element: 自定义表单
+      ddt/censor_report: 举报
+      ddt/email_setting: 邮件设置
+      ddt/merchant_apply: 入驻加盟
+      ddt/tag: 标签
+      ddt/exchange_code: 兑换码
+      ddt/service_product: 服务套餐
+      ddt/short_message_recharge: 短信套餐
+      ddt/printer_token: 打印机授权码
+      ddt/service_product_order: 服务套餐订单
+      ddt/short_message_setting: 短信设置
+      ddt/one_page: 开机动画
+      ddt/pay_method_setting: 微信端付款方式设置
+      ddt/collection_wallet: 代收钱包
+      ddt/collection_log: 代收记录
+      ddt/withdraw: 提款记录
+      ddt/print_setting: 打印设置
+      ddt/joke: 笑话
+      ddt/arranging_setting: 排号设置
+      ddt/delivery_fee_setting: 外送费设置
+      ddt/delivery_range: 配送范围
+      ddt/append_itemable_record: 追加商品
+      ddt/targets_custom: 通知设置
+      ddt/recharge_product: 充值套餐
+      ddt/recharge_refund: 充值退款
+      ddt/waiter_service_item: 服务项
+      ddt/location: 位置信息
+      ddt/app_version: App版本
+      ddt/shift: 交班记录
+      ddt/sale_employee: 售后人员
+      ddt/pre_sale_staff: 售前人员
+      ddt/call_setting: 订单呼叫设置
+      ddt/revenue_statistic: 营收统计
+      ddt/business_statistic: 营业分析
+      ddt/asset_tag: 资源标签
+      ddt/sms_captcha: 短信验证码
+      ddt/item_note: 品注
+      ddt/pay_method: 支付方式
+      ddt/pay_item: 支付项目
+      ddt/essential_product: 必选品
+      ddt/order_call: 呼叫记录
+      ddt/user_wallet: 会员卡统计
+      ddt/apply_log: 设备申请记录
+      ddt/shake_around/apply_log: 设备申请记录
+      ddt/device: 设备
+      ddt/shake_around/device: 设备
+      ddt/page: 页面
+      ddt/shake_around/page: 页面
+      ddt/shake_info: 摇一摇日志
+      ddt/shake_around/shake_info: 摇一摇日志
+      ddt/keywords_third_party_interface: 第三方关键字转发
+      ddt/credits_setting: 积分设置
+      ddt/gift_reason: 赠菜理由
+      ddt/subtract_reason: 退菜原因
+      ddt/search_filter: 过滤器
+      ddt/vip_search: 会员过滤
+      ddt/agent_printer: 打印机授权码
+      ddt/combo_items_variant: 可选成员
+      ddt/orders_statistic: 订单分析
+      ddt/table_statistic: 桌台分析
+      ddt/worker_statistic: 工作分析
+      ddt/product_statistic: 产品分析
+      ddt/user_statistic: 用户分析
+      ddt/business_statistic: 营业分析
+      ddt/coupon_statistic: 券促销分析
+      ddt/finance_statistic: 财务报表
+      ddt/bill_template_setting: 打印模版
+      ddt/cs_branch_binding: CS模式
+      ddt/cs_online_log: CS在线记录
+      ddt/notification_receive_setting: 消息接收设置
+      ddt/sale_data_uploader_setting: 销售数据上传配置
+      ddt/time_interval: 时段
+      ddt/kitchen_setting: 厨控设置
+      ddt/tick_account: 挂账单位
+      ddt/tick_account_item: 挂账条目
+      ddt/weixin_page: 自定义微信界面
+      ddt/temp_recharge_product: 临时充值品
+      ddt/sales_email: 销售邮件
+      ddt/feature_modules_config: 服务模块
+      ddt/system_message: 系统消息
+      ddt/coupon_setting: 优惠券设置
+      ddt/register_form: 注册表单
+      ddt/api_key: 第三方应用授权
+    attributes:
+      basic: &basic
+        id: 编号
+        created_at: 创建时间
+        updated_at: 更新时间
+      module: &module
+        expired_at: 过期时间
+        enable: 是否启用
+      ddt/api_key:
+        id: 应用ID
+        name: 应用名称
+        access_token: 秘钥
+      ddt/table_color:
+        idle_color: 空闲中颜色
+        opened_color: 已开台颜色
+        ordered_color: 已下单颜色
+        check_outing_color: 结账中颜色
+        paid_color: 已支付颜色
+        active_color: 选中状态颜色
+      ddt/delivery_time:
+        start_time: 开始时间
+        end_time: 结束时间
+        cut_off_time: 截止时间
+        cost: 配送费用
+        enable_limit: 过了截止时间不能定该时段配送
+      ddt/promotion_rule:
+        match_policy: 匹配策略
+      ddt/qr_code_assign_log:
+        count: 分配数量
+        shop_id: 点账号
+        branch_id: 门店ID
+        shop: 点账号
+        branch: 门店ID
+        note: 日志
+        created_at: 创建时间
+        updated_at: 更新时间
+      ddt/base_qr_code_scene:
+        qrcode_scaners_count: 扫描人数
+        name: 二维码名称
+        url: 二维码图片
+        owner: 所属对象
+        gonghao_open_id: 对应公众账号
+        scan_times: 扫描次数
+        scene_id: 微信扫描场景编号
+        builtin: 是否由系统生成
+        branch: 门店
+        qr_url: 二维码信息
+        preferred_redirect_url: 跳转链接
+        limit_scene_type: 返回消息类型
+        material_id: 素材
+        branch_id: 门店
+        wechat_scene_type: 微信二维码类型
+        snap_scene_type: 临时微信二维码类型
+        slug: 代码
+        shop: 账户
+        shop_id: 账户ID
+        qr_code_assign_log_id: 二维码分配批次编号
+        updated_at: 更新时间
+        is_enable: 是否已启用
+      ddt/qrcode_scan_relation:
+        scaner: 扫描者
+        created_at: 扫描时间
+      ddt/one_page:
+        image: 背景图片
+        abstract:  文字描述
+        position: 位置
+        alignment: 文字悬靠位置
+
+      ddt/queue_setting:
+        name: 队列名称
+        queue_url: 队列二维码信息
+        queue_qr_code: 队列二维码
+        guest_num_le: 客人数量少于等于多少人排入此队列
+        start_at: 开放排队时间
+        end_at: 关闭排队时间
+        queue_no_prefix: 队列编号前缀
+        current_queue_head: 当前队首客户
+        last_push_queue_item_no: 队尾客户数字编号
+        last_push_queue_item_at: 队尾客户排队时间
+        enabled: 开放中
+        notify_number_in_advance: 提前通知人数
+      ddt/censor_report:
+        shop_id: 点帐户
+        user_id: 举报用户
+        title: 标题
+        desc: 举报理由
+        state: 状态
+        auditor: 审计员
+        audited_at: 审计时间
+        created_at: 举报时间
+      ddt/guest_queue:
+        branch: 门店
+        base_user: 用户
+        guest_no: 号码
+        workflow_state: 状态
+        is_notified: 是否已通知
+        phone: 电话
+        guest_num: 客人数量
+        created_at: 开始排队时间
+      ddt/abstract_coupon_version:
+        name: 券名
+        usable_starts_at: 开始可用时间
+        usable_expires_at: 可用过期时间
+        sellable_starts_at: 开始出售时间
+        sellable_expires_at: 停止出售时间
+        max_grant_limit: 最多可发放人数
+        can_exchange: 是否支持使用积分兑换
+        credit_count: 多少积分兑换一张
+        coupon_appliable_branch_scope_policy: 优惠券适用范围类型
+        branches: 适用门店
+        branch_ids_string: 适用门店
+        branch: 适用门店
+        base_coupons_count: 累计发放的数量
+        refund_coupons_count: 退款收回的数量
+        used_coupons_count: 已使用的数量
+        coupon_photos: 图片
+        groupon_price: 团购价
+        norminal_value: 面值
+        description: 产品描述
+        support_refund: 支持退款
+        refundable_days_after_send: 发放后几天内支持退款
+        coupon_usage_instructions: 使用须知
+        applicaple_product_scope: 适用产品范围
+        coupon_min_usable_amount: 满多少金额可用
+        max_count_each_user: 每人最多领取/购买数量
+        support_delivery: 支持外卖
+        support_eat_in_hall: 支持堂点
+        usable_days_after_send: 发放后几天内有效
+        expired_type: 过期类型
+        coupon_type: 优惠券类型
+        product_sku: 菜品SKU
+        branch_ids: 适用门店
+        branch_ids_string: 适用门店
+        branches: 适用门店
+      ddt/voucher_version:
+        name: 代金券简介
+        show_on_index: 显示在首页
+        max_grant_limit: 最多购买人数
+      ddt/base_coupon:
+        coupon_no: 券号
+        base_user: 用户
+        coupon_version: 券名
+        expires_at: 过期时间
+        applied_at: 使用时间
+        created_at: 发放时间
+        track_from: 来源
+        is_expired: 是否过期
+        applied_to_order: 使用该券的订单
+        applying_refund: 申请退款
+        refund_at: 退款时间
+      ddt/groupon:
+        groupon_version: 券名
+        shop: 平台
+        branch: 门店
+        branches: 适用门店
+      ddt/voucher:
+        voucher_version: 券名
+        branches: 适用门店
+      ddt/zone:
+        name: 区域名字
+        parent_zone: 上级区域
+        branches: 辖区门店
+        branch_ids: 辖区门店
+        branch_ids_string: 辖区门店
+
+      ddt/role:
+        builtin: 角色类型
+        display_name: 角色名称
+        permission_set: 权限
+        description: 描述
+      ddt/manageship:
+        role_ids: 角色
+        roles: 角色
+        branch: 门店
+      ddt/branch_type:
+        name: 类别名称
+        icon: 图标名称
+        show_wifi: 是否显示wifi信息
+        show_parking: 是否显示停车位信息
+        bg_color: 背景颜色
+        image: 分类图像
+        branches_count: 门店数量
+        branch: 门店
+        reservation_img: 预订图标
+        order_in_seat_img: 堂点图标
+        delivery_img: 外送图标
+        fastfood_img: 快餐图标
+        queue_img: 排号图标
+        pay_online_img: 买单图标
+        reservation_img_text: 预订文本
+        order_in_seat_img_text: 堂点文本
+        delivery_img_text: 外送文本
+        fastfood_img_text: 快餐文本
+        queue_img_text: 排号文本
+        pay_online_img_text: 买单文本
+        show_reservation_img: 是否显示预订图标
+        show_order_in_seat_img: 是否显示堂点图标
+        show_delivery_img: 是否显示外送图标
+        show_fastfood_img: 是否显示快餐图标
+        show_queue_img: 是否显示排号图标
+        show_pay_online_img: 是否显示买单图标
+
+      ddt/branch_group:
+        name: 分组名称
+        branch_ids: 支持的规格类型
+        branch_ids_string: 支持的规格类型
+      ddt/branch:
+        support_wifi: 是否提供wifi
+        support_wifi_order: 是否提供wifi堂点功能
+        support_parking: 是否有停车场地
+        support_invoice: 是否支持索要发票功能
+        parking_space_count: 停车位数量
+        note_placeholder: 整单备注提示语
+        wechat_no: 商家微信
+        qq_no: 商家QQ
+        name: 门店名称
+        service_periods: 营业时间
+        zone_ids: 所属区域
+        open_on_monday: 周一营业
+        open_on_tuesday: 周二营业
+        open_on_wednesday: 周三营业
+        open_on_thursday: 周四营业
+        open_on_friday: 周五营业
+        open_on_saturday: 周六营业
+        open_on_sunday: 周日营业
+        zone_ids_string: 所属区域
+        image: 方形形象图片
+        rect_image: 矩形形象图片
+        open_days: 营业日期
+        expiration_time: 过期时间
+        notice: 公告
+        phone: 电话
+        address: 地址
+        latitude: 纬度
+        longitude: 经度
+        introduction: 门店介绍
+        charge_method: 计费方式
+        branch_category: 门店领域
+        product_list_style: 产品显示风格
+        branch_type: 门店类型
+        branch_group: 门店分组
+        use_delivery_setting: 支持外卖
+        use_reservation_setting: 支持预订
+        use_eat_in_hall_setting: 支持堂点
+        use_queue_setting: 支持排号
+        use_pay_online_setting: 支持微信买单
+        use_fastfood_setting: 支持快餐
+        use_pay_on_receive_setting: 支持货到付款
+        check_stock: 售出后自动减少库存
+        show_stock_quantity: 在微信页面显示产品库存
+        show_sale_quantity: 在微信页面显示产品销量
+        position: 排序
+        short_message_remaining: 剩余短信数量
+        rating: 星级
+        placed_orders_count: 订单数
+        promotion_in_webpos: 收银端下单计算优惠
+        enable_tts_local: 启用本地语音合成
+        tag_names: '标签'
+        hasten_minute_since_place: 下单后几分钟后才允许催单
+        enable_user_location_limitation: 限制用户可下单距离
+        moling_type: 抹零类型
+        moling_precision: 抹零精度
+        moling_auto: 自动抹零
+        table_sticker_custom_line1: 桌贴二维码自定义行一
+        table_sticker_custom_line2: 桌贴二维码自定义行二
+        auto_publish_comment: 自动显示评论
+        share_multi_promotion: 优惠同享/折扣同享
+      ddt/location:
+        latitude: 纬度
+        longitude: 经度
+        created_at: 上报时间
+      ddt/delivery_setting:
+        delivery_radius: 配送半径
+        support_order_if_not_in_delivery_radius: 在配送半径之外是否允许下单
+        delivery_need_minutes: 配送所需时间
+        use_fixed_delivery_time: 固定配送时间
+        delivery_times: 配送时间
+        support_delivery_if_amount_gt: 起送金额
+        receive_delivery_order_within_days:  允许提前几天点外卖
+        charge_by: 收费方式
+        zone: 按外送区域收费
+        per_unit: 按单位距离收费
+        enable_auto_ship: 开启超时自动标为已送达
+        enable_auto_complete: 自动完成订单
+        range: 按配送距离梯度收费
+        per_unit_cost: 每单位距离收费
+        unit: 单位距离
+        delivery_time: 配送时间
+        date_displays:
+          today: 今天
+          tomorrow: 明天
+        assign_mode: 指派模式
+        active: 主动抢单
+        passive: 被动指派
+      ddt/targets_custom:
+        event: 事件
+        target: 通知对象
+        target_ids: 通知对象
+      ddt/delivery_zone:
+        zone_name: 区域名字
+        cost: 运费
+      ddt/delivery_range:
+        start_at: 范围起始
+        end_at: 范围结束
+        cost: 费用
+      ddt/reservation_setting:
+        prepayment_type: 预付款方式
+        max_reservation_days: 最长提前预订天数
+        average_consumption: 平均消费
+      ddt/eat_in_hall_setting:
+        auto_clear_table: 付款后30秒自动清台
+        auto_clear_opened_table: 开台后20分钟没有点菜，自动清台
+        disable_service: 关闭呼叫服务
+        mode: 扫码堂点模式
+        can_place_when_zero: 0元单能否下单
+        auto_pay_when_zero: 0元自动支付
+        accessable_ssid_for_app: 允许使用APP的WIFI网络
+        confirm_type: 订单确认方式
+      ddt/vip_level:
+        name: 会员级别名称
+        level: 等级
+        discount: 会员折扣
+        vip_infos_count: 会员数量
+        auto_upgrade: 支持自动升级
+        upgrade_recharge_money:  自动升级总充值金额
+        upgrade_total_amount:    自动升级总消费额
+        upgrade_get_credits:     自动升级总获得积分
+      ddt/base_user:
+        id: 用户ID
+        phone:  手机
+        name: 姓名
+        placed_orders_count: 累计下单数量
+        credits: 积分
+        is_blocked: 是否禁止下单
+        is_blocked_values:
+          true_text: 已禁止
+          false_text: 否
+        total_amount: 累计消费金额
+        type: 用户类型
+        default_address: 默认地址
+        vip_info: 会员信息
+        last_latitude: 最后纬度位置
+        last_longitude: 最后经度位置
+        last_location_label: 最后发送位置
+        last_location_time: 发送最后位置的时间
+        unique_user: 用户唯一身份
+        email: 邮箱
+        encrypted_password: 密码
+        confirmed_at: 激活账户时间
+        created_at: 首次关注或访问时间
+        locked_at: 账户锁定时间
+        last_sign_in_ip: 最后登录IP
+        last_sign_in_at: 最后登录时间
+        following_branches_count: 关注的门店数量
+        continuous_cancel_order_count: 最近连续取消订单数
+        last_placed_at: 最后一次下单时间
+      ddt/unique_user:
+        sex: 性别
+        nickname: 昵称
+        region: 地区
+        province: 省
+        city: 市
+        headimgurl: 头像
+      ddt/vip_info:
+        pay_password_hash: 支付密码
+        pay_password: 支付密码
+        vip_no: 会员编号
+        name: 姓名
+        phone: 手机
+        vip_level: 会员级别
+        pay_password: 支付密码
+        pay_password_hash: 支付密码
+        total_amount: 累计消费金额
+        is_verified: 是否已认证
+        sex: 性别
+        id_number: 身份证号
+        birthday: 生日
+        address: 地址
+        email: 邮箱
+        note: 备注
+        avatar: 照片
+        last_placed_at: 最后一次下单时间
+      ddt/coupon_usage_instruction:
+        content: 使用须知
+      ddt/table:
+        name: 名字(桌台号)
+        qr_code_image: 二维码
+        table_zone: 桌台类型
+        workflow_state: 当前状态
+        branch: 所属门店
+        open: 开台
+        order: 下单
+        cancel: 销单
+        clear: 翻台
+        pay: 结单
+        capacity: 可供就餐人数
+        position: 排序
+        target_table_id: 目标桌台
+      ddt/table_zone:
+        name: 名字
+        tables_count_for_reservation: 可预订桌台数量
+        min_reservation_price: 最低消费
+        reservation_price: 预订预付款
+        reservation_price_percent: 预付款比例
+        tables_count: 桌子数量
+        branch: 所属门店
+        weixin_ban_product_ids_string: 微信端黑名单产品
+        webpos_ban_product_ids_string: 收银端黑名单产品
+        ban_selfpay: 禁止自助支付
+      ddt/reservation_time_point:
+        time_point: 开放时间点
+        table_zone: 桌台区域或类型
+        branch: 所属门店
+      ddt/comment:
+        user: 用户
+        commentable_type: 评论对象
+        content: 内容
+        rating: 评分
+        state: 状态
+        branch: 所属门店
+        shop: 所属平台
+        comment: 回复信息
+      ddt/material:
+        msg_type: 素材类型
+        news: 新闻
+        text: 文本
+        music: 音频
+        material_name: 素材名字
+        content: 内容
+        updated_at: 更新时间
+        title: 标题
+        description: 文章描述
+        music_url: 音乐文件地址
+        hq_music_url: 高清音乐文件地址
+        articles: 文章列表
+      ddt/article:
+        title: 标题
+        description: 文章描述
+        url: 链接地址
+        created_at: 创建时间
+        image_url: 图片URL地址
+        image: 图片
+        position: 文章位置
+        link_type: 链接类型
+        link_types:
+          article: 链接到文章
+          shop_or_branch: 链接到门店
+          other_web_link: 外部链接
+        introduction: 简介
+      ddt/event:
+        event_type: 自动回复类型
+        event_key: 关键词
+        system_keyword: 系统消息
+        material: 素材
+        reply_type: 回复类型
+      ddt/wechat_menu:
+        name: 名称
+        reply_type: 回复类型
+        menu_type: 菜单类型
+        menu_action: 菜单动作
+        keyword: 系统关键字
+        material_id: 素材
+        url: 跳转链接
+      ddt/shake_around/apply_log:
+        quantity: 申请数量
+        apply_id: 申请批次ID
+        apply_reason: 申请原因
+        apply_time: 申请时间
+        audit_status: 审核状态
+        audit_comment: 审核备注
+        audit_time: 审核完成时间
+        comment: 备注
+        poi_id: 微信门店ID
+      ddt/shake_around/device:
+        device_id: 设备ID
+        uuid: UUID
+        major: major(10)
+        minor: minor(10)
+        major_hex: major(16)
+        minor_hex: minor(16)
+        status: 状态
+        comment: 备注
+        apply_id: 申请批次ID
+        count: 页面数
+        last_active_time: 最近被摇到日期
+      ddt/shake_around/page:
+        page_id: 页面ID
+        title: 标题
+        description: 副标题
+        comment: 页面的备注
+        page_url: 跳转链接
+        icon_url: 缩略图
+        count: 绑定的设备数量
+      ddt/shake_around/shake_info:
+        user_open_id: 用户openID
+        page_id: 页面ID
+        wechat_account_id: 公众帐号
+        unique_user_id: 微信用户
+        action: 动作
+        shake_time: 时间
+        device_id: 设备ID
+        user: 用户
+        distance: 距离设备(单位： 米)
+        chosen_beacon: 选择的设备
+        around_beacon: 周边设备
+      ddt/message_thread:
+        updated_at: 最后更新时间
+        user: 微信用户
+      ddt/message:
+        content: 内容
+        created_at: 发送时间
+        is_domain_url_validated: 域名是否已验证
+        custom_domain_url: 自定义域名
+        cname_prefix: 验证域名
+        bei_an_info: 备案号信息
+        nav_text_1: 自定义导航文本1
+        nav_link_1: 自定义导航链接1
+        nav_text_2: 自定义导航文本2
+        nav_link_2: 自定义导航链接2
+        title: 标题
+        keywords: 关键字
+        description: 网站描述
+
+      ddt/coupon_photo:
+        image: 图片
+      ddt/wechat_account:
+        default_branch: 默认访问门店
+        branch_id: 公众账号默认门店
+        is_primary: 是否为主公众账号
+        public_account_name: 公众帐号名
+        weixin_hao: 微信号
+        gonghao_open_id: 公众账号原始ID
+        app_id: appId
+        app_secret: appSecret
+        gonghao_type: 公众账号类型
+        be_verified: 是否通过认证
+        created_at: 创建时间
+        username: 用户名
+        password: 密码
+      ddt/shop:
+        <<: *basic
+        is_set_as_third_part_url: 是否已经将本系统设置为你的开发者URL
+        telephone: 手机
+        force_fetch_user_info: 用户访问系统时获取用户身份数据
+        max_branches_limit: 最多允许创建门店数量
+        search_words: 搜索关键词
+        vip_logo: 会员卡形象图片
+        qr_promotion_detail: 二维码推广描述
+        hide_support_brand: 隐藏技术支持
+        agent_no: 邀请码
+        agent: 代理商
+        name: 平台或品牌名称
+        slug: 账号短称
+        placed_orders_count: 累计订单数量
+        is_open: 营运状态
+        expiration_time: 门店到期时间
+        telephone: 电话或手机
+        introduction: 账户简介
+        image: 账号形象图片
+        rect_image: 账号形象图片(长方形)
+        use_credits: 是否启用积分
+        charge_method: 收费模式
+        qrcode: 微信参数二维码
+        enable_foreign: 是否在国外运营
+        foreign_currency_symbol: 外币符号
+        foreign_time_zone: 时区
+        foreign_tax_rate: 税率
+        use_custom_brand: 使用OEM自有品牌
+        is_ban: 暂停所有访问
+        custom_brand_name: OEM品牌名称
+        custom_brand_link: OEM品牌官方网址
+        is_hide_signup_link: 是否隐藏注册链接(只对使用自定义域名的点单通帐号有用)
+        service_email: 服务邮箱
+        sina_weibo: 新浪微博
+        is_custom_system_weixin_notification: 启用自定义微信模板
+        custom_system_weixin_template_id: 自定义微信模板ID
+        branches_count: 门店数
+        is_valid_phone: 是否启用严格的手机号码校验
+        custom_domain: 自定义域名
+        debug: 调试模式
+        address: 地址
+        sale_employee_id: 售后人员
+        sale_employee: 售后人员
+        pre_sale_staff_id: 售前人员
+        pre_sale_staff: 售前人员
+        use_shop_name_for_queue: 叫号时使用平台名称
+        shop_type: 帐号类型
+        track_from: 来源
+        is_give_up: 更进状态
+        is_suspicious: 是否可疑
+        feature_modules: 功能模块
+      ddt/weixin_page:
+        id: 编号
+        template_type: 页面类型
+        url: 页面网址
+      ddt/wechat_view_record:
+        viewed_user: 读者
+        created_at: 阅读时间
+      ddt/wechat_share_record:
+        created_at: 分享时间
+        share_type: 分享类型
+        user: 分享用户
+        title: 标题
+        desc: 描述
+        link: 分享链接
+        img_url: 图片地址
+        viewed_users_count: 读者数量
+        viewed_users: 读者
+      ddt/register_form:
+        captcha: 验证码
+        login_id: 用户名
+        password: 密码
+        password_confirmation: 确认密码
+        email: 电子邮箱
+        phone: 手机
+        track_from: 注册来源
+      ddt/account:
+        captcha: 验证码
+        login_id: 用户名
+        login_main_id: 企业账号
+        login_sub_id: 员工账号
+        name: 姓名
+        current_password: 旧密码
+        password: 密码
+        password_confirmation: 确认密码
+        email: 电子邮箱
+        last_login_ip: 最后登录IP
+        updated_at: 最后一次登录时间
+        shop_type: 平台类型
+        created_at: 账户创建时间
+        phone: 手机
+        branch_ids: 管理门店
+        old_password: 旧密码
+        remember_me: 记住登录
+        new_password: 新密码
+        new_password_confirmation: 确认新密码
+        shop_id: 所属平台
+        user_id: 微信接单用户(须为点单通服务号用户)
+        role_ids: 账户角色
+        roles: 账户角色
+        cook: 厨师
+        product_ids_string: 负责的菜品
+        category_ids_string: 负责的菜品分类
+        products: 负责的菜品
+        user_id: 对应微信用户
+        manage_branches: 所属门店
+        manage_branch_ids: 所属门店
+        manage_branch_ids_string: 所属门店
+        roles: 所属角色
+        role_ids: 所属角色
+        role_ids_string: 所属角色
+        notification_email: 接单邮箱
+        last_push_user_id: 百度推送user id
+        last_push_channel_id: 百度推送channel id
+        receive_email: 是否接收邮件通知
+        captcha_valid: 验证码
+        ban_login_app_when_no_open: 门店未营业禁止登陆App
+      ddt/tag:
+        type: 类型
+        name: 名称
+        color: 背景颜色
+        count: 打上该标签的数量
+      productable: &productable
+        <<: *basic
+        name: 名称
+        description: 描述
+        keywords: 关键字
+        unit_name: 单位名称
+        availabled_at: 启售时间
+        support_delivery: 支持外送
+        support_reservation: 支持预订
+        support_eat_in_hall: 支持堂吃
+        sale_on_monday: 周一上架
+        sale_on_tuesday: 周二上架
+        sale_on_wednesday: 周三上架
+        sale_on_thursday: 周四上架
+        sale_on_friday: 周五上架
+        sale_on_saturday: 周六上架
+        sale_on_sunday: 周日上架
+        price: 价格
+        vip_price: 会员价格
+        sku: 产品统一编号(SKU)
+        nfc_code: 智盘编号
+        position: 位置
+        tag_names: 产品标签
+        start_time: 每日售卖开始时间
+        end_time: 每日售卖结束时间
+        enable_discount: 参与会员优惠或权限打折(注：不含各种促销活动)
+        on_shelf: 上架
+        enable_change_price: 允许改价
+      ddt/product:
+        <<: *productable
+        option_types: 支持的规格类型
+        option_type_ids: 支持的规格类型
+        option_type_ids_string: 支持的规格类型
+        categories: 商品分类
+        category_ids: 商品分类
+        category_ids_string: 商品分类
+        item_note_ids: 支持的品注
+        item_note_ids_string: 支持的品注
+        variants: 其他型号
+        stock_quantity: 默认型号库存
+        sale_quantity: 默认型号销量
+        min_quantity_for_order: 最少几份起售
+        show_note_in_weixin: 微信端显示品注
+        show_on_wechat: 微信用户是否可点
+        by_weight: 支持点菜员根据实际销售修改重量（例如：鱼需要根据实际称重修改重量）
+        default_weight: 默认重量
+        name_abbr: 拼音码
+        tag_names_string: 标签
+      ddt/variant:
+        <<: *basic
+        nfc_code: 智盘编号
+        price: 价格
+        estimate_clear: 是否沽清
+        vip_price: 会员价
+        stock_quantity: 库存数量
+        sale_quantity: 销售数量
+        by_weight: 支持点菜员根据实际销售修改重量（例如：鱼需要根据实际称重修改重量）
+        default_weight: 默认重量
+        sku: 产品统一编号
+        option_values: 规格值
+      ddt/variant_package:
+        weight: 重量
+      ddt/variant_image:
+        attachment: 图片
+      ddt/combo_image:
+        attachment: 图片
+      ddt/option_type:
+        name: 名称
+        option_values: 选项值
+      ddt/option_value:
+        name: 选项值
+      ddt/category:
+        name: 名称
+        show_on_wechat: 是否在微信端显示
+        support_reservation: 支持预订
+        support_delivery: 支持外卖
+        support_eat_in_hall: 支持堂点
+      ddt/service_period:
+        start_at: 开始时间
+        end_at: 结束时间
+      ddt/combo:
+        <<: *productable
+        <<: *basic
+        price: 价格(只显示固定价格部分)
+        vip_price: 会员价(只显示固定价格部分)
+        sale_quantity: 销售数量
+        stock_quantity: 库存数量
+        sku: 产品统一编号
+        show_on_wechat: 微信用户是否可点
+        on_shelf: 是否上架
+        end_at: 截止时间
+      ddt/combo_item:
+        name: 名称
+        select_count: 可选数量
+        is_necessary: 是否必选
+        price_strategy: 价格策略
+        variant_ids_string: 可选商品
+        price: 价格
+        vip_price: 会员价格
+      ddt/short_message:
+        shop: 点单通帐号
+        to: 手机号码
+        body: 短信内容
+        created_at: 发送时间
+        type: 类型
+        size: 占用条数
+        branch: 所属门店
+        owner: 接收者
+      ddt/groupon_version:
+        name: 团购券简介
+        show_on_index: 显示在首页
+        max_grant_limit: 最多购买人数
+        groupon_line_items: 团购的产品项目
+      ddt/groupon_line_item:
+        <<: *productable
+        variant: 包含的团购产品
+        quantity: 数量
+        groupon_price: 团购价
+      ddt/order:
+        reservation_date: 预定时间
+        location_label: 下单位置
+        number: 订单号
+        distance: 距离门店距离(系统猜测距离，仅供参考)
+        type: 类型
+        item_total: 条目总价
+        pay_item_total: 支付总额
+        shipment_total: 运费总额
+        total: 订单总额
+        state: 状态
+        pay_item_state: 支付状态
+        shipment_state: 送货状态
+        placed_at: 下单时间
+        branch_id: 门店
+        sel_type: 选择类型
+        sel_state: 订单状态
+        sel_branch_id: 选择门店
+        delivery_man: 配送员
+        note: 备注
+        completed_at: 完成时间
+        other_msg: 其他信息
+        settle_account: 结算员
+        paid_at: 支付时间
+      ddt/reservation_order:
+        name: 姓名
+        phone: 电话
+        gender: 性别
+        prepayment_type: 预付款类型
+      ddt/line_item:
+        name: 名称
+        price: 单价
+        quantity: 数量
+        total: 小计
+      ddt/invoice:
+        invoice_type: 发票类型
+        title: 发票抬头
+      ddt/payment:
+        <<: *basic
+        branch: 门店
+        order: 订单
+        order_id: 订单
+        order_number: 订单编号
+        amount: 金额
+        workflow_state: 状态
+        payment_method: 支付方式
+        transation: 交易ID
+        checkout: 已下单
+        processing: 处理中
+        pending: 待支付
+        completed: 已完成
+        failed: 已失败
+        void: 已取消
+        out_trade_no: 交易号
+        deleted_at: 删除时间
+      ddt/payment_log:
+        <<: *basic
+        branch: 门店
+        order: 订单
+        order_id: 订单
+        amount: 金额
+        order_number: 订单号
+        out_trade_no: 交易号
+        payment_method_name: 支付方式
+        payment_state: 流水状态快照
+        multi_pay_item: 组合支付
+        event: 日志事件
+        extra: 附加信息
+      ddt/payment_method: &payment_method
+        name: 名称
+        type: 类型
+        description: 描述
+        active: 是否激活
+        preferences: 偏好
+      ddt/alipay_method:
+        preferred_pid: 合作者身份(PID)
+        preferred_pkey: 安全校验码(KEY)
+        preferred_email: 支付宝注册邮件
+        preferred_app_id: APP_ID
+        preferred_rsa_pri_key: RSA私钥
+        preferred_collection:  是否启用代收款服务
+        preferred_withdraw_account_id: 提款支付宝帐户ID
+        preferred_withdraw_account_name: 提款支付宝帐户姓名
+        preferred_contract: 签约项目
+      ddt/baidupay_method:
+        preferred_sp_no: 百付宝门店号
+        preferred_key: 百付宝合作密钥
+
+      ddt/wechatpay_method:
+        preferred_appid: appid
+        preferred_appSecret: appSecret
+        preferred_paySignKey: paySignKey
+        preferred_partnerId: 门店 ID
+        preferred_partnerKey: partner key
+        preferred_gonghao_open_id: 原始ID
+      ddt/wechatpay_method_v336:
+        preferred_sl_mode: 服务商模式
+        preferred_custom_sl_mode: 服务商参数
+        preferred_mch_id: 商户 ID
+        preferred_sub_mch_id: 子商户 ID
+        preferred_sub_appid: 子商户公众号ID
+      promotion: &promotion
+        type: 类型
+        show_on_index: 显示在首页
+        starts_at: 开始时间
+        expires_at: 结束时间
+        usage_limit: 参与名额数
+        name: 名称
+        keywords: 关键词
+        description: 描述
+        match_policy: 匹配策略
+        branch_scope_policy: 适用范围
+        branches: 适用门店
+        branch_ids: 适用门店
+        branch_ids_string: 适用门店
+        image: 图片
+        hide_header_in_weixin: 在微信促销详情页面隐藏顶部导航栏
+        promotion_rules: 促销规则
+        promotion_actions: 促销动作
+        enable_on_monday: 周一
+        enable_on_tuesday: 周二
+        enable_on_wednesday: 周三
+        enable_on_thursday: 周四
+        enable_on_friday: 周五
+        enable_on_saturday: 周六
+        enable_on_sunday: 周日
+      ddt/promotion:
+        <<: *promotion
+      ddt/order_promotion:
+        <<: *promotion
+      ddt/event_promotion:
+        <<: *promotion
+      ddt/product_promotion:
+        <<: *promotion
+      ddt/event_promotion/promotion_actions:
+        coupon_version: 优惠劵
+        preferred_coupon_count: 优惠劵数量
+        preferred_credits: 积分
+        preferred_percent: 百分比
+      ddt/discount_plan:
+        name: 名称
+        start_at: 开始时间
+        end_at: 结束时间
+        enable_on_monday: 周一
+        enable_on_tuesday: 周二
+        enable_on_wednesday: 周三
+        enable_on_thursday: 周四
+        enable_on_friday: 周五
+        enable_on_saturday: 周六
+        enable_on_sunday: 周日
+      ddt/discount_plan_item:
+        item_type: 条目类型
+        discount: 折扣
+        categories: 分类
+        category_ids: 分类
+        category_ids_string: 分类
+        variants: 单品
+        variant_ids: 单品
+        variant_ids_string: 单品
+        combos: 套餐
+        combo_ids: 套餐
+        combo_ids_string: 套餐
+      ddt/shop_card_wallet:
+        amount: 平台总余额
+        cash_amount: 平台会员主账户金额
+        extra_amount: 平台会员附属账户金额
+      ddt/shop_credits_wallet:
+        credits: 平台总积分
+        amount: 平台总积分
+      ddt/branch_card_wallet:
+        amount: 门店余额
+        cash_amount: 门店会员主账户金额
+        extra_amount: 门店会员附属账户金额
+      ddt/branch_credits_wallet:
+        credits: 门店积分
+        amount: 门店积分
+      ddt/user_card_wallet:
+        amount: 用户余额
+        cash_amount: 会员主账户余额
+        extra_amount: 会员附属账户余额
+        total_recharge_money: 累计充值
+      ddt/user_credits_wallet:
+        credits: 用户积分
+        amount: 用户积分
+      ddt/wallet_log:
+        wallet: 钱包
+        reason: 原因
+        amount: 数额
+        cash_amount: 主账户消费金额
+        extra_amount: 附属账户消费金额
+        credits: 积分
+        created_at: 创建时间
+        note: 备注
+        order_id: 订单
+      ddt/withdraw:
+        alipay_account_id: 支付宝帐户
+        alipay_account_name: 支付宝收款人姓名
+        transfer_amount: 到账金额
+        residual: 提款前余额
+        amount: 提款额
+        note: 备注
+        state: 状态
+        created_at: 发起提款时间
+      ddt/branch_slider:
+        <<: *basic
+        img: 图片
+        url: 链接
+        position: 排序
+      ddt/shop_recharge_record:
+        <<: *basic
+        shop: 点单通帐号
+        price: 充值金额
+        recharge_type: 充值类型
+        beginning_time: 起效时间
+        ending_time: 到期时间
+        increment_days: 充值天数
+        note: 备注
+        recharge_by: 操作者
+        branch_num: 充值门店数
+        feature_module_group: 功能模块组
+      ddt/printer:
+        name: 名称
+        type: 类型
+        number: 编号
+        enable: 是否启用
+        print_spec: 打印规格
+        times: 打印份数
+        api_key: 飞印打印机API密钥
+        member_code: 飞印打印机门店编码
+        phone: 飞印打印机手机卡号
+        token: Token
+        is_print_all: 是否为全品打印机
+        use_scene: 使用场景
+        print_one_by_one: 一张小票只打一份产品(数量为1)
+        print_per_product: 一张小票打印一款产品(合并数量)
+        product_ids_string: 设置可打印的产品
+        category_ids_string: 设置可打印的产品分类
+        ban_product_ids_string: 设置不打印的产品
+        table_ids_string: 设置可打印的桌台
+      ddt/printer_code:
+        code: 授权码
+        secret: 密钥
+        created_at: 获取时间
+        branches:  使用门店
+      ddt/print_record:
+        id: 编号
+        times: 数量
+        content: 内容
+        created_at: 开始打印时间
+        updated_at: 打印完成时间
+      ddt/custom_weixin_info:
+        layout_type: 首页模板
+        branch_index_layout: 门店列表模板
+        background_image: 背景图片
+      ddt/home_hot_link:
+        label: 标签
+        icon: 图标
+        icon_background_color: 图标背景颜色
+        image: 图片
+        link: 链接
+      ddt/home_usable_link:
+        title: 标题
+        keywords: 关键字
+        image: 图片
+        link: 链接
+      ddt/sign_record:
+        base_user_id: 用户
+        base_user: 用户
+        created_at: 签到时间
+      ddt/agent:
+        wechat_introduce_url: 公众号引导关注素材地址（作为显示技术支持的链接地址）
+        agent_no: 专属邀请码
+        can_create_account: 是否允许创建账号
+        is_oem: 是否是OEM厂商
+        domain: 独立域名
+        discount: 折扣
+        name: 姓名
+        user_id: 对应微信用户
+        phone: 代理商电话
+        qq: QQ号
+        balance: 余额
+        logo: 品牌图片（方形）
+        rect_logo: 品牌图片（矩形）
+        brand: 点单品牌
+        page_footer: 版权页脚
+        company_name: 企业名称
+        agent_zones: 代理区域
+        agent_rels: 代理关系
+        shops: 开发门店
+        email: 邮箱
+        password: 密码
+        current_password: 当前密码
+        password_confirmation: 确认密码
+        remember_me: 记住我
+        created_at: 创建时间
+        can_sale_multiple_store: 能否卖本地生活商圈
+        can_buy_printer_code: 是否可以买打印机授权码
+        db_printer_code_price: 打印机授权码价格
+
+        email_address: 邮箱服务器地址
+        email_user_name: 邮箱用户名
+        email_password: 邮箱密码
+        agent_type: 代理商类型
+        exclusive: 独家代理
+        alipay_agent_id: 支付宝代理商参数
+      ddt/agent_zone:
+        name: 区域名称
+        full_name: 区域全称
+        parent_agent_zone_id: 父代理区域
+        sub_agent_zones: 子代理区域
+        agents_count: 代理商数量
+      ddt/agent_rel:
+        agent_zone_id: 代理区域
+        agent_from: 代理开始时间
+        agent_to: 代理结束时间
+        agent_time: 代理时间
+        weight: 权重（系统使用100表示1）
+      ddt/lisence:
+        lisence_no: 授权序列号
+        price: 价格
+        is_used: 是否已使用
+        used_time: 使用时间
+        increment_days: 天数
+        increment_years: 续费时长
+        lisence_type: 许可类型
+        agent: 代理商
+        agent_id: 代理商
+        shop_id: 点单通帐号
+        branch_num: 门店数量
+        feature_module_group: 功能模块组
+        note: 备注
+      ddt/agent_material:
+        <<: *basic
+        title: 标题
+        content: 内容
+        d_files: 供下载的文件
+      ddt/d_file:
+        file_name: 文件名
+        file_path: 文件路径
+      ddt/address:
+        phone: 电话
+        name: 姓名
+        content: 地址
+      ddt/form_element:
+        statement: 表单项名称
+        branch_id: 所属门店
+        shop_id: 所属门店
+        type: 类型
+        regex: 规则
+        sequence: 序列
+        created_at: 创建时间
+        need: 是否必填
+        form_elements: 可选项目
+        placeholder: 输入帮助信息
+        support_order_types: 支持的下单类型
+        support_delivery: 支持外送
+        support_reservation: 支持预订
+        support_eat_in_hall: 支持堂吃
+        support_fastfood: 支持快餐
+        types:
+          FormElementText: 单行文本
+          FormElementSelect: 下单选项
+          FormElementOption: 选项
+        regexs:
+          none: 不用验证数据
+          email: 邮箱验证
+          phone: 电话号码验证
+          number: 只能是数字（2位数以内）
+          text_range: 字数限制（6～70个字）
+      ddt/agent_log:
+        log_type: 日志类型
+        balance_delta: 充值金额
+        description: 描述
+        created_at: 充值时间
+      ddt/email_setting:
+        address: 邮箱服务器地址
+        user_name: 邮箱用户名
+        password: 邮箱密码
+      ddt/merchant_apply:
+        user: 申请用户
+        phone: 联系方式
+        note: 申请留言
+        state: 申请状态
+        states:
+          applying: 正在申请
+          confirmed: 已确认
+          rejected: 已拒绝
+          canceled: 已取消
+        created_at: 申请时间
+      ddt/exchange_code:
+        code: 兑换码
+        created_at: 创建时间
+        state: 状态
+        exchangeable: 兑换信息
+      ddt/service_product:
+        subject: 产品名称
+        type: 产品类型
+        price: 价格
+        quantity: 数量
+        description: 描述
+        is_offline: 是否下线
+      ddt/service_product_order:
+        <<: *basic
+        out_trade_no: 订单号
+        subject: 商品名称
+        product_type: 产品类型
+        price: 价格
+        quantity: 数量
+        discount: 折扣
+        workflow_state: 交易状态
+        shop: 付款门店
+        workflow_state_name:
+          new: 等待付款
+          finished: 交易成功
+          closed: 交易已关闭
+      ddt/short_message_setting:
+        use_sms: 启用短信
+        use_validation_sms: 启用验证码短信
+        use_order_sms: 启用订单通知短信
+        use_birthday_sms: 启用生日短信
+        birthday_message: 生日短信内容
+        used_count: 已使用短信数量
+        remaining_count: 剩余短信数量
+        enable_vip_info_phone_validation: 启用会员手机号码验证
+      ddt/print_setting:
+        is_auto_confirm: 自动确认订单(注-该项不影响收银端和APP下的单  收银端和APP默认自动确认  微信端预付款模式不自动确认)
+        is_webpos_print_eatinhall_order_when_place: 堂点下单时收银端出单
+        is_current_print_when_place: 点菜机的当前打印机在下单后是否出单
+        merge_same_item: 合并相同条目
+      ddt/joke:
+        content: 内容
+      ddt/arranging_setting:
+        mode: 模式
+      ddt/append_itemable_record:
+        name: 名称
+        quantity: 数量
+        operator: 操作人员
+        created_at: 追加时间
+      ddt/recharge_product:
+        name: 名称
+        price: 价格
+        recharge_amount: 实际充值额
+        sales_count: 销量
+        position: 排序
+        extra_credits: 赠送积分
+        first_recharge_available_amount: 充值后可用金额
+      ddt/notification/event/custom/message:
+        base_user_ids_string: 用户
+        account_ids_string: 账户
+        printer_ids_string: 打印机
+        preferred_content: 内容
+        preferred_account_backend: 后台通知
+        preferred_account_webpos:  收银端通知
+        preferred_account_email:   邮件通知
+        preferred_user_weixin:     微信通知
+        preferred_printer_printer: 打印机通知
+      ddt/waiter_service_item:
+        name: 名字
+      ddt/app_version:
+        os_type: 适用系统
+        terminal: 终端
+        version_name: 版本名
+        version_code: 版本号
+        url: 下载地址
+        code: 编码版本号
+        note: 备注
+      ddt/shift:
+        account_id: 当班人
+        created_at: 当班开始时间
+        closed_at: 当班结束时间
+        total_amount: 合计金额
+        total_actual_amount: 实收金额
+        unpaid_amount: 未结金额
+        recharge_amount: 会员卡充值金额
+        exchange_amount: 会员卡兑换金额
+        pre_cash_amount: 放入现金
+        pending_orders_before: 当班前未完成订单(未确认)
+        pending_orders_after: 当班后未完成订单(未确认)
+        confirmed_orders_before: 当班前未完成订单(已确认)
+        confirmed_orders_after: 当班后未完成订单(已确认)
+        completed_orders_before: 当班前已完成订单
+        completed_orders_after: 当班后已完成订单
+
+      ddt/sale_employee:
+        name: 姓名
+        phone: 电话
+        shops_count: 维护的商家数量
+        agents_count: 维护的代理商数量
+        qq: QQ号
+        email: 邮箱
+      ddt/pre_sale_staff:
+        name: 姓名
+        phone: 电话
+        qq: QQ号
+        email: 邮箱
+      ddt/call_setting:
+        enable_order_call: 启用订单呼叫
+        amount: 余额
+        used_amount: 呼叫消费总计
+      ddt/asset_tag:
+        name: 名称
+      ddt/sms_captcha:
+          code: 验证码
+          phone: 电话
+          ip: IP
+          validated: 已验证
+          session_hash: 会话哈希
+          created_at: 创建时间
+          updated_at: 更新时间
+      ddt/essential_product:
+        variant_id: 必选产品
+        quantity: 数量
+        per_guest: 按人数
+        order_type: 类型
+      ddt/order_call:
+        to: 呼出号码
+        call_sid: call_sid
+        duration: 持续时间
+        state: 状态
+        text: 文本
+      ddt/keywords_third_party_interface:
+        keywords: 关键字
+        token: Token
+        api: Api
+        match_type: 匹配类型
+        opened: 开启
+      ddt/credits_setting:
+        exchange_radio: 积分抵现比例
+      ddt/gift_reason:
+        name: 理由
+      ddt/subtract_reason:
+        name: 原因
+      ddt/search_filter:
+        name: 名字
+        conditions_label: 过滤条件
+        last_search_at: 最后计算时间
+        state: 状态
+        created_at: 创建时间
+      ddt/notification_receive_setting:
+        order_placed: 订单落单消息
+        order_confirmed: 订单确认消息
+        order_paid: 订单支付消息
+        order_canceled: 订单取消消息
+        order_call_waiter: 呼叫服务员消息
+        order_hasten: 订单催单消息
+        order_request_pay: 请求买单消息
+        order_change_append_itemable: 订单加菜消息
+        order_change_delete_itemable: 订单退菜消息
+        product_stock_empty: 菜品售完消息
+        queue_enqueueing: 排号入队消息
+        queue_accepted: 排号入号消息
+        queue_past: 排号过号消息
+        queue_cancel: 排号取消消息
+        queue_binded: 排号绑定微信消息
+        shipment_assigned: 配送分配消息
+        shipment_unassigned: 配送取消分配消息
+        shipment_started: 配送开始消息
+        shipment_shipped: 配送完成消息
+        table_opened: 桌台开台消息
+        table_cleared: 桌台清台消息
+        table_changed: 桌台换台消息
+        table_merged: 桌台并台消息
+        table_move_itemable: 桌台转菜消息
+        backend: 后台
+        app: App
+        system_weixin: 微信
+        email: 邮件
+        sms: 短信
+      ddt/sale_data_uploader_setting:
+        enable: 启用
+        auto_upload_after_shift: 交班后自动上传
+      ddt/kitchen_setting:
+        warning_wait_minitue: 预警等待分钟
+      ddt/tick_account:
+        name: 名称
+        note: 备注
+        enable: 启用
+      ddt/tick_account_item:
+        tick_account_id: 挂账单位
+        order_number: 订单号
+        amount: 挂账金额
+        state: 状态
+      ddt/temp_recharge_product:
+        name: 名称
+        price: 价格
+        recharge_amount: 到账金额
+        extra_credits: 赠送积分
+      ddt/recharge_refund:
+        order_id: 订单
+        order_number: 订单号
+        branch_id: 门店
+        operator_id: 操作者
+        state: 状态
+        credits: 赠送积分
+        amount: 总额
+        cash_amount: 充值额
+        extra_amount: 赠送余额
+      ddt/system_message:
+        message_type: 消息类型
+        created_at: 创建时间
+        content: 内容
+        is_read: 已读/未读
+
+      errors:
+        messages:
+          size_too_big: 图片大小不得超过指定的大小 %{file_size}
+          groupon_versions:
+            groupon_line_items:
+              size_too_small: 数量必须大于一个
+          service_periods:
+            start_at:
+              equal: 不允许与结束时间相等
+          domain_cname_invalid: 未指向cy.diandantong.com
+          extension_white_list_error: 后缀不正确
+
+      ddt/item_note:
+        name: 名称
+        tag_names: 标签
+        product_ids: 微信端可选择该标签的产品
+        product_ids_string: 微信端可选择该标签的产品
+      ddt/pay_method:
+        name: 名称
+        code: 代码
+        builtin: 内建
+        enable: 启用
+        percent_of_actual: 计入实收占销售额比例
+        enable_negative: 允许收银员录入负数平帐
+        support_delivery: 外卖
+        support_eat_in_hall: 堂点
+        support_fastfood: 快餐
+        support_reservation: 预订
+        support_groupon: 团购
+        support_recharge: 充值
+        support_payment: 买单
+      ddt/pay_item:
+        name: 支付方式
+        amount: 金额
+        state: 支付状态
+        paid_amount: 收取现金
+        change: 找零
+      ddt/agent_printer:
+        printer_code: 编号
+        secret: 密钥
+        token: Token
+        note: 备注
+        created_at: 创建时间
+        discount_price: 价格
+      ddt/combo_items_variant:
+        variant: 可选产品
+        variant_id: 产品
+        price: 套餐价
+        original_price: 原价
+        vip_price: 会员价
+      ddt/bill_template_setting:
+        order_product_bill_template: 点菜清单
+        order_consume_bill_template: 消费单
+        order_append_product_bill_template: 加菜清单
+        order_bill_template: 整单
+        order_short_bill_template: 整单(短)
+        order_one_by_one_bill_template:  整单(单个菜品)
+        order_per_product_bill_template: 整单(单个条目)
+        order_label_bill_template: 标签单
+        order_append_bill_template: 加菜单
+        order_append_one_by_one_bill_template:  加菜单(单个菜品)
+        order_append_per_product_bill_template: 加菜单(单个条目)
+        order_subtract_bill_template: 退菜单
+        order_subtract_one_by_one_bill_template: 退菜单(单个菜品)
+        order_subtract_per_product_bill_template: 退菜单(单个条目)
+        order_hasten_bill_template: 催菜单
+        order_hasten_item_bill_template: 催菜单(单品)
+        order_reprint_bill_template: 补打单
+        queue_enqueueing_bill_template: 排号单
+        queue_pre_order_bill_template: 排号预点菜单
+        shift_bill_template: 交班记录
+        shift_recharge_bill_template: 会员充值记录
+        shifts_by_shift_template: 交班汇总
+        shifts_by_time_template: 分时清单
+      ddt/cs_branch_binding:
+        http_proxy_url: CS代理主机地址
+        branch: 门店
+        shop: 点单通帐号
+        updated_at: 更新时间
+        force_online: '强制在线点餐'
+        online: '门店服务器在线状态'
+        token: '门店服务器令牌'
+        local_ip: '客户端主机局域网IP'
+        local_mac: '客户端主机mac地址'
+        version: '客户端版本'
+        upgraded_at: '客户端版本更新时间'
+        remote_ip: '客户端外网IP'
+        last_sync_at: 最后同步时间
+      ddt/cs_online_log:
+        online: 在线状态
+        created_at: 时间
+        local_ip: '客户端主机局域网IP'
+        local_mac: '客户端主机mac地址'
+        version: '客户端版本'
+        upgraded_at: '客户端版本更新时间'
+        remote_ip: '客户端外网IP'
+        last_sync_at: 最后同步时间
+      ddt/time_interval:
+        name: 名称
+        start: 开始时间
+        end: 结束时间
+        interval: 时间长度(秒)
+        interval_in_hour: 时间长度(时)
+      ddt/sales_email:
+        email: 邮件地址
+        ticket: 优先令牌
+        created_at: 创建时间
+      ddt/feature_modules_config:
+        feature_module: 服务模块
+        expired_at: 到期时间
+        created_at: 创建时间
+        enabled: 是否正常运行
+      ddt/coupon_setting:
+        enable_expired_notify: 过期通知
+        expired_notify_in_advance_days: 过期通知提前天数
+      ddt/statistics_cache:
+        name: 统计分类
+        label: 统计名称
+        key: 缓存索引键
+        state: 状态
+        progress: 进度
+        cost_time: 查询用时
+        url: 查询路径
+        query: 查询条件
+        operator: 查询者
+        created_at: 创建时间
+        updated_at: 更新时间
+
+  role:
+    builtin:
+      positive: 系统角色
+      negative: 自定义角色
+    permission_description:
+      boss: 拥有平台最高权限，可分配所有人权限，管理所有门店，查看门店的统计，财务，销量查看等
+      worker: 作为门店的管理人员，管理和配置门店，产品管理，桌子管理，打印机设置等等
+      deliveryman: 抢单，配送菜品
+      cook: 查看可烹饪的菜品，划菜
+      chef: 分配菜品给厨师烹饪
+      waiter: 协助消费者进行堂点，排号，开台，点菜，结算等
+      cashier: 操作收银端，进行电话预定，外卖，排号，快餐，收银，优惠券核销等大部分操作
+      vip_info_manager: 会员管理者，管理会员信息
+      queue_waiter: 排号服务员
+      accountant: 查看门店报表
+    display_name:
+      boss: 管理员
+      worker: 店长
+      deliveryman: 配送员
+      cook: 厨师
+      chef: 厨师长
+      waiter: 服务员
+      cashier: 收银员
+      vip_info_manager: 会员管理者
+      queue_waiter: 排号员
+      accountant: 财务员
+    project_module:
+      default: 基础权限
+      branch_management: 门店管理
+      order_management: 订单管理
+      user_management: 用户管理
+      payment_management: 支付管理
+      statistic_management: 统计管理
+      module_management: 模块管理
+      wechat_account_management: 微信帐号管理
+      webpos_management: 收银端管理
+
+    permission:
+      view_shop: 点单通帐号查看
+      manage_shop: 点单通账号管理
+      view_branch: 门店查看
+      add_branch: 门店增加
+      delete_branch: 门店删除
+      edit_branch: 门店修改
+      view_order: 订单查看
+      operate_order: 订单操作
+      operate_litp: 操作订单变更记录
+      view_user: 用户查看
+      operate_user: 用户操作
+      view_payment: 支付查看
+      add_payment: 支付增加
+      edit_payment: 支付修改
+      delete_payment: 支付删除
+      view_statistic: 统计查看
+      view_module: 模块查看
+      operate_module: 模块操作
+      view_wechat_account: 微信帐号查看
+      manage_wechat_account: 微信帐号管理
+      add_wechat_account: 微信帐号添加
+      delete_wechat_account: 微信帐号删除
+      place_order: 收银端操作订单
+      webpos_delete_itemable: 收银端退菜
+      promotions: 收银端优惠券核消
+      queue: 收银端排号
+      reprint: 收银端小票补打
+      manage_vip_info: 会员管理
+
+  order:
+    delivery: 外卖
+    eat_in_hall: 堂点
+    reservation: 预订
+    groupon: 团购
+  calculator: 价格计算器
+  calculator_settings_warning: 如果改变计算器类型， 请先保存然后才能设置属性
+  calculators:
+    order:
+      flat_percent: 总价折扣
+      flat_rate: 总价统一价格
+      flat_reduce: 总价减免
+      tiered_flat_rate: 总价阶梯价格
+      tiered_percent: 总价阶梯折扣
+      tiered_reduce: 总价阶梯减免
+    line_item:
+      flat_percent: 产品统一折扣
+      flat_rate: 产品统一价格
+      flexi_rate: 产品灵活价格
+      second_half_off: 第二份半价
+    keys:
+      flat_percent: 折扣
+      amount: 价格
+      flat_reduce_amount: 减免价格
+      first_item: 第一份
+      additional_item: 第二份及之后
+      max_items: 最多数量
+      base_amount: 基础价格
+      base_percent: 基础折扣
+      base_reduce_amount: 基础减免价格
+      percent: 折扣
+      tiers: 阶梯
+  promotion:
+    rules:
+      order:
+        combo: 套餐匹配
+        variant: 产品匹配
+        first_order_in_branch: 单店首单
+        first_order_in_shop: 总店首单
+        item_total: 订单总价
+        one_use_per_user: 每人限制使用一次
+        order_in_time_range: 优惠时段下单
+        pay_method: 支付方式包含
+        vip_only: 仅限会员
+      product:
+        combo: 套餐匹配
+        variant: 产品匹配
+        first_order_in_branch: 单店首单
+        first_order_in_shop: 总店首单
+        item_total: 订单总价
+        one_use_per_user: 每人限制使用一次
+        order_in_time_range: 优惠时段下单
+        pay_method: 支付方式包含
+        vip_only: 仅限会员
+      line_item:
+        combo: 套餐匹配
+        variant: 产品匹配
+        one_use_per_user: 每人限制使用一次
+      event:
+        first_follow: 首次关注
+        first_order_in_branch: 单店首单
+        first_order_in_shop: 总店首单
+        first_order_today_in_branch: 每日单店首单
+        first_order_today_in_shop: 每日总店首单
+        item_total: 订单总价
+        user_continuous_sign_count: 连续签到天数
+        user_sign_in: 用户签到
+        user_sign_records_count: 总签到天数
+        user_active_vip: 激活会员
+        vip_birthday: 会员生日
+        vip_recharge: 会员充值
+        times_limit: 每人次数限制
+        share_to_friend_circle: 分享到朋友圈(仅认证服务号支持)
+        vip_only: 仅限会员
+        user_total_amount: 用户累计消费到达指定值
+        from_shared_user_recharge: 分享发展会员充值
+    actions:
+      order:
+        create_adjustment: 总价格调整
+        free_shipping: 免外送费
+        item_discount: 单品折扣
+        item_reduce: 单品减免
+        category_discount: 分类折扣
+        item_second_half_off: 单品第二份半价
+      product:
+        create_adjustment: 总价格调整
+        free_shipping: 免外送费
+        item_discount: 单品折扣
+        item_reduce: 单品减免
+        category_discount: 分类折扣
+        item_second_half_off: 单品第二份半价
+      event:
+        get_coupon: 送优惠券
+        get_voucher: 送代金券
+        get_sharable_coupon: 送优惠券红包
+        get_credits: 送积分(固定数额)
+        get_credits_percent: 送积分(订单总价百分比)
+      events:
+        credits: 积分
+        percent: 百分比
+        coupon_version: 优惠券
+        voucher_version: 代金券
+        coupon_count: 优惠券数量
+  table:
+    workflow_state:
+      idle: 空闲
+      opened: 已开台
+      check_outing: 结帐中
+      ordered: 已下单
+      paid: 已支付
+  branch:
+    is_open:
+      opened: 营业中
+      closed: 暂停营业
+  shop:
+    shop_type:
+      mini: 单店迷你版
+      standard: 单店标准版
+      chain: 多店连锁版
+      multiple: 本地生活商圈
+      base: 基础版
+    is_open:
+      opening: 营业中
+      closed: 暂停营业
+
+
+  successfully_created: "%{resource}创建成功"
+  successfully_updated: "%{resource}更新成功"
+  successfully_destroyed: "%{resource}删除成功"
+
+  Show: 详情
+  Edit: 编辑
+  Destroy: 删除
+  Back: 返回
+  Save: 保存
+  you don not have the right: 对不起，您无权进行此操作，请向您的管理员确认您是否具备此操作权限。
+  new coupon photo: 添加图片
+  new service period: 添加营业时间
+  new delivery time: 添加配送时间
+  new coupon usage instruction: 添加使用须知条款
+  expire time should after start: 结束时间应该晚于开始时间
+  new coupon: 发放优惠券
+  end_at can not be equal to start_at: 不能与开放排队时间相等
+  not in queue service time: 不在排号服务时间段内
+  please choose branch first: 对不起，请先选择门店
+  new groupon line item: 添加团购产品
+  gh autoconfig fail: 您输入的登录帐号或密码有误 或者 该公众帐号已经对接过
+  gh autoconfig success: 公众帐号对接成功，为了方便您下次更好的识别您的公众帐号，您可以编辑您的公众帐号名称及类型。如需支持菜单功能，请设置appId和AppSecret
+  gh error config of ID: 公众帐号原始ID配置不正确
+  gh error config of appId: 公众帐号appId配置不正确
+  gh error config of appSecret: 公众帐号appSecret配置不正确
+  gh error config of token: 公众帐号Token配置不正确
+  gh error config of URL: 公众帐号URL配置不正确
+  vip price must less or equal than price: 会员价格必须低于或等于价格
+  distance:
+    unit:
+      one: 米
+      other: 米
+    thousand:
+      one: 千米
+      other: 千米
+    million: 千千米
+
+  material:
+    text: 文本消息
+    news: 图文消息
+    music: 音频消息
+    promotion: 推广消息
+
+  text: 文本
+  music: 音频
+  news: 新闻多媒体
+
+  event:
+    uniq:
+      event_key: "不允许出现重复的自动回复关键词"
+      event_type: "最多只允许定义一个关注回复、一个取消关注回复或一个未识别消息自动回复"
+    exclusion:
+      event_key: "'%{key}'是系统关键词, 不能重复定义"
+  queue_setting:
+    enabled:
+      enabled: 开放中
+      disabled: 已关闭
+  unique_user:
+    sex:
+      male: 男
+      female: 女
+      unknown: 未知
+
+  click: 点击事件
+  keyword_autoreply: 关键词自动回复
+  unmatch: 未识别消息自动回复
+  subscribe: 用户关注
+  unsubscribe: 取消用户关注
+  no picture: 没有图片
+
+  key_0: 获得帮助
+  key_1: 获得点餐链接
+  key_2: 获得促销活动
+  key_3: 获得历史订单
+  key_4: 查询会员信息
+  key_9: 激活客服系统
+  order has already commented, do not recomment it: 该订单已经评论过，不能重复发表评论
+  no queue_setting for this branch: 该门店尚未在后台设置排队数据信息
+
+  will_paginate:
+    next_label: 后一页
+    previous_label: 前一页
+  enabled: 已启用
+  disabled: 未启用
+  "true": 是
+  "false": 否
+  can not destroy branch type as it have branches: 无法删除门店类型，因为该门店类型下仍然存在门店，请先将门店转移至其他门店类型后再执行删除操作。
+  can not destroy coupon version as it have coupons: 不允许删除已经发放过的团购券、优惠券或代金券
+  validation code msgs should less than 5 in one day: 对不起，24小时内验证码发送次数不得超过5次
+  can't be greater than shop remaining: 对不起，剩余可用短信已经用完
+
+  Are you sure?: 确认？
+  delivery range can not overlap: 距离范围不允许重叠
+  invalid app_id or app_secret: 不正确的appId或appSecret
+
+  test_console:
+    valid_wechat_users: 真实微信用户
+    data_maker_panel: 数据生成控制台
+  unauthorized:
+    default: '你无权进行此操作'

@@ -1,0 +1,38 @@
+<md-toolbar layout="row" class="md-whiteframe-z1" layout-align="left center">
+  <md-button class="menu" hide-gt-sm ng-click="toggleLeftMenu()" class="md-icon-button">
+    <md-icon>menu</md-icon>
+  </md-button>
+  <md-button hide-sm ng-click="goBack()" class="md-icon-button">
+    <md-icon>chevron_left</md-icon>
+  </md-button>
+  <h3>{{page.title}}</h3>
+</md-toolbar>
+<md-content layout="column" layout-padding layout-margin layout-fill>
+  <div class="crm-form-line" layout="row" layout-align="left start">
+    <label class="crm-form-label" flex="20">积分抵扣比例</label>
+    <div class="crm-form-control" flex="80" layout="column" layout-align="">
+      <input type="text" ng-model="setting.exchange_radio">
+      <div>例如: 100 表示100积分可抵1元</div>
+    </div>
+  </div>
+  <div class="crm-form-line no-border-bottom" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="20">积分自动清零</label>
+    <div class="crm-form-control" flex="80">
+      <md-switch ng-model="setting.auto_clear_credits" class="md-primary"></md-switch>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="20"></label>
+    <div class="crm-form-control" flex="80">
+      <span>开启后年底自动清空积分(不包括当年的新会员)</span>
+    </div>
+  </div>
+  <div class="crm-form-line no-border-bottom" layout="row" layout-align="left left">
+    <label class="crm-form-label" flex="20"></label>
+    <div class="crm-form-control" flex="80">
+      <md-button class="md-primary md-raised" ng-click="update()">
+        更新
+      </md-button>
+    </div>
+  </div>
+</md-content>

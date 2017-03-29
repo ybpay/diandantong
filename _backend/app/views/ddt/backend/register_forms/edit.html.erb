@@ -1,0 +1,106 @@
+<% content_for :head do %>
+  <%= javascript_include_tag "ddt/login", "data-turbolinks-track" => true %>
+  <%= stylesheet_link_tag "ddt/login", media: "all", "data-turbolinks-track" => true %>
+<%  end %>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <h2>新用户注册</h2>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox"> 
+        <div class="ibox-title">
+          <div class="reg-nav-item col-xs-4 ">
+              <span class="reg-nav-num">1</span>
+              <span>验证手机号</span>
+          </div>
+          <div class="reg-nav-item col-xs-4 step-2 active %>">
+              <span class="reg-nav-num">2</span>
+              <span>填写帐号信息</span>
+          </div>
+          <div class="reg-nav-item col-xs-4 step-3 ">
+              <span class="reg-nav-num">3</span>
+              <span>注册成功</span>
+          </div>
+        </div>
+
+        <div class="ibox-content">
+          <div id="ddb-loading" class="hidden" style="left: 30%;width:40%;">
+              <div class="sk-spinner sk-spinner-cube-grid">
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+                  <div class="sk-cube"></div>
+              </div>
+          </div>
+
+
+          <% if @register_form.errors.present? %>
+            <% @register_form.errors.full_messages.each do |msg| %>
+              <%= javascript_tag("toastr.error('#{msg}')") %>
+            <% end %>
+          <% end %>
+          
+          <% if @account.present? && @account.errors.present? %>
+            <% @account.errors.full_messages.each do |msg| %>
+              <%= javascript_tag("toastr.error('#{msg}')") %>
+            <% end %>
+          <% end %>
+
+          <%= form_for @register_form, url: backend_register_form_path(access_token: @register_form.access_token, agent_no: @agent_no) , html: { class: "reg-form form-horizontal" } do |f| %>
+            <div class="col-sm-6">
+              <div class="reg-step-2">
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">企业账号</label>
+                  <div class="col-sm-8">
+                    <%= f.text_field :login_id, placeholder: "企业账号", class: "form-control", emptyhint: "请填写企业账号"%>
+                    <p class="help-block">字母数字下划线, 最少3个字符, 不能纯数字</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">邮箱</label>
+                  <div class="col-sm-8">
+                  <%= f.text_field :email, placeholder: "邮箱", class: "form-control"%>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">密码</label>
+                  <div class="col-sm-8">
+                    <%= f.password_field :password, placeholder: "密码", class: "form-control"%>
+                    <p class="help-block">长度最少8位</p>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="col-sm-4 control-label">确认密码</label>
+                  <div class="col-sm-8">
+                    <%= f.password_field :password_confirmation, placeholder: "重复输入密码" , class: "form-control"%>
+                  </div>
+                </div>
+
+                <!-- buttons -->
+                <div class="form-group">
+                  <div class="col-sm-offset-4">
+                    <%= f.submit "下一步", data: { disable_with: "正在初始化系统，预计等待10秒.."}, class: 'btn reg-next-btn btn-primary' %>
+                  </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="clearfix"></div>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

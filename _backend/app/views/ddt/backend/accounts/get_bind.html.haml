@@ -1,0 +1,94 @@
+.tabbable
+  %ul.nav.nav-tabs#accounts
+    %li{class: ('active' if 'scan' == @mode)}
+      = link_to '扫码绑定', get_bind_backend_shop_account_path(@current_shop, @account, params: {mode: :scan})
+
+    %li{class: ('active' if 'manual' == @mode)}
+      = link_to '手动绑定', get_bind_backend_shop_account_path(@current_shop, @account, params: {mode: :manual})
+  .tab-content
+    .tab-pane.in.active
+
+      - if @account.user_id.present?
+        .alert.alert-success
+          .current-bind-user
+            .hint 当前已绑定如下用户, 如要更改，请按照下方步骤绑定新的微信用户。
+            %br
+            .wx-user
+              = image_tag @account.user.headimgurl, width: 50 if @account.user.headimgurl.present?
+              = @account.user.to_label
+            %br
+            = link_to '解除绑定', unbind_backend_shop_account_path(@current_shop, @account, mode: params[:mode]), class: 'btn btn-sm btn-primary', method: :put
+
+      .tip.alert.alert-info
+        %strong
+          温馨提示:
+        %p
+          绑定的微信用户，是您接收系统通知（订单通知等）， 和进行二维码验券等操作的微信用户。
+          %br
+          绑定后，系统能为您提供更好的服务
+          %br
+          - if 'scan' == @mode
+            注意：  如看不到微信二维码，请刷新本页面
+            %br
+            %br
+              %strong 绑定步骤1:
+            请先扫描点单通服务号二维码， 发送: @，并点击返回的消息。
+            %br
+              %strong 绑定步骤2:
+            扫描微信授权二维码进行绑定。
+          - else
+            %br
+              %strong 绑定步骤1:
+            获取 用户ID.
+            %br
+              请先扫描点单通服务号二维码， 发送: @，并点击返回的消息。再点击用户中心，即可获得用户ID
+            %br
+            %br
+              %strong 绑定步骤2:
+            在下方输入框输入用户ID，保存即可。
+
+
+      .bind-qrcode
+        .ddb-qrcode-wrap
+          .step 步骤一
+          .hint 扫描点单通服务号二维码
+          .ddb-qrcode
+            %img{src: image_url('ddt/images/ddt2013_qrcode.jpg'), width: 280}
+          .bottom-hint
+            扫描后， 发送： " @ "， 并点击返回的消息。
+        - if 'manual' == @mode
+          .wx-qrcode-wrap
+            .step 步骤二
+            .wx-qrcode{id: :wx_qrcode}
+              %input{type: :text, id: :user_id_input, placeholder: '输入用户ID'}
+              %br
+              %a.btn.btn-lg.btn-primary{id: :user_id}="保存"
+          :javascript
+            (function(){
+              $('#user_id').on('click', function(){
+                var user_id = $('#user_id_input').val();
+                console.log(user_id)
+                var url = "#{bind_backend_shop_account_path(@current_shop, @account, params: {mode: 'manual'})}"
+                window.location.href = url + "&user_id="+user_id;
+              })
+            })();
+        - else
+          = javascript_include_tag '//res.wx.qq.com/connect/zh_CN/htmledition/js/wxLogin.js'
+          .wx-qrcode-wrap
+            .step 步骤二
+            .wx-qrcode{id: :wx_qrcode}
+
+          :javascript
+            (function(){
+              setTimeout(function(){
+                var wx_login = new WxLogin({
+                  id: 'wx_qrcode',
+                  appid: '#{@appid}',
+                  scope: 'snsapi_login',
+                  redirect_uri: '#{URI.encode( "http://" + Ddt::Host::DEPLOY + bind_backend_shop_account_path(@current_shop, @account, params: {mode: "scan"}))}',
+                  state: '1',
+                  style: 'black'
+                });
+              }, 500)
+            })();
+

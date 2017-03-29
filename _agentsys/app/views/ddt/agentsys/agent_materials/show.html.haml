@@ -1,0 +1,9 @@
+.page-header
+  %h2{:style=>"text-align:center;"}= @agent_material.title
+.section{:style=>"text-indent:2em; font-size:15px;"}
+  = raw @agent_material.content
+.section{:style=>"margin-top:2em;"}
+  - @agent_material.d_files.each do |d_file|
+    %div.form-group
+      %span= d_file.file_name
+      %span= link_to '下载', d_file.file_path.url, class: "btn btn-primary btn-sm"

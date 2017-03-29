@@ -1,0 +1,48 @@
+<div id="coupon-show" class="page">
+  <div class="coupon-item coupon-blue">
+    <div class="coupon-inner">
+      <div class="name">
+        {{::coupon_version.name}}
+      </div>
+      <div class="coupon-left">
+        <div class="norminal-value">{{::coupon_version.norminal_value|currency: shop.currency}}</div>
+        <div class="usable-condition">(满{{::coupon_version.coupon_min_usable_amount}} 可用)</div>
+      </div>
+      <div class="coupon-right">
+        <div class="usablestarts">{{::coupon_version.usable_starts_at|date: 'yyyy.MM.dd'}}-{{::coupon_version.usable_expires_at|date: 'yyyy.MM.dd'}}
+        </div>
+      </div>
+      <div class="clear"></div>
+    </div>
+    <div class="exchange-part">
+      <div class="exchange-button active" ng-click="go_exchange()">立即兑换</div>
+    </div>
+    <div class="instruction">
+      <div class="label">使用说明</div>
+      <div class="detail">
+        <ol>
+          <li>本优惠券为{{::coupon_version.coupon_type_name}}</li>
+          <li ng-repeat="instruction in coupon_version.coupon_usage_instructions">
+            {{instruction}}
+          </li>
+          <li>适用门店: {{coupon_version.branch_name}}</li>
+          <li>
+            适用类型:
+            <span ng-show="coupon_version.support_delivery"> 外送</span>
+            <span ng-show="coupon_version.support_eat_in_hall"> 堂点</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="description">
+      <div class="label">图文详情</div>
+      <div class="section" ng-repeat="coupon_photo in coupon_version.coupon_photos">
+        <img ng-src="{{coupon_photo.img}}" alt="">
+      </div>
+      <div class="detail">
+        {{coupon_version.description}}
+      </div>
+    </div>
+  </div>
+</div>

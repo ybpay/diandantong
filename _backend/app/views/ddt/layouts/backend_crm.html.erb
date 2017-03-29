@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html ng-app="crm">
+<head>
+  <title><% if is_ddt_domain %><%= @current_shop.try(:support_brand_name).presence || '点单通' %> - <%= slogan_word %><% end %></title>
+  <meta name="env" content="<%= Rails.env %>"/>
+  <meta name="account" content="<%= @account_info.to_json || "{}" %>"/>
+  <meta name="shop_id" content="<%= @current_shop.id %>"/>
+  <meta name="cdn_cache_domain" content="<%= Rails.application.config.action_controller.asset_host %>"/>
+  <%= stylesheet_link_tag "ddt/backend_crm", media: "all", "data-turbolinks-track" => true %>
+  <!--[if IE 7]>
+    <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
+  <![endif]-->
+
+  <!-- page specific plugin styles -->
+
+  <!-- fonts -->
+  <!-- ace settings handler -->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+  <!--[if lt IE 9]>
+  <script src="/assets/js/html5shiv.js"></script>
+  <script src="/assets/js/respond.min.js"></script>
+  <![endif]-->
+  <%= csrf_meta_tags %>
+</head>
+<body layout="row" style="font-family: '微软雅黑'">
+  <md-sidenav layout="column" class="md-sidenav-left" md-whiteframe="2" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" ng-cloak class="ng-cloak">
+    <md-toolbar md-whiteframe="1" layout="row" layout-align="center">
+      <h3>点单通CRM</h3>
+    </md-toolbar>
+    <md-content layout="column" md-scroll-y class="menu-content">
+      <md-list>
+        <md-list-item ng-repeat-start="menu in menus" layout="row" layout-align="space-around center" class="menu-group-header">
+          <div>{{::menu.name}}</div>
+          <md-icon>{{::menu.icon}}</md-icon>
+        </md-list-item>
+        <md-list-item ng-repeat="page in menu.pages" layout="row" layout-align="center center" ui-sref="{{page.state}}" class="menu-group-item">
+          {{::page.name}}
+        </md-list-item>
+        <md-divider ng-repeat-end></md-divider>
+      </md-list>
+    </md-content>
+  </md-sidenav>
+  <div layout="column" class="relative" layout-fill role="main">
+    <%= yield %>
+  </div>
+  <%= javascript_include_tag "ddt/backend_crm", "data-turbolinks-track" => true %>
+</body>
+</html>

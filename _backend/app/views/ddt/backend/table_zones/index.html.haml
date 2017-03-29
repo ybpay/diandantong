@@ -1,0 +1,58 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/table_zone')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = link_to "新建 #{t('activerecord.models.ddt/table_zone')}", new_backend_shop_branch_table_zone_path(@current_shop, @current_branch), :class=>"btn btn-primary btn-sm"
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+
+                %th.col-sm-1= sort_link(@q, :name, Ddt::TableZone.human_attribute_name(:name))
+
+                %th.col-sm-1= sort_link(@q, :tables_count_for_reservation, Ddt::TableZone.human_attribute_name(:tables_count_for_reservation))
+
+                %th.col-sm-1= sort_link(@q, :min_reservation_price, Ddt::TableZone.human_attribute_name(:min_reservation_price))
+                %th.col-sm-1= sort_link(@q, :reservation_price, Ddt::TableZone.human_attribute_name(:reservation_price))
+                %th.col-sm-1= sort_link(@q, :reservation_price_percent, Ddt::TableZone.human_attribute_name(:reservation_price_percent))
+
+                %th.col-sm-1= sort_link(@q, :tables_count, Ddt::TableZone.human_attribute_name(:tables_count))
+
+                %th.col-sm-1= sort_link(@q, :branch, Ddt::TableZone.human_attribute_name(:branch))
+                %th.col-sm-1= Ddt::TableZone.human_attribute_name(:weixin_ban_product_ids_string)
+                %th.col-sm-1= Ddt::TableZone.human_attribute_name(:webpos_ban_product_ids_string)
+                %th.col-sm-1= Ddt::TableZone.human_attribute_name(:ban_selfpay)
+                %th
+
+            %tbody
+              - @table_zones.each do |table_zone|
+                %tr
+                  %td= link_to table_zone.name, [:backend, @current_shop, @current_branch, table_zone]
+                  %td= table_zone.tables_count_for_reservation
+                  %td= table_zone.min_reservation_price
+                  %td= table_zone.reservation_price
+                  %td= "#{table_zone.reservation_price_percent}%"
+                  %td= table_zone.tables_count
+                  %td= table_zone.branch.name
+                  %td= labels(table_zone.weixin_ban_products.map(&:name))
+                  %td= labels(table_zone.webpos_ban_products.map(&:name), color: 'warning')
+                  %td= table_zone.ban_selfpay ? '是' : '否'
+                  %td
+                    = link_to t("新建#{t('activerecord.models.ddt/table')}"), new_backend_shop_branch_table_path(@current_shop, @current_branch, {table_zone_id: table_zone.id})
+                    &nbsp
+                    = link_to '编辑', edit_backend_shop_branch_table_zone_path(@current_shop, @current_branch, table_zone)
+                    &nbsp
+                    = link_to '删除', [:backend, @current_shop, @current_branch, table_zone], :method => :delete, :data => { :confirm => '确定删除?' }
+              = no_record_hint(@table_zones)
+
+
+          %br
+          .pull-right= will_paginate @table_zones , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

@@ -1,0 +1,33 @@
+%h2 代收流水
+
+.form-group
+  %p
+    代收款钱包余额[
+    %b
+      ="#{number_to_currency(@wallet.amount, unit: '¥')}"
+    \]
+    %a{:href => new_backend_shop_withdraw_path(@current_shop), :disabled => @wallet.amount < Ddt::Withdraw::MIN_AMOUNT}
+      提款
+    每次提款额不能少于 ¥#{Ddt::Withdraw::MIN_AMOUNT}
+
+%table.table.table-striped
+  %thead
+    %tr
+      - show_for nil, Ddt::WalletLog do
+        - attr_tab_head :order_id, :amount, :reason, sort_link: true
+        %th 提款号
+        - attr_tab_head :note
+        - attr_tab_head :created_at, sort_link: true
+  %tbody
+    - @wallet_logs.each do |wallet_log|
+      %tr
+        - show_for wallet_log do
+          %td= wallet_log.order.number rescue nil
+          - attr_tab_column :amount
+          %td= wallet_log.reason_name
+          %td= wallet_log.withdraw.id rescue nil
+          - attr_tab_column :note, :created_at
+    = no_record_hint(@wallet_logs)
+%br
+.pull-right= will_paginate @wallet_logs , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

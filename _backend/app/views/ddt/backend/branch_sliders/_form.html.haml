@@ -1,0 +1,11 @@
+= simple_form_for([:backend, @current_shop, @branch_slider], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@branch_slider)
+
+    .form-inputs
+      = f.input :img, as: :image_preview, hint: '推荐图片规格为720 * 270'
+      = f.hidden_field :img_cache
+      = f.input :url, as: :text, hint: raw("#{render 'auto_insert_url',{ input_field_id: 'branch_slider_url', version: 'only_ng'}}")
+
+    .form-actions.col-xs-offset-4
+      = f.button :submit, :class => "btn btn-primary"

@@ -1,0 +1,9 @@
+.ibox
+  .ibox-title
+    %h2 编辑授权许可
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Show'), [:backend, @lisence], :class=>"btn btn-default btn-sm"
+    \|
+    = link_to t('Back'), backend_lisences_path, :class=>"btn btn-default btn-sm"

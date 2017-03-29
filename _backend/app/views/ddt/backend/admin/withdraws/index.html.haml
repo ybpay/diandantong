@@ -1,0 +1,87 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 提款日志
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                = data_head Ddt::Withdraw,
+                {'col-sm' => [1,1,1,1,  1,1,1,1, 1,1,1]},
+                :id, :shop_id, :state, :alipay_account_id, :alipay_account_name,
+                :residual, :amount, :transfer_amount, :note, :created_at,
+                :操作
+            %tbody
+              - @withdraws.each do |withdraw|
+                %tr
+                  = data_columns(withdraw, :id)
+                  %td
+                    = link_to withdraw.shop.name, [:backend, withdraw.shop]
+                  %td
+                    - label_class = state_class_name(withdraw.state)
+                    %div{:class=> "label #{label_class} withdraw-state"}
+                      = withdraw.state_name
+
+                  = data_columns(withdraw,:alipay_account_id,:alipay_account_name,:residual,:amount, :transfer_amount, :note,:created_at)
+
+                  %td
+                    = base_info_btn :url => [:backend, withdraw.shop, :collection_logs], :title => '代收日志'
+                    = base_info_btn :url => [:complete, :backend, withdraw], :method => :put, :remote => true, :icon_class => 'fa-check', :title => '通过'
+                    = base_info_btn :url => [:cancel, :backend, withdraw], :method => :put, :remote => true, :icon_class => 'fa-close', :title => '回滚'
+
+              = no_record_hint(@withdraws)
+          %br
+          .pull-right= will_paginate @wallet_logs , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br
+
+
+:javascript
+  $(function(){
+    var handler = function(){
+      console.info(arguments);
+    }
+    var success_handler = function(title){
+      var _title = title;
+      return function(event, data, status){
+        var row = $(this).closest('tr');
+        bootbox.hideAll()
+        if (data.success){
+          bootbox.dialog({
+            message: "<span style='color:red'>" + _title + '</span>成功',
+            title: "提款处理"
+          });
+        }else{
+          bootbox.dialog({
+            message: "<span style='color:red'>" + _title + "</span>失败，当前状态为<span style='color:red'>" + data.state_name + "</span>",
+            title: "提款处理"
+          });
+        }
+        var state_column = row.find('.withdraw-state');
+        state_column.removeClass('label-info').removeClass('label-success').removeClass('label-warning');
+        state_column.html(data.state_name)
+        switch(data.state){
+            case 'frozen':
+              state_column.addClass('label-info');break;
+            case 'completed':
+              state_column.addClass('label-success');break;
+            case 'canceled':
+              state_column.addClass('label-warning');break;
+        }
+      };
+    };
+
+    $('a[title="通过"]')
+    .on('ajax:success', success_handler('通过'))
+    //.on('ajax:complete', handler)
+    .on('ajax:error', handler);
+
+    $('a[title="回滚"]')
+    .on('ajax:success', success_handler('回滚'))
+    //.on('ajax:complete', handler)
+    .on('ajax:error', handler);
+
+  });

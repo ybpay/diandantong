@@ -1,0 +1,8 @@
+.header
+  %h3= "编辑#{t('activerecord.models.ddt/base_user')}"
+
+= render 'form'
+
+= link_to t('Show'), backend_shop_base_user_path(@current_shop, @base_user), :class => "btn btn-default btn-sm"
+\
+= link_to t('Back'), backend_shop_base_users_path(@current_shop), :class => "btn btn-default btn-sm"

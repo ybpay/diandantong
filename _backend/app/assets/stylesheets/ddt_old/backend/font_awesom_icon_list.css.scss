@@ -1,0 +1,17 @@
+/* 图标管理 */
+.fontawesome-icon-list {
+  a {
+    text-decoration: none;
+    color: #000;
+  }
+  .fa-hover {
+    height: 30px;
+    margin: 5px 0;
+    line-height: 30px;
+    font-size:14px;
+  }
+
+  .fa-hover:hover {
+    font-size: 24px;
+  }
+}

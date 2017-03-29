@@ -1,0 +1,8 @@
+= simple_form_for([:backend, @current_shop, @gift_reason], html: { class: 'form-horizontal'}, remote: true) do |f|
+  = f.error_notification :message => error_message_in_html(@gift_reason)
+
+  .form-inputs
+    = f.input :name
+
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"

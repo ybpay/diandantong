@@ -1,0 +1,50 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/branch_type')} 列表"
+    .alert.alert-success= raw "您可以点击#{link_to '自定义门店图标', index_branch_nav_backend_shop_branch_types_path(@current_shop), class: 'label label-danger'}为该类型的门店设置导航链接"
+    .form-group
+      = link_to "新建 #{t('activerecord.models.ddt/branch_type')}", new_backend_shop_branch_type_path(@current_shop), :class=>"btn btn-primary btn-sm"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .form-group
+          = search_form_for @q, url: backend_shop_branch_types_path(@current_shop), html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+            = f.input_field :name_cont, placeholder: Ddt::BranchType.human_attribute_name(:name)
+            = f.input_field :icon_cont, placeholder: Ddt::BranchType.human_attribute_name(:icon)
+            = f.input_field :bg_color_cont, placeholder: Ddt::BranchType.human_attribute_name(:bg_color)
+            = f.submit "搜索", class: 'btn btn-sm btn-success'
+
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th.col-sm-1= sort_link(@q, :name, Ddt::BranchType.human_attribute_name(:name))
+              %th.col-sm-1= sort_link(@q, :branches_count, Ddt::BranchType.human_attribute_name(:branches_count))
+              %th.col-sm-1= sort_link(@q, :show_wifi, Ddt::BranchType.human_attribute_name(:show_wifi))
+              %th.col-sm-1= sort_link(@q, :show_parking, Ddt::BranchType.human_attribute_name(:show_parking))
+              %th.col-sm-1= Ddt::BranchType.human_attribute_name(:image)
+              %th
+
+          %tbody
+            - @branch_types.each do |branch_type|
+              %tr
+                %td= branch_type.name
+                %td= branch_type.branches_count
+                %td= branch_type.show_wifi? ? '显示' : '不显示'
+                %td= branch_type.show_parking? ? '显示' : '不显示'
+                %td
+                  - if branch_type.image
+                    %div{style: "border-radius: 1000px; width: 100px; height: 100px; background-image: url(#{branch_type.image.thumb.url})"}
+                  - else
+                    %div{style: "border-radius: 1000px; width: 100px; height: 100px; background-color: #{branch_type.bg_color}; text-align:center; font-size: 50px; color: white;"}
+                      %i.fa{:style => "display: block;  line-height: 100px;", :class=>"#{branch_type.icon}"}
+                %td
+                  = info_btn(branch_type)
+                  = edit_btn(branch_type)
+                  = delete_btn(branch_type)
+
+            = no_record_hint(@branch_types)
+        %br
+        .pull-right= will_paginate @branch_types , renderer: BootstrapPagination::Rails, bootstrap: 3
+        %br

@@ -1,0 +1,24 @@
+<div class="branch-show-page extended-form-fastfood-cart hide container-fluid">
+    <div class="branch-name">{{branch.name}}</div>
+    <div class="main-wrapper row">
+        <div class="left-main col-xs-7">
+            <div class="image-wrapper">
+            </div>
+        </div>
+        <div class="right-main col-xs-5 ff-item-container" ng-show="_wpffcart">
+            <div class="row line-item-total" ng-if="_wpffcart_item_total">订单合计: {{_wpffcart_item_total || 0 | currency: shop.currency}}</div>
+            <div class="row line-item-total" ng-if="_wpffcart_adjustment_total">折扣合计: {{_wpffcart_adjustment_total || 0 | currency: shop.currency}}</div>
+            <div class="row line-item-total">应收合计: {{_wpffcart.total || 0 | currency: shop.currency}}</div>
+            <div class="row title">
+                <div class="column col-xs-6">产品</div>
+                <div class="column col-xs-3">单价</div>
+                <div class="column col-xs-3">数量</div>
+            </div>
+            <div class="row" ng-repeat="line_item in _wpffcart.line_items | orderBy:'index':true">
+                <div class="column col-xs-6">{{line_item.name}}</div>
+                <div class="column col-xs-3">{{line_item.price}}</div>
+                <div class="column col-xs-3">{{line_item.quantity}}</div>
+            </div>
+        </div>
+    </div>
+</div>

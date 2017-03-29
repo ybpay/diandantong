@@ -1,0 +1,60 @@
+<md-dialog flex="80">
+  <md-toolbar class="md-toolbar-tools">
+    <h2>余额日志</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <div class="crm-table" layout="column" md-whiteframe="2">
+      <md-toolbar class="crm-table-header" layout="row">
+        <div class="crm-table-header-content" layout="row" flex="100" layout-align="space-around center">
+            <div class="crm-table-th" flex>时间</div>
+            <div class="crm-table-th" flex></div>
+            <div class="crm-table-th" flex>原因</div>
+            <div class="crm-table-th" flex>数额</div>
+            <div class="crm-table-th" flex>主账户金额</div>
+            <div class="crm-table-th" flex>附属账户金额</div>
+            <div class="crm-table-th" flex>备注</div>
+            <div class="crm-table-th" flex>关联订单</div>
+        </div>
+      </md-toolbar>
+      <md-content class="crm-table-content" layout="column">
+        <div class="crm-table-row" layout="row" ng-show="logs.length == 0">
+          <div class="crm-table-row-content" flex="100" layout="row" layout-align="space-around center">
+            <div class="crm-table-td" flex>暂无纪录</div>
+          </div>
+        </div>
+        <div class="crm-table-row" layout="row" ng-repeat="log in logs">
+          <div class="crm-table-row-content" flex="100" layout="row" layout-align="space-around center">
+            <div class="crm-table-td" flex>{{log.created_at | date:"yyyy-MM-dd HH:mm:ss"}}</div>
+            <div class="crm-table-td" flex>{{log.owner_name}}</div>
+            <div class="crm-table-td" flex>{{log.reason_name}}</div>
+            <div class="crm-table-td" flex>{{log.display_amount}}</div>
+            <div class="crm-table-td" flex>{{log.cash_amount}}</div>
+            <div class="crm-table-td" flex>{{log.extra_amount}}</div>
+            <div class="crm-table-td" flex>{{log.note}}</div>
+            <div class="crm-table-td" flex>{{log.order_number}}</div>
+          </div>
+        </div>
+      </md-content>
+    </div>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <section layout="row" layout-align="center center">
+      <md-button class="group-btn left" ng-click="p.previous_page().query()">
+        <md-tooltip md-direction="left">上一页</md-tooltip>
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+      <md-button class="group-btn middle">
+        <md-tooltip md-direction="top">当前页</md-tooltip>
+        {{p.current_page()}}
+      </md-button>
+      <md-button class="group-btn right" ng-click="p.next_page().query()">
+        <md-tooltip md-direction="right">下一页</md-tooltip>
+        <md-icon>arrow_forward</md-icon>
+      </md-button>
+    </section>
+  </md-dialog-actions>
+</md-dialog>

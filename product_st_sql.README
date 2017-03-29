@@ -1,0 +1,165 @@
+###################################################### 营业额
+SELECT DATE_FORMAT(created_at, '%Y-%m') as time, SUM(total_amount) as amount
+FROM ddt_shifts
+where shop_id = 1
+    and state = 'closed'
+    and created_at >= '2016-01-01'
+    and created_at <= '2016-08-31'
+    group by time;
+
+SELECT DATE_FORMAT(created_at, '%Y-%m-%d') as time, SUM(total_amount) as amount
+FROM ddt_shifts
+where shop_id = 1
+    and state = 'closed'
+    and created_at >= '2016-05-01'
+    and created_at <= '2016-05-31'
+    group by time;
+
+
+###################################################### Date of Shift.closed_at != Shift.created_at
+# 查询跨天的 shift
+SELECT id, branch_id, created_at, closed_at, total_amount from ddt_shifts
+where shop_id = 1
+    and state = 'closed'
+    and created_at >= '2016-01-01 00:00:00'
+    and created_at <= '2016-09-05 23:59:59'
+    and DATE_FORMAT(created_at, '%Y-%m-%d') != DATE_FORMAT(closed_at, "%Y-%m-%d");
+
+
+# 查询跨月的 shift
+SELECT id, branch_id, created_at, closed_at, total_amount from ddt_shifts
+where shop_id = 1
+    and state = 'closed'
+    and created_at >= '2016-01-01 00:00:00'
+    and created_at <= '2016-09-05 23:59:59'
+    and DATE_FORMAT(created_at, '%Y-%m') != DATE_FORMAT(closed_at, "%Y-%m");
+
+# 跨月的shift
++-------+-----------+---------------------+---------------------+--------------+
+| id    | branch_id | created_at          | closed_at           | total_amount |
++-------+-----------+---------------------+---------------------+--------------+
+| 40248 |      9119 | 2016-07-31 10:20:36 | 2016-08-01 09:00:37 |     31443.00 |
+| 40267 |     27745 | 2016-07-31 10:30:27 | 2016-08-01 10:19:26 |     50437.00 |
+| 40273 |      8974 | 2016-07-31 10:34:36 | 2016-08-01 10:37:27 |     19488.00 |
+| 40366 |      8951 | 2016-07-31 22:29:50 | 2016-08-01 10:15:37 |         0.00 |
+| 48798 |      8749 | 2016-08-31 11:43:27 | 2016-09-01 10:04:45 |     21903.00 |
+| 48855 |     31008 | 2016-08-31 21:30:46 | 2016-09-01 21:40:30 |      4817.00 |
+| 48860 |      9106 | 2016-08-31 22:31:40 | 2016-09-01 22:17:39 |     35148.00 |
++-------+-----------+---------------------+---------------------+--------------+
+
+
+
+####################################################### 查询单品
+SELECT
+  DATE_FORMAT(o.paid_at, '%Y-%m-%d') as time,
+  sum((quantity - subtract_quantity - move_quantity) * price) as original_amount,
+  sum(l.adjustment_total) + sum(l.apportion_adjustment_total) as adjustment_total,
+  sum((quantity - subtract_quantity - move_quantity) * price) + sum(l.adjustment_total) + sum(l.apportion_adjustment_total) as sale_amount,
+  sum(l.not_actual_amount) as not_actual_amount
+
+FROM ddt_line_items as l
+  inner join ddt_orders as o on l.order_id = o.id
+  where
+      o.shop_id = 1
+  AND o.deleted_at is null
+  AND o.pay_item_state = 'paid'
+  AND o.paid_at >= '2016-01-01 00:00:00'
+  AND o.paid_at <= '2016-08-31 23:59:59'
+  AND o.type in ('Ddt::EatInHallOrder', 'Ddt::FastfoodOrder', 'Ddt::DeliveryOrder', 'Ddt::ReservationOrder', 'Ddt::PaymentOrder', 'Ddt::GrouponOrder')
+  AND l.is_subtract = 0
+  AND l.gift = 0
+  AND l.is_moved = 0
+  AND l.itemable_type = 'Ddt::Variant'
+  AND (quantity - subtract_quantity - move_quantity) > 0
+  group by time;
+
+
+###################################################### 查询套餐
+SELECT
+  DATE_FORMAT(o.paid_at, '%Y-%m-%d') as time,
+  sum((quantity - subtract_quantity - move_quantity) * price) as original_amount,
+  sum(l.adjustment_total) + sum(l.apportion_adjustment_total) as adjustment_total,
+  sum((quantity - subtract_quantity - move_quantity) * price) + sum(l.adjustment_total) + sum(l.apportion_adjustment_total) as sale_amount,
+  sum(l.not_actual_amount) as not_actual_amount
+
+FROM ddt_line_items as l
+  inner join ddt_orders as o on l.order_id = o.id
+  where
+      o.shop_id = 1
+  AND o.deleted_at is null
+  AND o.pay_item_state = 'paid'
+  AND o.paid_at >= '2016-01-01 00:00:00'
+  AND o.paid_at <= '2016-08-31 23:59:59'
+  AND o.type in ('Ddt::EatInHallOrder', 'Ddt::FastfoodOrder', 'Ddt::DeliveryOrder', 'Ddt::ReservationOrder', 'Ddt::PaymentOrder', 'Ddt::GrouponOrder')
+  AND l.is_subtract = 0
+  AND l.gift = 0
+  AND l.is_moved = 0
+  AND l.itemable_type = 'Ddt::ComboPackage'
+  AND (quantity - subtract_quantity - move_quantity) > 0
+  group by time;
+
+
+###################################################### 查询称重
+SELECT
+  DATE_FORMAT(o.paid_at, '%Y-%m-%d') as time,
+  sum((quantity - subtract_quantity - move_quantity) * price) as original_amount,
+  sum(l.adjustment_total) + sum(l.apportion_adjustment_total) as adjustment_total,
+  sum((quantity - subtract_quantity - move_quantity) * price) + sum(l.adjustment_total) + sum(l.apportion_adjustment_total) as sale_amount,
+  sum(l.not_actual_amount) as not_actual_amount
+
+FROM ddt_line_items as l
+  inner join ddt_orders as o on l.order_id = o.id
+  where
+      o.shop_id = 1
+  AND o.deleted_at is null
+  AND o.pay_item_state = 'paid'
+  AND o.paid_at >= '2016-01-01 00:00:00'
+  AND o.paid_at <= '2016-08-31 23:59:59'
+  AND o.type in ('Ddt::EatInHallOrder', 'Ddt::FastfoodOrder', 'Ddt::DeliveryOrder', 'Ddt::ReservationOrder', 'Ddt::PaymentOrder', 'Ddt::GrouponOrder')
+  AND l.is_subtract = 0
+  AND l.gift = 0
+  AND l.is_moved = 0
+  AND l.itemable_type = 'Ddt::VariantPackage'
+  AND (quantity - subtract_quantity - move_quantity) > 0
+  group by time;
+
+
+###################################################### 用来判断套餐是否摊到 combo_package_items 是否成功
+SELECT
+  DATE_FORMAT(cps.paid_at, "%Y-%m-%d") as time,
+  sum(price) as amount,
+  sum(adjustment_total + apportion_adjustment_total) as adjustment_amount,
+  sum(not_actual_amount) as not_actual_amount
+FROM ddt_combo_package_items as cpi
+  inner join (
+  select l.itemable_id as combo_package_id, o.paid_at from ddt_line_items as l
+  inner join ddt_orders as o on l.order_id = o.id
+  where
+    o.shop_id = 1
+  and o.deleted_at is null
+  AND o.pay_item_state = 'paid'
+  AND o.paid_at >= '2016-05-01 00:00:00'
+  AND o.paid_at <= '2016-05-31 23:59:59'
+  AND o.type in ('Ddt::EatInHallOrder', 'Ddt::FastfoodOrder', 'Ddt::DeliveryOrder', 'Ddt::ReservationOrder', 'Ddt::PaymentOrder', 'Ddt::GrouponOrder')
+  AND l.is_subtract = 0
+  AND l.gift = 0
+  AND l.is_moved = 0
+  AND l.itemable_type = 'Ddt::ComboPackage'
+  AND (quantity - subtract_quantity - move_quantity) > 0) as cps on cpi.combo_package_id = cps.combo_package_id group by time;
+
+###################################################### 订单上的抹零
+SELECT sum(moling_amount) from ddt_orders
+where shop_id = 1
+  and deleted_at is null
+  and pay_item_state = 'paid'
+  and paid_at >= '2016-03-01 00:00:00'
+  and paid_at <= '2016-03-31 23:59:59'
+  and type in ('Ddt::EatInHallOrder', 'Ddt::FastfoodOrder', 'Ddt::DeliveryOrder', 'Ddt::ReservationOrder', 'Ddt::PaymentOrder', 'Ddt::GrouponOrder');
+
+###################################################### 交班数据上的抹零
+SELECT sum(moling_amount) from ddt_shifts
+where shop_id = 1
+  and state = 'closed'
+  and created_at >= '2016-03-01 00:00:00'
+  and created_at <= '2016-03-31 23:59:59';
+

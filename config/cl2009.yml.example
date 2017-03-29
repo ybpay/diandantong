@@ -1,0 +1,10 @@
+defaults: &defaults
+  account: 
+  pswd: 
+development:
+  <<: *defaults
+  host: "http://222.73.117.158:80"
+
+production:
+  <<: *defaults
+  host: "http://222.73.117.158:80"

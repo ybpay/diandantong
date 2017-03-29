@@ -1,0 +1,65 @@
+===========================================================================
+================== 商家活动
+===========================================================================
+
+活动规则
+签到、首次关注、分享朋友圈、抽刮刮卡、大转盘、发表评论，订单完成时赠送（比如说首单）
+活动动作： 发放积分、发放优惠券、发放储值卡
+
+AbstractPromotion 促销活动
+  shop: references
+  starts_at    : datetime : 开始时间
+  expires_at   : datetime : 过期时间
+  usage_limit  : integer  : 使用次数限制
+
+Promotion < AbstractPromotion 优惠减免
+  具体内容参见 《11促销系统》
+
+Activity < AbstractPromotion 赠送活动
+  has_many activity_items 绝大多数情况下只有一个activity_item,但对于刮刮卡这种，一等奖送什么，二等奖送什么，就得是多个activity_items
+
+ActivityRegister < Activity
+ActivityFirstSubscribe < Activity
+ActivityWeixinShare < Activity
+ActivityScrachpad < Activity
+ActivityRoulette < Activity
+ActivityComment < Activity
+  继承子类主要用于校验rule是否冲突
+
+---------------------------------------------
+ActivityItem 包含的规则与动作组合
+  has_one promotion_rule
+  has_one promotion_action
+
+
+---------------------------------------------
+PromotionRule 活动规则
+  belongs_to :activity
+  def eligilable?(user, options)
+  end
+
+PromotionRuleRegister < PromotionRule 签到规则
+
+PromotionRuleFirstSubscribe < PromotionAction 首次关注规则
+
+PromotionRuleWeixinShare < PromotionAction 分享朋友圈规则
+  share_target: references
+
+PromotionRuleScrachpad < PromotionAction 抽刮刮卡规则
+  scrchpad_result: string
+
+PromotionRuleRoulette < PromotionAction 大转盘中奖规则
+  暂不实现
+
+PromotionRuleComment < PromotionAction 评论规则
+
+
+---------------------------------------------
+PromotionAction 活动动作
+
+PromotionActionGiveCredits < PromotionAction 赠送积分
+  credits_amount: integer 赠送的积分数量
+PromotionActionGiveCoupon < PromotionAction 赠送优惠券
+  coupon_version: references 赠送的优惠券
+PromotionActionGiveChargeCard < PromotionAction 储值卡充值
+  wallet_amount: 赠送的余额

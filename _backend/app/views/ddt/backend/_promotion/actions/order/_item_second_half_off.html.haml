@@ -1,0 +1,1 @@
+= text_field_tag "#{param_prefix}[variant_ids_string]", promotion_action.variant_ids_string, :class => "ddb-select2",  data: { url: backend_shop_branch_products_path(@current_shop, @current_branch), saved: promotion_action.variants.map(&:select_json) }, placeholder: "请选择商品"

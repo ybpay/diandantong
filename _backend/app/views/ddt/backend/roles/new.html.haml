@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h2= "新建#{t('activerecord.models.ddt/role')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Back'), backend_shop_roles_path(@current_shop), :class => "btn btn-default btn-sm"

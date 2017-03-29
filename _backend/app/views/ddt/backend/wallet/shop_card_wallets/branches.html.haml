@@ -1,0 +1,26 @@
+.header
+  %h3 门店余额管理
+
+%p
+  %b
+    = Ddt::ShopCardWallet.human_attribute_name(:amount)
+    \:
+  = @wallet.display_amount
+
+= search_form_for @q, url: [:branches, :backend, @current_shop, :shop_card_wallet], html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+  = f.input_field :name_cont, placeholder: '门店名称', class: 'form-control'
+  = f.submit "搜索", class: "btn btn-success"
+%br
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.col-sm-6= sort_link(@q, :name, Ddt::Branch.human_attribute_name(:name))
+      %th.col-sm-3= sort_link(@q, :amount, Ddt::BranchCardWallet.human_attribute_name(:amount))
+      %th
+
+  %tbody
+    = render partial: '/ddt/backend/wallet/shop_card_wallets/branch_tr', collection: @branches, as: :branch
+%br
+.pull-right= will_paginate @branches , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

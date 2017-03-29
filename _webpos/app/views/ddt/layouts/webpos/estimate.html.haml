@@ -1,0 +1,20 @@
+!!!
+%html{:"ng-app"=>"webpos_estimate"}
+  %head
+    = render 'ddt/layouts/webpos/header'
+    = stylesheet_link_tag "ddt/webpos_estimate", media: "all", data: {turbolinks: {track: true}}
+  %body
+    %div{style: "height: 100%;", :"ui-view"=>''}
+      %div{style: 'text-align: center; margin-top: 200px;'}
+        %h1 载入中...
+    %div{ :'ng-include' => '', src: "'/webpos/partials/modals.html'" }
+    %div{ :'ng-include' => '', src: "'/webpos/partials/_modals/auth.html'" }
+    %div{ :'ng-include' => '', src: "'/webpos/partials/_directives/wp-keypad-number.html'" }
+    %div{ :'ng-include' => '', src: "'/webpos/partials/_directives/wp-keypad-text.html'" }
+    %div#ddb-loading
+      %i.fa.fa-spinner.fa-spin
+      .caption 数据加载中...
+    = javascript_include_tag "thirdparty/_base", "data-turbolinks-track" => true
+    = javascript_include_tag "thirdparty/_webpos", "data-turbolinks-track" => true
+    = javascript_include_tag "ddt/common", "data-turbolinks-track" => true
+    = javascript_include_tag "ddt/webpos_estimate", "data-turbolinks-track" => true

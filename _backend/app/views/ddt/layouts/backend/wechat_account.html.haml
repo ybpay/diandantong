@@ -1,0 +1,25 @@
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs#wechat-tabs
+            - if @wechat_account.present?
+              %li{class: ('active' if %W[wechat_accounts].include? controller_name)}
+                = link_to t('activerecord.models.ddt/wechat_account'), backend_shop_wechat_account_path(@current_shop, @wechat_account)
+              %li{class: ('active' if %W[wechat_menus].include? controller_name)}
+                = link_to t('activerecord.models.ddt/wechat_menu'), backend_shop_wechat_account_wechat_menus_path(@current_shop, @wechat_account)
+              %li{class: ('active' if %W[apply_logs].include? controller_name)}
+                = link_to t('activerecord.models.ddt/apply_log'), backend_shop_wechat_account_shake_around_apply_logs_path(@current_shop, @wechat_account)
+              %li{class: ('active' if %W[devices].include? controller_name)}
+                = link_to "设备管理", backend_shop_wechat_account_shake_around_devices_path(@current_shop, @wechat_account)
+              %li{class: ('active' if %W[pages].include? controller_name)}
+                = link_to "页面管理", backend_shop_wechat_account_shake_around_pages_path(@current_shop, @wechat_account)
+              - if %W[shake_infos].include? controller_name
+                %li{class: 'active'}
+                  = link_to "摇一摇日志", "#"
+          .tab-content
+            .tab-pane.in.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend"

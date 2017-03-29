@@ -1,0 +1,85 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t("activerecord.models.ddt/#{@model_name}")}"
+  .ibox-content
+    .alert.alert-info
+      %p 设置帮助：
+      %p 1. pid 和 pkey 门店服务里查询
+      %p 2. email 为注册支付宝的邮件地址
+
+    = simple_form_for(@payment_method, :url => [:backend, @current_shop, :alipay_methods], html: { class: 'form-horizontal'}) do |g|
+      - g.with_options disabled: (disabled rescue nil) do |f|
+        = f.error_notification :message => error_message_in_html(@payment_method)
+        .form-inputs
+          .col-sm-6
+            = f.input :name, readonly: true
+            = f.input :description
+            = f.input :active
+           
+            .collection-attribute
+              - [:preferred_withdraw_account_id, :preferred_withdraw_account_name].each do |it|
+                = f.input it, hint: '提款账号设置后不能更改，请务必慎重'
+            .non-collection-attribute
+              = f.input :preferred_pid, hint: raw("<a href='https://b.alipay.com/order/pidAndKey.htm'>点击这里到支付宝后台查看支付配置信息</a>")
+              = f.input :preferred_pkey
+              = f.input :preferred_email
+              = f.input :preferred_app_id, hint: '开放平台的app_id'
+              = f.input :preferred_rsa_pri_key, as: :text,
+              hint: raw("RSA私钥,为了简化配置,所有签约项目使用同一个公私钥对, 点击<a id='gen_rsa' data-url='#{gen_rsa_backend_shop_alipay_methods_path(@current_shop)}'>这里</a>生成密钥对,并把下面的公钥上传到支付宝后台")
+
+              .alert.alert-block.alert-success.hidden
+                %pre#rsa_pub_key
+              .form-group
+                = f.label :preferred_contract, class: 'control-label col-sm-2'
+                .col-sm-8
+                  .checkbox{:style=>"padding-bottom: 10px; border-bottom: 1px solid #eeeeee;"}
+                    = f.input_field :preferred_contract, collection: Ddt::AlipayMethod::CONTRACT_COLLECTIONS, as: :check_boxes, checked: @payment_method.preferred_contract.split('|')
+                #contract-collections.hidden{data: Ddt::AlipayMethod::CONTRACT_COLLECTIONS}
+          .col-sm-6 
+            = f.input :preferred_collection, as: :boolean, hint: raw('若您的门店未配置自己的支付宝账户，可开启此选项，让点单通系统的支付宝账户帮助您进行收款, 所收款额会累计在门店余额中。您启用此功能后，意味着您接受点单通的代收款协议，协议内容如下:<ol><li style="list-style: inherit !important;"> 点单通不参与贵公司任何经营相关业务，点单通也不从贵企业的实际的经营收入中赚取抽成，不承担经营责任。</li><li style="list-style: inherit !important;"> 根据支付宝商家协议，支付宝将按单抽取订单额的2.5%作为服务费，所以点单通给予您返还的实际金额应是您账户应收款的97.5%，其余2.5%为支付宝所属公司抽取。</li><li style="list-style: inherit !important;"> 由于点单通返还的方式是按照客户的要求，手工打款给商家。所以过多、频繁的请求会给予点单通团队造成太大的压力。如果您接受代收款协议，意味着您承诺接受点单通要求的：每隔7天可发起一次提款请求，每次提款请求金额必须大于人民币100元时才可发起，每次提款请求后最晚7天到账。</li></ol>')
+        .form-actions
+          .col-sm-6
+            .col-xs-offset-4
+              = f.button :submit
+        .clearfix
+
+:javascript
+  (function(){
+    function update_payment_method_ui(){
+      if ($(this).is(':checked')){
+        $('.non-collection-attribute').hide();
+        $('.collection-attribute').show();
+      }else{
+        $('.non-collection-attribute').show();
+        $('.collection-attribute').hide();
+      }
+    }
+    $('input[name*="preferred_collection"]').on('change', update_payment_method_ui);
+    update_payment_method_ui.apply($('input[name*="preferred_collection"]'));
+
+
+    $('#gen_rsa').on("click", function(){
+      var url = $(this).attr("data-url");
+      $.get(url, function(resp){
+        var pri = resp.private_key
+        var pub = resp.public_key
+        $('textarea[name*="preferred_rsa_pri_key"]').text(pri);
+        $('#rsa_pub_key').html(pub)
+        $('#rsa_pub_key').parent().removeClass("hidden")
+      });
+    });
+
+    // 插入协议描述
+    (function(){
+      var contracts = JSON.parse($('#contract-collections').attr("data"))
+      $.each(contracts, function(i, item){
+        var key = item[1]
+        var desc = item[2]
+        $('label[for="alipay_method_preferred_contract_' + key +'"]').after("<p>" + desc + "</p>");
+      })
+    })();
+
+
+  })();
+
+

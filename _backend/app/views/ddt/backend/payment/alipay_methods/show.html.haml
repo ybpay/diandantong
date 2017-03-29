@@ -1,0 +1,19 @@
+
+%h2= "#{t('activerecord.models.ddt/alipay_method')} 详情"
+
+.ibox-content
+  - show_for @payment_method do
+    - show_simple_attr :name, :description
+    - show_simple_attr :active do
+      = @payment_method.active ? '是' : '否'
+    - if @payment_method.preferred_collection
+      - show_simple_attr :preferred_collection do
+        = @payment_method.preferred_collection ? '是' : '否'
+      - [:withdraw_account_id, :withdraw_account_name].each do |it|
+        - show_simple_attr "preferred_#{it}".to_sym
+    - else
+      - [:pid, :pkey, :email, :app_id, :rsa_pri_key, :contract].each do |it|
+        - show_simple_attr "preferred_#{it}".to_sym
+    .space
+
+  = simple_edit_link(:alipay_methods)

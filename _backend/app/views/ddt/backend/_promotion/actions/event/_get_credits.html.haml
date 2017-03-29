@@ -1,0 +1,8 @@
+- key = :credits
+- field_name = "#{param_prefix}[preferred_#{key}]"
+.col-sm-3
+  = label_tag field_name, I18n.t("promotion.actions.events.#{key}")
+  %br
+  %span (100积分可兑换1块钱)
+.col-sm-3.input-group
+  = preference_field_tag(field_name, promotion_action.get_preference(key), type: promotion_action.preference_type(key))

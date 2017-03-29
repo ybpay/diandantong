@@ -1,0 +1,59 @@
+<div id="cart-page">
+  <div class="cart-footer page-footer">
+    <div class="service-item" ng-if="can_refresh">
+      <a ng-click="refresh()" class="orange service-btn">刷新</a>
+    </div>
+
+    <div class="service-item buy">
+      <a ng-click="submit()" class="submit－btn service-btn" ng-class="{'disable': !can_submit() }">下单</a>
+    </div>
+
+    <div class="clear"></div>
+  </div>
+  <div class="cart-content">
+     <div class="weui_cells" ng-if="!order_itemables_groups || order_itemables_groups.length == 0">
+      <div class="weui_cell">
+        <div class="weui_cell_hd">
+          购物车空空如也
+        </div>
+     </div>
+    </div>
+
+    <div class="weui_cells" ng-if="order_itemables_groups && order_itemables_groups.length > 0">
+      <div class="weui_cell">
+        <div class="weui_cell_hd">
+          菜品数量 <span class="orange">共{{cart.item_count}}份</span> 总计价格 <span class="orange">{{cart.total|currency:currency }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div ng-if="order_itemables_groups && order_itemables_groups.length > 0">
+      <div class="weui_cells" ng-if="group.count > 0"  ng-repeat="group in order_itemables_groups">
+        <div class="weui_cell">
+          <div class="weui_cell_hd"><img ng-src="{{group.head_url}}" alt="" style="width:30px;margin-right:5px;display:block;border-radius: 1000px;"></div>
+          <div class="weui_cell_bd weui_cell_primary">
+              <p>{{group.user_name||'用户'+ group.user_id}}</p>
+          </div>
+          <div class="weui_cell_ft" ng-if="group.user_id!=-1">点了{{group.count}}道菜</div>
+        </div>
+
+        <div class="weui_cell" ng-repeat="itemable in group.itemables">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p>
+              {{itemable.name_with_note}}
+              <span class="price orange">{{itemable.price|currency:currency}}/{{itemable.unit_name}} </span>
+              <span class="red" ng-show="itemable.is_repeat">[重复]</span>
+              </p>
+          </div>
+          <div class="weui_cell_ft">
+            <span class="button minus-button active" ng-show="can_action(group)" ng-click="minus(group, itemable)"><i class="fa fa-minus"></i></span>
+            <span class="quantity-button" ng-show="itemable.quantity>0">{{itemable.quantity}}</span>
+            <span class="button plus-button" ng-class="{'active': can_action(group)}" ng-click="plus(group, itemable)"><i class="fa fa-plus"></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

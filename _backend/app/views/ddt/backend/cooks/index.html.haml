@@ -1,0 +1,18 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= t('role.display_name.cook')
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content
+    .form-group
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th.col-sm-1= Ddt::Account.human_attribute_name(:cook)
+            %th.col-sm-1= Ddt::Account.human_attribute_name(:products)
+            %th.col-sm-1
+
+        %tbody
+          = render partial: 'tr', collection: @cooks, as: :cook
+          = no_record_hint(@cooks)
+

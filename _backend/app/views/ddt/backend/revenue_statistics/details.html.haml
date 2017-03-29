@@ -1,0 +1,36 @@
+.tabbable
+  .tab-content
+    .tab-pane.in.active
+      .order-query-form
+        = form_for :revenue_statistic, url: [:details, :backend, @current_shop, :revenue_statistics], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :branch_id, data: {"local-datas" => current_account.is_boss? ? @current_shop.branches : current_account.manage_branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2'
+          = f.input_field :pay_method, collection: Ddt::Order.pay_method_collection, include_blank: true, prompt: "付款方式", class: 'input-medium'
+          = f.input_field :order_type, collection: Ddt::Order.type_collection, include_blank: true, prompt: "订单类型", class: 'input-medium'
+          = f.input_field :start_time, as: :datetime, placeholder: "开始时间", class: 'input-medium'
+          %label{style: 'font-size:20px;'} ~
+          = f.input_field :end_time, as: :datetime, placeholder: "结束时间", class: 'input-medium'
+          = f.submit "搜索", class: 'btn btn-sm btn-success'
+      %br/
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th 订单号
+            %th 订单类型
+            %th 订单金额
+            %th 付款方式
+            %th 完成时间
+            %th
+        %tbody
+          - @orders.each do |order|
+            %tr
+              %td= order.number
+              %td= order.type_name
+              %td= order.total
+              %td= order.pay_method_name
+              %td= order.completed_at.strftime("%F %T")
+              %td
+                = link_to "查看", backend_shop_order_path(@current_shop, order_id: order.id), method: :get, remote: true, class: 'btn btn-info btn-xs'
+      %br
+      = will_paginate @orders , renderer: BootstrapPagination::Rails, bootstrap: 3
+      %br
+

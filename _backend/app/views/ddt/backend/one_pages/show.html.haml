@@ -1,0 +1,22 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/one_page')} 详情"
+
+%p
+  %b
+    = Ddt::OnePage.human_attribute_name(:abstract)
+    \:
+  = @one_page.abstract
+%p
+  %b
+    = Ddt::OnePage.human_attribute_name(:alignment)
+    \:
+  = @one_page.alignment_name
+%p
+  %b
+    = Ddt::OnePage.human_attribute_name(:image)
+    \:
+  = image_tag @one_page.image.medium.url
+
+= link_to t('Edit'), edit_backend_shop_one_page_path(@current_shop, @one_page), :class => "btn btn-primary btn-sm"
+\
+= link_to t('Back'), backend_shop_one_pages_path(@current_shop), :class => "btn btn-default btn-sm"

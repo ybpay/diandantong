@@ -1,0 +1,11 @@
+defaults: &defaults
+  access_token: 3bfeaf35-cbfe-4b6b-b71d-baf40d5bfbb9
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults
+
+test:
+  <<: *defaults

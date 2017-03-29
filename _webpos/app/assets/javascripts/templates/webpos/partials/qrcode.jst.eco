@@ -1,0 +1,16 @@
+<wp-modal wp-show="vip_scan_modal.show" class="wp-modal-sm">
+  <div class="wp-modal-header">{{vip_scan_modal.title}}</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-label">{{vip_scan_modal.hint}}</div>
+    <div class="clearfix"></div>
+    <div class="qrcode">
+      <img ng-src="{{vip_scan_modal.qrcode_url}}" width="250px" height="250px"/>
+    </div>
+    <div class="clearfix"></div>
+    <div class="wp-form-label" ng-show="vip_scan_modal.scan_success">扫描成功，点击确认进行授权</div>
+    <div class="wp-modal-actions left">
+      <wp-btn ng-click="vip_scan_modal.reload_qrcode()" ng-show="vip_scan_modal.enable_reload">刷新</wp-btn>
+      <wp-btn ng-click="vip_scan_modal.close()">返回</wp-btn>
+    </div>
+  </div>
+</wp-modal>

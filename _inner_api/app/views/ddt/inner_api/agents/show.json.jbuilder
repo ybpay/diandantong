@@ -1,0 +1,1 @@
+json.partial! partial: 'agent', locals: { agent: @agent }

@@ -1,0 +1,14 @@
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .tabs-container
+        %ul.nav.nav-tabs
+          %li{class: ('active' if %W[event_promotions].include? controller_name)}
+            = link_to t('activerecord.models.ddt/event_promotion'), backend_shop_event_promotions_path(@current_shop)
+          %li{class: ('active' if %W[order_promotions].include? controller_name)}
+            = link_to t('activerecord.models.ddt/order_promotion'), backend_shop_order_promotions_path(@current_shop)
+        .tab-content
+          .tab-pane.active
+            .panel-body
+              = yield

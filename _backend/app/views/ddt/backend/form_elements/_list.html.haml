@@ -1,0 +1,20 @@
+%ol#remote_sortable_list
+  - form_elements.each do |form_element|
+    %li.row{data: {id: form_element.id}, style: "background:rgb(239, 243, 248);margin:5px 0;"}
+      .col-sm-2
+        = form_element.statement
+        %strong= form_element.need ? "*" : ""
+
+      .col-sm-5
+        -case form_element.type
+        -when Ddt::FormElementText.name
+          %input.col-sm-6{placeholder: form_element.placeholder}
+        -when Ddt::FormElementSelect.name
+          = select_tag nil, options_for_select(form_element.form_elements.map{|m| [m.statement, m.id]}.insert(0, ["请选择", ""]))
+      .col-sm-2
+        - form_element.get_support_order_type_names.map{|support_order_type| support_order_type[0]}.each do |order_type|
+          %span= order_type
+
+      .col-sm-2
+        = link_to t('Edit'), edit_backend_shop_branch_form_element_path(@current_shop, @current_branch, form_element), class: "btn btn-grey btn-sm", remote: true
+        = link_to t('Destroy'), backend_shop_branch_form_element_path(@current_shop, @current_branch, form_element), :method => :delete, :data => { :confirm => t('Are you sure?') }, remote: true

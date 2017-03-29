@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h2= "新建#{t('activerecord.models.ddt/pre_sale_staff')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Back'), backend_pre_sale_staffs_path, :class => "btn btn-default btn-sm"

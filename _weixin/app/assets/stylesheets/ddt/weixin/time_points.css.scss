@@ -1,0 +1,45 @@
+.time-point-date-nav.ddb-tab-bar {
+  padding: 0;
+  .ddb-tab-item.active {
+    background-color: #f34b3f;
+    color: white;
+  }
+  .ddb-tab-item {
+    padding: 5px 0;
+    background-color: $gray-lightest;
+  }
+  .day {
+    font-size: 14px;
+    line-height: 19px;
+  }
+  .date {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+#time-points-index {
+  .table-zone-item {
+    padding: 10px;
+    background-color: white;
+  }
+  .name {
+    border-left: 3px solid #f34b3f;
+    padding-left: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 8px 0;
+    color: $gray;
+  }
+  .min_reservation_price {
+    padding-left: 5px;
+    font-size: 12px;
+    color: $gray-light;
+  }
+  .button.time-point {
+    font-size: 12px;
+    margin-right: 10px;
+    line-height: 16px;
+    padding: 5px 15px;
+  }
+}

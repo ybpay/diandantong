@@ -1,0 +1,60 @@
+.current-bind-user{
+  background-color: #ffffff;
+  border: 1px solid #E2E2E2;
+  width: 100%;
+  padding: 10px;
+  .hint{
+    font-size: 15px;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 5px;
+  }
+  .wx-user{
+    color: $gray;
+  }
+}
+
+.bind-qrcode{
+  width: 100%;
+  height: 500px;
+  .ddb-qrcode-wrap, .wx-qrcode-wrap{
+    border: 1px solid #E2E2E2;
+    float:left;
+    .step {
+      border-bottom: 1px solid #E2E2E2;
+      line-height: 50px;
+      font-size: 18px;
+      text-align: center;
+      color: $color-danger;
+    }
+  }
+
+  .ddb-qrcode-wrap{
+    padding: 8px;
+    .hint{
+      line-height: 50px;
+      font-size: 20px;
+      text-align: center;
+    }
+    .ddb-qrcode {
+      border: 1px solid #E2E2E2;
+    }
+    .bottom-hint{
+      margin-top: 15px;
+      font-size: 13px;
+      text-align: center;
+      margin-bottom: 26px;
+    }
+  }
+  .wx-qrcode-wrap{
+    margin-left: 50px;
+  }
+
+
+
+}
+
+.brand-img{
+  height: 45px;
+  display: inline-block;
+  margin-top: -5px;
+}

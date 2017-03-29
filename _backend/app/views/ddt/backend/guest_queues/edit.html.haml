@@ -1,0 +1,8 @@
+.header
+  %h3= "编辑#{t('activerecord.models.ddt/guest_queue')}"
+
+= render 'form'
+
+= link_to t('Show'), [:backend, @current_shop, @current_branch, @guest_queue.queue_setting, @guest_queue], :class => "btn btn-default btn-sm"
+\
+= link_to t('Back'), [:backend, @current_shop, @current_branch, @guest_queue.queue_setting, :guest_queues], :class => "btn btn-default btn-sm"

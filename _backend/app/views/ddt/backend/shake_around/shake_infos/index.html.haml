@@ -1,0 +1,32 @@
+.header
+  %h2 摇一摇日志
+
+%table.table.table-striped.table-bordered
+  %tr
+
+    %th= Ddt::ShakeAround::ShakeInfo.human_attribute_name(:unique_user_id)
+    %th= Ddt::ShakeAround::ShakeInfo.human_attribute_name(:device_id)
+    %th= Ddt::ShakeAround::ShakeInfo.human_attribute_name(:distance)
+    %th= Ddt::ShakeAround::ShakeInfo.human_attribute_name(:action)
+    %th= Ddt::ShakeAround::ShakeInfo.human_attribute_name(:page_id)
+    %th= Ddt::ShakeAround::ShakeInfo.human_attribute_name(:shake_time)
+
+  - @shake_infos.each do |shake_info|
+    %tr
+
+      - if shake_info.unique_user_id.present?
+        %td
+          %img{src: shake_info.unique_user.headimgurl, width: "40px", height: "40px"}
+          %span= shake_info.unique_user.nickname
+      - else
+        %td= shake_info.user_open_id
+      %td= shake_info.device_id
+      %td= shake_info.distance
+      %td= shake_info.action_label
+      %td= shake_info.page_id
+      %td= shake_info.shake_time
+
+  = no_record_hint(@shake_infos)
+
+%br
+

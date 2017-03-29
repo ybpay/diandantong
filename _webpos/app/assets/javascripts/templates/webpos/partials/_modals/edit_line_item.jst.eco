@@ -1,0 +1,37 @@
+<wp-modal wp-show="edit_line_item_modal.show">
+  <div class="wp-modal-header">修改条目</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group" ng-if="edit_line_item_modal.itemable_name">
+      <div class="wp-form-label">商品:</div>
+      <div class="wp-form-input">{{edit_line_item_modal.itemable_name}}</div>
+    </div>
+    <div>
+      <div class="wp-form-input" ng-if="edit_line_item_modal.variants">
+        <wp-btn-md ng-repeat="variant in edit_line_item_modal.variants" ng-class="{'active': variant.id == edit_line_item_modal.itemable_id}" ng-click="edit_line_item_modal.change_variant(variant)">
+            {{::variant.name}}
+          </wp-btn-md>
+      </div>
+      <div class="space"></div>
+    </div>
+
+    <div class="wp-form-group" ng-if="!edit_line_item_modal.is_variant_package">
+      <div class="wp-form-label">数量:</div>
+      <wp-input input-model="edit_line_item_modal.quantity" class='edit_line_item_modal' input-type="number" input-size="middle"></wp-input>
+    </div>
+
+    <div class="wp-form-group" ng-if="edit_line_item_modal.is_variant_package">
+      <div class="wp-form-label">重量:</div>
+      <wp-input input-model="edit_line_item_modal.quantity" class='edit_line_item_modal' input-type="number" input-size="middle"></wp-input>
+    </div>
+
+    <div class="wp-form-group">
+      <div class="wp-form-label"></div>
+      <div class="wp-form-action">
+        <wp-btn ng-click="edit_line_item_modal.submit()"
+                class="default-action"
+                ng-class="{'disabled': !edit_line_item_modal.can_submit()}">确定</wp-btn>
+        <wp-btn ng-click="edit_line_item_modal.close()">取消</wp-btn>
+      </div>
+    </div>
+  </div>
+</wp-modal>

@@ -1,0 +1,27 @@
+<wp-modal wp-show="cancel_modal.show">
+  <div class="wp-modal-header">{{cancel_action_name || '取消'}}订单</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group">
+      <div class="wp-form-label">选择{{cancel_action_name || '取消'}}订单原因</div>
+      <div>
+        <wp-btn ng-click="cancel_modal.change_reason(reason)" ng-repeat="reason in branch.order_cancel_reasons"
+           ng-class="{'active': reason == cancel_modal.cancel_reason}">{{reason}}</wp-btn>
+      </div>
+    </div>
+    <div class="wp-form-group" ng-show="cancel_modal.show_other_reason">
+      <div class="wp-form-label">填写其他原因</div>
+      <wp-input input-model="cancel_modal.other_reason" input-type="text" input-size="middle"></wp-input>
+    </div>
+
+    <div class="wp-form-group">
+      <div class="wp-form-label"></div>
+      <div class="wp-form-action">
+        <wp-btn ng-click="cancel_modal.submit()"
+                class="default-action"
+                ng-class="{'disabled': !cancel_modal.can_submit()}">确定</wp-btn>
+        <wp-btn ng-click="cancel_modal.cancel()">取消</wp-btn>
+
+      </div>
+    </div>
+  </div>
+</wp-modal>

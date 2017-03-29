@@ -1,0 +1,41 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/short_message')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+
+                %th.col-sm-1= sort_link(@q, :to, Ddt::ShortMessage.human_attribute_name(:to))
+                %th.col-sm-1= sort_link(@q, :shop_id, Ddt::ShortMessage.human_attribute_name(:shop))
+
+                %th.col-sm-1= sort_link(@q, :created_at, Ddt::ShortMessage.human_attribute_name(:created_at))
+
+                %th.col-sm-1= sort_link(@q, :size, Ddt::ShortMessage.human_attribute_name(:size))
+
+                %th.col-sm-2= sort_link(@q, :size, Ddt::ShortMessage.human_attribute_name(:owner))
+
+                %th.col-sm-6= sort_link(@q, :body, Ddt::ShortMessage.human_attribute_name(:body))
+
+            %tbody
+              - @short_messages.each do |short_message|
+                %tr
+                  %td= short_message.to
+                  %td
+                    - if short_message.shop_id.present?
+                      = link_to short_message.shop.try(:name), [:backend, short_message.shop, :short_messages], target: 'blank'
+                  %td= short_message.created_at
+                  %td= short_message.size
+                  %td
+                    = link_to short_message.owner.try(:to_label), [:backend, short_message.shop, short_message.owner]  if short_message.owner.present?
+                  %td= link_to short_message.body, [:backend, @current_shop, short_message]
+              = no_record_hint(@short_messages)
+          .pull-right= will_paginate @short_messages , renderer: BootstrapPagination::Rails, bootstrap: 3
+          .clearfix
+    .clearfix
+

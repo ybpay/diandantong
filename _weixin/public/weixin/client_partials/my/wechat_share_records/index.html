@@ -1,0 +1,24 @@
+<div class="main-view" id="wechat-share-record-page">
+  <div class="padding-10"></div>
+  <div ng-if="wechat_share_records.length == 0">
+    <div class="weui_cells">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>对不起，暂时没有分享记录</p>
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class="weui_cells weui_cells_access" ng-if="wechat_share_records.length > 0">
+    <a class="weui_cell" ng-click="go('/wechat_share_records/' + wechat_share_record.id)" ng-repeat="wechat_share_record in wechat_share_records" >
+        <div class="weui_cell_hd"><img ng-src="{{wechat_share_record.img_url}}" style="width: 60px;margin-right:5px;display:block;" width="60"></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <p class="title">{{wechat_share_record.title}}
+            </p>
+            <p class="viewed_users_count">浏览人数：{{wechat_share_record.viewed_users_count}}
+            </p>
+        </div>
+    </a>
+  </div>
+</div>

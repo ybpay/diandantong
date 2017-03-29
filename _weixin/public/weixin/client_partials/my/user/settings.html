@@ -1,0 +1,35 @@
+<div id="user-settings-page" class="main-view">
+    <div class="padding-10"></div>
+    <div class="weui_cells_title">
+    </div>
+    <div class="weui_cells weui_cells_access">
+        <a class="weui_cell" href="javascript:;" ng-click="go('/user/bind-vip')" ng-if="!user.is_vip">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>绑定会员</p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+        </a>
+        <a class="weui_cell" href="javascript:;" ng-click="go('/user/vip-info-detail')" ng-if="user.is_vip">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>会员信息</p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+        </a>
+        <a class="weui_cell" href="javascript:;" ng-click="go('/user/card-wallet-log')" ng-if="user.is_vip">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>余额明细</p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+        </a>
+        <a class="weui_cell" href="javascript:;" ng-click="go('/user/update-pay-password')" ng-if="user.is_vip">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>更改支付密码</p>
+            </div>
+            <div class="weui_cell_ft">
+            </div>
+        </a>
+    </div>
+</div>

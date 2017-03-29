@@ -1,0 +1,107 @@
+<div common-footer></div>
+<div class="main-view" id="branch-show">
+  <div class="branch-top">
+    <div class="branch-info">
+      <div class="avatar">
+        <img ng-src="{{branch.image}}" alt="{{branch.name}}">
+      </div>
+      <div class="name">{{::branch.name}}<span class="tag bg-blue" ng-if="!branch.is_in_service">休息中</span></div>
+      <div class="comments-level red">
+        <rating-stars ng-rating="branch.rating">
+        </rating-stars>
+      </div>
+      <div class="average-consume">
+        <div class="orange">{{::branch.average_consumption|currency:shop.currency}}/人</div>
+        <div class="orange" ng-click="toggleFavorite()">
+          <span ng-if="!branch.is_followed"><i class="fa fa-heart-o"></i> 收藏</span>
+          <span ng-if="branch.is_followed"><i class="fa fa-heart"></i> 已收藏</span>
+        </div>
+        <div class="clear"></div>
+      </div>
+    </div>
+
+    <div class="operation-nav-groups">
+      <div class="operation-nav-group" ng-repeat="operation_nav_group in operation_nav_groups">
+        <div class="operation-nav" ng-repeat="operation_nav in operation_nav_group" ng-click="operation_nav.click()">
+          <img ng-src="{{::operation_nav.img}}" ng-if="operation_nav.img">
+          <div class="text overflow-ellipsis" ng-if="operation_nav.label">{{operation_nav.label}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="branch-intro-section weui_cells weui_cells_access">
+    <a class="weui_cell" href="#/branches/{{branch.id}}/introduction">
+      <div class="weui_cell_primary">门店详情</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+    <a class="weui_cell" ng-click="open_location()">
+      <div class="weui_cell_primary">地址：{{branch.address}}</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+    <a class="weui_cell" ng-href="tel:{{branch.phone}}">
+      <div class="weui_cell_primary">电话：{{branch.phone}}</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+    <a class="weui_cell" ng-if="branch.qq_no">
+      <div class="weui_cell_primary"><i class="fa fa-qq"></i> {{branch.qq_no}}</div>
+    </a>
+    <a class="weui_cell" ng-if="branch.wechat_no">
+      <div class="weui_cell_primary"><i class="fa fa-weixin"></i> {{branch.wechat_no}}</div>
+    </a>
+  </div>
+
+
+  <!-- <div class="padding-10" ng-if="branch.tuans.length > 0"></div> -->
+  <div class="promotion-section weui_cells" ng-if="branch.tuans.length > 0">
+    <div class="weui_cell">
+      商家优惠
+    </div>
+    <a class="promotion weui_cell" ng-repeat="tuan in branch.tuans" ng-click="go_page('cart', '/tuans/'+tuan.id)">
+      <div class="image" ng-style="{'background': 'url(\'{{tuan.image}}\') center center no-repeat'}">
+      </div>
+      <div class="title overflow-ellipsis">
+        {{tuan.name}}
+      </div>
+      <div class="keywords overflow-ellipsis">{{tuan.description}}</div>
+      <div class="price">
+        {{tuan.groupon_price|currency: shop.currency}}
+      </div>
+    </a>
+  </div>
+
+
+  <div class="weui_cells">
+    <div class="weui_cell">
+      更多信息
+    </div>
+    <div class="weui_cell dark-gray">
+      <span class="facility" ng-if="branch_type.show_wifi && branch.support_wifi">
+        <i class="fa fa-wifi"></i> 支持Wifi
+      </span>
+      <span class="facility" ng-if="branch_type.show_parking">
+        <i class="fa fa-paypal"></i>
+        停车位:
+        <span ng-if="!branch.support_parking">无</span>
+        <span ng-if="branch.support_parking">{{branch.parking_space_count}}个</span>
+      </span>
+    </div>
+    <div class="weui_cell dark-gray">
+      <span class="weui_cell_primary"><i class="fa fa-clock-o gray"></i> 营业时间：</span>
+      <span ng-repeat="service_period in branch.service_periods">{{service_period.start_at|date: 'HH:mm'}}~{{service_period.end_at|date: 'HH:mm'}}<span ng-if=" ! $last ">, </span></span>
+    </div>
+  </div>
+
+  <div class="weui_cells">
+    <a ng-href="#/branches/{{branch.id}}/comments" class="weui_cell weui_cells_access">
+      <div class="weui_cell_primary">
+        查看所有评论
+      </div>
+      <div class="weui_cell_ft orange">{{branch.comments_count}}</div>
+    </a>
+    <comment-list ng-comments="branch.comments">
+    </comment-list>
+  </div>
+
+  <div class="padding-10"></div>
+</div>

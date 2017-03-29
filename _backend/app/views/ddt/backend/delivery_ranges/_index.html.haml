@@ -1,0 +1,23 @@
+
+.tip.alert.alert-info
+  %b
+    温馨提示：
+  如果配送距离不在某个梯度内，系统的默认配送费为0。当您使用该种收费方式，建议您设置配送半径，并在配送半径内，建立梯度外送费。
+  %br
+  例如: 设置配送半径为 30km, 并设置梯度(0-10km 收费2元， 10km-20km 收费8元， 20km-30km 收费20元)。确保配送半径内都被梯度覆盖。
+%br
+.form-group
+  = link_to "新建外送范围", new_backend_shop_branch_delivery_range_path(@current_shop, @current_branch), remote: true, class: "btn btn-xs btn-primary"
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-1= Ddt::DeliveryRange.human_attribute_name(:start_at)
+      %th.col-sm-1= Ddt::DeliveryRange.human_attribute_name(:end_at)
+      %th.col-sm-1= Ddt::DeliveryRange.human_attribute_name(:cost)
+      %th.col-sm-2
+  %tbody.delivery_ranges
+    - @delivery_ranges.each do |delivery_range|
+      = render '/ddt/backend/delivery_ranges/tr', {delivery_range: delivery_range}
+
+    = no_record_hint(@delivery_ranges)

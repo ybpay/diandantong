@@ -1,0 +1,8 @@
+%li.dd-item.reason{ data: { id: item_note.id } }
+  %div.dd-handle
+    %span.reason-name
+      = item_note.name
+    %div.pull-right.action-buttons
+      = link_to tag(:icon, :class => "fa fa-pencil bigger-130"), [:edit, :backend, @current_shop, @current_branch, item_note], :class => "blue", data: { rel: :tooltip }, title: "修改", remote: true, method: "get"
+      = link_to tag(:icon, :class => "fa fa-trash-o bigger-130"), [:backend, @current_shop, @current_branch, item_note], :class => "red", data: { rel: :tooltip, confirm: "确定删除?"}, title: "删除", remote: true, method: 'delete'
+  %ol.dd-list

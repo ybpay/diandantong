@@ -1,0 +1,18 @@
+<div class="vip-section">
+  <div vip-card ng-user="user" ng-shop="current_shop"></div>
+
+  <div class="padding-20"></div>
+
+  <div class="my-items">
+    <div class="my-item-group" ng-repeat="item_group in item_groups">
+      <div class="my-item" ng-repeat="item in item_group" ng-click="item.click()">
+        <div ng-if="!!item.label">
+          <img ng-src="{{item.img}}"/>
+          <div class="label">
+            {{item.label}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

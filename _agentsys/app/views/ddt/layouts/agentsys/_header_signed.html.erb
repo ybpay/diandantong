@@ -1,0 +1,58 @@
+<nav class="navbar navbar-inverse" role="navigation">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">切换导航栏</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">点单通代理商管理系统</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav">
+
+          <li class="<%= 'active' if controller_name == 'agent_materials' %>"><%= link_to '代理推广资料', agentsys_agent_materials_path %></li>
+          <li class="<%= 'active' if controller_name == 'shops'%>">
+            <%= link_to '我的客户', agentsys_shops_path %>
+          </li >
+          <% if current_agentsys_agent.can_create_account? %>
+            <li class="<%= 'active' if controller_name == 'accounts'%>">
+            <%= link_to '创建点账号', new_agentsys_account_path %>
+            </li>
+          <% end %>  
+          <li class="<%= 'active' if action_name == 'profile'%>">
+            <%= link_to '我的余额', agentsys_profile_path %>
+          </li>
+          <li class="dropdown">
+            <a href="<%= agentsys_shop_recharge_records_path %>">充值记录</a>
+          </li>
+          <% if current_agentsys_agent.can_buy_printer_code? %>
+            <li class="<%= 'active' if controller_name == 'agent_printers'%>">
+              <%= link_to '打印机授权码', agentsys_agent_printers_path %>
+            </li>
+          <% end %>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <% if controller_name == 'agents' and @agent==current_agentsys_agent %>
+              <li class="active">
+            <% else %>
+              <li>
+            <% end %>
+              <%= link_to "#{current_agentsys_agent.name||current_agentsys_agent.email}", agentsys_profile_path %></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">会话安全 <b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to '修改密码', edit_agentsys_agent_registration_path%></li>
+                <li><%= link_to '修改个人信息', agentsys_edit_profile_path%></li>
+                <li class="divider"></li>
+                <li><%= link_to '安全退出', destroy_agentsys_agent_session_path, :method=>'DELETE'%></li>
+              </ul>
+            </li>
+          </ul>
+      </div>
+    </div>
+  </nav>

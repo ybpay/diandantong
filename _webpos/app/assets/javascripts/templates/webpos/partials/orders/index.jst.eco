@@ -1,0 +1,253 @@
+<div ng-include src="partial('header')" include-replace></div>
+<div wp-footbar branch-id='{{branch.id}}' ng-if="branch"></div>
+<div class="orders-index-page main-view">
+  <div ng-include src="partial('_cells/order_choose')" include-replace ng-if="action == 'init'"></div>
+  <div ng-include src="partial('_cells/product_choose')" include-replace ng-if="action == 'append_itemable'"></div>
+  <div ng-include src="partial('_cells/subtractable_choose')" include-replace ng-if="action == 'subtract_itemable'"></div>
+  <div class="op-part order-info" wp-scroll-zone>
+    <div ng-show="action == 'append_itemable'">
+      <div ng-include="partial('_actions/append_itemable_table')"></div>
+    </div>
+
+    <div class="order-info-side" ng-show="order">
+      <div class="wp-subject">操作区</div>
+      <div>
+        <wp-btn-sm ng-click="confirm()" ng-show="can_confirm()">确认</wp-btn-sm>
+        <wp-btn-sm ng-click="complete()" ng-show="can_complete()">完成</wp-btn-sm>
+        <wp-btn-sm ng-click="cancel_order()" ng-show="can_cancel_order()">取消</wp-btn-sm>
+        <wp-btn-sm ng-click="anti_settlement()" ng-show="can_anti_settlement()">反结账</wp-btn-sm>
+        <wp-btn-sm ng-click="refund(order.pay_items[0])" ng-show="can_simple_refund()">退款</wp-btn-sm>
+        <wp-btn-sm ng-click="call_customer()" ng-show="can_call_customer()">呼叫取餐</wp-btn-sm>
+        <wp-btn-sm ng-click="choose_reprint_targets()"
+                   ng-show="can('branch','order','reprint')">小票补打</wp-btn-sm>
+        <wp-btn-sm ng-click="print_product_bill()"
+                   ng-show="true">打划菜单</wp-btn-sm>
+        <wp-btn-sm ng-click="print_consume_bill()"
+                   ng-show="true">拉消费单</wp-btn-sm>
+        <wp-btn-sm ng-click="reservation_order_modal.open()"
+                   ng-show="reservation_order_modal.can_open()">更改信息</wp-btn-sm>
+        <wp-btn-sm ng-show="can_trace_waiter()"
+                   ng-click="trace_waiter_modal.open()">点菜员</wp-btn-sm>
+        <wp-btn-sm ng-click="go_settle()"
+                   ng-class="{'disabled': !can_go_settle()}"
+                   ng-show="can_settle() && (can_go_settle() || is_role('worker'))">结算</wp-btn-sm>
+        <wp-btn-sm ng-click="reservation_change_modal.open()"
+                   ng-show="can('branch','reservation_order', 'change_to_eat_in_hall') && reservation_change_modal.can_open()"
+                   ng-class="{'disabled': !reservation_change_modal.can_change()}">转为堂点</wp-btn-sm>
+        <wp-btn-sm ng-click="delivery_man_modal.open()"
+                   ng-show="can('branch','delivery_order','assign_delivery_man') && delivery_man_modal.can_open()">指派配送</wp-btn-sm>
+        <wp-btn-sm ng-click="reservation_bind_table_modal.open()"
+                   ng-show="can('branch','reservation_order','bind_table') && reservation_bind_table_modal.can_open()">绑定桌台</wp-btn-sm>
+        <wp-btn-sm ng-click="toggle_action('append_itemable')"
+                   ng-class="{'active':action == 'append_itemable'}"
+                   ng-show="can_append_itemable()">加菜</wp-btn-sm>
+        <wp-btn-sm ng-click="subtract_itemables()"
+                   ng-class="{'active':action == 'subtract_itemable'}"
+                   ng-show="can('branch','order','subtract') && can_append_itemable()">退菜</wp-btn-sm>
+        <wp-btn-sm ng-click="change_price_modal.open()"
+                   ng-show="can_append_itemable() && can_change_price() && current_line_item && current_line_item.enable_change_price">单品改价</wp-btn-sm>
+        <wp-btn-sm ng-click="init_refund()"
+                   ng-show="can_init_refund()">充值退款</wp-btn-sm>
+        <div class="space"></div>
+      </div>
+      <table class="wp-table-sm" ng-show="order">
+        <thead>
+          <th width="10%">序号</th>
+          <th width="50%">名称</th>
+          <th width="15%">数量</th>
+          <th width="25%">价格</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="line_item in order.line_items"
+              ng-click="change_line_item(line_item)"
+              ng-class="{'active': current_line_item == line_item, odd: $index % 2 == 0}">
+            <td>{{$index+1}}</td>
+            <td>
+              <span class="blue" ng-if="line_item.is_append">[加]</span>
+              {{line_item.name}}
+              <span ng-show="line_item.note">[{{line_item.note}}]</span>
+              <span class="red" ng-if="line_item.gift">(赠)</span>
+              <br />
+              <span class="create-time">{{time_since_from(line_item.created_at)}}分钟</span>
+            </td>
+            <td>{{line_item.active_quantity}}</td>
+            <td>
+              {{line_item.price |currency:''}}
+              <span class="original-price"
+                    ng-show="line_item.price !== line_item.original_price"
+                    ng-class="{'change-price': line_item.is_change_price}"
+                    >{{line_item.original_price|currency:''}}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="table-order-total" ng-show="order.total">合计: {{order.total|currency:shop.currency}}</div>
+      <table class="wp-table-sm" ng-show="order.multi_pay_item">
+        <thead>
+          <th width="33%">支付方式</th>
+          <th width="33%">金额</th>
+          <th width="33%">支付状态</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="pay_item in order.pay_items">
+            <td>{{::pay_item.name}}</td>
+            <td>{{::pay_item.amount}}</td>
+            <td ng-class="{'green':pay_item.state=='paid','red':pay_item.state=='unpaid', 'blue':pay_item.state == 'refunded'}">
+                {{pay_item.state_name}}
+                <wp-btn-xs style="float: none; display:inline-table"
+                           ng-show="can_refund(pay_item)"
+                           ng-click="refund(pay_item)">退款</wp-btn-xs>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="detail-info">
+        <div class="detail-info-item" ng-repeat="info_item in order.info_items">
+          <div class="info-name">{{info_item.name}}</div>
+          <div class="info-value">{{info_item.value}}</div>
+        </div>
+        <div class="detail-info-item">
+          <div class="info-name">点菜员</div>
+          <div class="info-value">{{order.waiter_name}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="space"></div>
+  </div>
+</div>
+
+<wp-modal wp-show="reservation_order_modal.show">
+  <div class="wp-form-group">
+    <div class="wp-form-label">姓名</div>
+    <wp-input input-model="reservation_order_modal.order.name" input-type="text"></wp-input>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">性别</div>
+    <div class="wp-form-select">
+      <select class="wp-form-select-small" ng-model="reservation_order_modal.order.gender" ng-options="gender.value as gender.label for gender in reservation_order_modal.gender_collection"></select>
+    </div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">电话</div>
+    <wp-input input-model="reservation_order_modal.order.phone" input-type="text"></wp-input>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">备注</div>
+    <wp-input input-model="reservation_order_modal.order.note" input-type="text"></wp-input>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-action">
+      <wp-btn ng-click="reservation_order_modal.submit()" ng-class="{'disabled': !reservation_order_modal.can_submit()}">更改</wp-btn>
+      <wp-btn ng-click="reservation_order_modal.close()">取消</wp-btn>
+      <div class="space"></div>
+    </div>
+  </div>
+</wp-modal>
+
+<wp-modal wp-show="reservation_change_modal.show">
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-input">请选择桌台</div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">桌台类型</div>
+    <div class="wp-form-select">
+      <select class="wp-form-select-small" ng-model="reservation_change_modal.active_table_zone" ng-options="table_zone as table_zone.name for table_zone in reservation_change_modal.table_zones" ng-change="reservation_change_modal.change_table_zone()"></select>
+    </div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">桌台号</div>
+    <div class="wp-form-select">
+      <select class="wp-form-select-small" ng-model="reservation_change_modal.order.table_id" ng-options="table.id as table.name for table in reservation_change_modal.active_table_zone.tables|filter:{workflow_state: 'idle'}"></select>
+    </div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">备注</div>
+    <wp-input input-model="reservation_change_modal.order.note" input-type="text"></wp-input>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-action">
+      <wp-btn ng-click="reservation_change_modal.submit()" ng-class="{'disabled': !reservation_change_modal.can_submit()}">确定</wp-btn>
+      <wp-btn ng-click="reservation_change_modal.close()">取消</wp-btn>
+      <div class="space"></div>
+    </div>
+  </div>
+</wp-modal>
+
+<wp-modal wp-show="reservation_bind_table_modal.show">
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-input">请选择桌台</div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">桌台号</div>
+    <div class="wp-form-select">
+      <select class="wp-form-select-small" ng-model="reservation_bind_table_modal.table" ng-options="table as table.name for table in reservation_bind_table_modal.tables"></select>
+    </div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-action">
+      <wp-btn ng-click="reservation_bind_table_modal.submit()" ng-class="{'disabled': !reservation_bind_table_modal.can_submit()}">确定</wp-btn>
+      <wp-btn ng-click="reservation_bind_table_modal.close()">取消</wp-btn>
+      <div class="space"></div>
+    </div>
+  </div>
+</wp-modal>
+
+<wp-modal wp-show="delivery_man_modal.show">
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-input">请选择配送员</div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">配送员</div>
+    <div class="wp-form-select">
+      <select class="wp-form-select-small" ng-model="delivery_man_modal.active_delivery_man" ng-options="delivery_man as delivery_man.name for delivery_man in delivery_man_modal.delivery_mans"></select>
+    </div>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <div class="wp-form-action">
+      <wp-btn ng-click="delivery_man_modal.submit()" ng-class="{'disabled': !delivery_man_modal.can_submit()}">确定</wp-btn>
+      <wp-btn ng-click="delivery_man_modal.close()">取消</wp-btn>
+      <div class="space"></div>
+    </div>
+  </div>
+</wp-modal>
+
+<div ng-include="partial('_actions/append_itemable_modal')"></div>
+
+<wp-modal wp-show="change_price_modal.show">
+  <div class="wp-modal-header">单品改价</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group">
+      <div class="wp-form-label">商品</div>
+      <div class="wp-form-input">{{current_line_item.name}}</div>
+    </div>
+    <div class="wp-form-group">
+      <div class="wp-form-label">原价</div>
+      <div class="wp-form-input">{{current_line_item.original_price}}</div>
+    </div>
+    <div class="wp-form-group">
+      <div class="wp-form-label">改价</div>
+      <wp-input input-model="change_price_modal.new_price" input-type="number" input-size="middle" input-focus="change_price_modal.show"></wp-input>
+    </div>
+    <div class="wp-form-group">
+      <div class="wp-form-label"></div>
+      <div class="wp-form-action">
+        <wp-btn ng-click="change_price_modal.submit()"
+                ng-class="{'disabled': !change_price_modal.can_submit()}">确定</wp-btn>
+        <wp-btn ng-click="change_price_modal.close()">取消</wp-btn>
+
+      </div>
+    </div>
+  </div>
+</wp-modal>
+<div ng-include src="partial('_modals/edit_line_item')" include-replace></div>
+<div ng-include src="partial('_modals/trace_waiter_modal')" include-replace></div>
+<div ng-include src="partial('_modals/reprint')" include-replace></div>
+<div ng-include src="partial('_modals/cancel_order')" include-replace></div>

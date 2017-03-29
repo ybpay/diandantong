@@ -1,0 +1,109 @@
+<md-dialog flex="80">
+  <md-toolbar class="md-toolbar-tools">
+    <h2>用户详情</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <div layout="row" flex>
+      <form name="form" flex="50" layout="column">
+        <div class="crm-form-line" layout="row" layout-align="left center" style="display: none">
+          <label class="crm-form-label" flex="40">用户ID</label>
+          <div class="crm-form-control" flex="60">{{vi.user_id}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">会员卡号</label>
+          <div class="crm-form-control" flex="60">{{vi.vip_no}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">会员姓名</label>
+          <div class="crm-form-control" flex="60">{{vi.name}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">会员手机号</label>
+          <div class="crm-form-control" flex="60">{{vi.phone}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">级别</label>
+          <div class="crm-form-control" flex="60">{{vi.vip_level_name}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">会员折扣</label>
+          <div class="crm-form-control" flex="60">{{vi.vip_level_discount}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">性别</label>
+          <div class="crm-form-control" flex="60">{{vi.sex_name}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">审核会员时间</label>
+          <div class="crm-form-control" flex="60">{{vi.become_vip_at | date:'yyyy-MM-dd HH:mm'}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">生日</label>
+          <div class="crm-form-control" flex="60">{{vi.birthday | date:'yyyy-MM-dd'}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">地址</label>
+          <div class="crm-form-control" flex="60">{{vi.address}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">邮箱</label>
+          <div class="crm-form-control" flex="60">{{vi.email}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">是否屏蔽下单</label>
+          <div class="crm-form-control" flex="60">{{vi.user_is_blocked ? '是' : ' 否'}}</div>
+        </div>
+      </form>
+      <form name="form" flex="50" layout="column">
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">微信昵称</label>
+          <div class="crm-form-control" flex="60">{{vi.user_nickname}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">微信手机号</label>
+          <div class="crm-form-control" flex="60">{{vi.user_phone}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">最后下单时间</label>
+          <div class="crm-form-control" flex="60">{{vi.last_placed_at | date:'yyyy-MM-dd HH:mm'}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">余额</label>
+          <div class="crm-form-control" flex="60">{{vi.card_wallet_amount}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">积分</label>
+          <div class="crm-form-control" flex="60">{{vi.credits_wallet_amount}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">累计下单数</label>
+          <div class="crm-form-control" flex="60">{{vi.user_placed_orders_count}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">累计消费金额</label>
+          <div class="crm-form-control" flex="60">{{vi.total_amount}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">累计充值金额</label>
+          <div class="crm-form-control" flex="60">{{vi.total_recharge_money}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">累计获得积分</label>
+          <div class="crm-form-control" flex="60">{{vi.total_get_credits}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">累计使用积分</label>
+          <div class="crm-form-control" flex="60">{{vi.total_used_credits}}</div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="40">备注</label>
+          <div class="crm-form-control" flex="60">{{vi.note}}</div>
+        </div>
+      </form>
+    </div>
+  </md-dialog-content>
+</md-dialog>

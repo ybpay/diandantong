@@ -1,0 +1,15 @@
+<div id="article-show">
+  <div class="title">
+    <h4>{{article.title}}</h4>
+  </div>
+  <div class="intro dark-gray">
+    简介： {{article.introduction}}
+  </div>
+  
+  <div class="image" ng-if="article.image">
+    <img ng-src="{{article.image}}" />
+  </div>
+
+  <div class="detail" ng-bind-html="article.description|unsafe">
+  </div>
+</div>

@@ -1,0 +1,18 @@
+===========================================================================
+================================ 点菜宝
+===========================================================================
+
+WaiterServiceRecord 服务员服务记录
+  waiter: references, class_name: 'Account'
+  table: references
+  type: 服务记录类型
+
+OpenTableServiceRecord < WaiterServiceRecord 开台服务/下单服务
+  order: references, presence: true
+
+BillingTableServiceRecord < WaiterServiceRecord 收款服务记录
+  order: references, presence: true
+
+CloseTableServiceRecord < WaiterServiceRecord 翻台记录
+CleanTableServiceRecord < WaiterServiceRecord 打扫记录
+  打扫完后将空闲桌子放回可用池

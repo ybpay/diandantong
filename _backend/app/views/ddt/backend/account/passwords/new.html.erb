@@ -1,0 +1,50 @@
+
+
+<div class="passwordBox animated fadeInDown">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="ibox-content">
+
+                <h2 class="font-bold">找回密码</h2>
+
+                <p>
+                   发送重置密码邮件到我的邮箱
+                </p>
+                <% if resource.errors.any? %>
+                  <div class="error-messages">
+                    <p>您提交的表单有如下错误：</p>
+                    <ul>
+                      <% resource.errors.full_messages.each do |msg| %>
+                        <li><%= msg %></li>
+                      <% end %>
+                    </ul>
+                  </div>
+                <% end %>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'm-t'}) do |f| %>
+                        <div class="form-group">
+                          <%= f.text_field :email, required: true, autofocus: true, :class=>"form-control", :placeholder=>'邮箱' %>
+                        </div>
+
+                        <button type="button" class="btn btn-primary block full-width m-b" onclick="this.form.submit()">
+                          发送邮件给我
+                        </button>
+                      <% end %>
+                      <div class="text-center">
+                        <a href="<%= new_account_session_path(agent_no: params[:agent_no]) %>">
+                              返回登录界面
+                          </a>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

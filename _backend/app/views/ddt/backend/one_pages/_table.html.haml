@@ -1,0 +1,21 @@
+
+%table.table.table-striped.table-bordered.one-pages-table
+  %thead
+    %tr
+      %th.col-sm-2= Ddt::OnePage.human_attribute_name(:image)
+      %th.col-sm-5= Ddt::OnePage.human_attribute_name(:abstract)
+      %th.col-sm-1= Ddt::OnePage.human_attribute_name(:position)
+      %th.col-sm-1= Ddt::OnePage.human_attribute_name(:alignment)
+      %th
+
+  %tbody
+    - one_pages.each do |one_page|
+      %tr
+        %td= image_tag one_page.image.thumb.url
+        %td= one_page.abstract
+        %td= change_position_form([:change_position, :backend, @current_shop, one_page], one_pages, one_page)
+        %td= one_page.alignment_name
+        %td
+          = link_to tag(:icon,:class=>"fa fa-bars"), [:backend, @current_shop, one_page], :class => "btn btn-xs btn-info"
+          = link_to tag(:icon,:class=>"fa fa-edit"), edit_backend_shop_one_page_path(@current_shop, one_page), :class => "btn btn-xs btn-success"
+          = link_to tag(:icon,:class=>"fa fa-trash-o"), [:backend, @current_shop, one_page], :method => :delete, :data => { :confirm => '确定删除?' }, :class => "btn btn-xs btn-danger"

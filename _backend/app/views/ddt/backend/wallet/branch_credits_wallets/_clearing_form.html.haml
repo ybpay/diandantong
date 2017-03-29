@@ -1,0 +1,5 @@
+= simple_form_for @clearing, :url => [:clearing, :backend, @current_shop, @wallet], remote: true, method: :put, html: { class: 'form-horizontal'}, wrapper: :horizontal_form_long do |f|
+  = f.input :amount, as: :decimal, label: '结算积分', hint: '结算积分会同时在门店余额和平台总余额中扣除'
+  = f.input :note, as: :text, label: '备注'
+  .form-actions.col-xs-offset-2
+    = f.submit '结算', :class => "btn btn-primary btn-sm"

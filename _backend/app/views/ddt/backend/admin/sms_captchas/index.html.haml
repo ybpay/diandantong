@@ -1,0 +1,47 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/sms_captcha')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12.form-group
+        = search_form_for @q, url: [:backend, @current_shop, :sms_captchas], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :phone_cont, placeholder: Ddt::SmsCaptcha.human_attribute_name(:phone),class: "form-control"
+          = f.input_field :created_at_gteq, as: :date, placeholder: Ddt::Shop.human_attribute_name(:created_at)
+          %label{style: 'font-size: 20px'} ~
+          = f.input_field :created_at_lteq, as: :date, placeholder: Ddt::Shop.human_attribute_name(:created_at)
+          = f.submit '搜索', class: 'btn btn-sm btn-success'
+          = link_to '导出', backend_sms_captchas_path({q: @search_params}.merge(format: :csv)), class: 'btn btn-sm btn-success'
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::SmsCaptcha.human_attribute_name(:code)
+                %th.col-sm-1= Ddt::SmsCaptcha.human_attribute_name(:phone)
+                %th.col-sm-1= Ddt::SmsCaptcha.human_attribute_name(:ip)
+                %th.col-sm-1= Ddt::SmsCaptcha.human_attribute_name(:validated)
+                %th.col-sm-4= Ddt::SmsCaptcha.human_attribute_name(:session_hash)
+                %th.col-sm-1= Ddt::SmsCaptcha.human_attribute_name(:created_at)
+                %th.col-sm-1= Ddt::SmsCaptcha.human_attribute_name(:updated_at)
+                %th.col-sm-1
+
+            %tbody
+              - @sms_captchas.each do |it|
+                %tr
+                  %td= it.code
+                  %td= it.phone
+                  %td= it.ip
+                  %td= it.validated
+                  %td= it.session_hash
+                  %td= it.created_at
+                  %td= it.updated_at
+                  %td
+                    = link_to t('Destroy'), backend_sms_captcha_path(it), method: :delete, data: { confirm: 'Are you sure?' }
+              = no_record_hint(@sms_captchas)
+          %br
+          .pull-right= will_paginate @sms_captchas , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

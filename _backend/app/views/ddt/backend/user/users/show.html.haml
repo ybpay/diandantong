@@ -1,0 +1,88 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/user')} 详情"
+.model-show
+  %p
+    %b
+      = Ddt::UniqueUser.human_attribute_name(:nickname)
+      \:
+    = @user.unique_user.nickname
+  %p
+    %b
+      = Ddt::UniqueUser.human_attribute_name(:sex)
+      \:
+    = @user.unique_user.sex_name
+  %p
+    %b
+      = Ddt::UniqueUser.human_attribute_name(:region)
+      \:
+    = @user.unique_user.region
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:phone)
+      \:
+    = @user.phone
+  %p
+    %b
+      = Ddt::UserCardWallet.human_attribute_name(:amount)
+      \:
+    = @user.card_wallet.display_amount
+  %p
+    %b
+      = Ddt::UserCreditsWallet.human_attribute_name(:amount)
+      \:
+    = @user.credits_wallet.display_amount
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:placed_orders_count)
+      \:
+    = @user.placed_orders_count
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:continuous_cancel_order_count)
+      \:
+    = @user.continuous_cancel_order_count
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:is_blocked)
+      \:
+    = t("activerecord.attributes.ddt/base_user.is_blocked_values.#{@user.is_blocked?.to_s}_text")
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:total_amount)
+      \:
+    = @user.total_amount
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:type)
+      \:
+    = I18n.t "activerecord.models.#{@user.type.underscore}"
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:vip_info)
+      \:
+    = link_to @user.vip_info.to_label, [:backend, @current_shop, @user.vip_info]
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:last_location_label)
+      \:
+    = @user.last_location_label
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:last_location_time)
+      \:
+    = @user.last_location_time
+  %p
+    %b
+      = Ddt::User.human_attribute_name(:following_branches_count)
+      \:
+    = @user.following_branches_count
+  - if @user.headimgurl
+    %p
+      %b
+        = Ddt::UniqueUser.human_attribute_name(:headimgurl)
+        \:
+      = image_tag @user.unique_user.headimgurl, width: 150
+  .space
+= link_to t('Edit'), edit_backend_shop_base_user_path(@current_shop, @user), :class => "btn btn-primary btn-sm"
+\
+= link_to t('Back'), backend_shop_users_path(@current_shop), :class => "btn btn-default btn-sm"

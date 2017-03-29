@@ -1,0 +1,15 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/home_hot_link')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = new_btn([:custom_weixin_info, :home_hot_link], label: '导航链接')
+
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          = render partial: 'table', locals: { home_hot_links: @home_hot_links }

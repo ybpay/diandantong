@@ -1,0 +1,53 @@
+<div ng-include src="partial('header')" include-replace></div>
+<div ng-include src="partial('shops/footer')" include-replace></div>
+ <div class="main-view">
+  <div class="main-part">
+    <div class="menu-part" wp-scroll-zone>
+      <div>
+        <wp-menu-search-input input-model="search_key"></wp-menu-search-input>
+        <div class="menu" ng-repeat="branch in branches"
+            ng-class="{active: branch == active_branch}"
+            ng-click="change_active_branch(branch)">
+          {{::branch.name}}
+        </div>
+      </div>
+    </div>
+    <div class="master-part-with-menu" wp-scroll-zone>
+      <div class="statistic-params">
+        <wp-btn-sm class="fillet" ng-click="change_statistic_type('product_sales')"
+                   ng-class="{active: statistic_type=='product_sales'}">产品销量</wp-btn-sm>
+        <wp-btn-sm class="fillet" ng-click="change_statistic_type('order_quantity')"
+                   ng-class="{active: statistic_type=='order_quantity'}">订单量</wp-btn-sm>
+        <div class="time-filter-select">
+          <div class="time-item" ng-click="change_time_filter('today')"
+                                 ng-class="{active: time_filter=='today'}">今天</div>
+          <div class="time-item" ng-click="change_time_filter('yesterday')"
+                                 ng-class="{active: time_filter=='yesterday'}">昨天</div>
+          <div class="time-item" ng-click="change_time_filter('this_week')"
+                                 ng-class="{active: time_filter=='this_week'}">这周</div>
+          <div class="time-item" ng-click="change_time_filter('last_week')"
+                                 ng-class="{active: time_filter=='last_week'}">上周</div>
+        </div>
+      </div>
+
+      <div class="statistic-list">
+        <div class="wp-statistic-table" ng-hide="is_empty()">
+          <div class="wp-st-header" ng-show="statistic_type == 'product_sales'">
+            <div class="wp-st-col">产品名称</div>
+            <div class="wp-st-col">销量</div>
+          </div>
+          <div class="wp-st-header" ng-show="statistic_type == 'order_quantity'">
+            <div class="wp-st-col">日期</div>
+            <div class="wp-st-col">订单数</div>
+          </div>
+          <div class="wp-st-row" ng-repeat="(name, value) in result" ng-class="{active: $index%2==0}">
+            <div class="wp-st-col">{{name}}</div>
+            <div class="wp-st-col">{{value}}</div>
+          </div>
+        </div>
+        <div class="wp-st-no-result" ng-if="is_empty()">当前统计范围没有下单记录</div>
+      </div>
+    </div>
+  </div>
+
+</div>

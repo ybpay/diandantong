@@ -1,0 +1,50 @@
+<div id="coupons-index" class="page">
+  <div class="header-bar">
+    <div class="tab-group">
+      <div class="tab-group-items">
+        <div class="tab-item" ng-click="change_filter_tab('available')" ng-class="{'active': tab == 'available'}">
+          <div class="text">可用</div>
+        </div>
+        <div class="tab-item" ng-click="change_filter_tab('applied')" ng-class="{'active': tab == 'applied'}">
+          <div class="text">已用</div>
+        </div>
+        <div class="tab-item" ng-click="change_filter_tab('expired')" ng-class="{'active': tab == 'expired'}">
+          <div class="text">过期</div>
+        </div>
+        <div class="tab-item" ng-click="change_filter_tab('refund')" ng-class="{'active': tab == 'refund'}">
+          <div class="text">退款</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="has-header">
+    <div class="no-record" ng-if="base_coupons.length == 0">
+        没有优惠劵
+    </div>
+
+    <div class="coupon-item"  ng-repeat="base_coupon in base_coupons" ng-class="{'coupon-orange': $index%4 == 0, 'coupon-red': $index%4 == 1, 'coupon-yellow': $index%4 == 2, 'coupon-green': $index%4==3}"
+        ng-click="go_show(base_coupon)">
+      <div class="coupon-inner">
+        <div class="name">
+          {{::base_coupon.name}}
+          <span ng-if="base_coupon.expired" class="expired">（已过期）</span>
+        </div>
+        <div class="coupon-left">
+          <div class="norminal-value" ng-show="base_coupon.coupon_type == 'amount_match'">{{::base_coupon.norminal_value|currency: shop.currency}}</div>
+          <div class="usable-condition" ng-show="base_coupon.coupon_type == 'amount_match'">(满{{::base_coupon.coupon_min_usable_amount}} 可用)</div>
+          <div class="usable-condition" ng-show="base_coupon.coupon_type == 'product_match'">{{::base_coupon.value_desc}}</div>
+        </div>
+        <div class="coupon-right">
+          <div>兑换码:{{::base_coupon.exchange_code}}</div>
+          <div class="usablestarts">过期时间: {{::base_coupon.expires_at|date: 'yyyy.MM.dd'}}
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="detail-button overflow-ellipsis"> 查看详情</div>
+    </div>
+  </div>
+
+</div>
+

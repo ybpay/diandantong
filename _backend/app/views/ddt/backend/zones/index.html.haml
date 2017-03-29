@@ -1,0 +1,19 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/zone')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = link_to "新建 #{t('activerecord.models.ddt/zone')}", new_backend_shop_zone_path(@current_shop), :class=>"btn btn-primary"
+
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          = render 'zone_index', zones: @zones.of_root
+
+    %br
+    .pull-right= will_paginate @zones , renderer: BootstrapPagination::Rails, bootstrap: 3
+    %br

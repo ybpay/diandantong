@@ -1,0 +1,49 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/shift')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = search_form_for @q, url: [:backend, @current_shop, :shifts], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :created_at_gteq, as: :datetime, placeholder: Ddt::Shift.human_attribute_name(:created_at), class: 'input-medium'
+          %label{style: 'font-size:20px;'} ~
+          = f.input_field :created_at_lteq, as: :datetime, placeholder: Ddt::Shift.human_attribute_name(:created_at), class: 'input-medium'
+          = f.input_field :branch_id_eq, collection: managed_branches, include_blank: true, prompt: "选择店铺", class: 'form-control'
+          = f.submit "搜索", class: 'btn btn-sm btn-success'
+
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-2 开班时段
+                %th.col-sm-1= sort_link(@q , :account_id           , Ddt::Shift.human_attribute_name(:account_id))
+                %th.col-sm-1= sort_link(@q , :total_amount         , Ddt::Shift.human_attribute_name(:total_amount))
+                %th.col-sm-1= sort_link(@q , :total_actual_amount         , Ddt::Shift.human_attribute_name(:total_actual_amount))
+                %th.col-sm-1= Ddt::Shift.human_attribute_name(:unpaid_amount)
+                %th.col-sm-1= sort_link(@q , :recharge_amount         , Ddt::Shift.human_attribute_name(:recharge_amount))
+                %th.col-sm-1= sort_link(@q , :exchange_amount         , Ddt::Shift.human_attribute_name(:exchange_amount))
+                %th.col-sm-2 当班时间内完成的订单
+                %th
+
+            %tbody
+              - @shifts.each do |shift|
+                %tr
+                  %td= "#{shift.created_at.strftime("%m-%d %H:%M")} ~ #{shift.closed_at.strftime("%m-%d %H:%M")}"
+                  %td= shift.account.try(:name)
+                  %td= shift.total_amount
+                  %td= shift.total_actual_amount
+                  %td= shift.unpaid_amount
+                  %td= shift.recharge_amount
+                  %td= shift.exchange_amount
+                  %td= shift.completed_orders_after - shift.completed_orders_before
+                  %td
+                    = info_btn(shift, remote: true)
+                    = link_to '打印', print_backend_shop_shift_path(@current_shop, shift, format: 'js'), remote: true
+
+          .pull-right= will_paginate @shifts , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

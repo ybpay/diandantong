@@ -1,0 +1,218 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h2 点账号详情
+
+    .ibox-content.header
+      .row
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:name)
+            \:
+          = @shop.name
+          = "[#{Ddt::Shop.human_attribute_name(:id)}: #{@shop.id}]"
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:slug)
+            \:
+          = @shop.slug
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:is_open)
+            \:
+          - if @shop.is_open?
+            %span.label.label-success= @shop.is_open_name
+          - else
+            %span.label.label-danger= @shop.is_open_name
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:expiration_time)
+            \:
+          = @shop.expiration_time
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:shop_type)
+            \:
+          = @shop.shop_type_name
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:max_branches_limit)
+            \:
+          = @shop.max_branches_limit
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:telephone)
+            \:
+          = @shop.telephone 
+          = "[城市代码：#{@shop.city_code}]"
+
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:use_custom_brand)
+            \:
+          = @shop.use_custom_brand ? "是" : "否"
+        - if current_account.is_admin? && @shop.agent.present?
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:agent)
+              \:
+            = link_to @shop.agent.name, [:backend, @shop.agent]
+
+        - if current_account.is_admin?
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:is_custom_system_weixin_notification)
+              \:
+            = @shop.is_custom_system_weixin_notification ? "是" : "否"
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:is_custom_system_weixin_notification)
+              \:
+            = @shop.custom_system_weixin_template_id
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:debug)
+              \:
+            = @shop.debug? ? "是" : "否"
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:is_hide_signup_link)
+              \:
+            = @shop.is_hide_signup_link? ? "是" : "否"
+
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:custom_brand_name)
+            \:
+          = @shop.custom_brand_name
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:is_ban)
+            \:
+          = @shop.is_ban? ? "是" : "否"
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:custom_brand_link)
+            \:
+          = @shop.custom_brand_link
+
+        - if @shop.sale_employee.present?
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:sale_employee_id)
+              \:
+              = @shop.sale_employee.try(:info)
+        - elsif @shop.can_choose_sale_employee?
+          = simple_form_for([:update_sale_employee, :backend, @current_shop], html: { class: 'form-horizontal', id: "sale_employee_form"}, method: :post) do |f|
+            = f.input :sale_employee_id, collection: Ddt::SaleEmployee.all.map{|e| [e.name, e.id]}, prompt: "请选择售后人员", include_blank: false, label: false
+        - else
+          .col-md-6.form-group
+            %b
+              \:
+              正式购买开通后分配一对一专业售后客服
+
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:enable_foreign)
+            \:
+          = @shop.enable_foreign ? "是" : "否"
+          (如果您是中国大陆地区以外的运营平台，请务必勾选此项，因此才能使用谷歌地图等一系列功能)
+        - if @shop.enable_foreign
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:foreign_currency_symbol)
+              \:
+            = @shop.foreign_currency_symbol
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:foreign_time_zone)
+              \:
+            = ActiveSupport::TimeZone[@shop.foreign_time_zone]
+          .col-md-6.form-group
+            %b
+              = Ddt::Shop.human_attribute_name(:foreign_tax_rate)
+              \:
+            = @shop.foreign_tax_rate
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:force_fetch_user_info)
+            \:
+          = @shop.force_fetch_user_info? ? "是" : "否"
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:is_set_as_third_part_url)
+            \:
+          = @shop.is_set_as_third_part_url? ? "是" : "否"
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:service_email)
+            \:
+          = @shop.service_email
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:sina_weibo)
+            \:
+          = @shop.sina_weibo
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:is_valid_phone)
+            \:
+          = @shop.is_valid_phone? ? "是" : "否"
+        .clearfix
+        .hr-line-dashed
+        .col-md-6.form-group
+          %b
+            = Ddt::Shop.human_attribute_name(:introduction)
+            \:
+          = raw @shop.introduction
+        .clearfix
+        .hr-line-dashed
+        .col-md-6.form-group
+          %div
+            %b
+              = Ddt::Shop.human_attribute_name(:qrcode)
+              \:
+          - if @shop.primary_wechat_account.present?
+            = image_tag @shop.qrcode, width: 100 
+            %br
+            (显示主公众号的二维码)
+          - else
+            没有对接公众账号，
+            = link_to '立即对接', backend_shop_wechat_accounts_path(@current_shop)
+        .col-md-6.form-group
+          %div
+            %b
+              = Ddt::Shop.human_attribute_name(:image)
+              \:
+          = image_tag @shop.image.thumb.url, width: 150
+        .col-md-6.form-group
+          %div
+            %b
+              = Ddt::Shop.human_attribute_name(:rect_image)
+              \:
+          = image_tag @shop.rect_image.thumb.url, width: 150
+        .col-md-6.form-group
+          %div
+            %b
+              = Ddt::Shop.human_attribute_name(:vip_logo)
+              \:
+          = image_tag @shop.vip_logo.thumb.url, width: 150
+        
+        .clearfix
+        
+      = link_to t('Edit'), edit_backend_shop_path(@shop), :class => "btn btn-primary btn-sm"
+
+:javascript
+  $("#shop_sale_employee_id").on("change", function(){
+    var el = $(this);
+    if(el.val()){
+      bootbox.confirm("售后人员一旦选定不能更改，确定？", function(ok){
+        if(ok){
+          $("#sale_employee_form").submit();
+        }else{
+          el.val("");
+        }
+
+      })
+    }
+  })

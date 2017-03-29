@@ -1,0 +1,100 @@
+.statistic-params{
+  overflow: hidden;
+  margin: 10px 40px;
+}
+.time-filter-select{
+  float: left;
+  display: inline-block;
+  width: 280px;
+  height: 50px;
+  position: relative;
+  margin: 10px 20px;
+  &:before{
+    content: "";
+    position: absolute;
+    width: 210px;
+    height: 10px;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px #ddd;
+    background-color: #fff;
+    top: 10px;
+    left: 35px;
+    z-index: 499;
+  }
+  .time-item{
+    float: left;
+    height: 50px;
+    width: 70px;
+    text-align: center;
+    padding-top: 30px;
+    position: relative;
+    cursor: pointer;
+    &:before{
+      content: "";
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-radius: 7px;
+      top: 8px;
+      left: 29px;
+      background-color: #fff;
+      z-index: 501;
+    }
+    &.active{
+      color: #58C6F5;
+      &:before{
+        box-shadow: 0 0 5px #ddd;
+        width: 10px;
+        height: 10px;
+        border-radius: 5px;
+        top: 10px;
+        left: 30px;
+      }
+      &:after{
+        content: "";
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 12px;
+        top: 3px;
+        left: 23px;
+        background-color: #58C6F5;
+        box-shadow: 0 0 5px #58C6F5;
+        z-index: 500;
+      }
+    }
+  }
+}
+.wp-statistic-table{
+  margin: 20px 40px;
+  text-align: center;
+  .wp-st-header{
+    border-bottom: 2px solid $gray-light;
+    color: $gray;
+    overflow: hidden;
+    font-size: 16px;
+    line-height: 30px;
+    height: 30px;
+  }
+  .wp-st-col{
+    float: left;
+    width: 50%;
+  }
+  .wp-st-row{
+    overflow: hidden;
+    margin: 5px 0;
+    font-size: 20px;
+    line-height: 40px;
+    height: 40px;
+    color: $gray-dark;
+    &.active{
+      background-color: #C7E3E7;
+      border-radius: 20px;
+    }
+  }
+}
+.wp-st-no-result{
+  margin: 10px 40px;
+  font-size: 20px;
+  color: $gray;
+}

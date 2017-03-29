@@ -1,0 +1,5 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'exchange_form' %>",
+  title: "用户积分兑换 <%= @wallet.owner.to_label%>"
+});

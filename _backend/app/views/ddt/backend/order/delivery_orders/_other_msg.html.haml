@@ -1,0 +1,51 @@
+.ibox
+  .ibox-title
+    %h3 配送信息
+    .ibox-content
+      %table.table.table-striped
+        %thead
+          %tr
+            %td
+              %b
+                = "配送区域"
+              \:
+            %td
+              = order.delivery_zone_name
+          %tr
+            %td
+              %b
+                = "配送日期"
+              \:
+            %td
+              = order.delivery_date.try(:strftime, "%Y-%m-%d")
+          %tr
+            %td
+              %b
+                = "配送时间"
+              \:
+            %td
+              = order.delivery_time_display
+          %tr
+            %td
+              %b
+                距离:
+            %td
+              - if order.try(:distance) < 3
+                = number_to_human(order.try(:distance) * 1000, units: :distance)
+              - else
+                %span.label.label-danger= number_to_human(order.try(:distance) * 1000, units: :distance)
+          %tr
+            %td
+              %b
+                = "地址信息"
+              \:
+            %td
+              = order.delivery_name
+              %br
+              = order.delivery_phone
+              %br
+              = order.delivery_address
+              %br
+              = address_map(order)
+              %br
+              = navigate_link(order)

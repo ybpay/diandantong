@@ -1,0 +1,41 @@
+.hide{style: "display: none;", id: "cancel_reason_template"}
+  .alert.alert-info
+    %strong 警告： 取消订单为不可逆，请谨慎操作
+    %p 请选择取消订单的原因，以告知消费者
+  = select_tag :cancel_reason, options_for_select(Ddt::OrderService::Order::Base.cancel_reasons), class: "cancel_reason"
+  = text_field_tag :other_reason, "", class: "other_reason", placeholder: "请在这填写取消订单的原因"
+  :javascript
+     var reason_change = function(value){
+        if(value == "其他原因"){
+          $(".other_reason").show();
+        }else{
+          cancel_reason = value;
+          $(".other_reason").hide();
+        }
+     }
+     $(".cancel_reason").on("change", function(){
+        var value = $(this).val();
+        reason_change(value);
+      })
+     reason_change($(".cancel_reason").val())
+     $(".other_reason").on("blur", function(){ cancel_reason = $(this).val();})
+
+:javascript
+  var cancel_reason = "";
+  $(function(){
+    $(".fake_cancel_link").each(function(){
+      var html = $("#cancel_reason_template").html();
+      var fake_link = $(this);
+      fake_link.off("click");
+      fake_link.on("click", function(){
+        bootbox.confirm(html, function(result){
+          if(result){
+            real_cancel_link = fake_link.parent().children(".real_cancel_link");
+            real_cancel_link.attr("href", real_cancel_link.attr("href")+"&cancel_reason="+encodeURIComponent(cancel_reason))
+            real_cancel_link.trigger("click");
+          }
+        })
+      })
+    })
+
+  })

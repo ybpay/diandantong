@@ -1,0 +1,11 @@
+ALTER TABLE `ddt_production`.`ddt_message_receptions` CHANGE COLUMN `content` `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_events` CHANGE COLUMN `event_key` `event_key` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_branches` CHANGE COLUMN `name` `name` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_products` CHANGE COLUMN `name` `name` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE ddt_unique_users CHANGE user_open_id user_open_id varchar(600) CHARACTER SET latin1 DEFAULT NULL;
+ALTER TABLE `ddt_production`.`ddt_unique_users` CHANGE COLUMN `nickname` `nickname` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_orders` CHANGE COLUMN `note` `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_comments` CHANGE COLUMN `content` `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_addresses` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt_production`.`ddt_comments` CONVERT TO CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+ALTER TABLE `ddt`.`ddt_vip_infos` CHANGE COLUMN `name` `name` VARCHAR(191) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

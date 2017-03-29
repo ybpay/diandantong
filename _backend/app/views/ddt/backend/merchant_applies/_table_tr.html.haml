@@ -1,0 +1,9 @@
+%tr.merchant-apply-table-tr{'data-id' => merchant_apply.id}
+  %td= link_to merchant_apply.user.nickname, backend_shop_user_path(@current_shop, merchant_apply.user)
+  %td= merchant_apply.phone
+  %td= merchant_apply.note
+  %td= merchant_apply_state_label(merchant_apply)
+  %td= merchant_apply.created_at
+  %td
+    = info_btn([merchant_apply])
+    = merchant_apply_actions(merchant_apply)

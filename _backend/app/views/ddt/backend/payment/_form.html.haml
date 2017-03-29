@@ -1,0 +1,30 @@
+- model_name = params[:controller].camelize.demodulize.underscore.singularize
+- model_class = "Ddt::#{model_name.camelize}".constantize
+- model_columns = model_columns || []
+- show_button = false if show_button.nil?
+- back_button = false if back_button.nil?
+- is_singleton = false if is_singleton.nil?
+- crud_url = crud_url || {}
+- crud_url[:create] = url_for([:backend, @current_shop, is_singleton ? model_class : model_object]) if crud_url[:create].nil? rescue nil
+- crud_url[:show] = [:backend, @current_shop, is_singleton ? model_class : model_object] if crud_url[:show].nil? rescue nil
+- crud_url[:index] = send("backend_shop_#{model_name.pluralize}_path",@current_shop) if crud_url[:index].nil? rescue nil
+
+= simple_form_for(model_object, :url => crud_url[:create] ,html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(model_object)
+
+    .form-inputs
+      - model_columns.each do |column|
+        - if column.is_a?(Proc)
+          = column.call(f)
+        - else
+          = f.input column
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"
+
+- if show_button
+  = link_to t('Show'), crud_url[:show], :class => "btn btn-default btn-sm"
+\
+- if back_button
+  = link_to t('Back'), crud_url[:index], :class => "btn btn-default btn-sm"

@@ -1,0 +1,7 @@
+<% if @event.event_type == 'keyword_autoreply' %>
+  $(".keyword_events_show").html("<%= j render 'keyword_events_show' %>")
+<% elsif @event.event_type == 'subscribe' %>
+  $(".subscribe_event_show").html("<%= j render 'config_once_event_show',{event: @event, event_type:'subscribe'} %>")
+<% elsif @event.event_type == 'unmatch' %>
+  $(".unmatch_event_show").html("<%= j render 'config_once_event_show',{event: @event, event_type:'unmatch'} %>")
+<% end %>

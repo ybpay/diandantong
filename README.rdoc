@@ -1,0 +1,39 @@
+== 常见安装错误
+
+* 无法安装rmagick
+
+可以安装sudo apt-get install libmagick++-dev
+sudo apt-get install imagemagick libmagickwand-dev
+
+Please feel free to use a different markup language if you do not plan to run
+<tt>rake doc:app</tt>.
+
+*无法安装mysql2
+sudo apt-get install libmysql-ruby libmysqlclient-dev
+
+微信支付的常见问题：
+    微信支付的唤起域名如，其中的 '?' 不可缺少！！！
+    http://ma-w.diandantong.com/weixin/shops/ma_w?#/branches/9/orders/delivery/195
+    以下为 v2.7 版本的微信支付检查工具
+    http://mp.weixin.qq.com/debug/cgi-bin/readtmpl?t=pay/index
+
+
+关于代理商和版权的一些显示问题
+
+关于账号
+1、普通账号，显示点单通的联系信息和版权
+2、去版权账号，既不显示点单通的联系信息也不显示别人的版权信息
+3、OEM账号，显示客户的联系信息和版权
+
+关于代理
+1、普通代理，显示点单通的品牌和版权，显示代理的联系信息
+2、OEM代理，显示代理的品牌和版权。
+
+*关于如何自启动的问题
+http://michael.vanrooijen.io/articles/2011/06/08-managing-and-monitoring-your-ruby-application-with-foreman-and-upstart
+
+### 统计调度
+需要添加这几个队列
+* critical_statistics
+* normal_statistics
+* heavy_statistics

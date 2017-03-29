@@ -1,0 +1,74 @@
+#queue-index-page {
+  height: 100%;
+  .queue-state-section {
+    background-size: 100% auto;
+    padding: 0;
+    .queue-state-items {
+      background-color: #e34730;
+      opacity: 0.75;
+      color: white;
+      .queue-state-wait-num {
+        font-weight: bold;
+        padding: 10px; 
+        font-size: 18px;
+      }
+      .guest-num {
+        padding: 25px 10px;
+        font-size: 50px;
+        line-height: 70px;
+        font-weight: bold;
+        text-align: center;
+      }
+      .current-queue-setting-state {
+        font-size: 18px;
+        line-height: 1.5em;
+        padding: 10px;
+      }
+    }
+  }
+
+  .guest-op-section {
+    .guest-op-option {
+      display: table-cell;
+      width: 1%;
+      padding: 15px 0;
+      .icon {
+        width: 50px;
+        height: 50px;
+        margin: auto;
+        border-radius: 1000px;
+        line-height: 48px;
+        font-size: 30px;
+        text-align: center;
+      }
+      .text {
+        padding-top: 10px;
+        text-align: center;
+        font-size: 12px;
+      }
+    }
+  }
+}
+
+#queue-index-page {
+  .new-guest-queue-section {
+    padding: 0;
+  }
+}
+
+#new-guest-queue-section {
+  .choose-queue-setting-label {
+    width: 50%;
+    padding: 10px 2%;
+    float: left;
+    display: table;
+  }
+  .text {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100px;
+    text-align:center;
+    font-size: 20px;
+    line-heigh: 1.5em;
+  }
+}

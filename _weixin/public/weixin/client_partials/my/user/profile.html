@@ -1,0 +1,85 @@
+<div common-header></div>
+<div common-footer></div>
+<div id="user-profile-page" class="main-view">
+  <div id="top-user-avatar">
+    <div class='avatar-section'>
+      <div class="avatar">
+        <img ng-src="{{user.headimgurl}}" ng-if="user.headimgurl">
+        <span class="fa fa-weixin" ng-if="!user.headimgurl"></span>
+      </div>
+      <div class="favorite-nav-item">
+        <span class="my-favorite-button">
+          <a href="#/favorite_branches">
+            <i class="fa fa-star"></i> 我的收藏 ({{user.following_branches_count}})
+          </a>
+        </span>
+      </div>
+      <div class="name overflow-ellipsis">
+        (ID: {{user.vip_info.id}}) {{user.name}}
+      </div>
+    </div>
+    <div class='user-nav-section'>
+      <div class="user-nav-item">
+        <a href="#/addresses">
+          <i class="fa fa-rocket"></i>
+          <div class="text">收货地址</div>
+        </a>
+      </div>
+      <div class="user-nav-item">
+        <a href="#/wechat_share_records">
+          <i class="fa fa-share-alt"></i>
+          <div class="text">分享记录</div>
+        </a>
+      </div>
+      <div class="user-nav-item">
+        <a href="#/sign_records">
+          <i class="fa fa-tag"></i>
+          <div class="text">每日签到</div>
+        </a>
+      </div>
+      <div class="user-nav-item" ng-if="user.is_vip">
+        <a href="#/recharge_products">
+          <i class="fa fa-plus"></i>
+          <div class="text">会员充值</div>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="space-12"></div>
+  <div class='section promotion-nav-section'>
+    <a ng-href="{{oauth_user_info_url}}" class="arrow-right" ng-if="!user.headimgurl">
+      <i class="fa fa-weixin label-green"></i> 绑定身份信息(头像、昵称)
+    </a>
+    <a ng-click="go_to_pay_code()" class="arrow-right">
+      <i class="fa fa-qrcode label-orange"></i> 会员付款码
+    </a>
+    <a href="#/orders/nav" class="arrow-right">
+      <i class="fa fa-money label-green"></i> 订单中心
+    </a>
+    <a href="#/user/coupon_nav" class="arrow-right">
+      <i class="fa fa-money label-red"></i> 券包
+    </a>
+    <a href="#/user/vip-info" class="arrow-right">
+      <i class="fa fa-credit-card label-blue"></i> 会员卡
+    </a>
+    <a href="{{show_tutorial}}" ng-show="has_tutorial">
+      <i class="fa fa-desktop label-orange"></i> 开机动画
+    </a>
+  </div>
+
+  <div class="space-12"></div>
+  <div class='section copy-right-section'>
+    <a href="#/contact_us" class="arrow-right">
+      <i class="fa fa-headphones label-blue"></i>联系我们
+    </a>
+    <a ng-href="{{current_shop.support_brand_link||'tel:'+current_shop.telephone||'#/'}}" class="arrow-right"  ng-if="! current_shop.hide_support_brand">
+      <i class="fa fa-globe label-green"></i> 技术支持: {{current_shop.support_brand_name}}
+    </a>
+  </div>
+
+  <div class="version space-64">
+    version 7.1
+    <br/>
+    <span ng-if="current_shop.support_brand_name == '点单通'">上海信息科技有限公司</span>
+  </div>
+</div>

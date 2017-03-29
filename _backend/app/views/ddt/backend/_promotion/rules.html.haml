@@ -1,0 +1,20 @@
+.ddb-fields
+  = form_tag [:backend, @current_shop, @promotion.branch, @promotion, :promotion_rules].compact, remote: true do
+    .ddb-field-title 规则
+    .ddb-add-field
+      = select_tag :'promotion_rule[type]', options_for_promotion_rule_types(@promotion)
+      = button_tag tag(:icon, class: 'fa fa-plus'), class: 'btn btn-xs btn-success', title: "添加"
+  = form_for [:backend, @current_shop, @promotion.branch, @promotion].compact, :method => :put do |f|
+    .promotion-policy-select
+      - Ddt::Promotion.match_policy_collection.each do |name, value|
+        .policy
+          = f.radio_button :match_policy, value
+          = f.label "match_policy_#{value}", name
+    #rules.ddb-fields-list
+      - if @promotion.rules.any?
+        = render partial: 'ddt/backend/_promotion/promotion_rule', collection: @promotion.rules, locals: { promotion: @promotion }
+      - else
+        .no-objects-found
+          暂无规则
+
+    = button_tag tag(:icon, class: 'fa fa-refresh') + ' 更新', class: 'btn btn-primary btn-sm'

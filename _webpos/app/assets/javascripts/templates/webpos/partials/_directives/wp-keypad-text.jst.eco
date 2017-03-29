@@ -1,0 +1,71 @@
+<div data-ng-keypad="text" data-auto-close="true" data-ng-draggable class="wp-keypad wp-keypad-text">
+  <div>
+    <div class="button-wrapper">
+      <div ng-show="_key_mode == 'lowercase' || !_key_mode">
+        <button ng-repeat="key in ['1','2','3','4','5','6','7','8','9','0']" data-ng-key="{{key}}">{{key}}</button>
+        <button data-ng-key="[BACKSPACE]" class="smaller"><i class="fa fa-long-arrow-left"></i></button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <button ng-repeat="key in ['q','w','e','r','t','y','u','i','o','p']" data-ng-key="{{key}}">{{key}}</button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <button ng-repeat="key in ['a','s','d','f','g','h','j','k','l']" data-ng-key="{{key}}">{{key}}</button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <button ng-click="_key_mode = 'symbol'" class="smaller">符号</button>
+        <button ng-repeat="key in ['z','x','c','v','b','n','m']" data-ng-key="{{key}}">{{key}}</button>
+        <button data-ng-key="[CLEAR]" class="smaller">清空</button>
+        <button ng-click="_key_mode = 'uppercase'" class="smaller">大写</button>
+        <button ng-click="close();toggle_jvk();"><i class="fa fa-keyboard-o"></i></button>
+      </div>
+      <div ng-show="_key_mode == 'uppercase'">
+        <button ng-repeat="key in ['1','2','3','4','5','6','7','8','9','0']" data-ng-key="{{key}}">{{key}}</button>
+        <button data-ng-key="[BACKSPACE]" class="smaller"><i class="fa fa-long-arrow-left"></i></button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <button ng-repeat="key in ['Q','W','E','R','T','Y','U','I','O','P']" data-ng-key="{{key}}">{{key}}</button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <button ng-repeat="key in ['A','S','D','F','G','H','J','K','L']" data-ng-key="{{key}}">{{key}}</button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <button ng-click="_key_mode = 'symbol'" class="smaller">符号</button>
+        <button ng-repeat="key in ['Z','X','C','V','B','N','M']" data-ng-key="{{key}}">{{key}}</button>
+        <button data-ng-key="[CLEAR]" class="smaller">清空</button>
+        <button ng-click="_key_mode = 'lowercase'" class="smaller">小写</button>
+        <button ng-click="close();toggle_jvk();"><i class="fa fa-keyboard-o"></i></button>
+      </div>
+      <div ng-show="_key_mode == 'symbol'">
+        <button ng-repeat="key in ['!','@','#','$','%','^','&','*','(',')']" data-ng-key="{{key}}">{{key}}</button>
+        <button data-ng-key="[BACKSPACE]" class="smaller"><i class="fa fa-long-arrow-left"></i></button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <button ng-repeat="key in ['`','~','-','_','=','+','\\','|','[','\]']" data-ng-key="{{key}}">{{key}}</button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <div class="blank"></div>
+        <button ng-repeat="key in ['{','}',';',':','\'']" data-ng-key="{{key}}">{{key}}</button>
+        <div class="clearfix"></div>
+        <div class="blank"></div>
+        <button ng-click="_key_mode = 'lowercase'" class="smaller">符号</button>
+        <button ng-repeat='key in [",",".","<",">","/","?","\""]' data-ng-key="{{key}}">{{key}}</button>
+        <button data-ng-key="[CLEAR]" class="smaller">清空</button>
+        <button ng-click="_key_mode = lowercase" class="smaller">小写</button>
+        <button ng-click="close();toggle_jvk();"><i class="fa fa-keyboard-o"></i></button>
+      </div>
+
+    </div>
+    <div class="drag-indicator">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+
+    <button class="close" data-ng-click="close()"></button>
+  </div>
+  </div>

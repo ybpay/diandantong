@@ -1,0 +1,74 @@
+ <div class="weui_cells">
+  <div ng-repeat="element in form_elements">
+    <div class="weui_cell weui_cell_select weui_select_after" ng-if="element.type == 'Ddt::FormElementSelect'">
+      <div class="weui_cell_hd ">
+        {{element.label}}
+      </div>
+      <div class="weui_cell_hd weui_cell_primary">
+        <select ng-model="element.record.content" ng-options="option.option_id as option.html for option in element.options" class="weui_select text-right">
+          <option value="" disabled>输入{{element.label}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="weui_cell" ng-if="element.type == 'Ddt::FormElementText'">
+      <div class="weui_cell_bd">
+        {{element.label}}
+      </div>
+      <div class="weui_cell_bd weui_cell_primary">
+        <input type="text" placeholder="{{element.placeholder}}" ng-model="element.record.content" ng-required="{{element.need}}" class="weui_input text-right">
+      </div>
+    </div>
+  </div>
+  <div class="weui_cell">
+    <div class="weui_cell_hd">
+      备注
+    </div>
+    <div class="weui_cell_bd weui_cell_primary">
+      <input type="text" placeholder="{{branch.note_placeholder}}" ng-model="self.note" class="weui_input text-right">
+    </div>
+  </div>
+</div>
+
+<div class="weui_cells_title" ng-if="input_pay_method && pay_method_setting.credits_deduction">当前可用积分 {{::user.credits_wallet}}</div>
+<div class="weui_cells weui_cells_form" ng-if="input_pay_method && pay_method_setting.credits_deduction">
+  <div class="weui_cell weui_cell_switch">
+    <div class="weui_cell_hd weui_cell_primary">
+      启用积分抵扣
+    </div>
+    <div class="weui_cell_ft">
+      <input class="weui_switch" type="checkbox" ng-model="use_credits_deduction" ng-change="changeCreditsDeduction(use_credits_deduction)">
+    </div>
+  </div>
+
+  <div class="weui_cell" ng-if="use_credits_deduction">
+    <div class="weui_cell_bd">
+      使用积分数量
+    </div>
+    <div class="weui_cell_bd weui_cell_primary">
+      <input type="number" ng-model="deduction.credits" class="weui_input text-right">
+    </div>
+  </div>
+</div>
+<div class="weui_cells_title">
+  总计 {{cart.total|currency:shop.currency}}，共{{cart.item_count}}个商品
+  <span class="delivery-fee" ng-if="cart_type=='delivery'">，配送费{{cart.shipment_total || 0}}</span>
+  <span ng-if="enable_foreign && cart.tax_total > 0">，税{{cart.tax_total | currency:currency}}</span>
+  <span ng-if="enable_foreign && cart.tax_total == 0">，免税</span>
+</div>
+
+<div class="weui_cells_title" ng-if="input_pay_method">
+  选择支付方式
+</div>
+
+<div class="my-items" ng-if="input_pay_method">
+  <div class="my-item-group" ng-repeat="item_group in item_groups">
+    <div class="my-item opacity" ng-class="{'active': current_pay_method == pay_method}" ng-repeat="pay_method in item_group" ng-click="change_pay_method(pay_method)">
+      <div ng-if="!!pay_method.value">
+        <img ng-src="{{pay_method.img}}"/>
+        <div class="label">
+          {{pay_method.label}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

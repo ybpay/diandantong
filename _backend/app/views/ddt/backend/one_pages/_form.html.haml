@@ -1,0 +1,11 @@
+= simple_form_for([:backend, @current_shop, @one_page], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@one_page)
+
+    .form-inputs
+      = f.input :abstract
+      = f.input :alignment, collection: Ddt::OnePage.alignment_collection
+      = f.input :image, as: :image_preview, hint: '为了保证在不同尺寸手机上的良好兼容性，建议使用尺寸为640*1010规格的图片，如不满足条件，系统会自动进行裁剪'
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"

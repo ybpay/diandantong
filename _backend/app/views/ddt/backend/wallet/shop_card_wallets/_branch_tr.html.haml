@@ -1,0 +1,7 @@
+- wallet = branch.card_wallet
+%tr.branch-wallet-tr{:'data-id' => branch.id}
+  %td= branch.name
+  %td= wallet.display_amount
+  %td
+    = link_to '结算', [:get_clearing, :backend, @current_shop, wallet] ,title: '结算', remote: true, method: :get
+    = link_to '日志', [:wallet_logs, :backend, @current_shop, wallet], title: '日志'

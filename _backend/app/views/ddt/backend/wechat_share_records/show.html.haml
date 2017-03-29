@@ -1,0 +1,63 @@
+.ibox
+  .ibox-title
+    %h3= "#{t('activerecord.models.ddt/wechat_share_record')} 详情"
+  .ibox-content
+    .col-sm-12
+      .model-show
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:user)
+            \:
+          = link_to @wechat_share_record.user.to_label, [:backend, @current_shop, @wechat_share_record.user]
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:share_type)
+            \:
+          = @wechat_share_record.share_type_name
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:title)
+            \:
+          = raw @wechat_share_record.title
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:link)
+            \:
+          = @wechat_share_record.link
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:img_url)
+            \:
+          = image_tag @wechat_share_record.img_url, width: 50 if @wechat_share_record.img_url
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:viewed_users_count)
+            \:
+          = @wechat_share_record.viewed_users_count
+
+        %p
+          %b
+            = Ddt::WechatShareRecord.human_attribute_name(:desc)
+            \:
+        = raw @wechat_share_record.desc
+        .space
+      %table.table.table-bordered.table-striped
+        %thead
+          %tr
+            %th= Ddt::WechatViewRecord.human_attribute_name(:viewed_user)
+            %th= Ddt::WechatViewRecord.human_attribute_name(:created_at)
+            %th= Ddt::WechatViewRecord.human_attribute_name(:viewed_user)
+            %th= Ddt::WechatViewRecord.human_attribute_name(:created_at)
+            %th= Ddt::WechatViewRecord.human_attribute_name(:viewed_user)
+            %th= Ddt::WechatViewRecord.human_attribute_name(:created_at)
+        %tbody
+          - @wechat_share_record.viewed_users.each_slice(3) do |view_users|
+            %tr
+              - view_users.each do |view_user|
+                %td
+                  = image_tag view_user.headimgurl, width: 50 if view_user.headimgurl.present?
+                  = link_to view_user.to_label, [:backend, @current_shop, view_user]
+                %td= view_user.created_at
+
+      = link_to t('Back'), backend_shop_wechat_share_records_path(@current_shop), :class => "btn btn-default btn-sm"
+    .clearfix

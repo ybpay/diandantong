@@ -1,0 +1,26 @@
+= simple_form_for([:backend, @current_shop, @custom_weixin_info], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@custom_weixin_info)
+
+    .form-inputs
+      = f.input :layout_type, collection: Ddt::CustomWeixinInfo.layout_type_collection, input_html: {onchange: 'change_layout_type(this)'}
+      = f.input :background_image, as: :image_preview
+      -if @custom_weixin_info.background_image
+        = f.input :remove_background_image, as: :boolean, label: '删除图片'
+      = f.input :branch_index_layout, collection: Ddt::CustomWeixinInfo.branch_index_layout_collection
+    .form-actions.col-xs-offset-4
+      = f.button :submit, :class => "btn btn-primary btn-sm"
+
+
+:javascript
+  function change_layout_type(value){
+    var layout_type = $(value).val();
+    if(['fashion', 'fashion2'].indexOf(layout_type) > -1){
+      $('.custom_weixin_info_background_image.form-group').show();
+      $('.custom_weixin_info_remove_background_image.form-group').show();
+    }else{
+      $('.custom_weixin_info_background_image.form-group').hide();
+      $('.custom_weixin_info_remove_background_image.form-group').hide();
+    }
+  }
+  $('#custom_weixin_info_layout_type').trigger("change");

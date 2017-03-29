@@ -1,0 +1,32 @@
+<div class="new-password-box">
+  <% if resource.errors.any? %>
+    <div class="alert alert-danger">
+      <ul>
+        <% resource.errors.full_messages.each do |msg| %>
+          <li><%= msg %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="box">
+  <div class="box-form">
+    <h4 class="header red">找回密码</h4>
+    <hr />
+
+    <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+      <div class="inputs">
+        <div class="input">
+          <%= f.text_field :email, placeholder: "登录邮箱", required: true, autofocus: true, class: "input-field", data: { :rel=> 'tooltip', :placement => 'right'}, :title=> "请输入您的登录邮箱" %>
+        </div>
+      </div>
+      <div class="submit-action">
+        <%= f.submit "发送重置密码邮件", :class=>"submit-btn" %>
+      </div>
+    <% end %>
+
+      <%= render "ddt/agentsys/agents/shared/links" %>
+    </div>
+  </div>
+  </div>
+</div>

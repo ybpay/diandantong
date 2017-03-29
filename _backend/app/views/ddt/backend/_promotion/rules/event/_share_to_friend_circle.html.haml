@@ -1,0 +1,7 @@
+.ddb-field-column
+  %span 分享页面
+  = raw("#{render '/ddt/backend/branch_sliders/auto_insert_url', {input_field_id: 'share_to_friend_circle_page_identifier', version: 'only_ng'}}")
+  = text_field_tag "#{param_prefix}[preferred_page_identifier]", promotion_rule.preferred_page_identifier, class: 'ddb-field-column-line', id: 'share_to_friend_circle_page_identifier'
+.ddb-field-column
+  %span 查看人数必须达到(多少人)
+  = text_field_tag "#{param_prefix}[preferred_view_user_num]", promotion_rule.preferred_view_user_num, class: 'ddb-field-column-line'

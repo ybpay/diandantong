@@ -1,0 +1,106 @@
+<div common-footer></div>
+<div ng-include src="partial('filter-nav-bar')" include-replace></div>
+<!--
+<div class="ddb-secondary-nav-header ddb-tab-bar">
+  <div class="ddb-tab-item">
+    全部分类 <i class="fa fa-caret-down"></i>
+  </div>
+  <div class="ddb-tab-item">
+    综合排序 <i class="fa fa-caret-down"></i>
+  </div>
+  <div class="ddb-tab-item">
+    配送费不限 <i class="fa fa-caret-down"></i>
+  </div>
+</div>
+-->
+<div id="ddb-delivery-branch-index" class="main-view">
+  <div class="no-record" ng-if="branches.length == 0">
+      没有找到合适的门店
+  </div>
+  <div class="branch-item-table" ng-if="current_shop.custom_weixin_info.branch_index_layout == 'block'">
+    <div  class="branch-item-tr" ng-repeat="n in []|range: Math.ceil(branches.length/3)">
+       <a ng-click="go_page('cart', '/branches/'+branch.id+'/products/delivery')" class="branch-item block" ng-repeat="branch in branches.slice($index*3, $index*3+3)">
+
+        <div class="branch">
+          <div class="img" style="background-image:url('{{branch.image}}'); background-size: cover;">
+            <div class="cover">
+              <div class="label" ng-show="branch.is_in_service">
+                <div class="tag bg-green" ng-if="branch.use_reservation_setting">订</div>
+                <div class="tag bg-blue" ng-if="branch.use_delivery_setting">送</div>
+              </div>
+              <div class="rest" ng-show="!branch.is_in_service">
+                <img ng-src="{{img_url('/images/ddt/rest.png')}}" title="休息中" width="100%"/>
+              </div>
+              <div class="branch_name">{{branch.name}}</div>
+            </div>
+          </div>
+        </div>
+
+      </a>
+    </div>
+  </div>
+  <div class="branch-item" ng-repeat="branch in branches"  ng-class="{closed: !branch.is_in_service}" ng-if="current_shop.custom_weixin_info.branch_index_layout == 'list'">
+    <a ng-click="go_page('cart', '/branches/'+branch.id+'/products/delivery')" class="branch-info">
+      <div class="branch-image">
+        <img ng-src="{{branch.image}}">
+      </div>
+      <div class="delivery-info">
+        <div class="first-line">
+          <div class="name">
+            {{branch.name}}
+          </div>
+          <div class="tag bg-green" ng-if="branch.tuans.length > 0">
+            促
+          </div>
+          <div class="tag bg-red" ng-if="!branch.is_in_service">
+            休息中
+          </div>
+          <div class="sales">{{branch.placed_orders_count}} 销量</div>
+        </div>
+        <div class="second-line">
+          <div class="comment-level red">
+            <rating-stars ng-rating="branch.rating">
+            </rating-stars>
+          </div>
+          <div class="distance right">{{branch.distance | distance }}</div>
+        </div>
+        <div class="third-line">
+          <div class="time" ng-show="branch.delivery_times.length > 0">
+            <i class="fa fa-clock-o"></i>
+            配送时间
+            <span ng-repeat="dt in branch.delivery_times">
+              {{dt.fstart_time}}-{{dt.fend_time}}
+            </span>
+          </div>
+          <div class="fee">
+            <span ng-if="branch.support_delivery_if_amount_gt">{{branch.support_delivery_if_amount_gt|currency:currency}}起送</span>
+            <span class="spliter"></span>
+            <span ng-if="branch.min_delivery_fee">配送费{{branch.min_delivery_fee|currency:currency}}</span>
+            <span class="spliter"></span>
+            {{::branch.delivery_radius}}公里内可送
+          </div>
+        </div>
+      </div>
+    </a>
+    <div class="top-sales" ng-if="branch.top_sales.length > 0">
+      热卖品: {{branch.top_sales.join('，')}}
+    </div>
+    <div>
+      <div class="tuans" ng-if="branch.tuans.length > 0">
+        <a class="tuan overflow-ellipsis" ng-repeat="tuan in branch.tuans" ng-click="go_page('cart', '/tuans/'+tuan.id)">
+          <span class="circle bg-orange" ng-if="tuan.type == 'Ddt::GrouponVersion'">团</span>
+          <span class="circle bg-blue" ng-if="tuan.type == 'Ddt::VoucherVersion'">代</span>
+          {{tuan.name}}
+        </a>
+      </div>
+      <div class="promotions" ng-if="branch.promotions.length > 0">
+        <a class="promotion" ng-repeat="promotion in branch.promotions" ng-href="#/promotions/{{promotion.id}}">
+          <span class="circle bg-red" ng-if="promotion.type == 'Ddt::EventPromotion'">免</span>
+          <span class="circle bg-green" ng-if="promotion.type == 'Ddt::OrderPromotion'">满</span>
+          {{promotion.name}}
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,7 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/combo_item')} 列表"
+
+.form-group
+  = new_btn([@combo, :combo_item])
+
+= render :partial => "table", locals: { combo_items: @combo_items }

@@ -1,0 +1,45 @@
+<md-dialog flex="60">
+  <md-toolbar class="md-toolbar-tools">
+    <h2>会员申请</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <form name="form" layout="column">
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">姓名</label>
+        <div class="crm-form-control" flex="80">
+          {{vi.name}}
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">手机</label>
+        <div class="crm-form-control" flex="80">
+          {{vi.phone}}
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">微信昵称</label>
+        <div class="crm-form-control" flex="80">
+          {{vi.user_nickname}}
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">微信手机号</label>
+        <div class="crm-form-control" flex="80">
+          {{vi.user_phone}}
+        </div>
+      </div>
+    </form>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <md-button flex flex="50" ng-click="reject()" class="md-primary">
+      拒绝
+    </md-button>
+    <md-button flex flex="50" ng-click="agree()" class="md-primary md-raised">
+      通过
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

@@ -1,0 +1,42 @@
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+
+          %ul.nav.nav-tabs#tables
+            %li
+              = link_to '用户列表', backend_shop_base_users_path(@current_shop)
+            %li{class: ('active' if controller_name == 'base_users' && %W(show edit).include?(action_name))}
+              = link_to '用户详情', backend_shop_base_user_path(@current_shop, @base_user)
+            - if @base_user.vip?
+              %li{class: ('active' if controller_name == 'vip_infos' && %W(show edit).include?(action_name))}
+                = link_to '会员详情', backend_shop_vip_info_path(@current_shop, @base_user.vip_info)
+              %li{class: ('active' if controller_name == 'vip_infos' && %W(edit_pay_password).include?(action_name))}
+                = link_to '修改支付密码', edit_pay_password_backend_shop_vip_info_path(@current_shop, @base_user.vip_info)
+              %li{class: ('active' if %W(get_recharge_card_wallet).include? action_name)}
+                = link_to '余额充值', get_recharge_card_wallet_backend_shop_base_user_path(@current_shop, @base_user)
+              %li{class: ('active' if %W(get_exchange_card_wallet).include? action_name)}
+                = link_to '余额兑换', get_exchange_card_wallet_backend_shop_base_user_path(@current_shop, @base_user)
+            %li{class: ('active' if %W(get_exchange_credits_wallet).include? action_name)}
+              = link_to '积分兑换', get_exchange_credits_wallet_backend_shop_base_user_path(@current_shop, @base_user)
+            %li.dropdown{class: ('active' if %W(card_wallet_logs credits_wallet_logs).include? action_name)}
+              %a.dropdown-toggle{data: {toggle: 'dropdown'}, href: '#'}
+                日志管理
+                %i.fa.fa-caret-down.icon-
+              %ul.dropdown-menu.dropdown-info
+                - if @base_user.vip?
+                  %li
+                    = link_to '余额日志', card_wallet_logs_backend_shop_base_user_path(@current_shop, @base_user)
+                %li
+                  = link_to '积分日志', credits_wallet_logs_backend_shop_base_user_path(@current_shop, @base_user)
+            - if @base_user.vip?
+              %li{class: ('active' if %W(recharge_orders).include? action_name)}
+                = link_to '充值订单', recharge_orders_backend_shop_base_user_path(@current_shop, @base_user)
+
+          .tab-content
+            .tab-pane.in.active
+              .panel-body
+                = yield
+
+= render template: "ddt/layouts/backend"

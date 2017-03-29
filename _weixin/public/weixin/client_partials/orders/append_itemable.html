@@ -1,0 +1,79 @@
+<div id="products-page">
+  <div ng-include src="partial('products/common-header')"></div>
+  <div class="ddb-nav-footer products-common-footer">
+    <div ng-include src="partial('carts/ddb-footer')"></div>
+    <a class="button checkout-button right" ng-class="{'disable': !can_submit() }" ng-click="submit()">确认加菜</a>
+  </div>
+  <div class="main-view" id="products-page-body">
+    <div class="category-list" id="category-list-div">
+      <ul id="categories">
+        <li class="item" ng-click="go_append_combo_package()" ng-show="branch.has_combo" >
+          <span class="name">套餐</span>
+        </li>
+        <li class="item" ng-repeat="category in categories" ng-click="change_active_category(category)" ng-class="{'active': category == active_category}">
+          <span class="name">{{::category.name}}</span>
+          <span class="quantity" ng-if="category.quantity>0">{{category.quantity}}</span>
+        </li>
+      </ul>
+    </div>
+    <div id="product-list-div">
+      <div class="sub-category" ng-if="active_category.categories">
+        <a class="button sub-category-button" ng-class="{active: active_sub_category == sub_category}" ng-repeat="sub_category in active_category.categories" ng-click="change_sub_categroy(sub_category)" >{{::sub_category.name}}</a>
+      </div>
+      <div id="products">
+        <div class="product-item" ng-if="products.length == 0">
+          没有产品
+        </div>
+        <div ng-repeat="product in products" class="product-item" ng-class="{'in-cart': product.active_variant.quantity>0}">
+          <div class="loading-image" rn-lazy-background="{{product.active_variant.image}}" rn-lazy-loading-class="loading-image" rn-lazy-loaded-class="loaded-image" ng-if="product.active_variant.image"></div>
+          <div ng-class="{'no-image': !product.active_variant.image}">
+            <div class="name">
+              {{::product.name}}
+              <span class="tag" ng-style="{'background-color': tag_in_branch(tag_id, branch).color}" ng-repeat="tag_id in product.tag_ids">{{tag_in_branch(tag_id, branch).name}}</span>
+            </div>
+            <div class="sales">
+              <span class="stock_count" ng-show="branch.check_stock && branch.show_stock_quantity">库存{{stock_of(product.active_variant)}},</span>
+              <span class="sales-count" ng-show="branch.show_sale_quantity">销量{{product.active_variant.sale_quantity}}</span>
+            </div>
+            <div class="price-section">
+              <div class="cart-op">
+                <div ng-hide="product.show_note_in_weixin">
+                  <span class="button minus-button active" ng-show="can_minus(product.active_variant)" ng-click="remove_itemable(product.active_variant);"><i class="fa fa-minus"></i></span>
+                  <span class="quantity-button" ng-show="product.active_variant.quantity>0">{{product.active_variant.quantity}}</span>
+                  <span class="button plus-button" ng-class="{'active': can_plus(product.active_variant)}" ng-click="add_itemable(product.active_variant);"><i class="fa fa-plus"></i></span>
+                </div>
+                <div ng-show="product.show_note_in_weixin">
+                  <span class="button plus-button"
+                        ng-click="add_itemable(product.active_variant)"
+                        ng-class="{'active': can_plus(product.active_variant)}">
+                    <i class="fa fa-plus"></i>
+                  </span>
+                </div>
+              </div>
+              <span class="price">{{product.active_variant.price|currency:currency}}</span>
+              <span class="original-price" ng-if="product.active_variant.original_price != product.active_variant.price">{{product.active_variant.original_price|currency: currency}}</span>
+            </div>
+            <div class="variant-options" ng-if="product.variants.length > 1">
+              <div class="variant-option button" ng-repeat="variant in product.variants" ng-hide="variant.is_master" ng-class="{'active': variant == product.active_variant}" ng-click="active_variant(product, variant)">
+                {{::variant.options_text}}
+                <span class="quantity" ng-show="variant.quantity">{{variant.quantity}}</span>
+              </div>
+            </div>
+            <div class="line-item"
+               ng-if="product.show_note_in_weixin"
+               ng-repeat="line_item in product.active_variant.line_items"
+               >
+              <div class="cart-op">
+                <span class="button minus-button active" ng-show="can_minus(product.active_variant)" ng-click="remove_itemable(line_item, snap);"><i class="fa fa-minus"></i></span>
+                <span class="quantity-button">{{line_item.quantity}}</span>
+                <span class="button plus-button" ng-class="{'active': can_plus(product.active_variant)}" ng-click="add_itemable(line_item, snap);"><i class="fa fa-plus"></i></span>
+              </div>
+              <div class="name" ng-show="line_item.note == ''">{{::line_item.name}}</div>
+              <div class="name" ng-hide="line_item.note == ''">{{::line_item.note}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

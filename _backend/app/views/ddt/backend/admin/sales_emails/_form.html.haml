@@ -1,0 +1,8 @@
+= simple_nested_form_for([:backend, @sales_email], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@sales_email)
+
+  .form-inputs
+    = f.input :email, hint: '邮件地址'
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => 'btn btn-primary btn-sm'

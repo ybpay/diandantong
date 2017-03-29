@@ -1,0 +1,45 @@
+.order-track-from-chart
+:javascript
+  $(document).ready(function(){
+    $('.order-track-from-chart').highcharts({
+      chart: {
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name} 订单来源"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@statistic.tick_interval},
+        categories: #{raw @statistic.labels}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: ''
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        borderWidth: 0
+      },
+      series: #{raw @statistic.query.map{|k, v|
+        {
+          name: Ddt::OrderService::Order::Base.track_from_name(k),
+          data: v.values
+        }
+      }.to_json}
+    });
+  });

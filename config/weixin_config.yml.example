@@ -1,0 +1,48 @@
+defaults: &defaults
+  gonghao:
+    open_id: ''
+    app_id: ''
+    app_secret: ''
+development:
+  <<: *defaults
+  gonghao:
+    open_id: 'gh_a7596a884403'
+    app_id: 'wx27cbcf984ccaff90'
+    app_secret: '4a213178f23c2607593fdd0d99291fd6'
+    component_appid: wx3f8765c57d61b0cf
+    component_appsecret: 0c79e1fa963cd80cc0be99b20a18faeb
+    component_token: ddt2013
+    component_encoding_ase_key: ddtddtddtddtbao
+    component_authroized_domain: weixin.diandantong.com
+    component_test_appid: wx570bc396a51b8ff8
+    component_test_username: gh_3c884a361561
+
+  webauth:
+    app_id: 'wx4c9937d1125c7c96'
+    app_secret: '99d28d2d09455bedc73d0f215sdf45'
+
+  juhe:
+    app_key_mobile_address: 'b4b88a8ffc09e2fd3f24251ee19fa168'
+
+  template_id_short:
+    order:   'OPENTM202045454'
+    queue:   'OPENTM383288748'
+    card:    'OPENTM207432268'
+    credits: 'OPENTM200898560'
+    exchange_code: 'OPENTM202064921'
+  template_id:
+    order: 'N7_3sUWQftRzG-2CkWHQKC1o46kji7clQzekFz2B2Ys'
+    new_client: 'notsuccessyet'
+    chart: 'OPENTM401096829'
+    exception: 'va51ZEonj9u_-OXI2RzvTdF3NU1l-otA3KfAwURqnPM'
+test:
+  gonghao:
+    open_id: 'gh_123456789012'
+    app_id: 'app_id'
+    app_secret: 'app_secret'
+production:
+  <<: *defaults
+  gonghao:
+    open_id: ''
+    app_id: ''
+    app_secret: ''

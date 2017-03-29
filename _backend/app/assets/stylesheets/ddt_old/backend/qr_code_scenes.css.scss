@@ -1,0 +1,48 @@
+.qr-code-table {
+  .qr-code-item {
+    float: left;
+    width: 200px;
+    margin: 0px 20px 20px 0;
+    text-align: center;
+    color: $gray;
+    a {
+      color: $gray;
+    }
+  }
+  .qr-code-op {
+    height: 24px;
+    line-height: 24px;
+    font-size: 16px;
+    text-align: left;
+    visibility: visible;
+    .fa-edit {
+      color: $color-success;
+    }
+    .fa-trash-o {
+      color: $color-danger;
+    }
+    .fa-times, .fa-check{
+      color: $color-primary;
+    }
+  }
+  .qr-code-box {
+    border: 1px solid $gray-lighter;
+  }
+  .qr-code-item-image {
+    width: 100%;
+  }
+  .fake-qr-code{
+    width: 100%;
+    height: 198px;
+    line-height: 198px;
+    text-align: center;
+    font-size: 24px;
+    color: white;
+    background-color: $gray;
+  }
+  .qr-code-item-info {
+    background-color: $gray-lightest;
+    border-top: 1px solid $gray-lighter;
+    height: 24px;
+  }
+}

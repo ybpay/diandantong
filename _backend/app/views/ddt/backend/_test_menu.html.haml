@@ -1,0 +1,17 @@
+
+.ul.nav.nav-list
+  %li
+    -# 优先使用带有 nickname 的用户，方便测试
+    - option_test_user =  @current_shop.users.search( unique_user_nickname_present: '1').result.first.unique_user.user_open_id rescue nil
+    - option_test_user = @current_shop.users.first.unique_user.user_open_id if option_test_user.nil? rescue nil
+    %a{:href => weixin_shop_path(@current_shop, open_id: option_test_user), target: '_blank'}
+      %i.fa.fa-link.icon-
+      %span.menu-text 微信端快捷链接
+  %li
+    %a{:href => valid_wechat_users_backend_shop_test_console_path(@current_shop)}
+      %i.fa.fa-keyboard-o.icon-
+      %span.menu-text 测试控制台
+  %li
+    %a{:href => webpos_path(), target: '_blank'}
+      %i.fa.fa-link.icon-
+      %span.menu-text webpos端快捷链接

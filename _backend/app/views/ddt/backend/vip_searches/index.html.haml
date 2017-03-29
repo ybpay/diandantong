@@ -1,0 +1,40 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    .header
+      %h2 会员魔方过滤器列表
+
+      %p
+        %strong 警告
+        系统的查询结果最大为 10000 条
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = link_to "新建魔方过滤器", new_backend_shop_vip_search_path(@current_shop), class: 'btn btn-primary'
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::SearchFilter.human_attribute_name(:name)
+                %th.col-sm-4= Ddt::SearchFilter.human_attribute_name(:conditions_label)
+                %th.col-sm-2= Ddt::SearchFilter.human_attribute_name(:state)
+                %th.col-sm-1= Ddt::SearchFilter.human_attribute_name(:created_at)
+                %th.col-sm-1= Ddt::SearchFilter.human_attribute_name(:last_search_at)
+                %th
+            %tbody
+              - @search_filters.each do |filter|
+                %tr
+                  %td= filter.name
+                  %td= filter.conditions_label
+                  %td= filter_state_info(filter)
+                  %td= filter.created_at
+                  %td= filter.last_search_at
+                  %td= filter_btns(filter)
+              = no_record_hint(@search_filters)
+          %br
+          .pull-right= will_paginate @search_filters , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

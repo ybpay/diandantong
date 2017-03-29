@@ -1,0 +1,31 @@
+.wp-marker{
+  width: 42px;
+  height: 42px;
+  border: solid 1px #ccc;
+  //padding: 4px;
+  background-color: #aaa;
+
+  @mixin focus(){
+    margin-top: 4px;
+    margin-left: 4px;
+  }
+
+  .circle{
+    width: 36px;
+    height: 36px;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    background-color: #fff;
+  }
+  .selected{
+    @include focus();
+    background-color: green;
+  }
+
+  &:hover{
+    .circle{
+      @include focus();
+    }
+    cursor: pointer;
+  }
+}

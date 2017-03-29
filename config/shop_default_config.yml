@@ -1,0 +1,144 @@
+defaults: &defaults
+  image_dir_prefix: _backend/app/assets/images
+  shop:
+    name: 示例品牌
+    is_open: true
+    introduction: <p>这个一个示例，平台用户需要修改为符合您的描述信息</p>
+    image: /ddt/images/shop.png
+    rect_image: /ddt/images/shop_rect.png
+    vip_logo: /ddt/images/shop_vip_logo.png
+    search_words: 示例 门店
+  zone:
+    name: 示例区域
+  branch_type:
+    name: 示例分类
+    icon: fa-globe
+    bg_color: #72c02c
+    image: /ddt/images/branch_type.png
+  branch:
+    name: 我的第一个门店
+    image: '/ddt/images/branch.png'
+    rect_image: '/ddt/images/branch_rect.png'
+    expiration_time: <%= 365.days.since %>
+    notice: 这是一个示例的门店
+    phone: '1111-11111111'
+    address: xx市xx区xx路xx号xxx
+    latitude: 30.0
+    longitude: 120.0
+    introduction: <p>示例门店简介</p>
+    charge_method: charge_by_time
+    branch_category: others
+  branch_slider:
+    img: /ddt/images/branch_slider.png
+  branch_delivery_zone:
+    zone_name: 所有区域
+    cost: 2.0
+  branch_table_zones:
+    big:
+      name: 大桌
+      tables_count_for_reservation: 5
+      min_reservation_price: 200
+    middle:
+      name: 中桌
+      tables_count_for_reservation: 10
+      min_reservation_price: 100
+    small:
+      name: 小桌
+      tables_count_for_reservation: 20
+      min_reservation_price: 50
+  branch_reservation_time_points:
+    noon:
+      time_point: <%= Time.now.change(hour:12) %>
+    dawn:
+      time_point: <%= Time.now.change(hour:18) %>
+  product:
+    name: 示例产品
+    description: '<p>示例产品</p>'
+    unit_name: 份
+    price: 0.03
+    vip_price: 0.02
+    stock_quantity: 100
+    sku: PT0001
+    availabled_at: <%= Time.now %>
+  product_images:
+#  it should follow format nXX
+    'n1':
+      attachment: /ddt/images/product0.png
+    'n2':
+      attachment: /ddt/images/product1.png
+
+  option_types:
+    n10:
+      name: 味道（示例）
+      position: 1
+      option_values:
+        n10:
+          name: 咸
+        n20:
+          name: 甜
+    n20:
+      name: 份量（示例）
+      position: 2
+      option_values:
+        n10:
+          name: 大
+        n20:
+          name: 中
+  categories:
+    n10:
+      name: 示例分类1
+    n20:
+      name: 示例分类2
+  vip_levels:
+    glold:
+      name: 金牌会员
+      level: 3
+      discount: 0.80
+      auto_upgrade: true
+    silver:
+      name: 银牌会员
+      level: 2
+      discount: 0.85
+      auto_upgrade: true
+    bronze:
+      name: 铜牌会员
+      level: 1
+      discount: 0.90
+      auto_upgrade: true
+#  events:
+#    subscribe:
+#      event_type: subscribe
+#      is_system_keyword: true
+#      system_keyword: 'key_0'
+#    unmatch:
+#      event_type: unmatch
+#      is_system_keyword: true
+#      system_keyword: 'key_0'
+#    help:
+#      event_type: keyword_autoreply
+#      event_key: 帮助
+#      is_system_keyword: true
+#      system_keyword: 'key_0'
+#    place_an_order:
+#      event_type: keyword_autoreply
+#      event_key: 点餐
+#      is_system_keyword: true
+#      system_keyword: 'key_1'
+#    promotion:
+#      event_type: keyword_autoreply
+#      event_key: 促销
+#      is_system_keyword: true
+#      system_keyword: 'key_2'
+#    order:
+#      event_type: keyword_autoreply
+#      event_key: 订单
+#      is_system_keyword: true
+#      system_keyword: 'key_3'
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+
+production:
+  <<: *defaults

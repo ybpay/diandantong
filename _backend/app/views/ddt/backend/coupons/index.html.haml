@@ -1,0 +1,60 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h3= "#{t('activerecord.models.ddt/coupon')} 列表"
+    .form-group
+      = link_to "发放优惠券", new_backend_shop_coupon_path(@current_shop), :class=>"btn btn-primary btn-sm"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .form-group
+          = search_form_for @q, url: backend_shop_coupons_path(@current_shop), html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+            = f.input_field :id, placeholder: Ddt::Coupon.human_attribute_name(:id), class: 'form-control'
+            = f.input_field :exchange_code_code_cont, placeholder: "兑换码", class: 'form-control'
+            = f.input_field :is_expired, collection: [["未过期", 0], ["已过期", 1]], prompt: Ddt::Coupon.human_attribute_name(:is_expired), class: 'form-control'
+            = f.input_field :base_user_id_or_base_user_phone_or_base_user_email_or_base_user_unique_user_nickname_cont, as: :string, placeholder: Ddt::Coupon.human_attribute_name(:base_user), class: 'form-control'
+            = f.submit "搜索", class: 'btn btn-success'
+
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th.col-sm-1= sort_link(@q, :id, Ddt::Coupon.human_attribute_name(:id))
+              %th.col-sm-1= "兑换码"
+              %th.col-sm-1= sort_link(@q, :base_user, Ddt::Coupon.human_attribute_name(:base_user))
+              %th.col-sm-1= sort_link(@q, :coupon_version, Ddt::Coupon.human_attribute_name(:coupon_version))
+              %th.col-sm-1= sort_link(@q, :created_at, Ddt::Coupon.human_attribute_name(:created_at))
+              %th.col-sm-1= sort_link(@q, :expires_at, Ddt::Coupon.human_attribute_name(:expires_at))
+              %th.col-sm-1= sort_link(@q, :applied_at, Ddt::Coupon.human_attribute_name(:applied_at))
+              %th.col-sm-1= sort_link(@q, :applied_to_order, Ddt::Coupon.human_attribute_name(:applied_to_order))
+              %th.col-sm-1= sort_link(@q, :track_from, Ddt::Coupon.human_attribute_name(:track_from))
+              %th.col-sm-1= "操作人"
+              %th
+
+          %tbody
+            - @coupons.each do |coupon|
+              %tr.coupon-tr{ :"data-id" => coupon.id}
+                %td= coupon.id
+                %td= coupon.exchange_code.try(:code)
+                %td
+                  = base_user_label(coupon.base_user) if coupon.base_user.present?
+                %td= link_to coupon.coupon_version.name , [:backend, @current_shop, coupon.coupon_version]
+                %td= coupon.created_at
+                %td= coupon.expires_at
+                %td= coupon.applied_at
+                %td
+                  - order = coupon.applied_to_order
+                  - if order.present?
+                    = link_to order.try(:number), [:backend, @current_shop, order.branch, order], target: "_blank"
+                %td= coupon.track_from_name
+                %td
+                  - adjustments = order.try(:adjustments)
+                  - if adjustments.present?
+                    = adjustments.coupon.first.try(:operator).try(:name)
+                %td
+                  = link_to '详情', [:backend, @current_shop, coupon]
+                  = link_to '删除', [:backend, @current_shop, coupon], :method => :delete, :data => { :confirm => '确定删除?' }, remote: true
+            = no_record_hint(@coupons)
+        %br
+        .pull-right= will_paginate @coupons , renderer: BootstrapPagination::Rails, bootstrap: 3
+        %br

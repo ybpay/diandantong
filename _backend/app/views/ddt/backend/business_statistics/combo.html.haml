@@ -1,0 +1,22 @@
+.order-query-form
+  = form_for :business_statistic, url: [:combo, :backend, @current_shop, :business_statistics], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+    = f.input_field :branch_id, data: {"local-datas" => @current_shop.branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2'
+    = f.input_field :start_time, as: :datetime, placeholder: "开始时间", class: 'input-medium'
+    %label{style: 'font-size:20px;'} ~
+    = f.input_field :end_time, as: :datetime, placeholder: "结束时间", class: 'input-medium'
+    = f.submit "搜索", class: 'btn btn-sm btn-success', onClick: "$(this).closest('form').attr('action', '#{ combo_backend_shop_business_statistics_path(@current_shop, format: :html) }')"
+    = f.submit "导出csv表格", class: 'btn btn-sm btn-info', onClick: "$(this).closest('form').attr('action', '#{ combo_backend_shop_business_statistics_path(@current_shop, format: :csv) }')"
+
+
+%br/
+%table.table.table-striped.table-bordered.table-center
+  %thead
+    %tr
+      %th 套餐
+      %th 售出数量
+  %tbody
+    - items = @result
+    - items.each do |item|
+      %tr
+        %td= item.name
+        %td= item.try(:sum_of_quantity)

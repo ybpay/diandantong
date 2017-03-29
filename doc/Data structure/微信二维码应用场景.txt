@@ -1,0 +1,31 @@
+
+场景名称
+场景分组
+
+BaseQrCodeScene
+
+
+WechatQrcodeScene
+  owner: polymorphic
+  name: string
+  gonghao_open_id: index:true
+  scan_times: integer
+  scene_id: integer
+  shop:references
+  type: string
+  preferences: text
+
+
+微信扫码送积分
+微信扫码下单
+微信扫码付款
+微信扫码排号
+微信扫码跳转到某一页面
+微信扫码回复图文链接
+
+
+扫普通码下单
+扫普通码付款
+扫普通码排号
+扫普通码跳转到某一页面
+扫普通码下单

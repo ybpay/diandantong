@@ -1,0 +1,16 @@
+%tr
+  - if @mode && controller_name == "pages"
+    %th.col-sm-1
+      = check_box_tag "all_devices", "", false, {id: 'batch_op_select_all', data:{model:'device', token: form_authenticity_token}}
+      %label{for: "all_devices"} 全选
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:device_id)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:comment)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:status)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:uuid)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:major)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:minor)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:major_hex)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:minor_hex)
+  %th= Ddt::ShakeAround::Device.human_attribute_name(:count)
+  - if @mode.blank?
+    %th

@@ -1,0 +1,11 @@
+%tr.tr-base-user{ :"data-id" => base_user.id }
+  %td
+    = link_to base_user.id, backend_shop_base_user_path(@current_shop, base_user)
+  %td= base_user.wechat_users.map(&:user_open_id).join(', ')
+  %td= base_user.phone
+  %td= base_user.placed_orders_count
+  %td= base_user.type_name
+  %td= base_user.created_at
+  %td
+    = link_to tag(:icon,:class=>"fa fa-bars"), backend_shop_base_user_path(@current_shop, base_user), :class => "btn btn-xs btn-info"
+    = link_to tag(:icon,:class=>"fa fa-pencil"), edit_backend_shop_base_user_path(@current_shop, base_user), :class => "btn btn-xs btn-success"

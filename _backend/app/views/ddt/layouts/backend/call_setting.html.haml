@@ -1,0 +1,15 @@
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs
+            %li{class: ('active' if %W[call_settings].include? controller_name)}
+              = link_to t('activerecord.models.ddt/call_setting'), backend_shop_call_setting_path(@current_shop)
+            %li{class: ('active' if controller_name == 'order_calls')}
+              = link_to t('activerecord.models.ddt/order_call'), backend_shop_order_calls_path(@current_shop)
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend"

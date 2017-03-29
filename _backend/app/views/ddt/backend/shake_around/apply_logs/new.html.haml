@@ -1,0 +1,23 @@
+.ibox
+  .ibox-title
+    %h3= "申请设-备"
+  .ibox-content
+    .col-md-6
+      .alert.alert-info
+        注意: 虽然单次申请最多可以申请500个设备, 但请您还是按需申请.
+
+      = simple_form_for([:backend, @current_shop, @wechat_account, @apply_log], html: { class: 'form-horizontal'}) do |f|
+
+        - f.with_options disabled: (disabled rescue nil) do |f|
+          = f.error_notification :message => error_message_in_html(@apply_log)
+          .form-inputs
+            = f.input :quantity
+            = f.input :apply_reason
+            = f.input :comment
+            = f.input :poi_id, hint: "该项可不填"
+
+          .form-actions.col-xs-offset-2
+            = f.button :submit, "申请", :class => "btn btn-primary btn-sm"
+
+      = link_to t('Back'), backend_shop_wechat_account_shake_around_apply_logs_path(@current_shop, @wechat_account), :class => "btn btn-default btn-sm"
+    .clearfix

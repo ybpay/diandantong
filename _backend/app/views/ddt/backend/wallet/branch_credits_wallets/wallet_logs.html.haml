@@ -1,0 +1,10 @@
+.header
+  %h3 门店积分日志
+
+%p
+  %b
+    = @wallet.owner.name
+    \:
+  = @wallet.display_amount
+
+= render partial: 'ddt/backend/wallet/wallet_logs', locals: { q: @q, wallet: @wallet, wallet_logs: @wallet_logs, reason_collection: Ddt::WalletLog.branch_credits_reason_collection}

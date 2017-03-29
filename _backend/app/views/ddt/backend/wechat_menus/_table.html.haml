@@ -1,0 +1,12 @@
+%table.table.table-bordered.wechat-menus-table
+  %thead
+    %tr
+      %th.col-xs-1= Ddt::WechatMenu.human_attribute_name(:name)
+      %th.col-xs-1= Ddt::WechatMenu.human_attribute_name(:menu_action)
+      %th.col-xs-1 操作
+
+  = render :partial => "table_tr", collection: wechat_menus, as: :wechat_menu
+
+  - if wechat_menus.blank?
+    %tr
+      %td{colspan: 5} 暂无自定义菜单

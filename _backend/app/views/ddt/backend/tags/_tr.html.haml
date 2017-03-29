@@ -1,0 +1,8 @@
+%tr{id: "tag_#{tag.id}"}
+  %td= tag.name
+  %td= tag.type_name
+  %td{style: "color: #{tag.color};"}= tag.color
+  %td= tag.count
+  %td
+    = edit_btn(tag, remote: true)
+    = delete_btn(tag, remote: true)

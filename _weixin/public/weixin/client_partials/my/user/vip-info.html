@@ -1,0 +1,97 @@
+<div common-header></div>
+<div id="vip-info-page">
+  <div class="vip-card">
+    <div class="avatar">
+      <img width="100%" ng-src="{{current_shop.vip_logo}}" ng-show="current_shop.vip_logo">
+      <span ng-hide="current_shop.vip_logo" class="logo-name">{{current_shop.name}}</span>
+    </div>
+    <div class="vip-info">
+      <div class="label">
+        会员卡号
+      </div>
+      <div class="value">
+        <span ng-if="user.is_vip">{{user.vip_info.vip_no}}</span>
+        <span ng-if="!user.is_vip">非会员</span>
+      </div>
+    </div>
+  </div>
+  <div class="use-hint">
+    使用时请向服务员出示此卡
+  </div>
+
+  <div class="balance">
+
+    <div class="section">
+      <div class="list-item with-label">
+        <div class="label" ng-if="user.is_vip">会员级别：</div>
+        <div class="label" ng-if="!user.is_vip">用户级别：</div>
+        <div class="value">{{user.vip_info.vip_level_name}}</div>
+      </div>
+      <div class="list-item with-label">
+        <div class="label">用户ID：</div>
+        <div class="value">{{user.id}}(非会员编号)</div>
+      </div>
+      <div class="list-item with-label" ng-if="user.is_vip">
+        <div class="label">余额：</div>
+        <div class="value">{{ user.card_wallet | currency: currency}}</div>
+      </div>
+      <div class="list-item with-label">
+        <div class="label">积分：</div>
+        <div class="value">{{ user.credits_wallet }}</div>
+      </div>
+      <div class="list-item with-label">
+        <div class="label">累计下单：</div>
+        <div class="value">{{ user.placed_orders_count}}笔</div>
+      </div>
+      <div class="list-item with-label">
+        <div class="label">累计消费：</div>
+        <div class="value">{{ user.vip_info.total_amount || 0 | currency:currency}}</div>
+      </div>
+      <div class="list-item with-label" ng-if="user.is_vip">
+        <div class="label">累计充值：</div>
+        <div class="value">{{ user.vip_info.total_recharge_money || 0 | currency:currency}}</div>
+      </div>
+      <div class="list-item with-label">
+        <div class="label">累计获得积分</div>
+        <div class="value">{{ user.vip_info.total_get_credits }}</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <a ng-click="go_to_pay_code()" class="list-item">
+       <i class="fa fa-qrcode"></i>
+        <span class="label">会员付款码</span>
+      </a>
+      <a href="#/recharge_products" class="list-item" ng-if="user.is_vip">
+       <i class="fa fa-plus"></i>
+        <span class="label">充值</span>
+      </a>
+      <a href="#/user/update-vip-info" class="list-item fa fa-credit-cart" ng-if="user.is_vip">
+        <i class="fa fa-user"></i>
+        <span class="label">修改会员信息</span>
+      </a>
+      <a href="#/user/update-vip-info" class="list-item fa fa-credit-cart" ng-if="!user.is_vip && !user.vip_info.is_apply_vip">
+        <i class="fa fa-user"></i>
+        <span class="label">会员申请</span>
+      </a>
+      <a class="list-item" ng-if="!user.is_vip && user.vip_info.is_apply_vip">
+       <i class="fa fa-user"></i>
+        <span class="label">会员申请审核中</span>
+      </a>
+      <a href="#/user/card-wallet-log" class="list-item" ng-if="user.is_vip">
+       <i class="fa fa-credit-card"></i>
+        <span class="label">余额流水</span>
+      </a>
+      <a href="#/user/update-pay-password" class="list-item" ng-if="user.is_vip">
+       <i class="fa fa-credit-card"></i>
+        <span class="label">修改支付密码</span>
+      </a>
+      <a href="#/user/bind-vip" class="list-item" ng-if="!user.is_vip">
+       <i class="fa fa-link"></i>
+        <span class="label">绑定会员</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+</div>

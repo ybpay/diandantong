@@ -1,0 +1,13 @@
+-if @statistic.class.info[:warning].present?
+  .alert.alert-warning
+    = @statistic.class.info[:warning]
+
+- if @statistic.cache_state == 'commit'
+  正在为您获取数据 (#{@statistic.cache_record.progress_text})
+  :javascript
+    $(function(){
+      setInterval(query_cache_state, #{Ddt::StatisticsCache::BUSY_QUERY_INTERVAL})
+    });
+
+- elsif @statistic.cache_state == 'exception'
+  查询的数据有异常

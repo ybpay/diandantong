@@ -1,0 +1,13 @@
+.ibox
+  .ibox-title
+    %h3= "新建#{t('activerecord.models.ddt/discount_plan')}"
+  .ibox-content
+    .col-md-6
+      = render 'form'
+
+      = link_to t('Back'), backend_shop_branch_discount_plans_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"
+    .clearfix
+
+.header
+
+

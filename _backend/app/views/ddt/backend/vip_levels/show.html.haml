@@ -1,0 +1,36 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/vip_level')} 详情"
+
+.model-show
+  %p
+    %b
+      = Ddt::VipLevel.human_attribute_name(:name)
+      \:
+    = @vip_level.name
+  %p
+    %b
+      = Ddt::VipLevel.human_attribute_name(:discount)
+      \:
+    = @vip_level.discount
+  %p
+    %b
+      = Ddt::VipLevel.human_attribute_name(:vip_infos_count)
+      \:
+    = @vip_level.vip_infos_count
+  %p
+    %b
+      = Ddt::VipLevel.human_attribute_name(:auto_upgrade)
+      \:
+    = @vip_level.auto_upgrade? ? "是" : "否"
+
+  - if @vip_level.auto_upgrade
+    - [:upgrade_recharge_money, :upgrade_total_amount, :upgrade_get_credits].each do |column_name|
+      %p
+        %b
+          = Ddt::VipLevel.human_attribute_name(column_name)
+          \:
+        = @vip_level.send(column_name)
+  .space
+= link_to t('Edit'), edit_backend_shop_vip_level_path(@current_shop, @vip_level), :class => "btn btn-primary btn-sm"
+\
+= link_to t('Back'), backend_shop_vip_levels_path(@current_shop), :class => "btn btn-default btn-sm"

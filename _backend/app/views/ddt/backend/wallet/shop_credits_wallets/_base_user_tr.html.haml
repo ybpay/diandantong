@@ -1,0 +1,7 @@
+- wallet = base_user.credits_wallet
+%tr.user-wallet-tr{:'data-id' => base_user.id}
+  %td= base_user_label(base_user)
+  %td= wallet.display_amount
+  %td
+    = get_exchange_btn(wallet, v: :wallet)
+    = user_wallet_logs_btn(wallet)

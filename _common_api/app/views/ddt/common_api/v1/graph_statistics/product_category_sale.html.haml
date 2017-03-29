@@ -1,0 +1,83 @@
+.product-sale-count-chart
+.product-sale-amount-chart
+- result = @sale_acount_statistic.query.to_a[0..19]
+- names = result.map{|name, _| name}
+- sales = result.map{|_, sale| sale}[0..19]
+:javascript
+  $(document).ready(function(){
+    $('.product-sale-count-chart').highcharts({
+      chart: {
+        type: 'bar',
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name} 菜品分类销量统计"
+      },
+      subtitle: {
+        text: ' #{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}'
+      },
+      xAxis: {
+        tickInterval: 1,
+        categories: #{raw names.to_json}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        name: '销量',
+        data: #{sales.to_json}
+      }]
+    });
+  });
+
+- result = @sale_amount_statistic.query.to_a[0..19]
+- names = result.map{|name, _| name}
+- sales = result.map{|_, sale| sale.to_f}[0..19]
+:javascript
+  $(document).ready(function(){
+    $('.product-sale-amount-chart').highcharts({
+      chart: {
+        type: 'bar',
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name} 菜品分类销售额统计"
+      },
+      subtitle: {
+        text: ' #{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}'
+      },
+      xAxis: {
+        tickInterval: 1,
+        categories: #{raw names.to_json}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        name: '销售额',
+        data: #{sales.to_json}
+      }]
+    });
+  });

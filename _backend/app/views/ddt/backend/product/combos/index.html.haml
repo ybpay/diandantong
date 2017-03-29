@@ -1,0 +1,67 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/combo')} 列表"
+    %strong 温馨提示
+    %p
+      当您新建完一个套餐时，请为套餐配置组合选项， 该套餐才能正常使用
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .form-group
+          = new_btn(:combo, label: '套餐')
+          = link_to "复制所有套餐", get_batch_copy_backend_shop_branch_combos_path(@current_shop, @current_branch), remote: true, class: 'btn btn-warning'
+          = link_to "复制选中套餐", get_batch_copy_backend_shop_branch_combos_path(@current_shop, @current_branch), remote: true, class: "batch_op_action btn btn-primary", method: "GET"
+
+          = link_to "批量套餐下架", batch_off_shelf_backend_shop_branch_combos_path(@current_shop, @current_branch,:combos),method: :post, class: 'btn btn-warning batch_op_action'
+          = link_to "批量套餐上架", batch_on_shelf_backend_shop_branch_combos_path(@current_shop, @current_branch), method: :post,class: 'btn btn-warning batch_op_action'
+        .form-group
+          = search_form_for @q, url: backend_shop_branch_combos_path(@current_shop,@current_branch), html: { class: 'form-inline', role: 'form'} do |f|
+            .form-group
+              =f.label :id, class: 'sr-only'
+              =f.search_field :id_eq, placeholder: Ddt::Combo.human_attribute_name(:id), class: 'form-control'
+            .form-group
+              =f.label :name, class: 'sr-only'
+              =f.search_field :name_cont, placeholder: Ddt::Combo.human_attribute_name(:name), class: 'form-control'
+            .form-group
+              =f.label :price, class: 'sr-only'
+              =f.search_field :price_eq, placeholder: Ddt::Combo.human_attribute_name(:price), class: 'form-control'
+            .form-group
+              =f.label :vip_price, class: 'sr-only'
+              =f.search_field :vip_price_eq, placeholder: Ddt::Combo.human_attribute_name(:vip_price), class: 'form-control'
+            = f.submit "搜索", class: 'btn btn-sm btn-success'
+  %table.table.table-striped
+    %thead
+      %tr
+        %th.col-sm-1
+          = check_box_tag "all_combos", "", false, {id: 'batch_op_select_all', data:{model:'combo', token: form_authenticity_token}}
+          %label{for: "all_combos"} 全选
+        %th.col-sm-1= sort_link(@q , :sku         , Ddt::Combo.human_attribute_name(:sku))
+        %th.col-sm-2= sort_link(@q , :name        , Ddt::Combo.human_attribute_name(:name))
+        %th.col-sm-3= sort_link(@q , :description , Ddt::Combo.human_attribute_name(:description))
+        %th.col-sm-1
+        %th.col-sm-2
+
+    %tbody
+      - @combos.each do |combo|
+        %tr
+          %td= check_box_tag "combo[id][]", combo.id, false, id: "combo_id_#{combo.id}"
+          %td= combo.sku
+          %td
+            = combo_shelf_status_label(combo)
+            = link_to combo.name, [:backend, @current_shop, @current_branch, combo]
+          %td= raw combo.description
+          %td
+            = link_to "组合选项", [:backend, @current_shop, @current_branch, combo, :combo_items]
+            - unless combo.config_ok?
+              %span{class: 'badge badge-transparent', title: '该套餐还没配置组合选项， 请配置'}
+                %i{ class: 'fa fa-question red bigger-130'}
+          %td
+            = info_btn(combo)
+            = edit_btn(combo)
+            = delete_btn(combo)
+            = link_to '图片管理', [:backend, @current_shop, @current_branch, combo, :combo_images]
+      = no_record_hint(@combos)
+  %br
+  .pull-right= will_paginate @combos , renderer: BootstrapPagination::Rails, bootstrap: 3
+  %br

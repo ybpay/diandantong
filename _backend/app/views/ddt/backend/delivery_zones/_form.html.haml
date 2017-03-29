@@ -1,0 +1,21 @@
+
+.tip.alert.alert-info
+  %strong
+    温馨提示：
+  %p
+    您可以为不同的配送区域设置不同的配送费
+    %br
+      %strong 例如：
+    区域A 配送费为 5元
+    %br
+    区域B 配送费为 8元
+
+= simple_form_for([:backend, @current_shop, @current_branch, @delivery_zone], html: { class: 'form-horizontal', remote: true}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@delivery_zone)
+    .form-inputs
+      = f.input :zone_name
+      = f.input :cost
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"

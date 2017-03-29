@@ -1,0 +1,33 @@
+<div id="merchant-apply-show-page">
+  <div class="ddb-nav-header">
+    <div class="nav-left-item" ng-click="back()"><i class="fa fa-angle-left"></i></div>
+    <div class="header-title">{{header_title}}</div>
+    <div class="nav-right-item">
+      <div ng-if="!merchantApply.state" ng-click="apply() " class='operation-button'>提交</div>
+      <div ng-if="merchantApply.state == 'applying'" ng-click="cancel()" class='operation-button'>取消</div>
+    </div>
+  </div>
+  <div class="main-view">
+    <div class="space-8"></div>
+
+    <div class="section">
+      <div class="list-item">
+        想入驻本平台或加盟连锁？请填写您的联系方式和申请理由，然后耐心等待回复。
+      </div>
+      <div class="list-item with-label" ng-if="merchantApply.state">
+        <div class="label">申请状态</div>
+        <div>{{merchantApply.state_name}}</div>
+      </div>
+    </div>
+    <div class="space-12"></div>
+    <div class="section">
+      <div class="list-item ddb-form-control">
+        <div class="ddb-form-label">联系方式</div>
+        <input type="text" class="ddb-form-input" ng-model="merchantApply.phone" placeholder="手机号码" ng-disabled="merchantApply.state">
+      </div>
+      <div class="list-item ddb-form-control">
+        <textarea class="ddb-form-input" ng-model="merchantApply.note" placeholder="给平台运营者的留言，描述一下您申请加盟入住的理由，便于平台商了解您的情况。" ng-disabled="merchantApply.state"></textarea>
+      </div>
+    </div>
+  </div>
+</div>

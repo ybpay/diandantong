@@ -1,0 +1,23 @@
+== 待解决问题
+
+* Shop 创建时显示一堆警告
+
+WARNING: OpenSSL::SSL::VERIFY_PEER == OpenSSL::SSL::VERIFY_NONE
+This dangerous monkey patch leaves you open to MITM attacks!
+Try passing :verify_ssl => false instead.
+
+This is from the rest-client gem, complaining that you have loaded some gem
+that has monkey patched the global OpenSSL in a very insecure way
+(or you've directly overridden the OpenSSL VERIFY_* constants).
+Do you have the full list of gems that you're loading?
+
+经查找代码，发现问题出在这里，后续讨论修复。
+lib/ddt/core/sms_provider.rb:5
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+
+* grape-swagger 的问题
+
+将来需要升级到 0.8.1 来解决这个 issue。并删除掉 lib/grape-swagger.rb
+Allow Classes for type declarations inside documentation #154
+(https://github.com/tim-vandecasteele/grape-swagger/pull/154/files)
+

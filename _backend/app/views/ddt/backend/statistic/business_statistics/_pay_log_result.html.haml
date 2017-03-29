@@ -1,0 +1,41 @@
+- if @result.length > 5000
+  查询结果太大，请下载 csv 或 xls 格式文件查看
+- else
+  %br/
+  %table.statistic-table
+    %thead
+      %tr
+        %th 订单
+        %th 门店
+        %th 订单类型
+        %th 桌台
+        %th 桌台类型
+        %th 下单时间
+        %th 结算时间
+        %th 持续时间
+        %th 支付方式
+        %th 支付金额
+        %th 人数
+        %th 人均
+        %th 结算员
+    %tbody
+      - @pay_logs = @result
+      - @pay_logs.each do |log|
+        %tr
+          %td
+            %a{href: backend_shop_order_path(@current_shop, log[:order_id]), target: '_blank'}
+              = log[:order_number]
+          %td= @statistic.get_branch_name(log[:branch_id])
+          %td= @statistic.order_type_name(log[:order_type])
+          %td= log[:table_name]
+          %td= log[:table_zone_name]
+          %td= log[:placed_at]
+          %td= log[:paid_at]
+          %td= Ddt::TimeUtil.label_of_second(log[:last_time])
+          %td= log[:pay_method_name]
+          %td= log[:amount]
+          %td= log[:guest_num]
+          %td= log[:per_consume]
+          %td= (@statistic.get_account(log[:settle_account_id]).name rescue '-')
+
+      = no_record_hint(@pay_logs)

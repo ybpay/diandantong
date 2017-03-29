@@ -1,0 +1,47 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/cs_branch_binding')} 列表"
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::CsBranchBinding.human_attribute_name(:id)
+                %th.col-sm-2= sort_link(@q, :shop_id, Ddt::CsBranchBinding.human_attribute_name(:shop))
+                %th.col-sm-2= sort_link(@q, :branch_id, Ddt::CsBranchBinding.human_attribute_name(:branch))
+                %th.col-sm-1= sort_link(@q, :updated_at, Ddt::CsBranchBinding.human_attribute_name(:updated_at))
+                %th.col-sm-1= sort_link(@q, :force_online, Ddt::CsBranchBinding.human_attribute_name(:force_online))
+                %th.col-sm-1= sort_link(@q, :online, Ddt::CsBranchBinding.human_attribute_name(:online))
+                %th.col-sm-1= sort_link(@q, :version, Ddt::CsBranchBinding.human_attribute_name(:version))
+                %th.col-sm-1= sort_link(@q, :last_sync_at, Ddt::CsBranchBinding.human_attribute_name(:last_sync_at))
+                %th.col-sm-1= sort_link(@q, :upgraded_at, Ddt::CsBranchBinding.human_attribute_name(:upgraded_at))
+                %th.col-sm-1 操作
+
+            %tbody
+              - @cs_branch_bindings.each do |record|
+                %tr
+                  %td= link_to record.id, backend_shop_branch_cs_branch_binding_path(record.shop_id, record.branch_id, record.id)
+                  %td= link_to record.shop.name, [:backend, record.shop]
+                  %td= link_to record.branch.name, [:backend, record.shop, record.branch]
+                  %td= record.updated_at
+                  %td
+                    - if record.force_online?
+                      %span.label.label-danger 是
+                    - else 
+                      %span.label.label-default 否
+                  %td
+                    - if record.online?
+                      %span.label.label-default 在线
+                    - else
+                      %span.label.label-danger 离线
+                  %td= record.version
+                  %td= record.last_sync_at
+                  %td= record.upgraded_at
+                  %td= link_to '详情', backend_shop_branch_cs_branch_binding_path(record.shop_id, record.branch_id, record.id)
+              = no_record_hint(@cs_branch_bindings)
+          %br
+          .pull-right= will_paginate @cs_branch_bindings , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

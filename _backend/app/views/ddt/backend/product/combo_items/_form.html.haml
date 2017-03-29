@@ -1,0 +1,57 @@
+
+
+.form-group
+  = simple_nested_form_for([:backend, @current_shop, @current_branch, @combo, @combo_item], html: { class: 'form-horizontal', id: 'combo-item-form'}, wrapper: :horizontal_form_long) do |f|
+    = f.error_notification :message => error_message_in_html(@combo_item)
+
+    .form-inputs
+      .col-sm-6
+        = f.input :name
+      .col-sm-6
+        = f.input :select_count
+      .col-sm-6
+        = f.input :is_necessary
+      .col-sm-6
+        = f.input :price_strategy, collection: Ddt::ComboItem.price_strategy_collection, include_blank: false
+      .col-sm-6
+        = f.input :price
+      .col-sm-6
+        = f.input :vip_price
+      = f.simple_fields_for :combo_items_variants do |item_variant|
+        - item_variant.input :variant, wrapper: :horizontal_form_long do
+          .col-sm-6.row
+
+            = item_variant.input :variant_id, input_html: {data: {single: true, useas: "local_select", "local-datas" => @current_branch.variants.map(&:select_json), placeholder: '请选择产品', "selected-id" => item_variant.try(:variant_id)}, class: 'ddb-select2'}
+            = item_variant.input :price
+            = item_variant.input :vip_price, hint: '当套餐可参加会员折扣时，使用的价格'
+            = item_variant.link_to_remove "移除", class: 'btn btn-danger btn-xs'
+      = f.link_to_add "添加可选产品", :combo_items_variants, class: 'btn btn-sm btn-success'
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"
+
+:javascript
+  $(function(){
+    var field_add = function(){
+      init_ddb_select2();
+      price_strategy_change($('#combo_item_price_strategy').val());
+    }
+    $("#combo-item-form").on("nested:fieldAdded", field_add)
+    function price_strategy_change(value){
+      if("fixed_price" == value){
+        $(".combo_item_price").show();
+        $(".combo_item_vip_price").show();
+        $(".combo_item_combo_items_variants_price").hide();
+        $(".combo_item_combo_items_variants_vip_price").hide();
+      }else{
+        $(".combo_item_price").hide();
+        $(".combo_item_vip_price").hide();
+        $(".combo_item_combo_items_variants_price").show();
+        $(".combo_item_combo_items_variants_vip_price").show();
+      }
+    }
+    $('#combo_item_price_strategy').on("change", function(){
+      price_strategy_change($(this).val())
+    })
+    price_strategy_change($('#combo_item_price_strategy').val());
+  })

@@ -1,0 +1,28 @@
+
+<div class="main-view" id="new-voice-page">
+  <div class="weui_cells">
+    <div class="weui_cell weui_cell_select weui_select_after">
+        <div class="weui_cell_hd">
+            发票类型
+        </div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <select class="weui_select" name="select2" ng-model="invoice.payer">
+                <option value="" disabled>选择发票类型</option>
+                <option value="personal">个人</option>
+                <option value="company">公司</option>
+            </select>
+        </div>
+    </div>
+    <div class="weui_cell" ng-show="invoice.payer == 'company'">
+        <div class="weui_cell_hd">
+          公司名字
+        </div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input type="text" ng-model="invoice.title" placeholder="请输入您公司的名称" class="weui_input"/>
+        </div>
+    </div>
+  </div>
+  <div class="weui_btn_area">
+        <a class="weui_btn weui_btn_primary"  ng-click="submit()" ng-class="{'weui_btn_disabled': !can_submit()}">确定</a>
+    </div>
+</div>

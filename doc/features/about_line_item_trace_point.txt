@@ -1,0 +1,17 @@
+
+下单或者追加菜品
+  如果菜品是套餐，会把套餐解开来
+
+获取可删除
+  根据订单里 line_item 的套餐， 把 line_item_trace_point 拼凑成套餐。
+  退菜的时候就整个退掉
+
+删除菜品
+  把菜品对应的 line_item_trace_point 改成取消
+  添加 状态为取消的 line_item_trace_point
+
+取消订单
+  把状态为 pending 的 line_item_trace_point 改为取消
+  添加 状态为取消的 line_item_trace_point
+
+

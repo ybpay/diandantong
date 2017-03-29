@@ -1,0 +1,108 @@
+- if !@agent.new_record? && @agent.plocy_version_hint.present?
+  .alert.alert-danger
+    = @agent.plocy_version_hint
+    %br
+    注意:  该页面的代理商折扣和代理价格为最新版政策的数值，不具参考价值
+
+
+= simple_nested_form_for [:backend, @agent], html: {class: "form-horizontal", role: "form"} do |f|
+  = f.error_notification :message => error_message_in_html(@agent)
+  .form-inputs
+    .col-sm-6.form-group
+      = f.input :agent_no
+    .col-sm-6.form-group
+      = f.input :email
+    .col-sm-6.form-group
+      = f.input :can_create_account
+      = f.input :is_oem
+    .col-sm-6.form-group
+      = f.input :name
+    .col-sm-6.form-group
+      = f.input :company_name
+    .clearfix
+    - if @agent.is_oem?
+      .col-sm-6.form-group
+        = f.input :email_address, hint: "只能填写smtp.qq.com"
+      .col-sm-6.form-group
+        = f.input :email_user_name, hint: "例如：10000@qq.com，注意：只支持QQ邮箱"
+      .col-sm-6.form-group
+        = f.input :email_password, hint: "必须为QQ邮箱独立密码"
+      .clearfix
+    .col-sm-6.form-group
+      = f.input :logo, as: :image_preview, hint: '推荐图片尺寸为400*400, 开启了OEM才有效'
+    .col-sm-6.form-group
+      = f.input :rect_logo, as: :image_preview, hint: '推荐图片尺寸为 800*300， 开启了OEM才有效'
+    .clearfix
+    .hr-line-dashed
+    .col-sm-6.form-group
+      = f.input :brand
+    .col-sm-6.form-group
+      = f.input :page_footer
+    .col-sm-6.form-group
+      = f.input :domain, placeholder: "例如: #{Ddt::Host::DEPLOY}"
+    .col-sm-6.form-group
+      = f.input :wechat_introduce_url, hint: '例如: http://mp.weixin.qq.com/s?__biz=MzA4NTAwNTkzNQ==&mid=201114397&idx=1&sn=99a23118d8fc6178888467457b74c37c#rd'
+    
+    .clearfix
+    - if @agent.new_record? or @agent.encrypted_password.nil?
+      .col-sm-6.form-group
+        = f.input :password
+      .col-sm-6.form-group
+        = f.input :password_confirmation
+      .clearfix
+    .col-sm-6.form-group
+      = f.input :phone
+    .col-sm-6.form-group
+      = f.input :exclusive
+    .col-sm-6.form-group
+      = f.input :agent_type, collection: Ddt::Agent.agent_type_collection, input_html: {:"data-default-discounts" =>  Ddt::Agent.default_discounts.to_json}
+    .col-sm-6.form-group
+      = f.input :balance
+    .col-sm-6.form-group
+      = f.input :discount
+    .col-sm-6.form-group
+      = f.input :can_buy_printer_code
+      = f.input :can_sale_multiple_store
+    .clearfix
+    %h3 普通指定:
+    .clearfix
+    .col-sm-6.form-group
+      = f.input :alipay_agent_id
+
+
+    .clearfix
+    .hr-line-dashed
+    = f.simple_fields_for :agent_rels do |f|
+      .form-inline
+        = f.hidden_field :agent_id
+        = f.label :agent_zone_id
+        = f.input_field :agent_zone_id, collection: Ddt::AgentZone.all.map{|zone| [zone.name_with_parent, zone.id]}.sort, class: 'form-control'
+        = f.label :agent_from, "代理时间"
+        = f.input_field :agent_from, as: :date
+        %span ~
+        = f.input_field :agent_to, as: :date
+        = f.link_to_remove "移除代理关系", :class=>"btn btn-danger"
+        %br
+    .col-sm-offset-4.form-group
+      = f.link_to_add "添加代理关系", :agent_rels, :class=>"btn btn-default"
+      = link_to "添加代理区域", new_backend_agent_zone_path, :class=>"btn btn-default", target: '_blank'
+  .actions.form-actions.col-sm-offset-2
+    = f.submit t('Save'), :class=>"btn btn-success btn-sm"
+  .span{id: :is_new_record, value: @agent.new_record?.to_s}
+  .span{id: :new_record_printer_code_price, value: @agent.new_record_printer_code_price.to_json}
+
+
+  :javascript
+    $(function(){
+      function agent_type_changed(){
+        var is_new_record = $("#is_new_record").attr("value")=="true";
+        if(is_new_record){
+          var discount = $('#agent_agent_type').data("defaultDiscounts")[$('#agent_agent_type').val()];
+          $('#agent_discount').val(discount)
+        }
+      }
+
+      $("#agent_agent_type").on("change", agent_type_changed);
+      agent_type_changed();
+
+    })

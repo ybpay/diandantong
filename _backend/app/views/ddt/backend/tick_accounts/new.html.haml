@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h2= "新建#{t('activerecord.models.ddt/tick_account')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Back'), backend_shop_branch_tick_accounts_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

@@ -1,0 +1,99 @@
+===========================================================================
+================== 统计系统
+===========================================================================
+
+访问量统计
+  访问来源（web、微信） 按日访问量/按月访问量
+  门店访问量 按日访问量/按月访问量
+  朋友圈分享引入的访问量
+
+AccessStatistic
+  user: references
+  session_id,   会话标识 | Ip?
+  access_at     访问时间
+  from: string  WEB, WECHAT，FRIENDCIRCLE 访问来源
+  shareman: reference 分享者
+  shop: references
+  branch: references
+
+
+
+产品销量统计
+  所有产品按日/月累计销量曲线
+
+      
+     lineItems表   统计字段: product_name, SUM(quantity)
+                    条件： ( order_id in ids)
+  各产品销量  日销量曲线/月销量曲线
+
+     lineItems表   统计字段: SUM(quantity)
+                    条件： ( order_id in ids)
+                    分组:  ( group_by product_name)
+
+
+订单统计
+  按下单类型：即六种不同订单类型，含团购订单后共计七种
+    点菜宝下单人数，金额
+    预订下单人数，金额
+    外送下单人数，金额
+    电话下单人数，金额
+
+    
+    orders 表    统计字段 COUNT(id) , SUM(amount)   
+                 条件    order_type | created_at 时间段
+                 分组    user_id
+
+  按门店统计:
+    累计下单人次，金额
+
+
+        累计下订单数
+        orders 表    统计字段 COUNT(id) , SUM(amount)           
+                     条件    branch_id | created_at 时间段 | 订单状态
+
+    累计下单用户数
+        累计有多少人下单
+        orders 表    统计字段 COUNT(user_id)           
+                     条件    branch_id | created_at 时间段 | 订单状态
+                     分组    group_by user_id
+    重复下单用户数
+        -----
+        orders 表    统计字段 COUNT(user_id)           
+                     条件    branch_id | created_at 时间段 | 订单状态
+                     分组    group_by user_id
+
+
+                 
+
+  平台累计下单人数、金额
+    orders 表    统计字段 COUNT(id)           
+                 条件    shop_id | created_at 时间段 | 订单状态
+
+
+    orders 表    统计字段 SUM(amount)           
+                 条件    created_at 时间段 | 订单状态
+                 
+
+用户统计
+  新关注用户曲线图（按日、月）
+      base_users 表      统计字段 COUNT(id)
+                         条件  type=wecharUser | created_at=时间段
+  不同公众号导入的用户人数
+      base_users 表      统计字段 count(id)
+                         条件  type=wecharUser | 公众帐号 
+
+团购券/代金券统计 (type= groupon,voucher)
+  累计销量
+      conpon_records 表    统计字段 COUNT(id)
+                           条件 
+  销量 按日/月统计，各类型兑换量
+      conpon_records 表    统计字段 COUNT(id)
+                           条件 couponVersion | created_at 时间段
+  兑换量 按日/月统计，各类型兑换量
+      conpon_records 表    统计字段 COUNT(id)
+                           条件 applied_at | couponVersion
+
+优惠券统计 (type= coupon)
+  累计发放量
+  发放量 按日/月统计，各类型发放量
+  使用量 按日/月统计，各类型发放量

@@ -1,0 +1,77 @@
+= simple_nested_form_for([:backend, @current_shop, @coupon_version], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@coupon_version)
+
+    .form-inputs
+      = f.input :name
+      = f.input :coupon_type, collection: Ddt::CouponVersion.coupon_type_collection, disabled: @coupon_version.persisted?
+      .product-match{ style: ("display:none;" unless @coupon_version.is_product_match?) }
+        = f.input :product_sku, hint: "多个菜品SKU用','隔开, 例如: S001,S002 "
+      .amount-match{ style: ("display:none;" unless @coupon_version.is_amount_match?) }
+        = f.input :coupon_min_usable_amount
+      .norminal-value
+        = f.input :norminal_value
+      = f.input :expired_type, collection: Ddt::CouponVersion.expired_type_collection, include_blank: true
+      .expired-type-1{ style: ("display:none;" unless @coupon_version.is_fixed_expired_time?) }
+        = f.input :usable_starts_at
+        = f.input :usable_expires_at
+      .expired-type-2{ style: ("display:none;" unless @coupon_version.is_after_send_expired_time?) }
+        = f.input :usable_days_after_send
+      = f.input :max_grant_limit
+      = f.input :max_count_each_user, hint: '置空为不限制数量'
+      = f.input :can_exchange
+      = f.input :credit_count
+      = f.input :support_eat_in_hall
+      = f.input :support_delivery
+      = f.input :coupon_appliable_branch_scope_policy, collection: Ddt::CouponVersion::coupon_appliable_branch_scope_policy_collection, include_blank: false
+      = f.input :branch_ids_string, input_html: { data: { url: backend_shop_branches_path(@current_shop, multiple: true), saved: @coupon_version.branches.map(&:select_json), placeholder: "请选择门店" }, class: 'ddb-select2'}
+      = f.input :description
+      = f.simple_fields_for :coupon_usage_instructions do |coupon_usage_instruction|
+        - coupon_usage_instruction.input :content, wrapper: :horizontal_form_long do
+          .col-sm-5.row= coupon_usage_instruction.input_field :content, class: 'form-control', label: false
+          .col-sm-2= coupon_usage_instruction.link_to_remove t('Destroy'), class: 'btn btn-danger btn-xs'
+      .col-sm-offset-2
+        = f.link_to_add t('new coupon usage instruction'), :coupon_usage_instructions, :class=>'btn btn-success btn-xs'
+      = f.simple_fields_for :coupon_photos do |coupon_photo|
+        - coupon_photo.input :image, wrapper: :horizontal_form_long  do
+          .col-sm-5.row
+            = coupon_photo.input :image, as: :image_preview, label: false, wrapper: :horizontal_form_long, hint: ' 推荐图片尺寸为720*360'
+          .col-sm-2
+            = coupon_photo.link_to_remove t('Destroy'), class: 'btn btn-danger btn-xs'
+      .col-sm-offset-2
+        = f.link_to_add t('new coupon photo'), :coupon_photos, :class=>'btn btn-success btn-xs'
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"
+:javascript
+  $(document).ready(function() {
+    $('#coupon_version_expired_type').change(function(){
+      var type = $('#coupon_version_expired_type').val()
+      if(type === 'fixed_expired_time'){
+        $('.expired-type-1').show()
+        $('.expired-type-2').hide()
+      }else if(type == "after_send_expired_time"){
+        $('.expired-type-1').hide()
+        $('.expired-type-2').show()
+      }else{
+        $('.expired-type-1').hide()
+        $('.expired-type-2').hide()
+      }
+    })
+    $('#coupon_version_coupon_type').change(function(){
+      var type = $('#coupon_version_coupon_type').val()
+      if(type === 'amount_match'){
+        $('.amount-match').show()
+        $('.norminal-value').show()
+        $('.product-match').hide()
+      }else if(type == "product_match"){
+        $('.amount-match').hide()
+        $('.product-match').show()
+        $('.norminal-value').hide()
+      }else if(type == "product_low_price_match"){
+        $('.amount-match').hide()
+        $('.product-match').show()
+        $('.norminal-value').show()
+      }
+    })
+  });

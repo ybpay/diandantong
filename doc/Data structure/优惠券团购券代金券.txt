@@ -1,0 +1,94 @@
+===========================================================================
+================== 优惠券/团购券/代金券
+===========================================================================
+
+AbstractCouponVersion
+  type: string
+  name: 券名
+  usable_starts_at: datetime, index:true 开始可用时间
+  usable_expires_at: datetime, index:true 可用过期时间
+  sellable_starts_at: datetime, index:true 开始出售时间
+  sellable_expires_at: datetime, index:true 停止出售时间
+  max_grant_limit: integer, 最多可发放人数
+  coupon_appliable_branch_scope_policy: ALL_BRANCHES/PART_BRANCHES 优惠券规则应用的范围
+  coupon_appliable_branch_scope: has_and_belongs_to_many, class_name: 'Branch'
+  base_coupons_count: integer 累计发放的数量
+  refund_coupons_count: integer 退款收回的数量
+  used_coupons_count: integer 已可用的数量
+  has_many :base_coupons
+  has_many :coupon_usage_instructions 使用说明
+  norminal_value: decimal 面值
+
+SellableCouponVersion #Concerns
+  coupon_photos: coupon_photo 包含的宣传图片
+  groupon_price: decimal 团购价
+  description: 说明
+  support_refund_any_time: boolean 支持随时退款
+  support_refund_after_expired: boolean 支持过期退款
+
+GrouponVersion < AbstractCouponVersion 团购券
+  include SellableCouponVersion
+  alias_method :groupons, :base_coupons
+  has_many :groupon_line_items, dependent: destroy
+
+VoucherVersion < AbstractCouponVersion 代金券
+  include SellableCouponVersion
+  alias_method :vouchers, :base_coupons
+  applicaple_product_scope: text
+
+
+CouponVersion < AbstractCouponVersion 优惠券
+  alias_method :coupons, :base_coupons
+
+  coupon_min_usable_amount: decimal 订单额满可用
+
+  def get_rule #获取优惠券的适用规则
+    Rule.new
+  end
+
+  def get_action #执行优惠的动作
+    Action.new
+  end
+
+  def grant_coupon_to(user) 发放优惠券
+  end
+
+BaseCoupon:
+  user: references
+  coupon_version: references, counter_cache: true
+  coupon_no: UUID
+  expires_at: datetime, index:true 过期时间
+  applied_at: datetime 使用的时间
+  def rollback_coupon
+    throw Exception //撤销优惠券,在子类实现
+  end
+
+BaseCouponConcern::SellableCoupon  #Concerns 通过购买得到的券
+  bought_from_order: references 通过哪个订单购买得到
+
+BaseCouponConcern::ApplicableCoupon #Concerns 可使用与订单的券
+  applied_to_order: references 使用在哪个订单
+
+Groupon < BaseCoupon 团购券
+  include BaseCouponConcern::SellableCoupon
+  记得对库存进行操作
+
+Voucher < BaseCoupon 代金券
+  include BaseCouponConcern::SellableCoupon
+  include BaseCouponConcern::ApplicableCoupon
+
+Coupon < BaseCoupon  优惠券
+  include BaseCouponConcern::ApplicableCoupon
+
+GrouponLineItem: 团购的项目
+  groupon_version: references
+  name:  string产品名
+  quantity: integer数量
+  sku: string单位
+  product: references 指向的产品,仅做参考
+  price: 原价
+  groupon_price: 团购价
+
+CouponUsageInstruction: 说明条款
+  abstract_coupon_version: references
+  instruction: text

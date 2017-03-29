@@ -1,0 +1,87 @@
+- if @wechat_account.can_define_menu?
+  .alert.alert-success
+    您已经成功对接公众帐号，接下来您可以
+    = link_to '设置菜单', backend_shop_wechat_account_wechat_menus_path(@current_shop, @wechat_account)
+    了
+- else
+  .alert.alert-warning
+    如果您是认证的订阅号或者是服务号（即：认证服务号或普通服务号），请
+    = link_to '设置', edit_backend_shop_wechat_account_path(@current_shop, @wechat_account)
+    appId 和 appSecret，之后就可以设置您的微信导航菜单了
+
+- unless @wechat_account.is_authorized?
+  .panel.panel-default
+    .panel-heading
+      %strong 请您在微信后台使用如下配置信息:
+    .panel-body
+      .item
+        %strong URL:
+        = common_shop_gh_config_api_url(@current_shop)
+      .item
+        %strong Token:
+        = @wechat_account.token
+
+.panel.panel-default
+  .panel-heading
+    %strong
+      = "#{t('activerecord.models.ddt/wechat_account')} 详情"
+  .panel-body
+    .model-show
+      %p
+        %b
+          = Ddt::WechatAccount.human_attribute_name(:public_account_name)
+          \:
+        = @wechat_account.account_name
+      %p
+        %b
+          = Ddt::WechatAccount.human_attribute_name(:gonghao_open_id)
+          \:
+        = @wechat_account.gonghao_open_id
+      %p
+        %b
+          = Ddt::WechatAccount.human_attribute_name(:gonghao_type)
+          \:
+        = @wechat_account.account_service_name
+      %p
+        %b
+          = Ddt::WechatAccount.human_attribute_name(:is_primary)
+          \:
+        = @wechat_account.is_primary_name
+      - if @current_shop.multi_branch?
+        %p
+          %b
+            = Ddt::WechatAccount.human_attribute_name(:default_branch)
+            \:
+          - if @wechat_account.default_branch.present?
+            = link_to @wechat_account.default_branch.name, [:backend, @current_shop, @wechat_account.default_branch]
+          - else
+            <空>
+      %p
+        %b
+          = Ddt::WechatAccount.human_attribute_name(:be_verified)
+          \:
+        = @wechat_account.account_verified_name
+
+      - unless @wechat_account.is_authorized?
+        %p
+          %b
+            = Ddt::WechatAccount.human_attribute_name(:token)
+            \:
+          = @wechat_account.token
+        %p
+          %b
+            = Ddt::WechatAccount.human_attribute_name(:app_id)
+            \:
+          = @wechat_account.app_id
+        %p
+          %b
+            = Ddt::WechatAccount.human_attribute_name(:app_secret)
+            \:
+          = @wechat_account.app_secret
+      %p
+        = link_to '删除此公众号', [:backend, @current_shop, @wechat_account], :method => :delete, :data => { :confirm => '确定删除要删除公众账号吗?一旦删除，数据将不可恢复' }, :class => "btn btn-xs btn-danger"
+
+
+= link_to t('Edit'), edit_backend_shop_wechat_account_path(@current_shop, @wechat_account), :class => "btn btn-primary btn-sm"
+\
+= link_to t('Back'), backend_shop_wechat_accounts_path(@current_shop), :class => "btn btn-default btn-sm"

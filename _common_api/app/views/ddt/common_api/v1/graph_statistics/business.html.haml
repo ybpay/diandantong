@@ -1,0 +1,112 @@
+.business-amount-chart
+.business-guest-num-chart
+:javascript
+  $(document).ready(function(){
+    $('.business-amount-chart').highcharts({
+      chart: {
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name}"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@actual_amount_statistic.tick_interval},
+        categories: #{raw @actual_amount_statistic.labels}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: ''
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        borderWidth: 0
+      },
+      series: [{
+        name: '实收额',
+        data: #{@actual_amount_statistic.query.values.map(&:to_f).to_json}
+      },{
+        name: '非实收额',
+        data: #{@not_actual_amount_statistic.query.values.map(&:to_f).to_json}
+      },{
+        name: '会员充值额',
+        data: #{@recharge_amount_statistic.query.values.map(&:to_f).to_json}
+      },{
+        name: '折扣金额',
+        data: #{@discount_amount_statistic.query.to_a.map{|_, amount| amount.to_f.abs}.to_json}
+      },{
+        name: '订单合计',
+        data: #{@order_sales_statistic.query.values.map(&:to_f).to_json}
+      },{
+        name: '单均',
+        data: #{
+          @order_sales_statistic.query.values.map(&:to_f).zip(
+            @guest_num_statistic.query.values
+          ).map{|amount, num| num > 0 ? (amount/num).round(2) : 0}.to_json
+        }
+      },{
+        name: '人均',
+        data: #{
+          @order_sales_statistic.query.values.map(&:to_f).zip(
+            @order_quantity_statistic.query.values
+          ).map{|amount, num| num > 0 ? (amount/num).round(2) : 0}.to_json
+        }
+      }]
+    });
+    $('.business-guest-num-chart').highcharts({
+      chart: {
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name}"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@guest_num_statistic.tick_interval},
+        categories: #{raw @guest_num_statistic.labels}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: ''
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        borderWidth: 0
+      },
+      series: [{
+        name: '客流人数',
+        data: #{@guest_num_statistic.query.values.to_json}
+      },{
+        name: '单数',
+        data: #{@order_quantity_statistic.query.values.to_json}
+      }]
+    });
+  });

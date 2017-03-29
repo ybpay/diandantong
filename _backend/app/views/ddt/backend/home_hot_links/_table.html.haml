@@ -1,0 +1,23 @@
+%table.table.table-striped.home-hot-links-table
+  %thead
+    %tr
+      %th.col-sm-2= Ddt::HomeHotLink.human_attribute_name(:label)
+      %th.col-sm-2= Ddt::HomeHotLink.human_attribute_name(:icon)
+      %th.col-sm-2= Ddt::HomeHotLink.human_attribute_name(:image)
+      %th.col-sm-4= Ddt::HomeHotLink.human_attribute_name(:link)
+      %th.col-sm-2
+
+  %tbody
+    - home_hot_links.each do |home_hot_link|
+      %tr
+        %td= home_hot_link.label
+        %td= home_hot_link_icon(home_hot_link)
+        %td= home_hot_link_image(home_hot_link)
+        %td= home_hot_link.link
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, :custom_weixin_info, home_hot_link], home_hot_links, home_hot_link)
+          = info_btn([:custom_weixin_info, home_hot_link])
+          = edit_btn([:custom_weixin_info, home_hot_link])
+          = delete_btn([:custom_weixin_info, home_hot_link])
+
+    = no_record_hint(home_hot_links)

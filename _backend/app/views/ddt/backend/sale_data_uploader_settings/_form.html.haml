@@ -1,0 +1,7 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @sale_data_uploader_setting], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@sale_data_uploader_setting)
+  - if current_account.is_admin?
+    = f.input :enable
+  = f.input :auto_upload_after_shift
+  .col-xs-offset-4
+    = f.button :submit, :class => "btn btn-primary"

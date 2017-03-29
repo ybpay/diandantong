@@ -1,0 +1,68 @@
+<div class="order-show has-footer">
+
+  <div ng-include src="partial('order/orders/show-order-state')"></div>
+  <div class="order-actions">
+    <a class="order-action-item" ng-click="go_page('main', '#/branches/'+branch.id)">
+      {{branch.name}}
+      <i class="weui_cell_ft"></i>
+    </a>
+    <a class="order-action-item weui_cells_access" ng-href="tel:{{branch.phone}}">
+      <div class="label">商家客服 </div>
+      <span class="right orange">{{branch.phone}}</span>
+    </a>
+    <a class="order-action-item weui_cells_access" ng-click="ask_for_invoice()" ng-if="can_ask_for_invoice()">
+      <div class="label">索要发票</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+    <a class="order-action-item weui_cells_access" ng-click="cancel()" ng-if="can_cancel()">
+      <div class="label">取消订单</div>
+      <i class="weui_cell_ft"></i>
+    </a>
+  </div>
+
+  <div class="line-items-section">
+    <div class="item">
+      订单号：{{::order.number}}
+    </div>
+    <div class="item">
+      点单时间：{{order.placed_at | date:'yyyy-MM-dd HH:mm'}}
+    </div>
+    <div class="item">
+      合计：<span class="red">{{order.item_count}}份</span>，<strong class="red">{{order.total|currency:currency}}</strong>
+      <span ng-if="enable_foreign &&order.tax_total>0">(税 {{order.tax_total|currency:currency}})</span><span ng-if='enable_foreign && order.tax_total==0'>（免税）</span>
+    </div>
+    <div class="item" ng-if="order.invoice">
+      发票类型: {{order.invoice.invoice_type}}
+    </div>
+    <div class="item" ng-if="order.invoice">
+      发票抬头: {{order.invoice.title}}
+    </div>
+
+
+    <div class="item" ng-repeat="line_item in order.line_items">
+      <div class="item-label">
+        <span ng-if="line_item.is_append" class="blue">[加]</span>
+        <span ng-if="line_item.is_subtract" class="red">[退]</span>
+        <span ng-if="line_item.gift" class="red">(赠)</span>
+        {{line_item.name_with_note}}
+        ×
+        <span ng-hide="line_item.is_subtract">{{line_item.active_quantity}}</span>
+        <span ng-show="line_item.is_subtract">{{line_item.quantity}}</span>
+        {{line_item.unit_name}}
+      </div>
+      <div class="item-subtotal">
+        <span class="total orange">{{line_item.total | currency: currency}}</span>
+        <span class="original-amount" ng-if="line_item.amount != line_item.total">{{line_item.amount|currency: currency}}</span>
+      </div>
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="order-info-section">
+    <div ng-repeat="item in order.order_items" class="item">
+        <span class="label">{{item.name}}</span>
+        <span class="value"> {{item.value}}</span>
+      </div>
+  </div>
+  <div ng-include src="partial('order/orders/show-footer')"></div>
+</div>

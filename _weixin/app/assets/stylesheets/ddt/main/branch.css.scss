@@ -1,0 +1,390 @@
+#ddb-branch-index {
+  background-color: white;
+  color: $gray;
+
+  .closed {
+    opacity: 0.4;
+  }
+  .branch-item {
+    padding-left: 8px;
+    border-bottom: 1px solid $light-gray;
+    background-color: white;
+    .branch-info {
+      display: block;
+      padding: 10px 8px 6px 70px;
+    }
+    .branch-image {
+      float: left;
+      margin-left: -70px;
+      width: 70px;
+      img {
+        width: 100%;
+        border: 1px solid $light-gray;
+        border-radius: 2px;
+      }
+    }
+    .branch-detail-info {
+      padding-left: 8px;
+      vertical-align: top;
+      .first-line, .second-line, .third-line {
+        width: 100%;
+      }
+      .first-line {
+        height: 24px;
+        line-height: 20px;
+        padding-bottom: 4px;
+        > div {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .tag {
+          line-height: 14px;
+        }
+        .name {
+          font-size: 16px;
+          color: $dark;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+      .second-line {
+        height: 24px;
+        font-size: 12px;
+        line-height: 24px;
+        > div {
+          display: inline-block;
+        }
+      }
+      .third-line {
+        font-size: 12px;
+        direction: rtl;
+        display: table;
+        > div {
+          display: table-cell;
+        }
+        .distance{
+          width: 60px;
+          min-width: 60px;
+        }
+        .address {
+          width:100%;
+          text-align: left;
+        }
+      }
+    }
+    .branch-promotions{
+      padding-left: 5px;
+      .detail-switch{
+        font-size: 14px;
+      }
+    }
+  }
+}
+
+#ddb-delivery-branch-index {
+  color: $dark-gray;
+  background-color: white;
+  .closed {
+    opacity: 0.4;
+  }
+  .branch-item {
+    padding-left: 8px;
+    border-bottom: 1px solid $light-gray;
+    background-color: white;
+    .branch-info {
+      display: block;
+      padding: 10px 8px 6px 70px;
+      border-bottom: 1px dotted $light-gray;
+    }
+    .branch-image {
+      float: left;
+      margin-left: -70px;
+      width: 70px;
+      min-width: 70px;
+      img {
+        width: 100%;
+        border: 1px solid $light-gray;
+        border-radius: 2px;
+      }
+    }
+    .delivery-info {
+      padding-left: 8px;
+      vertical-align: top;
+      .first-line, .second-line, .third-line {
+        width: 100%;
+      }
+      .first-line {
+        height: 24px;
+        line-height: 20px;
+        padding-bottom: 4px;
+        > div {
+          display: inline-block;
+          vertical-align: middle;
+        }
+        .name {
+          font-size: 16px;
+          color: $dark;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+        .tag {
+          font-size: 12px;
+          line-height: 14px;
+          border-radius: 1px;
+          padding: 1px 2px;
+        }
+        .sales {
+          font-size: 12px;
+          width: 80px;
+          float: right;
+          text-align: right;
+        }
+      }
+      .second-line {
+        height: 14px;
+        font-size: 12px;
+        line-height: 14px;
+        > div {
+          display: inline-block;
+        }
+      }
+      .third-line {
+        font-size: 12px;
+      }
+    }
+  }
+
+  .top-sales {
+    padding: 6px 8px 6px 0;
+    font-size: 12px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    border-top: 1px dashed $light-gray;
+  }
+}
+
+#ddb-delivery-branch-index, #ddb-branch-index {
+  .branch-item-table {
+    display:  table;
+    width: 100%;
+    .tags {
+      float: left;
+      margin-left: -5px;
+    }
+  }
+  .branch-item-tr {
+    display: table-row;
+  }
+  .tag {
+    font-size: 12px;
+    border-radius: 1px;
+    padding: 2px 2px;
+  }
+  .circle{
+    font-size: 12px;
+    border-radius: 1000px;
+    padding: 2px 2px;
+    width: 20px;
+    height:20px;
+    line-height:20px;
+  }
+  .tuans, .promotions {
+    .tuan, .promotion{
+      display: block;
+      border-top: 1px dotted $light-gray;
+      border-radius: 3px;
+      font-size: 13px;
+      padding: 4px;
+      margin: 0 8px 0px 0;
+    }
+  }
+  .branch-item.block {
+    display: table-cell;
+    margin: 10px 1%;
+    width: 31.3%;
+    text-align:center;
+    padding: 5px;
+    border-bottom: 0px;
+    .branch-info {
+      padding: 0;
+    }
+    .branch{
+      width: 100%;
+      height: 100px;
+      border: solid 1px #ccc;
+      padding: 5px;
+      .img{
+        width: 100%;
+        height: 100%;
+        .cover{
+          width: 100%;
+          height: 100%;
+          position: relative;
+          .label div{
+            display: block;
+            width: 18px;
+            height: 21px;
+            line-height: 21px;
+            font-size: 11px;
+            text-align: center;
+            margin-right: 4px;
+            margin-top: -2px;
+            float: left;
+          }
+          .rest{
+            width:50%;
+            float: right;
+          }
+          .branch_name{
+            width:100%;
+            height: 20px;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            text-align: center;
+            vertical-align: bottom;
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#branch-show {
+  background-color: $bg_color;
+  .branch-top {
+    background-color: white;
+  }
+  .branch-info {
+    border-bottom: 1px solid $light-gray;
+    padding: 10px 92px 10px 10px;
+    min-height: 72px;
+  }
+  .avatar {
+    float: right;
+    margin-right: -82px;
+    img {
+      width: 72px;
+      height: 72px;
+      border-radius: 4px;
+    }
+  }
+
+  .name {
+    font-size: 20px;
+    line-height: 24px;
+    color: $dark;
+    .tag {
+      font-size: 14px;
+      border-radius: 2px;
+      display: inline-block;
+      float: right; 
+      height: 24px;
+      padding: 0 8px;
+      line-height: 24px;
+      margin: 0 4px;
+    }
+  }
+  .comments-level, .average-consume {
+    line-height: 24px;
+    height: 24px;
+  }
+  .average-consume > div:first-child {
+    text-align: left;
+  }
+  .average-consume > div {
+    display: inline-block;
+    text-align: center;
+    margin-right: 10px;
+  }
+
+  .operation-nav-groups {
+    display: table;
+    width: 100%;
+  }
+  .operation-nav-group {
+    display: table-row;
+  }
+  
+  .operation-nav:last-child {
+    border-right: 0;
+  }
+  .operation-nav {
+    display: table-cell;
+    border-right: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+    width: 1%;
+    vertical-align: center;
+    padding: 10px 10px 10px 50px;
+    line-height: 30px;
+    font-size: 15px;
+    img {
+      float: left;
+      margin-left: -40px;
+      border-radius: 2px;
+      width: 30px;
+      height: 30px;
+    }
+  }
+
+  .more-info-section {
+    .facility {
+      margin-right: 10px;
+    }
+  }
+
+  .comments-section {
+    border-top: 1px solid $light-gray;
+    background-color: white;
+  }
+}
+
+#branch-introduction-page {
+  background-color: white;
+  padding: 10px;
+}
+
+#search_show {
+  margin-top: 0;
+}
+
+#search-word-page {
+  i.voice-input{
+    position: absolute;
+    left: 10px;
+    top: -2px;
+    line-height: 28px;
+  }
+
+  .keywords-section {
+    background-color: white;
+    display: table;
+    width: 100%;
+    margin-bottom: 10px;
+    .keyword-group {
+      display: table-row;
+      .keyword {
+        padding: 5px 0; 
+        text-align: center;
+        line-heihgt: 1.5em;
+        display: table-cell;
+        width: 1%;
+        border-right: 1px solid $light-gray;
+        border-bottom: 1px solid $light-gray;
+      }
+      .keyword:last-child {
+        border-right: 0;
+        .keyword {
+          border-bottom: 0;
+        }
+      }
+    }
+
+  }
+}

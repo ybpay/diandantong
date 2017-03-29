@@ -1,0 +1,21 @@
+%table.table.table-striped
+  %thead
+    %tr
+      %th.col-sm-1= Ddt::PayMethod.human_attribute_name(:code)
+      %th.col-sm-1= Ddt::PayMethod.human_attribute_name(:name)
+      %th.col-sm-1= Ddt::PayMethod.human_attribute_name(:enable)
+      %th.col-sm-1= Ddt::PayMethod.human_attribute_name(:percent_of_actual)
+      %th.col-sm-1= Ddt::PayMethod.human_attribute_name(:enable_negative)
+      %th.col-sm-2
+  %tbody
+    - pay_methods.each do |pay_method|
+      %tr
+        %td= pay_method.code
+        %td= pay_method.name
+        %td= pay_method.enable? ? '启用' : '禁用'
+        %td= "#{pay_method.percent_of_actual}%"
+        %td= pay_method.enable_negative? ? '允许' : ''
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, pay_method], pay_methods, pay_method)
+          = edit_btn(pay_method)
+          = delete_btn(pay_method) unless pay_method.builtin?

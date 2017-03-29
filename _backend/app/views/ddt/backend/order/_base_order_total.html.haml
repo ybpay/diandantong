@@ -1,0 +1,44 @@
+.clearfix
+
+.ibox-title
+  %h3= "订单支付项目"
+.ibox-content
+  - if order.paid? && order.total != order.pay_item_total
+    .alert.alert-danger
+      %strong 警告
+      %p
+        支付总额
+        = order.pay_item_total
+        与订单总额
+        = order.total
+        对不上，
+        差额
+        = order.pay_item_total - order.total
+      %p
+        造成数据不一致
+
+
+  %table.table.table-striped
+    %thead
+      %tr
+        %th.col-sm-1 支付方式
+        %th.col-sm-1 金额
+        %th.col-sm-1 支付状态
+        %th.col-sm-3 备注
+        %th.col-sm-2 支付时间
+        %th.col-sm-1
+    %tbody
+      - order.pay_items.each do |pay_item|
+        %tr
+          %td
+            - if pay_item.is_append?
+              = content_tag(:span, "加", class: "btn btn-xs btn-no-border label-danger")
+            = pay_item.name
+          %td= pay_item.amount_label
+          %td= pay_item.state_name
+          %td= pay_item.note
+          %td= pay_item.paid_at
+          %td
+            - if pay_item.is_append?
+              = link_to '删除', [:destroy_pay_item, :backend, @current_shop, order.branch, order, pay_item_id: pay_item.id], method: :put
+

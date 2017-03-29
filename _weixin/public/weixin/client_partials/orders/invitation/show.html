@@ -1,0 +1,74 @@
+<div id="invitation-page" class="main-view bg-red">
+
+    <div class="envelop">
+        <div class="inv-header">
+            <div class="inv-header-1">
+                尊敬的 {{user.name}} <span ng-if="user.sex == 1">先生</span><span ng-if="user.sex == 2">女士</span><span ng-if="user.sex == 0">先生/女士</span>
+            </div>
+            <div class="inv-header-2">
+                兹定于 {{order.reservation_date_str}} {{order.reservation_time_point_str}} 在 <a class="fa fa-map-marker orange" ng-click="go_branch()" target="_blank">
+                {{branch.name}}</a> {{order.reservation_table_str}} 邀请您举杯共聚。
+            </div>
+            <div class="inv-header-signature">
+                邀请人: {{order.user_name}} {{order.gender_name}}
+            </div>
+            <div class="options" ng-if="show_opinion_btn">
+                <div class="btn btn-agree" ng-click="agree()">确定赴宴</div>
+                <div class="btn btn-disagree" ng-click="disagree()">委婉拒绝</div>
+            </div>
+
+            <div ng-if="(!order.is_my_order) && !show_opinion_btn" class="red share-btn label-orange">您已经{{order.opinion ? '接受该邀请函' : '婉言拒绝该邀请函'}}
+                <span class="operation-button green" ng-click="toggle_show_option_btn()" ng-if="!order.is_my_order">改主意</span>
+            </div>
+
+            <div class="envelop-footer">
+                <a ng-click="go_map_link()" class="dark-gray">
+                    <i class="fa fa-map-marker"></i>
+                    到店导航
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="guest-list">
+        <div class="guest-list-title">同意列席好友名单</div>
+        <div class="no-record" ng-if="agree_guests.length == 0" >
+            暂未收到好友的同意
+        </div>
+        <div class="guest-item oveflow-ellipsis" ng-repeat="guest in agree_guests">
+            <img ng-src="{{guest.headimgurl}}"/>
+            {{guest.nickname}} <span ng-if="guest.sex == 1">先生</span><span ng-if="guest.sex == 2">女士</span><span ng-if="guest.sex == 0">先生/女士</span>
+        </div>
+    </div>
+    <div class="guest-list" ng-if="order.is_my_order && disagree_guests.length > 0">
+        <div class="guest-list-title">以下好友婉言拒绝了您的邀请</div>
+        <div class="guest-item oveflow-ellipsis" ng-repeat="guest in disagree_guests">
+            <img ng-src="{{guest.headimgurl}}"/>
+            {{guest.nickname}} <span ng-if="guest.sex == 1">先生</span><span ng-if="guest.sex == 2">女士</span><span ng-if="guest.sex == 0">先生/女士</span>
+        </div>
+    </div>
+
+</div>
+
+<div class="ddb-box share-nav" ng-show="show_share_nav" id="invitation-page-share-hint">
+        <div class="box-mask"></div>
+        <div class="alert-content">
+            <div class="share-pointer text-right">
+                <img height="45" ng-src="{{img_url('/images/ddt/share_pointer.png')}}" />
+            </div>
+            <div class="share-hint">
+                <div class="outline">
+                    <div class="hint">
+                        <span>“分享到朋友圈”</span>
+                        <span> 或 </span>
+                        <span>"发送给好友"</span>
+                        <br />
+                        <span>分享后可对好友发起邀请</span>
+                    </div>
+                    <div class="action">
+                        <a ng-click="iknow()" class="i-know">知道了</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>

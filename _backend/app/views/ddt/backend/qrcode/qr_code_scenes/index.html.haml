@@ -1,0 +1,26 @@
+%h3= "#{t('activerecord.models.ddt/qr_code_scene')} 列表"
+%p= "#{t('activerecord.description.ddt/qr_code_scene')}"
+.form-group
+  = search_form_for @q, url: [:backend, @current_shop, :qr_code_scenes], html: {class: 'form-inline pull-right', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+    = f.input_field :name_cont, placeholder: Ddt::QrCodeScene.human_attribute_name(:name), class: 'form-control'
+    = f.submit "搜索", class: 'btn btn-primary'
+  = link_to content_tag('i', "", class: "fa fa-plus") + " #{t('activerecord.models.ddt/qr_code_scene')}", new_backend_shop_qr_code_scene_path(@current_shop), :class=>"btn btn-primary btn-sm"
+.ibox-content
+  .row
+    - @qr_code_scenes.each do |qr_code_scene|
+      .col-lg-3.col-md-4.col-sm-6.col-xs-12
+        .contact-box
+          .col-sm-12
+            .text-center
+              %a{href: backend_shop_qr_code_scene_path(@current_shop, qr_code_scene)}
+                = image_tag qr_code_scene.url, width: '100%'
+              .m-t-xs.font-bold= qr_code_scene.name
+              .p
+                \ 扫描次数
+                = qr_code_scene.scan_times
+          .clearfix
+          = link_to '修改', edit_backend_shop_qr_code_scene_path(@current_shop, qr_code_scene), :data => {:rel=>'tooltip' }, :title => '编辑', class: 'btn btn-w-m btn-primary btn-block'
+          = link_to '删除', [:backend, @current_shop, qr_code_scene], :method => :delete, :data => { :confirm => '确定删除?', :rel=>'tooltip' }, :title => '删除', class: 'btn btn-w-m btn-white btn-block'
+  %br
+  .pull-right= will_paginate @qr_code_scenes , renderer: BootstrapPagination::Rails, bootstrap: 3
+  %br

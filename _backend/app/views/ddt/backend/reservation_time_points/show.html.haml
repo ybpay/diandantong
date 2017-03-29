@@ -1,0 +1,27 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h2= "#{t('activerecord.models.ddt/reservation_time_point')} 详情"
+    .ibox-content.header
+      .row
+        .col-sm-offset-1
+          %p
+            %b
+              = Ddt::ReservationTimePoint.human_attribute_name(:time_point)
+              \:
+            = @reservation_time_point.time_point.strftime('%H:%M')
+          %p
+            %b
+              = Ddt::ReservationTimePoint.human_attribute_name(:table_zone)
+              \:
+            = @reservation_time_point.table_zone.try(:name)
+          %p
+            %b
+              = Ddt::ReservationTimePoint.human_attribute_name(:branch)
+              \:
+            = @reservation_time_point.branch.name
+          .space
+
+        = link_to t('Edit'), edit_backend_shop_branch_reservation_time_point_path(@current_shop, @current_branch, @reservation_time_point), :class => "btn btn-primary btn-sm"
+        \
+        = link_to t('Back'), backend_shop_branch_reservation_time_points_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

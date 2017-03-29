@@ -1,0 +1,110 @@
+<h1>test</h1>
+<wp-btn ng-click="go('/');">返回</wp-btn>
+<wp-btn ng-click="toggle_jvk();">切换键盘<br/>{{enable_jvk ? '虚拟键盘' : '普通input'}}</wp-btn>
+<wp-btn class="show-in-tablet">tablet</wp-btn>
+<wp-btn class="show-in-desktop">desktop</wp-btn>
+<div class="clearfix"></div>
+<div class="wp-form-group">
+  <div class="wp-form-label">正整数</div>
+  <wp-input input-model="int1" input-type="number" input-size="small" input-restrict="^[0-9]{0,5}$"></wp-input>
+  <wp-input input-model="int1" input-type="number" input-size="normal" input-restrict="^[0-9]{0,5}$"></wp-input>
+  <wp-input input-model="int1" input-type="number" input-size="large" input-restrict="^[0-9]{0,5}$"></wp-input>
+</div>
+<div class="wp-form-group">
+  <div class="wp-form-label">小数</div>
+  <wp-input input-model="int2" input-type="number" input-size="small" input-restrict="^[0-9]{0,2}(\.[0-9]{0,2})?$"></wp-input>
+  <wp-input input-model="int2" input-type="number" input-size="normal" input-restrict="^[0-9]{0,2}(\.[0-9]{0,2})?$"></wp-input>
+  <wp-input input-model="int2" input-type="number" input-size="large" input-restrict="^[0-9]{0,2}(\.[0-9]{0,2})?$"></wp-input>
+</div>
+<div class="wp-form-group">
+  <div class="wp-form-label">字符串</div>
+  <wp-input input-model="str1" input-type="text" input-size="small"></wp-input>
+  <wp-input input-model="str1" input-type="text" input-size="normal"></wp-input>
+  <wp-input input-model="str1" input-type="text" input-size="large"></wp-input>
+</div>
+<div class="wp-form-group">
+  <div class="wp-form-label">下拉框</div>
+  <div class="wp-form-select">
+    <select class="wp-form-select-small" ng-model="sex" ng-options="sex.value as sex.label for sex in sex_collection"></select>
+  </div>
+</div>
+<wp-btn-lg>wp-btn-lg</wp-btn-lg>
+<wp-btn-md>wp-btn-md</wp-btn-md>
+<wp-btn>wp-btn</wp-btn>
+<wp-btn-sm>wp-btn-sm</wp-btn-sm>
+<wp-btn-xs>xs</wp-btn-xs>
+
+<div class="clearfix"></div>
+<h1>读卡器</h1>
+<wp-btn ng-click="find_card()">寻卡</wp-btn>
+<wp-btn ng-click="init_card()">初始化</wp-btn>
+<wp-btn ng-click="init_card_other()">初始化其他</wp-btn>
+<wp-btn ng-click="clear_card()">重置并清空卡片</wp-btn>
+<wp-btn ng-click="read()">读数据</wp-btn>
+<wp-btn ng-click="write()">写数据</wp-btn>
+
+<div class="clearfix"></div>
+<wp-btn ng-click="verify_vip()">验证会员</wp-btn>
+<div class="clearfix"></div>
+<h1>客显</h1>
+<wp-btn ng-click="display_data(0,'')">清屏</wp-btn>
+<wp-btn ng-click="display_data(1, '11.11')">单价</wp-btn>
+<wp-btn ng-click="display_data(2, '22.22')">合计</wp-btn>
+<wp-btn ng-click="display_data(3, '33.33')">收款</wp-btn>
+<wp-btn ng-click="display_data(4, '44.44')">找零</wp-btn>
+<div class="clearfix"></div>
+<h1>文字转语音</h1>
+<wp-btn ng-click="play('A002，点单通请用餐，A002，点单通请用餐了。')">文字转语音</wp-btn>
+<wp-btn ng-click="play('B002，点单通请用餐，B002，点单通请用餐了。')">文字转语音</wp-btn>
+<wp-btn ng-click="play('C002，点单通请用餐，C002，点单通请用餐了。')">文字转语音</wp-btn>
+<div class="wp-form-group">
+  <div class="wp-form-select">
+    <select class="wp-form-select-small" ng-model="vcn" ng-options="vcn.value as vcn.name for vcn in vcns"></select>
+  </div>
+  <div class="wp-form-select">
+    <select class="wp-form-select-small" ng-model="spd" ng-options="s as s for s in spds"></select>
+  </div>
+  <div class="wp-form-select">
+    <select class="wp-form-select-small" ng-model="vol" ng-options="s as s for s in vols"></select>
+  </div>
+</div>
+<div class="clearfix"></div>
+<h1>消息音</h1>
+<wp-btn ng-click="sound_play()">消息音</wp-btn>
+<wp-btn ng-click="check_flash()">check flash</wp-btn>
+<wp-btn ng-click="play_flash()">play flash</wp-btn>
+<div class="clearfix"></div>
+<h1>排号客显</h1>
+<wp-btn ng-click="qf.show()">show</wp-btn>
+<wp-btn ng-click="qf.hide()">hide</wp-btn>
+<wp-btn ng-click="qf.set_images_path('e:\images')">设置图片图路径</wp-btn>
+<wp-btn ng-click="qf.set_image_interval(1000)">图片间隔1000</wp-btn>
+<wp-btn ng-click="qf.set_image_interval(5000)">图片间隔5000</wp-btn
+<div class="clearfix"></div>
+<wp-btn ng-click="qf.set_queue_name(0, '小桌子(1-2人)')">set_queue_name</wp-btn>
+<wp-btn ng-click="qf.set_queue_head(0, 'A010')">set_queue_head</wp-btn>
+<wp-btn ng-click="qf.set_queue_length(0, 12)">set_queue_length</wp-btn>
+<wp-btn ng-click="qf.set_queue_info(0, '大桌子(1-2人)', 'B023', 34)">set_queue_info</wp-btn>
+<wp-btn ng-click="qf.clear_queue_info(0)">clear_queue_info</wp-btn>
+<div class="clearfix"></div>
+<wp-btn ng-click="qf.set_label_text(4, 'A123')">label_text</wp-btn>
+<wp-btn ng-click="qf.set_label_font_size(4, 40)">font_size(40)</wp-btn>
+<wp-btn ng-click="qf.set_label_font_size(4, 50)">font_size(50)</wp-btn>
+<wp-btn ng-click="qf.set_label_font_size(4, 60)">font_size(60)</wp-btn>
+<wp-btn ng-click="qf.set_label_color(4, '#ddd')">color(#ddd)</wp-btn>
+<wp-btn ng-click="qf.set_label_color(4, '#000')">color(#000)</wp-btn>
+<wp-btn ng-click="qf.set_label_color(4, '#fff')">color(#fff)</wp-btn>
+<div class="clearfix"></div>
+<h1>普通客显</h1>
+<wp-btn ng-click="ef.show()">show</wp-btn>
+<wp-btn ng-click="ef.hide()">hide</wp-btn>
+<wp-btn ng-click="ef.load_url('www.baidu.com')">www.baidu.com</wp-btn>
+<wp-btn ng-click="ef.load_url('')">''</wp-btn>
+<wp-btn ng-click="ef.load_url('about:blank')">blank</wp-btn>
+<wp-btn ng-click="ef.show_order(609)">order1</wp-btn>
+<wp-btn ng-click="ef.show_order(608)">order2</wp-btn>
+<wp-btn ng-click="show_qrcode()">show_qrcode</wp-btn>
+
+<div class="clearfix"></div>
+<h1>当前打印机</h1>
+<wp-btn ng-click="print()">测试打印</wp-btn>

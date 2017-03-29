@@ -1,0 +1,17 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/guest_queue')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  #guest-queue-index-body
+    - unless @current_branch.queue_settings.present?
+      您还没有设置队列信息，请先
+      = link_to '添加', new_backend_shop_branch_queue_setting_path(@current_shop, @current_branch)
+      队列信息
+    - @current_branch.queue_settings.of_enabled.each do |queue_setting|
+      %a.queue_setting{class: cycle('block-gray', 'block-red', 'block-primary', 'block-success', 'block-orange'), href: backend_shop_branch_queue_setting_guest_queues_path(@current_shop, @current_branch, queue_setting)}
+        .table-display
+          .name= "当前排队人数：#{queue_setting.guest_queues.with_queueing_state.count}"
+        .table-display
+          .queue-enabled= queue_setting.name
+    .clearfix

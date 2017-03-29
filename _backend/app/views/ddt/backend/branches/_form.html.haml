@@ -1,0 +1,166 @@
+-content_for(:header) do
+  :javascript
+    $(function(){
+      var hl = setInterval(function(){
+        if (typeof initPicker != 'undefined' && typeof mapType != 'undefined'){
+          clearInterval(hl);
+          console.info('initPicker ' + mapType);
+          initPicker(mapType);
+        }
+      }, 100);
+    });
+  - if @current_shop.enable_foreign
+    %script(type='text/javascript' charset='utf-8' src='http://maps.googleapis.com/maps/api/js?key=AIzaSyAKsneJMLye8Dp2pgon5MgSyNCPH2XJKu4&sensor=true')
+    :javascript
+      mapType = 'GMap';
+  - else
+    -#%script(type='text/javascript' src='http://api.map.baidu.com/api?v=2.0&ak=260893ecfda4ce562573eee22cd55070' charset='utf-8')
+    -#:javascript
+    -#  mapType = 'BMap';
+    %script(type='text/javascript' src='http://map.qq.com/api/js?v=2.exp&key=D6XBZ-7O2R5-P5HI6-QSCGE-33WGJ-DDFG4' charset='utf-8')
+    :javascript
+      mapType = 'TMap';
+= simple_nested_form_for([:backend, @current_shop, @branch], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@branch)
+
+  .form-inputs
+    .col-sm-6
+      = f.input :name, disabled: !(current_account.is_boss? || current_account.is_admin?)
+    .col-sm-6
+      - f.with_options disabled: !(current_account.is_admin? || current_account.is_boss?) do |f|
+        .charge_by_time
+          = f.input :expiration_time
+
+    .col-sm-6
+      .form-group
+        .col-sm-offset-4
+          = f.input_field :open_on_monday
+          = f.label :open_on_monday
+          = f.input_field :open_on_tuesday
+          = f.label :open_on_tuesday
+          = f.input_field :open_on_wednesday
+          = f.label :open_on_wednesday
+          = f.input_field :open_on_thursday
+          = f.label :open_on_thursday
+          = f.input_field :open_on_friday
+          = f.label :open_on_friday
+          = f.input_field :open_on_saturday
+          = f.label :open_on_saturday
+          = f.input_field :open_on_sunday
+          = f.label :open_on_sunday
+
+    .col-sm-6
+      .form-group
+        .col-sm-offset-4
+          = f.input_field :use_delivery_setting
+          = f.label :use_delivery_setting
+          = f.input_field :use_reservation_setting
+          = f.label :use_reservation_setting
+          = f.input_field :use_eat_in_hall_setting
+          = f.label :use_eat_in_hall_setting
+          = f.input_field :use_fastfood_setting
+          = f.label :use_fastfood_setting
+          = f.input_field :use_queue_setting
+          = f.label :use_queue_setting
+          = f.input_field :use_pay_online_setting
+          = f.label :use_pay_online_setting
+
+    .clearfix
+    .hr-line-dashed
+    .col-sm-6
+      #service-periods-section
+        = f.simple_fields_for :service_periods do |service_period|
+          - service_period.input Ddt::Branch.human_attribute_name('service_periods') do
+            = service_period.input_field :start_at, label: false, placeholder: Ddt::ServicePeriod.human_attribute_name(:start_at)
+            = service_period.input_field :end_at, label: false, placeholder: Ddt::ServicePeriod.human_attribute_name(:end_at)
+            = service_period.link_to_remove t('Destroy'), class: 'btn btn-danger btn-xs'
+      .form-group
+        .col-sm-offset-4
+          = f.link_to_add t('new service period'), :service_periods, :class=>'btn btn-success btn-xs', :data => { :target => "#service-periods-section" }
+        .clearfix
+    .clearfix
+    .hr-line-dashed
+    .col-sm-6
+      = f.input :notice, hint: '会显示在用户下单页面的门店通知', placeholder: '例如：本店正式试运营，全场5折优惠'
+    .col-sm-6
+      = f.input :note_placeholder, hint: '默认为：\"整单备注：例如 饮料不要加冰\"'
+    .col-sm-6
+      = f.input :phone
+    .col-sm-6
+      = f.input :longitude
+    .col-sm-6
+      = f.input :latitude, hint: raw('<a id="link-open-picker" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#cords-selector-map-modal">自动设置坐标</a>' + "地址没有填写时会帮您自动填写")
+    .col-sm-6
+      = f.input :address
+    .col-sm-6
+      = f.input :product_list_style, collection: Ddt::Branch.product_list_style_collection
+    .col-sm-6
+      = f.association :branch_type, collection: @current_shop.branch_types, hint: raw("如果没有门店类别，请点击#{link_to '创建门店类别', new_backend_shop_branch_type_path(@current_shop), target: '_blank', class: 'label label-info'}")
+    .col-sm-6
+      = f.input :branch_category, collection: Ddt::Branch.branch_category_collection[0..-2]
+    .col-sm-6= f.input :tag_names, input_html: { data: { useas: 'tag', url: backend_shop_tags_path(@current_shop), :"search-conditions" => {type_eq: 'Ddt::BranchTag'}, saved: @branch.saved_tags, placeholder: '为门店打上标签' }, class: 'ddb-select2'}, hint: '您可以输入新的标签， 使用逗号","或空格" "来分隔标签, 每个标签最多十个字符'
+    .col-sm-6= f.input :zone_ids_string, input_html: { data: { url: backend_shop_zones_path(@current_shop), saved: @branch.zones.map(&:select_json), placeholder: "请选择门店" }, class: 'ddb-select2'}
+    .clearfix
+    .hr-line-dashed
+    .col-sm-6= f.input :image, as: :image_preview, hint: '推荐图片尺寸为400×400'
+    .col-sm-6= f.input :rect_image, as: :image_preview, hint: '推荐图片尺寸为900x500'
+    .col-sm-6= f.input :introduction, :as => :ckeditor, :input_html => { :ckeditor => {:toolbar => 'mini'} }
+    = advanced_options do
+      .col-sm-6
+        = f.input :check_stock
+        = f.input :show_stock_quantity
+        = f.input :show_sale_quantity
+        = f.input :support_wifi
+        / 后台用来设置门店是否支持wifi堂点功能，开发中
+        / = f.input :support_wifi_order
+        = f.input :support_parking
+        = f.input :support_invoice, hint: '目前仅支持微信用户对堂点、外送订单索取发票，预订订单暂不支持'
+      .col-sm-6
+        = f.input :share_multi_promotion, hint: '当勾选了该选项， 优惠会同享，会产生折上折的情况，请知晓'
+        = f.input :promotion_in_webpos, hint: '开启在收银端计算优惠会减慢下单速度，请商家根据实际情况决定'
+        - if current_account.is_boss? || current_account.is_admin?
+          = f.input :enable_tts_local
+        = f.input :enable_user_location_limitation
+        = f.input :auto_publish_comment
+      .clearfix
+      .hr-line-dashed
+      .col-sm-6= f.input :moling_auto
+      .clearfix
+      .col-sm-6= f.input :moling_type, as: :radio_buttons, collection: Ddt::Branch.moling_type_collection, wrapper: :horizontal_radio_and_checkboxes
+      .col-sm-6= f.input :moling_precision, as: :radio_buttons, collection: Ddt::Branch.moling_precision_collection, wrapper: :horizontal_radio_and_checkboxes
+      .col-sm-6
+        = f.input :table_sticker_custom_line1
+        = f.input :table_sticker_custom_line2
+
+      .clearfix
+      .hr-line-dashed
+      .col-sm-6
+        = f.input :wechat_no
+        = f.input :qq_no
+        = f.input :hasten_minute_since_place
+      .col-sm-6
+        = f.input :parking_space_count
+
+    .clearfix
+
+  .form-actions.col-xs-offset-2
+    = f.button :submit
+
+
+#cords-selector-map-modal.modal.inmodal.fade{ role: "dialog" }
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{:type=>"button", :data =>{ :dismiss => 'modal'}}
+          %span{:"aria-hidden"=>"true"} &times;
+          %span.sr-only Close
+        %h4.modal-title#cords-selector-map-modal-label 选择门店位置
+      .modal-body
+        .alert.alert-danger= raw("如地图无法成功加载，请您尝试刷新或安装<a href='http://www.google.cn/intl/zh-CN/chrome/'>google chrome</a>浏览器进行访问。将光标定位至正确的位置。<br>当前位置为<span id='modal-address'></span><span id='modal-longitude'></span>,<span id='modal-latitude'></span>")
+        #cords-selector-map{ style: 'height: 400px; '}
+      .modal-footer
+        %button.btn.btn-default{:type=>"button", :"data-dismiss"=>"modal"} 关闭
+        %button#btn-save-point.success.btn.btn-primary{:type=>"button", :"data-dismiss"=>"modal"} 选择该地址
+
+
+

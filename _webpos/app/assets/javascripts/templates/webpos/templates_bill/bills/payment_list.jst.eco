@@ -1,0 +1,32 @@
+<div class="main-part" wp-scroll-zone ng-show="active_menu.tag == 'payment_list'">
+    <div class="payment_list" >
+        <wp-datetime-input class="left" input-type="datetime" input-model="params.start_time" placeholder="起始时间"></wp-datetime-input>
+        <wp-datetime-input class="left" input-type="datetime" input-model="params.end_time" placeholder="结束时间"></wp-datetime-input>
+        <wp-btn-sm ng-click="search_payment_list()">查询</wp-btn-sm>
+        <wp-btn-sm ng-click="print_payment_list()">打印</wp-btn-sm>
+        <div class="wp-subject col-xs-12" ng-show="payment_list.from_cache">以下是缓存的查询结果，查询最新数据请点击<a ng-click="search_payment_list({refresh: true})">这里</a></div>
+        <table class="wp-table-sm" ng-show="payment_list.items">
+            <thead>
+            <th width="1%">单号</th>
+            <th width="1%">金额</th>
+            <th width="1%">支付方式</th>
+            <th width="1%">状态</th>
+            <th width="1%">交易号</th>
+            <th width="1%">创建时间</th>
+            <th width="1%">删除时间</th>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in payment_list.items"
+                ng-class="{odd: $index % 2 == 0}">
+                <td>{{::item.order_number}}</td>
+                <td>{{::item.amount}}</td>
+                <td>{{::item.payment_method_name}}</td>
+                <td ng-class="item.state">{{::item.state_name}}</td>
+                <td>{{::item.out_trade_no}}</td>
+                <td>{{::item.created_at}}</td>
+                <td>{{::item.deleted_at}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

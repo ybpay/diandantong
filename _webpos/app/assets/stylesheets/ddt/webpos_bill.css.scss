@@ -1,0 +1,17 @@
+// vendor
+@import "bootstrap";
+@import "bootstrap-datetimepicker";
+@import "font-awesome";
+
+// common
+@import "common/variable";
+@import "common/mixins";
+@import "common/base";
+
+// custom
+@import "webpos_common/*";
+@import "webpos_common/**/*";
+@import "webpos_bill/*";
+// @import "webpos_bill/**/*";
+
+.lh-50 { line-height: 50px;}

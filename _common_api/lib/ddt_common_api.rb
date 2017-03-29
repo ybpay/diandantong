@@ -1,0 +1,1 @@
+require 'ddt/common_api'

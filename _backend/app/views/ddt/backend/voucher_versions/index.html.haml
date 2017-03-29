@@ -1,0 +1,45 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    .header
+      %h3= "#{t('activerecord.models.ddt/voucher_version')} 列表"
+
+    .form-group
+      = link_to "新建 #{t('activerecord.models.ddt/voucher_version')}", new_backend_shop_voucher_version_path(@current_shop), :class=>"btn btn-primary btn-sm"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+              %th.col-sm-1= sort_link(@q, :name, Ddt::VoucherVersion.human_attribute_name(:name))
+              %th.col-sm-1= sort_link(@q, :usable_starts_at, Ddt::VoucherVersion.human_attribute_name(:usable_starts_at))
+              %th.col-sm-1= sort_link(@q, :usable_expires_at, Ddt::VoucherVersion.human_attribute_name(:usable_expires_at))
+              %th.col-sm-1= sort_link(@q, :sellable_starts_at, Ddt::VoucherVersion.human_attribute_name(:sellable_starts_at))
+              %th.col-sm-1= sort_link(@q, :max_grant_limit, Ddt::VoucherVersion.human_attribute_name(:max_grant_limit))
+              %th.col-sm-1= sort_link(@q, :support_refund, Ddt::VoucherVersion.human_attribute_name(:support_refund))
+              %th.col-sm-1= sort_link(@q, :refundable_days_after_send, Ddt::VoucherVersion.human_attribute_name(:refundable_days_after_send))
+              %th.col-sm-1= "适用门店"
+              %th.col-sm-1
+
+          %tbody
+            - @voucher_versions.each do |voucher_version|
+              %tr
+                %td= voucher_version.name
+                %td= voucher_version.usable_starts_at
+                %td= voucher_version.usable_expires_at
+                %td= "#{voucher_version.sellable_starts_at} ~ #{voucher_version.sellable_expires_at}"
+                %td= voucher_version.max_grant_limit
+                %td= voucher_version.support_refund ? '是' : '否'
+                %td= voucher_version.refundable_days_after_send
+                %td= voucher_version.branch_names
+                %td
+                  = info_btn(voucher_version)
+                  = edit_btn(voucher_version)
+                  = delete_btn(voucher_version)
+            = no_record_hint(@voucher_versions)
+        %br
+        .pull-right= will_paginate @voucher_versions , renderer: BootstrapPagination::Rails, bootstrap: 3
+        %br

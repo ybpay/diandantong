@@ -1,0 +1,13 @@
+defaults: &defaults
+  gonghao_open_id:
+  appid:
+  appSecret:
+  mch_id:
+  paySignKey:
+development:
+  <<: *defaults
+test:
+  <<: *defaults
+production:
+  <<: *defaults
+  

@@ -1,0 +1,10 @@
+.sharable-coupon-page {
+  background-color: $color-red;
+  color: white;
+  .note {
+    padding: 10px;
+    color: $gray-light;
+    margin-left: 20px;
+    border-left: 3px solid $gray-lighter;
+  }
+}

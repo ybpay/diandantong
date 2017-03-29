@@ -1,0 +1,44 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/qr_code_assign_log')} 列表"
+
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .form-group
+          = search_form_for @q, url: backend_qr_code_assign_logs_path, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+            = f.input_field :count_eq, placeholder: '编号', class: "form-control"
+            = f.input_field :shop_id_eq, placeholder: '点账号ID', class: "form-control"
+            = f.input_field :branch_id_eq, placeholder: '门店ID', class: "form-control"
+            = f.submit "搜索", class: 'btn btn-default'
+    .row
+      .col-sm-12
+        = link_to "新建", new_backend_qr_code_assign_log_path, :class=>"btn btn-primary"
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::QrCodeAssignLog.human_attribute_name(:id)
+                %th.col-sm-1= Ddt::QrCodeAssignLog.human_attribute_name(:count)
+                %th.col-sm-1= Ddt::QrCodeAssignLog.human_attribute_name(:shop)
+                %th.col-sm-1= Ddt::QrCodeAssignLog.human_attribute_name(:branch)
+                %th.col-sm-1= Ddt::QrCodeAssignLog.human_attribute_name(:created_at)
+                %th.col-sm-1= Ddt::QrCodeAssignLog.human_attribute_name(:updated_at)
+                %th.col-sm-2
+            %tbody
+              - @qr_code_assign_logs.each do |qr_code_assign_log|
+                %tr
+                  %td= qr_code_assign_log.id
+                  %td= qr_code_assign_log.count
+                  %td= qr_code_assign_log.shop.try(:name)||qr_code_assign_log.shop_id
+                  %td= qr_code_assign_log.branch.try(:name)||qr_code_assign_log.branch_id
+                  %td= qr_code_assign_log.created_at
+                  %td= qr_code_assign_log.updated_at
+                  %td
+                    = link_to t('Show'), [:backend, qr_code_assign_log]
+

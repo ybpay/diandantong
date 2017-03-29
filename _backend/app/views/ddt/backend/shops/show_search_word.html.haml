@@ -1,0 +1,11 @@
+.header
+  %h2 个性化详情
+
+.model-show
+  %p
+    %b
+      = Ddt::Shop.human_attribute_name(:search_words)
+      \:
+    = @shop.splited_search_words.join(", ")
+  .space
+= link_to t('Edit'), edit_search_word_backend_shop_path(@shop), :class => "btn btn-primary btn-sm"

@@ -1,0 +1,17 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          .alert.alert-warning
+            当前编辑的地区为
+            = @agent_zone.name
+            ，代理商
+            = @agent_rel.agent.name
+            的权重
+            %br
+            请确保一个地区内，权重之和为100.
+
+          = simple_form_for [:backend, @agent_zone, @agent_rel], html: {class: 'form-horizontal', role: "form", } do |f|
+            = f.input :weight
+            = f.submit "保存", class: 'btn btn-sm btn-success'

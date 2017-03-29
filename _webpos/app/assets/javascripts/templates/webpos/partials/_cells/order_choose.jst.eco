@@ -1,0 +1,258 @@
+<div class="master-part" ng-controller="orderChooseCell" wp-scroll-zone>
+  <div class="wp-subject" ng-if="vip_info">当前查看的是用户： {{::vip_info.name}} 的订单</div>
+  <div class="order-types-index">
+    <wp-btn ng-repeat="order_type in order_types"
+            ng-click="change_active_order_type(order_type)"
+            ng-class="{'active':active_order_type === order_type}"
+            ng-hide="bind_reservation_order && order_type.value != 'Ddt::ReservationOrder'">
+            {{::order_type.label}}
+            <span class="point-number" ng-show="pending_counts[order_type.value]">{{pending_counts[order_type.value]}}</span>
+    </wp-btn>
+
+
+    <wp-btn ng-click="search_by_key('number_eq')"
+            ng-class="{'active': key=='number_eq'}"
+            >按单号</wp-btn>
+    <wp-btn ng-click="search_by_key('food_number_eq')"
+            ng-class="{'active': key=='food_number_eq'}"
+            >按牌号</wp-btn>
+
+    <wp-btn ng-click="search_by_key('table_name_cont')"
+            ng-class="{'active': key=='table_name_cont'}"
+            ng-hide="bind_reservation_order"
+            >按桌台</wp-btn>
+
+    <wp-btn ng-click="search_by_key('by_phone')"
+            ng-class="{'active': key=='by_phone'}"
+            >按电话</wp-btn>
+
+    <wp-btn ng-click="search_by_key('reservation_info_reservation_date_cont')"
+            ng-class="{'active': key=='reservation_info_reservation_date_cont'}"
+            >按预订日期</wp-btn>
+
+    <wp-btn ng-click="search_by_key('shipment_delivery_time_cont')"
+            ng-class="{'active': key=='shipment_delivery_time_cont' }"
+            ng-hide="bind_reservation_order"
+            >按外送时间</wp-btn>
+
+    <wp-btn ng-click="search_by_key('placed_at_date_cont')"
+            ng-class="{'active': key=='placed_at_date_cont'}"
+            >按下单时间</wp-btn>
+
+    <wp-btn ng-click="search_by_key('pay_item_state_paid'); filter()"
+          ng-class="{'active': key=='pay_item_state_paid' }"
+          >已结账</wp-btn>
+    <wp-btn ng-click="search_by_key('pay_item_state_unpaid'); filter()"
+          ng-class="{'active': key=='pay_item_state_unpaid' }"
+          >未结账</wp-btn>
+
+      <wp-btn ng-class="{'active': is_filter }"
+            ng-click="set_flag('is_filter')"
+            ng-hide ="bind_reservation_order">过滤订单</wp-btn>
+    <wp-btn ng-class="{'active': is_batch_op }"
+            ng-click="set_flag('is_batch_op')"
+            ng-show="can('branch','order','cancel') && !bind_reservation_order">批量操作</wp-btn>
+
+    <div class="space"></div>
+
+    <div ng-show='is_filter'>
+      <div class="wp-subject">过滤订单</div>
+      <div class="wp-form-group">
+      <div class="wp-form-select">
+        <select class="wp-form-select-small"
+                ng-model="order_type"
+                >
+            <option value="{{order_type.value}}" ng-repeat="order_type in order_types">{{order_type.label}}</option>
+        </select>
+      </div>
+      <div class="wp-form-select">
+        <select class="wp-form-select-small"
+                ng-model="order_state"
+                >
+            <option value="">订单状态</option>
+            <option value="{{order_state.value}}" ng-repeat="order_state in order_states">{{order_state.label}}</option>
+        </select>
+      </div>
+      <div class="wp-form-select">
+        <select class="wp-form-select-small"
+                ng-model="pay_method"
+                >
+            <option value="">支付方式</option>
+            <option value="{{pay_method.value}}" ng-repeat="pay_method in pay_methods">{{pay_method.label}}</option>
+        </select>
+        <select class="wp-form-select-small"
+                ng-model="pay_item_state">
+          <option value="">支付状态</option>
+          <option value="none">空</option>
+          <option value="unpaid">未支付</option>
+          <option value="paid">已支付</option>
+        </select>
+      </div>
+        <div class="wp-form-action">
+          <wp-btn ng-click="filter()">过滤</wp-btn>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="is_batch_op">
+      <div class="wp-subject">选择后点击您要的操作</div>
+      <wp-btn ng-click="batch_change_state('confirmed')">确认</wp-btn>
+      <wp-btn ng-click="batch_change_state('completed')">完成</wp-btn>
+      <wp-btn ng-click="batch_change_state('canceled')">取消</wp-btn>
+      <div class="space"></div>
+    </div>
+
+    <div ng-show="key=='by_phone'">
+      <div class="wp-subject">请选择搜索范围，再输入客人电话</div>
+      <div class="wp-form-group">
+        <div class="wp-form-select">
+          <select class="wp-form-select-small"
+                  ng-model="search_order_type">
+            <option value="Ddt::DeliveryOrder">外卖订单</option>
+            <option value="Ddt::ReservationOrder">预订订单</option>
+          </select>
+          <wp-input input-model="search_key" ng-show="search_order_type" input-type="text"></wp-input>
+          <wp-btn ng-click="search()">确定</wp-btn>
+        </div>
+      </div>
+      <div class="space"></div>
+    </div>
+
+    <div ng-show="key=='number_eq'">
+      <div class="wp-subject">输入完整订单号</div>
+      <div class="wp-form-group">
+        <wp-input class='search-by-number' input-model="search_key" input-type="text"></wp-input>
+        <wp-btn wp-click="search()">确定</wp-btn>
+      </div>
+      <div class="space"></div>
+    </div>
+
+    <div ng-show="key=='food_number_eq'">
+      <div class="wp-subject">请输入牌号</div>
+      <div class="wp-form-group">
+        <wp-input class='search-by-number' input-model="search_key" input-type="text"></wp-input>
+        <wp-btn wp-click="search()">确定</wp-btn>
+      </div>
+      <div class="space"></div>
+    </div>
+
+    <div ng-show="key=='table_name_cont'">
+      <div class="wp-subject">选择桌台</div>
+      <div class="wp-form-group">
+        <wp-input input-model="search_key" input-type="text" placeholder="桌台名称"></wp-input>
+        <div class="wp-form-select">
+          <select class="wp-form-select-small"
+                  ng-model="search_key"
+                  ng-change="search()">
+            <option value="{{table.name}}" ng-repeat="table in tables">{{table.name}}
+            </option>
+          </select>
+        </div>
+        <wp-btn ng-click="search()">确定</wp-btn>
+      </div>
+    </div>
+
+    <div ng-show="key=='reservation_info_reservation_date_cont'">
+      <div class="wp-subject">选择预定日期</div>
+        <div class="wp-form-group">
+          <div class="wp-form-select">
+            <select class="wp-form-select-small"
+                    ng-model="search_key"
+                    ng-change="search()">
+              <option value="{{reservation_date.date_str}}" ng-repeat="reservation_date in reservation_dates">{{reservation_date.first_label}}
+              </option>
+            </select>
+          </div>
+
+          <!-- <wp-btn ng-click="reservation()" ng-class="">按预订日期排序</wp-btn> -->
+
+        </div>
+    </div>
+
+    <div ng-show="key=='placed_at_date_cont'">
+      <div class="wp-subject">选择下单日期</div>
+      <div class="wp-form-group">
+        <div class="wp-form-select">
+          <select class="wp-form-select-small"
+                  ng-model="search_key"
+                  ng-change="search()">
+            <option value="{{placed_at_date.date_str}}" ng-repeat="placed_at_date in placed_at_dates">{{placed_at_date.first_label}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div ng-show="key=='shipment_delivery_time_cont'">
+      <div class="wp-subject">选择外送时间</div>
+      <div class="wp-form-group">
+        <div class="wp-form-select">
+          <select class="wp-form-select-small"
+                  ng-model="search_delivery_date"
+                  ng-change="search()">
+            <option value="{{delivery_date.date_str}}" ng-repeat="delivery_date in delivery_dates">{{delivery_date.first_label}}</option>
+          </select>
+        </div>
+        <div class="wp-form-select" ng-show="delivery_times && delivery_times.length > 0">
+          <select class="wp-form-select-small"
+                  ng-model="search_delivery_time_id"
+                  ng-change="search()">
+            <option value="{{delivery_time.id}}" ng-repeat="delivery_time in delivery_times">{{delivery_time.display}}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="orders-index">
+    <div class="wp-subject">订单列表</div>
+    <div class="wp-table">
+      <wp-table-row>
+        <div class="wp-table-col col-1" ng-show="is_batch_op">请选择</div>
+        <div class="wp-table-col col-1">序号</div>
+        <div class="wp-table-col col-2">订单号</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_fastfood()">牌号</div>
+        <div class="wp-table-col col-2" ng-show="lock_in_eat_in_hall() || filter_by_table()">桌台信息</div>
+        <div class="wp-table-col col-2" ng-show="lock_in_reservation() || lock_in_delivery()">联系人信息</div>
+        <div class="wp-table-col col-3" ng-show="lock_in_reservation() || filter_by_reservation_time()">预订时间</div>
+        <div class="wp-table-col col-3" ng-show="lock_in_delivery()">收货地址</div>
+
+        <div class="wp-table-col col-2" ng-show="active_order_type == null">订单类型</div>
+        <div class="wp-table-col col-2">订单状态</div>
+        <div class="wp-table-col col-2">下单方式</div>
+        <div class="wp-table-col col-2">支付方式</div>
+        <div class="wp-table-col col-2">订单总价</div>
+        <div class="wp-table-col col-2">应收</div>
+        <div class="wp-table-col col-2">付款状态</div>
+        <div class="wp-table-col col-3">下单时间</div>
+
+      </wp-table-row>
+      <wp-table-row ng-repeat="order in orders"
+                    ng-click="choose_order(order, $event)"
+                    ng-class="{'active':order == active_order}">
+        <div class="wp-table-col col-1" mk="true" ng-show="is_batch_op">
+          <wp-marker marked="order.marked"></wp-marker>
+        </div>
+
+        <div class="wp-table-col col-1">{{page_orders.current_index() + $index + 1}}</div>
+        <div class="wp-table-col col-1">{{::order.number}}</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_fastfood()">{{::order.food_number}}</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_eat_in_hall() || filter_by_table()">{{::order.table_name}}</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_reservation()">{{::order.reservation_customer_info}}</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_reservation() || filter_by_reservation_time()">{{::order.reservation_time_info}}</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_delivery()">{{::order.contact_info}}</div>
+        <div class="wp-table-col col-1" ng-show="lock_in_delivery()">{{::order.address}}</div>
+        <div class="wp-table-col col-1" ng-show="active_order_type == null">{{::order.type_name}}</div>
+        <div class="wp-table-col col-1" ng-class="{'pending': 'red', 'confirmed': 'green'}[order.state]">{{::order.state_name}}</div>
+        <div class="wp-table-col col-1">{{::order.place_type_name}}</div>
+        <div class="wp-table-col col-1">{{::order.pay_method_name}}</div>
+        <div class="wp-table-col col-1">{{::order.total|currency:shop.currency}}</div>
+        <div class="wp-table-col col-1">{{::order.amount_for_pay|currency:shop.currency}}</div>
+        <div class="wp-table-col col-1">{{::order.pay_item_state_name}}</div>
+        <div class="wp-table-col col-1">{{::order.placed_at|date: 'yyyy-MM-dd HH:mm'}}</div>
+
+      </wp-table-row>
+    </div>
+    <div class="wp-no-record" ng-hide="orders.length > 0">当前尚没有记录</div>
+    <wp-paginate page-model="page_orders"></wp-paginate>
+  </div>
+</div>

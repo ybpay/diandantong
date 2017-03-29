@@ -1,0 +1,3 @@
+bootbox.hideAll();
+$("#_<%= @time_interval.id%>").replaceWith("<%= j render partial: 'tr', locals: {time_interval: @time_interval} %>");
+bootbox.alert("操作成功");

@@ -1,0 +1,70 @@
+<div id="login-page" class="row">
+    <div class="jvk-btn" ng-click="toggle_jvk();" ng-class="{active: enable_jvk}" title="虚拟键盘"><i class="fa fa-keyboard-o"></i></div>
+    <div class="login-form">
+        <div class="login-form-header">
+        </div>
+        <div class="login-form-title">
+            {{shop.name}} 云餐厅收银系统
+        </div>
+        <div class="login-form-group">
+            <div class="login-form-input">
+                <span class="addon"><i class="fa fa-user"></i></span>
+                <input type="text" placeholder="企业账号" ng-model="login_main" ng-hide="enable_jvk"
+                       ng-keyup="$event.keyCode == 13 && submit()"
+                        >
+
+                <div
+                    id="jvk_input_login_main"
+                    class="input"
+                    data-ng-model="login_main"
+                    data-ng-keypad-input="text"
+                    ng-show="enable_jvk"
+                        >
+                    <span>{{login_main || '企业账号'}}</span>
+                </div>
+            </div>
+
+            <div class="login-form-input" ng-hide="login_type == 'main'">
+                <span class="addon"><i class="fa fa-user"></i></span>
+                <input type="text" placeholder="员工账号" ng-model="login_sub" ng-hide="enable_jvk"
+                       ng-keyup="$event.keyCode == 13 && submit()"
+                        >
+
+                <div
+                    id="jvk_input_login_sub"
+                    class="input"
+                     data-ng-model="login_sub"
+                     data-ng-keypad-input="text"
+                     ng-show="enable_jvk"
+                        >
+                    <span>{{login_sub || '员工账号'}}</span>
+                </div>
+            </div>
+
+            <div class="login-form-input">
+                <span class="addon"><i class="fa fa-lock"></i></span>
+                <input type="password" placeholder="密码" ng-model="account.password" ng-hide="enable_jvk"
+                       ng-keyup="$event.keyCode == 13 && submit()"
+                        >
+
+                <div
+                     id="jvk_input_password"
+                     class="input input-password"
+                     data-ng-model="account.password"
+                     data-ng-keypad-input="text"
+                     ng-show="enable_jvk"
+                        >
+                    <span>{{(account.password | password) || '密码'}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="login-changes">
+            <div class="login-sub" ng-click="login_type='sub'" ng-class="{active: login_type == 'sub'}">员工登录</div>
+            <div class="login-main" ng-click="login_type='main'" ng-class="{active: login_type == 'main'}">管理员登录</div>
+        </div>
+        <!-- <label>
+            <input type="checkbox" class="login-form-input" ng-model="account.remember_me"> 自动登陆</input>
+        </label> -->
+        <div class="login-form-btn" ng-click="submit()">点击登录</div>
+    </div>
+</div>

@@ -1,0 +1,17 @@
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs#groupon-tabs
+            %li{class: ('active' if controller_name == 'coupon_versions')}
+              = link_to t('activerecord.models.ddt/coupon_version'), backend_shop_coupon_versions_path(@current_shop)
+            %li{class: ('active' if controller_name == 'coupons' && !%W[new create].include?(action_name))}
+              = link_to t('activerecord.models.ddt/coupon'), backend_shop_coupons_path(@current_shop)
+            %li{class: ('active' if controller_name == 'coupons' && %W[new create].include?(action_name))}
+              = link_to t('new coupon'), new_backend_shop_coupon_path(@current_shop)
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend"

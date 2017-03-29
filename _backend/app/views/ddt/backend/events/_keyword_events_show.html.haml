@@ -1,0 +1,28 @@
+.keyword_autoreply_config_form
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-1= Ddt::Event.human_attribute_name(:event_key)
+      %th.col-sm-1= Ddt::Event.human_attribute_name(:material)
+      %th.col-sm-1= Ddt::Event.human_attribute_name(:system_keyword)
+      %th.col-sm-1
+
+  %tbody.events
+    - @keyword_events.each do |event|
+      %tr{id: event.id}
+        %td= event.event_key
+        -if event.material
+          %td
+            = event.material.material_name
+            = link_to tag(:icon,:class=>"fa fa-eye"), backend_shop_material_path(@current_shop,event.material),:title => '查看该素材',  remote: true
+        -else
+          %td
+        -if event.system_keyword
+          %td= Ddt::Event::system_keyword_name(event.system_keyword_with_prefix.to_sym)
+        -else
+          %td
+        %td
+          = link_to '编辑', edit_backend_shop_event_path(@current_shop, event),  remote: true
+          = link_to '删除', [:backend, @current_shop, event], :method => :delete, :data => { :confirm => '确定删除?' }, remote: true
+%br

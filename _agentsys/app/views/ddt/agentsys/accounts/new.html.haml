@@ -1,0 +1,18 @@
+
+.col-sm-6
+  = simple_form_for ([:agentsys,@account]), html: {class: "form-horizontal", role: "form"} do |f|
+    - if @account.errors.any?
+      #error_explanation.alert.alert-danger
+        %h2= "#{@account.errors.count}个错误导致无法正确保存:"
+        %ul
+          - @account.errors.full_messages.each do |msg|
+            %li= msg    
+
+    = f.input :name, required: true, placeholder: '客户姓名'
+    = f.input :login_id, required: true, placeholder: '登录用户名', hint: '同时将作为企业账号'
+    = f.input :phone, required: true, placeholder: '客户手机'
+    = f.input :email, required: true, placeholder: '客户邮箱'
+    = f.input :password, required: true, placeholder: '输入密码', hint:'8位以上字母或数字,且必须字母开头'
+    = f.input :password_confirmation, required: true, placeholder: '重复输入密码'
+    .col-sm-offset-4
+      = f.submit '提交', class: 'btn btn-primary'

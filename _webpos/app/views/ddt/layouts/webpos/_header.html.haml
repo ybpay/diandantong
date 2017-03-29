@@ -1,0 +1,24 @@
+%meta{charset: 'utf-8'}
+%meta{name: 'keywords', content: ""}
+%meta{name: 'description', content: ""}
+%meta{name: 'author', content: ""}
+%meta{name: 'env', content: "#{Rails.env}"}
+%meta{name: 'account', content: @account_info || "{}" }
+%meta{:content => 'width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no', :name => 'viewport'}/
+%meta{http: {equiv: 'X-UA-Compatible'}, content: 'IE=EmulateIE9'}
+%meta{name: 'cdn_cache_domain', content: Rails.application.config.action_controller.asset_host}
+%meta{name: 'system_time' , content: (Time.now.to_f * 1000).to_i}
+%meta{name: 'extended_form_js_url', content: javascript_url('ddt/extended_form')}
+%meta{name: 'extended_form_css_url', content: stylesheet_url('ddt/extended_form')}
+%meta{name: 'root_url', content: asset_root_url }
+%meta{name: 'host_name', content: request.host }
+%meta{name: 'webpos-channel', content:  Ddt::WebposNotify.channel(nil)}
+= csrf_meta_tags
+/[if IE]
+  = javascript_include_tag "compatibility_alert"
+/[if lt IE 9]
+  = javascript_include_tag "/assets/js/html5shiv.js"
+  = javascript_include_tag "/assets/js/respond.min.js"
+  = javascript_include_tag "json3.min"
+
+%title 云餐厅收银系统

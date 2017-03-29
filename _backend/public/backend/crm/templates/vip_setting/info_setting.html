@@ -1,0 +1,118 @@
+<md-content layout="column" layout-padding layout-margin>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">显示信息</label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-checkbox class="md-primary" ng-model="setting.name_display">
+        姓名
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.phone_display">
+        手机
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.sex_display">
+        性别
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.birthday_display">
+        生日
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.address_display">
+        地址
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.email_display">
+        邮箱
+      </md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">必填信息</label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-checkbox class="md-primary" ng-model="setting.name_required">
+        姓名
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.phone_required">
+        手机
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.sex_required">
+        性别
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.birthday_required">
+        生日
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.address_required">
+        地址
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.email_required">
+        邮箱
+      </md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">初始密码</label>
+    <div class="crm-form-control" flex="90">
+      <input type="text" ng-model="setting.default_password">
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90">
+      <md-checkbox class="md-primary" ng-model="setting.auto_agree_applying">自动审核会员申请</md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line no-border-bottom" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">模块关联</label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-checkbox class="md-primary" ng-model="setting.show_rechange_module">
+        会员充值
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_vippay_module">
+        会员付款
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_order_module">
+        订单中心
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_coupon_module">
+        我的卡券
+      </md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-checkbox class="md-primary" ng-model="setting.show_credits_exchange_module">
+        积分兑换
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_sign_record_module">
+        每日签到
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_share_record_module">
+        分享记录
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_address_module">
+        收货地址
+      </md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.show_collect_module">
+        我的收藏
+      </md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">查询设置</label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-checkbox class="md-primary" ng-model="setting.enable_blur_search">启用模糊查询</md-checkbox>
+      <md-checkbox class="md-primary" ng-model="setting.enable_query_for_settle">收银结算查询</md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="10">更改设置</label>
+    <div class="crm-form-control" flex="90" layout="row" layout-align="left center" >
+      <md-checkbox class="md-primary" ng-model="setting.can_change_vip_level_in_webpos">收银端更改会员等级</md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line no-border-bottom" layout="row" layout-align="left left">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90">
+      <md-button class="md-primary md-raised" ng-click="update()">
+        更新
+      </md-button>
+    </div>
+  </div>
+</md-content>

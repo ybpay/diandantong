@@ -1,0 +1,17 @@
+defaults: &defaults
+  account_sid: "0000000041b645530141bcb7521900d1"
+  auth_token: "8ae88eb6724e4e9e919042296ac566dc"
+  app_id: "aaf98fda41b64df00141bcc6e4f20087"
+
+  sub_account_sid: "0000000041b645530141bcb849f500d4"
+  sub_auth_token: 9489d04e5c264c43912313bd48cab8ad
+  call_media_name: "ccp_marketingcall.wav"
+  call_display_num: "40012345678"
+
+development:
+  <<: *defaults
+  host: "https://sandboxapp.cloopen.com:8883"
+
+production:
+  <<: *defaults
+  host: "https://app.cloopen.com:8883"

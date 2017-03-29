@@ -1,0 +1,96 @@
+.wp-alert-toast{
+    z-index: 9999;
+    position: fixed;
+    top: 50px;
+    width: 50%;
+    left: 15%;
+    padding: 1em;
+    border-radius: 7px;
+    background: rgba(40, 40, 40, 0.75);
+    color: white;
+}
+
+.wp-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom:0;
+  z-index: 2001;
+  .wp-modal-mask {
+    background-color: $gray-dark;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom:0;
+    opacity: 0.50;
+  }
+  .wp-modal-body {
+    position: absolute;
+    top: 5%;
+    left: 15%;
+    max-height: 80%;
+    // overflow-y: auto;
+    overflow: hidden;
+    background-color: rgba(255,255,255,.9);
+    border-radius: 5px;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    width: 70%;
+    .wp-modal-header{
+      line-height: 30px;
+      height: 40px;
+      font-size: 20px;
+      padding: 5px 5px 5px 10px;
+      color: white;
+      background-color: #D07577;
+    }
+    .wp-modal-content{
+      padding: 10px;
+      max-height: 530px;
+      padding-bottom: 80px;
+      overflow: auto;
+      .wp-modal-item{
+        float: left;
+        height: 50px;
+        font-size: 20px;
+        padding: 5px;
+        line-height: 40px;
+      }
+    }
+    .wp-modal-actions ~ .wp-modal-content{
+      margin-bottom: 70px;
+    }
+    .wp-modal-actions{
+      overflow: hidden;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      &.left{
+        float: left;
+      }
+      .wp-btn-block{
+        border-radius: 20px;
+        @include tablet{
+          min-width: 80px;
+        }
+        @include desktop{
+          min-width: 100px
+        }
+      }
+    }
+  }
+  &.wp-modal-sm{
+    .wp-modal-body{
+      left: 35%;
+      width: 30%;
+    }
+  }
+  &.wp-modal-md{
+    .wp-modal-body{
+      left: 25%;
+      width: 50%;
+    }
+  }
+}

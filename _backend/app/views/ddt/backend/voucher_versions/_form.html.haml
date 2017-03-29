@@ -1,0 +1,35 @@
+= simple_nested_form_for([:backend, @current_shop, @voucher_version], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@voucher_version)
+
+    .form-inputs
+      = f.input :name
+      = f.input :branch_ids_string, input_html: { data: { url: backend_shop_branches_path(@current_shop, multiple: true), saved: @voucher_version.branches.map(&:select_json), placeholder: "请选择适用门店" }, class: 'ddb-select2'}
+      = f.input :show_on_index
+      = f.input :groupon_price
+      = f.input :norminal_value
+      = f.input :sellable_starts_at
+      = f.input :sellable_expires_at
+      = f.input :usable_starts_at
+      = f.input :usable_expires_at
+      = f.input :max_grant_limit
+      = f.input :max_count_each_user, hint: '置空为不限制数量'
+      = f.input :description
+      = f.input :support_refund
+      = f.input :refundable_days_after_send
+      = f.input :applicaple_product_scope, as: :text, placeholder: '全场通用'
+      = f.simple_fields_for :coupon_usage_instructions do |coupon_usage_instruction|
+        - coupon_usage_instruction.input :content, wrapper: :horizontal_form_long do
+          .col-sm-5.row= coupon_usage_instruction.input_field :content, class: 'form-control', label: false
+          .col-sm-2= coupon_usage_instruction.link_to_remove t('Destroy'), class: 'btn btn-danger btn-xs'
+      = f.link_to_add t('new coupon usage instruction'), :coupon_usage_instructions, :class=>'btn btn-success btn-xs'
+
+      = f.simple_fields_for :coupon_photos do |coupon_photo|
+        - coupon_photo.input :image, wrapper: :horizontal_form_long  do
+          .col-sm-5.row
+            = coupon_photo.input :image, as: :image_preview, label: false, wrapper: :horizontal_form_long
+          .col-sm-2
+            = coupon_photo.link_to_remove t('Destroy'), class: 'btn btn-danger btn-xs'
+      = f.link_to_add t('new coupon photo'), :coupon_photos, :class=>'btn btn-success btn-xs'
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"

@@ -1,0 +1,34 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/table_color')} 列表"
+
+.form-group
+  = link_to "新建 #{t('activerecord.models.ddt/table_color')}", new_backend_shop_table_color_path(@current_shop), :class=>"btn btn-primary btn-sm"
+
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-1= sort_link(@q, :idle_color, TableColor.human_attribute_name(:idle_color))
+      %th.col-sm-1= sort_link(@q, :opened_color, TableColor.human_attribute_name(:opened_color))
+      %th.col-sm-1= sort_link(@q, :ordered_color, TableColor.human_attribute_name(:ordered_color))
+      %th.col-sm-1= sort_link(@q, :check_outing_color, TableColor.human_attribute_name(:check_outing_color))
+      %th.col-sm-1= sort_link(@q, :paid_color, TableColor.human_attribute_name(:paid_color))
+      %th.col-sm-1= sort_link(@q, :shop, TableColor.human_attribute_name(:shop))
+      %th
+
+  %tbody
+    - @table_colors.each do |table_color|
+      %tr
+        %td= table_color.idle_color
+        %td= table_color.opened_color
+        %td= table_color.ordered_color
+        %td= table_color.check_outing_color
+        %td= table_color.paid_color
+        %td= table_color.shop
+        %td
+          = link_to tag(:icon,:class=>"fa fa-bars"), [:backend, @current_shop, table_color], :class => "btn btn-xs btn-info"
+          = link_to tag(:icon,:class=>"fa fa-edit"), edit_backend_shop_table_color_path(@current_shop, table_color), :class => "btn btn-xs btn-success"
+          = link_to tag(:icon,:class=>"fa fa-trash-o"), [:backend, @current_shop, table_color], :method => :delete, :data => { :confirm => '确定删除?' }, :class => "btn btn-xs btn-danger"
+%br
+.pull-right= will_paginate @table_colors , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

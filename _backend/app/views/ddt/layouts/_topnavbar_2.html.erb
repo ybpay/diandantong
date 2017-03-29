@@ -1,0 +1,72 @@
+<div class="row border-bottom white-bg">
+    <nav class="navbar navbar-static-top" role="navigation">
+        <div class="navbar-header">
+            <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button">
+                <i class="fa fa-reorder"></i>
+            </button>
+            <div class="navbar-brand">
+                <% if @oem_brand.present?%>
+                    <%= @oem_brand %>
+                <% else %>
+                    点单通
+                <% end %>
+            </div>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar">
+            <% unless @oem_brand.present? %>
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a aria-expanded="false" role="button" href="/">智慧餐饮</a>
+                    </li>
+                
+                </ul>
+            <% end %>
+            <ul class="nav navbar-top-links navbar-right">
+                <% if @current_shop.present? %>
+                    <li class="light-blue">
+                        <a class="count-info" href="<%= backend_shop_system_messages_path(@current_shop) %>">
+                            <i class="fa fa-envelope"></i>
+                            <% if current_account.unread_msg_count > 0 %>
+                                <span class="label label-warning"><%= current_account.unread_msg_count%></span>
+                            <% end %>
+                        </a>
+                    </li>
+                <% end %>
+                <% if account_signed_in? %>
+                    <li class="light-blue">
+                        <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+                            欢迎你，<%= current_account.name||current_account.email %>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                            
+                        <ul role="menu" class="dropdown-menu">
+                            <li>
+                                <a href="<%= backend_personal_info_link%>">
+                                    <i class="fa fa-cog"></i>
+                                    个人中心
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= edit_account_registration_path%>">
+                                    <i class="fa fa-lock"></i>
+                                    修改密码
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<%= destroy_account_session_path%>" data-method="DELETE">
+                                    <i class="fa fa-off"></i>
+                                    安全退出
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                <% else %>
+                    <% if is_ddt_domain %>
+                      <li><a href="http://www.diandantong.com">点单通</a></li>
+                    <% end %>
+                    <li><a href="http://mp.weixin.qq.com">微信公众平台</a></li>
+                <% end %>
+            </ul>
+        </div>
+    </nav>
+</div>

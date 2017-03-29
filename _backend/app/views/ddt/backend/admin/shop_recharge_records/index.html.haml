@@ -1,0 +1,64 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h3= "#{t('activerecord.models.ddt/shop_recharge_record')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        - if @current_shop.present?
+          .form-group
+            = link_to "新建 #{t('activerecord.models.ddt/shop_recharge_record')}", new_backend_shop_shop_recharge_record_path(@current_shop), :class=>"btn btn-primary"
+        - else
+          .form-group
+            = form_tag backend_shop_recharge_records_path, method: :get, class: 'form-inline' do
+              = label_tag :recharge_by, Ddt::ShopRechargeRecord.human_attribute_name(:recharge_by)
+              = select_tag :recharge_by, options_from_collection_for_select(Ddt::ShopRechargeRecord.recharge_by_collection,:shift, :shift), class: 'form-control'
+              = submit_tag "搜索", class: "btn btn-success"
+
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= sort_link(@q, :id, Ddt::ShopRechargeRecord.human_attribute_name(:id))
+                %th.col-sm-1= sort_link(@q, :shop, Ddt::ShopRechargeRecord.human_attribute_name(:shop))
+                %th.col-sm-1= sort_link(@q, :recharge_type, Ddt::ShopRechargeRecord.human_attribute_name(:recharge_type))
+                %th.col-sm-1= sort_link(@q, :price, Ddt::ShopRechargeRecord.human_attribute_name(:price))
+                %th.col-sm-1= sort_link(@q, :branch_num, Ddt::ShopRechargeRecord.human_attribute_name(:branch_num))
+                %th.col-sm-2= sort_link(@q, :beginning_time, "#{Ddt::ShopRechargeRecord.human_attribute_name(:beginning_time)}/#{Ddt::ShopRechargeRecord.human_attribute_name(:ending_time)}")
+                %th.col-sm-1= sort_link(@q, :increment_days, Ddt::ShopRechargeRecord.human_attribute_name(:increment_days))
+                %th.col-sm-2= Ddt::ShopRechargeRecord.human_attribute_name(:note)
+                %th.col-sm-1= sort_link(@q, :created_at, Ddt::ShopRechargeRecord.human_attribute_name(:created_at))
+                %th.col-sm-1
+
+            %tbody
+              - @shop_recharge_records.each do |record|
+                %tr
+                  %td= record.id
+                  %td= link_to record.shop.name.presence||record.shop.slug, [:backend, record.shop]
+                  %td= record.recharge_type_name
+                  %td
+                    = record.price
+                    \(原价:
+                    = record.original_price
+                    \)
+
+                  %td= record.branch_num
+                  %td
+                    = record.beginning_time
+                    \/
+                    = record.ending_time
+                  %td
+                    = record.increment_days
+                    \天
+                  %td= record.note
+                  %td= record.created_at
+                  %td
+                    = link_to '编辑', edit_backend_shop_shop_recharge_record_path(record.shop, record)
+              = no_record_hint(@shop_recharge_records)
+          %br
+          .pull-right= will_paginate @shop_recharge_records , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

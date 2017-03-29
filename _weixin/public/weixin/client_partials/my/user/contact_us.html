@@ -1,0 +1,25 @@
+<div common-header></div>
+<div common-footer></div>
+<div id="contact-us-page" class="main-view">
+  <div class="space-12"></div>
+  <div class="section">
+    <a href="#/merchant_apply" class="arrow-right">
+      <i class="fa fa-link label-blue"></i>入驻加盟
+    </a>
+
+    <a href="tel:{{current_shop.telephone}}" class="arrow-right">
+      <i class="fa fa-phone label-orange"></i> 客服电话 ({{current_shop.telephone}})
+    </a>
+
+    <a href="mailto:{{current_shop.service_email}}" class="arrow-right" ng-if="current_shop.service_email">
+      <i class="fa fa-envelope label-pink"></i> 邮箱({{current_shop.service_email}})
+    </a>
+    <a href="{{current_shop.sina_weibo}}" class="arrow-right" ng-if="current_shop.sina_weibo">
+      <i class="fa fa-weibo label-red"></i> 微博
+    </a>
+    <a href="#/censor-report" class="arrow-right">
+      <i class="fa fa-bolt label-red"></i>举报
+    </a>
+  </div>
+
+</div>

@@ -1,0 +1,57 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      %h2 促销规则
+      %p
+        - if @promotion_type == :order_promotion
+          1. 规则相当于一种条件, 用户下单必须满足这些条件, 才能进行订单总额的减免等操作 <br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;当规则设置号后还需进行“动作”的一些设置 <br/>
+          2. 可以添加多个规则和动作 <br/>
+          3. 匹配策略当选择“全部匹配”时， 用户必须满足所有的规则（条件）。“至少匹配一个”时用户只需满足一个规则（条件） <br/>
+        - elsif @promotion_type == :event_promotion
+          1. 规则相当于一种条件, 用户订单完成或签到时满足这些条件, 才能进行赠送优惠券等操作 <br/>
+          &nbsp;&nbsp;&nbsp;&nbsp;当规则设置号后还需进行“动作”的一些设置 <br/>
+          2. 可以添加多个规则和动作 <br/>
+          3. 匹配策略当选择“全部匹配”时， 用户必须满足所有的规则（条件）。“至少匹配一个”时用户只需满足一个规则（条件） <br/>
+    .ibox-content
+      .col-sm-12.col-md-9.col-lg-6
+        = form_tag [:backend, @current_shop, @promotion.branch, @promotion, :promotion_rules].compact, remote: true, class: 'form-horizontal' do
+          .form-inputs
+            .form-group
+              = label_tag :'promotion_rule[type]', '新增规则类型', class: 'col-sm-4 control-label'
+              .col-sm-6
+                = select_tag :'promotion_rule[type]', options_for_promotion_rule_types(@promotion), class: 'form-control'
+              .col-sm-2
+                - if options_for_promotion_rule_types(@promotion).length > 0
+                  = button_tag '添加此规则', class: 'btn btn-success', id: "add_rule"
+
+        .header
+          %h4 已添加促销规则
+        .clearfix
+        .hr-line-dashed
+        = form_for [:backend, @current_shop, @promotion.branch, @promotion].compact, :method => :put, html: {class: 'form-horizontal'} do |f|
+          .form-inputs
+            .form-group
+              = f.label :'promotion_rule[match_policy]', Ddt::PromotionRule.human_attribute_name(:match_policy), class: 'col-sm-4 control-label'
+              .checkbox
+                - Ddt::Promotion.match_policy_collection.each do |name, value|
+                  %label
+                    = f.radio_button :match_policy, value
+                    = name
+            .form-group
+              #rules.ddb-fields-list
+                - if @promotion.rules.any?
+                  = render partial: 'ddt/backend/_promotion/promotion_rule', collection: @promotion.rules, locals: { promotion: @promotion }
+                - else
+                  .no-objects-found
+                    暂无规则
+              .form-actions
+                = button_tag '保存', class: 'btn btn-primary'
+      .clearfix
+
+:javascript
+  $("#add_rule").on('click', function(e){
+    if($("#promotion_rule_type option").size() == 1){
+      $(this).attr("disabled", "disabled");
+    }
+  })

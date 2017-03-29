@@ -1,0 +1,99 @@
+#address-index, #addresses-new {
+  padding-bottom: 44px;
+
+  .new-address-btn {
+    line-height: 44px;
+    text-align: center;
+  }
+
+  .address-item.active {
+    border-bottom: 1px solid $red;
+    .address-info{
+      background-color: $red;
+      color: white;
+      .phone {
+        color: white;
+      }
+      .address-content {
+        color: white;
+      }
+    }
+}
+
+  .address-item {
+    background-color: white;
+    margin-bottom: 10px;
+    border-top: 1px solid $light-gray;
+    border-bottom: 1px solid $light-gray;
+    color: $dark-gray;
+    font-size: 14px;
+
+    .address-info {
+      padding: 5px 10px;
+    }
+    .personal-info {
+      line-height: 1.5em;
+
+      .name, .phone {
+        width: 50%;
+        display: inline-block;
+        float: left;
+      }
+
+
+      .phone {
+        text-align: right;
+        color: $orange;
+      }
+    }
+
+    .personal-info:after {
+      height:0;
+      clear: both;
+      content: '.';
+      display: block;
+      visibility: hidden;
+    }
+
+    .address-content {
+      padding-top: 5px;
+      line-height: 1.5em;
+      color: $orange;
+
+      i, i:before {
+        font-size: 14px;
+        color: white;
+        float: right;
+        line-height: 21px;
+      }
+    }
+
+    .op-info {
+      line-height: 1.5em;
+      .address-change {
+        border-right: 1px solid $red;
+        box-sizing: border-box;
+        padding: 8px 0;
+        color: $red;
+        text-align: center;
+      }
+    }
+  }
+
+  .address-item:last-child {
+    margin-bottom: 0;
+  }
+}
+
+#address-input-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: white;
+  overflow-y: scroll;
+  .weui_search_cancel {
+    display: block;
+  }
+}

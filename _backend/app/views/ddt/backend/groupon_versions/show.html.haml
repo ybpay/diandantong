@@ -1,0 +1,110 @@
+.ibox
+  .ibox-title
+    %h3= "#{t('activerecord.models.ddt/groupon_version')} 详情"
+  .ibox-content
+    .col-md-6
+      .model-show
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:branch_ids)
+            \:
+          = @groupon_version.branch_names
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:name)
+            \:
+          = @groupon_version.name
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:sellable_starts_at)
+            \:
+          = @groupon_version.sellable_starts_at
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:sellable_expires_at)
+            \:
+          = @groupon_version.sellable_expires_at
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:usable_starts_at)
+            \:
+          = @groupon_version.usable_starts_at
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:usable_expires_at)
+            \:
+          = @groupon_version.usable_expires_at
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:max_grant_limit)
+            \:
+          = @groupon_version.max_grant_limit
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:max_count_each_user)
+            \:
+          = @groupon_version.max_count_each_user
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:base_coupons_count)
+            \:
+          = @groupon_version.base_coupons_count
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:refund_coupons_count)
+            \:
+          = @groupon_version.refund_coupons_count
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:used_coupons_count)
+            \:
+          = @groupon_version.used_coupons_count
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:groupon_price)
+            \:
+          = @groupon_version.groupon_price
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:norminal_value)
+            \:
+          = @groupon_version.norminal_value
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:description)
+            \:
+          = @groupon_version.description
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:support_refund)
+            \:
+          = t(@groupon_version.support_refund?.to_s)
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:refundable_days_after_send)
+            \:
+          = t(@groupon_version.refundable_days_after_send)
+        %p
+          %b
+            = Ddt::GrouponVersion.human_attribute_name(:coupon_usage_instructions)
+            \:
+          %ol
+            - @groupon_version.coupon_usage_instructions.each do |coupon_usage_instruction|
+              %li=coupon_usage_instruction.content
+        .space
+      %p
+        %b
+          = Ddt::GrouponVersion.human_attribute_name(:coupon_photos)
+          \:
+      %table.table.table-striped
+        %tbody
+          - @groupon_version.coupon_photos.each do | coupon_photo|
+            %tr
+              %td= image_tag coupon_photo.image.thumb.url
+              %td= number_to_human_size(coupon_photo.size)
+
+      = link_to t('Edit'), edit_backend_shop_groupon_version_path(@current_shop, @groupon_version), :class => "btn btn-primary btn-sm"
+      \
+      = link_to t('Back'), 'javascript:history.go(-1)', :class => "btn btn-default btn-sm"
+
+    .clearfix

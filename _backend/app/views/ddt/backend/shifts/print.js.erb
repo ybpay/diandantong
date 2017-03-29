@@ -1,0 +1,17 @@
+var info = "<%= raw @shift.print_text %>"
+var myWindow = window.open();
+myWindow.printed = false;
+if (myWindow) {
+    myWindow.document.write('<html><head><style type="text/css" media="all">body { background: white;font-family:"SimHei";font-size: 8pt;} </style></head><body>');
+    myWindow.document.write(info + "<br/>");
+    myWindow.document.write('</body></html>');
+    myWindow.document.close();
+    myWindow.focus();
+    if (!myWindow.printed) {
+      myWindow.printed = true;
+      myWindow.print();
+      myWindow.close();
+    }
+} else {
+    alert('弹窗被拦截，请允许弹出打印窗口。')
+}

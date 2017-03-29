@@ -1,0 +1,1 @@
+= text_field_tag "#{param_prefix}[pay_method_ids_string]", promotion_rule.pay_method_ids_string, :class => 'ddb-select2',  data: { url: backend_shop_pay_methods_path(@current_shop), saved: promotion_rule.pay_methods.map(&:select_json) }, placeholder: '请选择支付方式'

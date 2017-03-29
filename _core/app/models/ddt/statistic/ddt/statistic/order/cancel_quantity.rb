@@ -1,0 +1,23 @@
+module Ddt
+  class Statistic
+    module Order
+      class CancelQuantity < ::Ddt::Statistic::Order::Base
+        def query
+          group_by_time_interval(time_column: :placed_at) do |group_by|
+            OrderService::Api::Statistic.order_quantity(query: order_query_params, group_by: group_by)
+          end
+        end
+        alias_method_chain :query, :cache
+
+        private
+        def order_query_params
+          base_order_query_params.merge(
+            placed_at_gteq: start_date.beginning_of_day,
+            placed_at_lteq: end_date.end_of_day,
+            state_eq: "canceled"
+          )
+        end
+      end
+    end
+  end
+end

@@ -1,0 +1,1 @@
+json.partial! partial: '/ddt/common_api/v1/combos/base', locals: { combo: @combo }

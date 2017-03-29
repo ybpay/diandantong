@@ -1,0 +1,3 @@
+bootbox.hideAll();
+<%- branch = @wallet.owner%>
+$('.branch-wallet-tr[data-id=<%= branch.id%>]').replaceWith("<%= j render partial: '/ddt/backend/wallet/shop_card_wallets/branch_tr', locals: { branch: branch}%>")

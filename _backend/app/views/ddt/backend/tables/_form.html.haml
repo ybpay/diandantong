@@ -1,0 +1,13 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @table], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@table)
+  .col-sm-6
+    .form-inputs
+      = f.input :name, placeholder: '例如：C001'
+      = f.input :capacity
+      = f.association :table_zone, collection: @current_branch.table_zones, :include_blank => false, hint: raw("<a href='#{new_backend_shop_branch_table_zone_path(@current_shop, @current_branch)}'>新建桌台类型</a>")
+      = f.input :position
+      .col-sm-offset-4
+        = link_to "管理桌台类型", backend_shop_branch_table_zones_path(@current_shop, @current_branch), class: 'btn btn-default', target: :_blank
+        = f.button :submit, :class => "btn btn-primary", data: { disable_with: "正在提交.."}
+      .clearfix
+  .clearfix

@@ -1,0 +1,40 @@
+表 promotion_events
+type         : string   : 类型 UserFollowPromotionEvent UserSignInPromotionEvent OrderCompletePromotionEvent
+user_id      :
+order_id     :
+has_and_belongs_to_many :promotions
+
+
+AbstractPromotion 促销活动
+  shop: references
+  starts_at    : datetime : 开始时间
+  expires_at   : datetime : 过期时间
+  usage_limit  : integer  : 使用次数限制
+
+
+表 promotions < AbstractPromotion, 相关参见商家活动
+  type         : string   : 单表继承 EventPromotion CouponPromotion ...
+
+  promotion_rule_policy: string ANY/ALL
+  has_many :promotion_rules
+  has_many :promotion_actions
+  ...
+
+表 promotion_rules
+promotion_id :
+type         : string   : 单表继承 FirstOrder ItemTotal Product User UserLoggedIn
+user_id      :
+preferences  : text     : 线性化hash  例如 {amount_min: 100, amount_max: 1000}
+#必需继承方法
+applicable?(promotable) 是否适用
+eligible?(promotable, options = {}) 是否符合条件
+
+表 promotion_actions
+promotion_id :
+type         : string   : 单表继承 CreateAdjustment CreateItemAdjustment FreeShipping
+position     : integer
+preferences  : text     : hash { credits: 100 }
+promotion_id :
+#必需继承方法
+perform(options = {})
+

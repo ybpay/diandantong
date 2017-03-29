@@ -1,0 +1,66 @@
+.promotion-section {
+  .promotion {
+    background-color: white;
+    height: 80px;
+    margin: 0 10px 10px 10px;
+  }
+  .title {
+    line-height: 30px;
+    height: 46px;
+    font-size: 18px;
+    padding-left: 10px;
+    padding-right: 30%;
+    padding-top: 16px;
+    font-weight: bold;
+  }
+  .keywords {
+    color: $gray-light;
+    font-size: 12px;
+    height: 34px;
+    padding-bottom: 22px;
+    padding-left: 10px;
+    padding-right: 30%;
+  }
+}
+#promotion-show-page  {
+  background-color: white;
+  margin-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  .promotion-image{
+    position: relative;
+    .promotion-name{
+      position: absolute;
+      width: 100%;
+      color: #fff;
+      left: 0;
+      bottom: 5px;
+      padding: 5px;
+      background-color:rgba(0, 0, 0, 0.5);
+      font-size: 16px;
+      line-height:24px;
+    }
+  }
+  .promotion-label{
+    color: white;
+    span {
+      //background-color: rgb(239, 112, 96);
+      background-color: $color-red;
+      padding: 5px 20px 5px 5px;
+      color: white;
+      border-radius: 0 15px 15px 0;
+    }
+    &:first-child{
+      padding-top: 12px;
+    }
+  }
+  .promotion-value, .promotion-label{
+    font-size: 15px;
+    padding: 8px 0;
+  }
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+}

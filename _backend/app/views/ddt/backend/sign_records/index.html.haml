@@ -1,0 +1,35 @@
+
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h3= "#{t('activerecord.models.ddt/sign_record')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .order-query-form
+          = search_form_for @q, url: [:backend, @current_shop, :sign_records], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+            = f.input_field :created_at_gteq, as: :date, placeholder: Ddt::SignRecord.human_attribute_name(:created_at)
+            = f.input_field :created_at_lteq, as: :date
+            = f.input_field :base_user_id_eq, collection: @current_shop.base_users, label_method: :to_label, include_blank: true
+            = f.submit "搜索", class: 'btn btn-sm btn-success'
+        %br
+        %table.table.table-striped.table-bordered
+          %thead
+            %tr
+
+              %th.col-sm-2= sort_link(@q, :base_user_id, Ddt::SignRecord.human_attribute_name(:base_user_id))
+              %th.col-sm-2= sort_link(@q, :created_at, Ddt::SignRecord.human_attribute_name(:created_at))
+              %th
+
+          %tbody
+            - @sign_records.each do |sign_record|
+              %tr
+                %td= base_user_label(sign_record.base_user)
+                %td= sign_record.base_user.created_at.strftime('%F')
+                %td
+            = no_record_hint(@sign_records)
+        %br
+        .pull-right= will_paginate @sign_records , renderer: BootstrapPagination::Rails, bootstrap: 3
+        %br
+      .clearfix

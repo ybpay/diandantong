@@ -1,0 +1,12 @@
+= simple_form_for(@base_user, as: :base_user, url: backend_shop_base_user_path(@current_shop, @base_user), html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@base_user)
+
+    .form-inputs
+      = f.input :id, disabled: true
+      = f.input :phone
+      = f.input :is_blocked
+      = f.association :vip_info, collection: @current_shop.vip_infos, disabled: !!@base_user.vip_info
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => "btn btn-primary btn-sm"

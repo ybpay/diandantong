@@ -1,0 +1,82 @@
+<div id="tuan-index-page">
+  
+  <div class="weui_panel weui_panel_access">
+      <div class="weui_panel_hd">热门团购</div>
+      <div class="weui_panel_bd">
+          <a  ng-click="go('/tuans/' + tuan.id);" class="weui_media_box weui_media_appmsg" ng-repeat="tuan in tuans" >
+              <div class="weui_media_hd">
+                  <img class="weui_media_appmsg_thumb" ng-src="{{::tuan.photo}}" alt="">
+              </div>
+              <div class="weui_media_bd">
+                  <h4 class="weui_media_title">{{::tuan.name}}</h4>
+                  <p class="weui_media_desc">{{::tuan.branch.name}}</p>
+                  <p class="weui_media_desc">
+                    <span class="groupon-price orange">{{::tuan.groupon_price | currency:currency}}</span>
+                    <span class="price">{{::tuan.norminal_value | currency:currency}}</span>
+                    <span class="sales">已售 {{::tuan.base_coupons_count}}</span>
+                  </p>
+
+              </div>
+          </a>
+      </div>
+  </div>
+
+</div>
+<!-- 
+<div class="groupon-nav-header">
+  <div class="nav-item name">团购</div>
+  <div class="nav-item zones">
+    <a ng-click="active_select_zone = !active_select_zone">
+      {{zone_name || '区域'}}
+      <div class="fa fa-caret-down"></div>
+    </a>
+  </div>
+</div>
+<div class="page-content">
+  <div class="branch-types-index">
+    <div class="branch-type-tr" ng-repeat="branch_type_array in branch_type_arrays">
+      <div ng-click="filter_by_branch_type(branch_type.id)" class="branch-type" ng-repeat="branch_type in branch_type_array">
+        <img class="icon" ng-src="{{::branch_type.image}}" ng-if="branch_type.image">
+        <div class="icon" ng-style="{'background-color': branch_type.bg_color}" ng-if="!branch_type.image">
+          <i class="fa {{::branch_type.icon}}" ></i>
+        </div>
+        <div class="branch-type-name">{{::branch_type.name}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="space space-8"></div>
+  <div class="groupon-versions-index">
+    <div class="title">猜你喜欢</div>
+    <div class="no-record" ng-if="tuans.length == 0">
+      没有满足条件的团购产品
+    </div>
+    <div class="list" ng-if="tuans.length > 0">
+      <div class="item" ng-repeat="tuan in tuans" ng-click="go('/tuans/' + tuan.id);">
+        <div >
+          <img ng-src="{{::tuan.photo}}">
+          <div class="name">{{::tuan.branch.name}}</div>
+          <div class="introduction">{{::tuan.name}}</div>
+          <div class="price-section">
+            <span class="groupon-price">{{::tuan.groupon_price | currency:currency}}</span>
+            <span class="price">{{::tuan.norminal_value | currency:currency}}</span>
+            <span class="sales">已售 {{::tuan.base_coupons_count}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ddb-box" style="top:45px;" ng-click="active_select_zone = !active_select_zone" ng-if="active_select_zone">
+  <div class="box-mask"></div>
+  <div class="zones-index">
+    <div ng-repeat="zone in zones" class="zone">
+      <div ng-click="filter_by_zone(zone.id)" class="zone-name">{{zone.name}}</div>
+      <div class='sub-zone' ng-repeat="zone in zone.sub_zones">
+        <div ng-click="filter_by_zone(zone.id)" class='sub-zone-name'>{{zone.name}}</div>
+      </div>
+      <div class="space"></div>
+    </div>
+  </div>
+</div>
+ -->

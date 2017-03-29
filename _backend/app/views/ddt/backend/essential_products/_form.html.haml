@@ -1,0 +1,17 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @essential_product], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@essential_product)
+
+  .col-sm-6
+    .form-inputs
+      = f.input :order_type, collection: Ddt::EssentialProduct.order_type_collection
+      = f.input :quantity, input_html: {value: @essential_product.quantity || 1}
+      = f.input :per_guest, hint: '堂点勾选此项后，订单至少要选(数量x客户人数)的此类产品'
+      = f.input :variant_id, input_html: {data: {url: backend_shop_branch_products_path(@current_shop, @current_branch),
+      saved: @essential_product.variant.try(:select_json), placeholder: '请选择产品', single: true},class: 'ddb-select2'},
+      hint: raw("可以输入产品名称搜索更多<br />#{link_to '管理产品', backend_shop_branch_products_path(@current_shop, @current_branch),
+        target: 'blank', class: 'btn btn-xs, btn-info'}"),
+      required: true
+    
+    .form-actions.col-xs-offset-4
+      = f.button :submit, :class => 'btn btn-primary'
+  .clearfix

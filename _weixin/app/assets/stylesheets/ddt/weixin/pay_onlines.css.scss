@@ -1,0 +1,60 @@
+#pay-on-line-new {
+  height: 100%;
+  .pay-on-line-footer {
+
+    .left {
+      float: left;
+      height: 44px;
+      line-height: 44px;
+    }
+    .total-amount {
+      font-size: 20px;
+      font-weight: bold;
+      color: $color-red;
+    }
+
+    .total-remaing {
+      line-height: 44px;
+      font-size: 12px;
+      color: $gray;
+    }
+    .pay-on-line-submit-button {
+      color: white;
+      display: block;
+      background-color: $color-red;
+      border: 0;
+      line-height: 24px;
+    }
+    .pay-on-line-submit-button.disabled {
+      color: $gray-light;
+      background-color: $gray-lightest;
+    }
+  }
+
+  .money-input-part {
+    height: 90px;
+    padding: 10px;
+    .hint {
+      font-size: 10px;
+      line-height: 20px;
+      height: 20px;
+    }
+    .input-pay-on-line-total,.input-pay-on-line-total:focus {
+      background-color: #cc392c;
+      color: white;
+      width: 100%;
+      border: 0px;
+      border-radius: 5px;
+      padding: 5px 15px;
+      height: 50px;
+      line-height: 30px;
+      font-size: 20px;
+    }
+    ::-webkit-input-placeholder { color:#fff; font-size: 18px;}
+    ::-moz-placeholder { color:#fff; font-size: 18px;} /* firefox 19+ */
+    :-ms-input-placeholder { color:#fff; font-size: 18px;} /* ie */
+    input:-moz-placeholder { color:#fff; font-size: 18px;}
+  }
+
+
+}

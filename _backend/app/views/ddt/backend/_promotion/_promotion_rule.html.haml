@@ -1,0 +1,11 @@
+.ddb-field.ddb-promotion-rule{ :'data-id' => promotion_rule.id }
+  - type_name = promotion_rule.class.name.demodulize.underscore
+  - param_prefix = "#{@promotion_type}[promotion_rules_attributes][#{promotion_rule.id}]"
+  = hidden_field_tag "#{param_prefix}[id]", promotion_rule.id
+  .ddb-field-header
+    .ddb-field-title
+      = I18n.t("promotion.rules.#{@promotion_type_prefix}.#{type_name}")
+    .ddb-field-actions
+      = link_to tag(:icon, :class => "fa fa-trash-o"), [:backend, @current_shop, promotion.branch, promotion, promotion_rule].compact, :class => "", :'data-confirm' => "确定删除?", :method => :delete, :remote => true, :'data-rel' => "tooltip", :title => "删除"
+  .ddb-field-content
+    = render partial: "/ddt/backend/_promotion/rules/#{@promotion_type_prefix}/#{type_name}", locals: { promotion_rule: promotion_rule, param_prefix: param_prefix }

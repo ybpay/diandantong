@@ -1,0 +1,37 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 产品图片资源列表
+
+    = link_to "新建图片", new_backend_combo_image_path(), :class => "btn btn-xs btn-primary", remote: true
+    .order-query-form
+      = search_form_for @q, url: backend_combo_images_path, method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+        = f.input_field :created_at_gteq, as: :datetime, placeholder: "创建时间", class: 'input-medium'
+        %label{style: 'font-size:20px;'} ~
+        = f.input_field :created_at_lteq, as: :datetime, placeholder: "创建时间", class: 'input-medium'
+        = f.input_field :is_global_eq, collection: [["全局", true], ["非全局", false]], include_blank: true, prompt: "是否全局",class: "form-control"
+        - tag = Ddt::AssetTag.find_by_id(params[:q].try('[]', :asset_tags_id_eq))
+        = f.input_field :asset_tags_id_eq, data: { single: true, url: backend_asset_tags_path(), saved: tag.try(:select_json), placeholder: "标签" }, class: 'ddb-select2 input-medium',class: "form-control"
+        = f.submit "搜索", class: 'btn btn-xs btn-success'
+        = link_to "资源标签", backend_asset_tags_path(), :class => "btn btn-xs btn-info"
+        = link_to "批量设为全局",  batch_set_backend_combo_images_path(), class: "btn btn-primary btn-xs batch_op_action", method: :put, remote: true
+    %br/
+.row
+  .ibox
+    .ibox-content
+      %table.table.table-striped
+        %thead
+          %tr
+            %th.col-sm-1{ style: "width:2%;"}
+              = check_box_tag "all_combo_images", "", false, title: '全选', id: "batch_op_select_all", data: {model: "combo_image", token: form_authenticity_token}
+              %label{for: "all_combo_images"}
+            %th 图片
+            %th= sort_link(@q,:created_at,"创建时间")
+            %th= sort_link(@q,:is_global,"是否全局")
+            %th 产品名称
+            %th 资源标签
+            %th
+        %tbody
+          = render partial: "combo_image", collection: @combo_images
+      %br
+      .pull-right= will_paginate @combo_images , renderer: BootstrapPagination::Rails, bootstrap: 3
+      %br

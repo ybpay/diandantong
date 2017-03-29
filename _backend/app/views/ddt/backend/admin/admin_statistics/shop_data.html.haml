@@ -1,0 +1,59 @@
+= render partial: 'query_form', locals: { url: [:shop_data, :backend, :admin_statistics] }
+.admin-chart
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-3
+    %p= "shop总数: #{Ddt::Shop.count}"
+    %p= "shop未过期: #{Ddt::Shop.where('ddt_shops.expiration_time > ?', Time.now).count}"
+    %p= "shop已过期: #{Ddt::Shop.where('ddt_shops.expiration_time <= ?', Time.now).count}"
+    %p= "shop单店: #{Ddt::Shop.where('ddt_shops.max_branches_limit = 1').count}"
+    %p= "shop多店: #{Ddt::Shop.where('ddt_shops.max_branches_limit > 1').count}"
+    %p= "shop月活跃数: #{Ddt::OrderService::Api::Statistic.order_quantity(query: { placed_at_gteq: 1.month.ago, placed_at_lteq: Time.now}, group_by: :shop_id).keys.count}"
+    %p= "branch总数: #{Ddt::Branch.count}"
+    %p= "branch月活跃数: #{Ddt::OrderService::Api::Statistic.order_quantity(query: { placed_at_gteq: 1.month.ago, placed_at_lteq: Time.now}, group_by: :branch_id).keys.count}"
+  .col-lg-3
+    %p= "火锅: #{Ddt::Branch.by_branch_category("hotpot").count}"
+    %p= "中餐: #{Ddt::Branch.by_branch_category("chinese").count}"
+    %p= "日料: #{Ddt::Branch.by_branch_category("japanese").count}"
+    %p= "西餐: #{Ddt::Branch.by_branch_category("western").count}"
+    %p= "快餐: #{Ddt::Branch.by_branch_category("fastfood").count}"
+    %p= "其他: #{Ddt::Branch.by_branch_category("others").where(is_abstract: false).count}"
+
+:javascript
+  $(document).ready(function(){
+    $('.admin-chart').highcharts({
+      chart:{
+      },
+      title: {
+        text: "新shop统计"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@tick_interval},
+        categories: #{raw @empty_data.keys.to_json}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: ''
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        name: '新shop数',
+        data: #{@data.values.to_json}
+      }]
+    });
+  });

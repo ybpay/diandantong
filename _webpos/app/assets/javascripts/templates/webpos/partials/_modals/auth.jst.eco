@@ -1,0 +1,20 @@
+<wp-modal wp-show="authorization_modal.show">
+  <div class="wp-modal-header">该操作需要授权</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group">
+      <div class="wp-form-label">选择授权人</div>
+      <wp-btn ng-repeat="boss in authorization_modal.bosses"
+              ng-click="authorization_modal.chose_boss(boss)"
+              ng-class="{'active': boss.id == authorization_modal.selected_boss.id}"
+              >{{boss.name}}</wp-btn>
+    </div>
+    <div class="wp-form-group">
+      <div class="wp-form-label">输入密码</div>
+      <wp-input input-model="authorization_modal.password" input-type="password" input-size="normal"></wp-input>
+    </div>
+    <div class="wp-modal-actions">
+      <wp-btn ng-click="authorization_modal.submit()" class="default-action">确定</wp-btn>
+      <wp-btn ng-click="authorization_modal.close()" class="cancel-action">取消</wp-btn>
+    </div>
+  </div>
+</wp-modal>

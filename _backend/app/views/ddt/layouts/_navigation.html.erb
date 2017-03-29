@@ -1,0 +1,39 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu" id="side-menu">
+            <% if @current_shop.present? %>
+            <li class="nav-header" >
+                <div class="dropdown profile-element">
+                    <span>
+                        <img alt="image" class="img-circle" src="<%= image_url @current_shop.image.thumb.url %>" style="width: 48px;"/>
+                    </span>
+                    <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                        <span class="clear">
+                            <% if @current_branch.present? %>
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold"><%= @current_branch.name %></strong>
+                                </span>
+                                <span class="text-muted text-xs block">更换门店 <b class="caret"></b></span>
+                            <% else %>
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold"> 未选择门店 </strong>
+                                </span>
+                                <span class="text-muted text-xs block">更换门店 <b class="caret"></b></span>
+                            <% end %>
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu animated fadeInRight m-t-xs">
+                        <li><a href="javascript: alert_branch_choose();"> 选择 </a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    <a href="<%= dashboard_backend_shop_path(@current_shop) %>" style="color: white;">点单通</a>
+                </div>
+            </li>
+            <% end %>
+            <%= render_sidebar %>
+            <%= render 'ddt/backend/test_menu' if Rails.env == 'development' && @current_shop.present? %>
+        </ul>
+
+    </div>
+</nav>

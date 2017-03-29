@@ -1,0 +1,32 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 自定义界面
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        - if @current_shop.present?
+          = link_to "新建 #{t('activerecord.models.ddt/weixin_page')}", new_backend_shop_weixin_page_path(@current_shop), :class=>"btn btn-primary"
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-2= Ddt::WeixinPage.human_attribute_name(:id)
+                %th.col-sm-2= Ddt::WeixinPage.human_attribute_name(:template_type)
+                %th.col-sm-6= Ddt::WeixinPage.human_attribute_name(:url)
+                %th.col-sm-2 操作
+
+            %tbody
+              - @weixin_pages.each do |weixin_page|
+                %tr
+                  %td= weixin_page.id
+                  %td= weixin_page.template_type_name
+                  %td= link_to weixin_page.url, weixin_page.url
+                  %td
+                    = link_to '编辑', edit_backend_shop_weixin_page_path(weixin_page.shop, weixin_page)
+
+              = no_record_hint(@weixin_pages)

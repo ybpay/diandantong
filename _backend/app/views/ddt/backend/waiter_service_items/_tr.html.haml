@@ -1,0 +1,6 @@
+%tr{id: "_#{waiter_service_item.id}"}
+  %td= waiter_service_item.name
+  %td
+    - if waiter_service_item.id.present?
+      = link_to '编辑', edit_backend_shop_branch_waiter_service_item_path(@current_shop, @current_branch, waiter_service_item), remote: true
+      = link_to '删除', [:backend, @current_shop, @current_branch, waiter_service_item], :method => :delete, remote: true, :data => { :confirm => '确定删除?' }

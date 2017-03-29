@@ -1,0 +1,17 @@
+.ibox
+  .ibox-title
+    %h3 桌台
+    .ibox-content
+      %table.table.table-striped
+        %thead
+          %tr
+            %td
+              %b
+                = "桌台信息"
+              \:
+            %td= order.table_name_with_zone
+            %tr
+              %td
+                %b
+                  点菜员:
+              %td= order.waiter.try(:name)

@@ -1,0 +1,95 @@
+
+<div id="coupons-index" class="page">
+
+  <div class="header-bar">
+    <div class="tab-group">
+      <div class="tab-group-items">
+        <div class="tab-item" ng-click="change_filter_tab('exchange')" ng-class="{'active': tab == 'exchange'}">
+          <div class="text">积分兑换</div>
+        </div>
+        <div class="tab-item" ng-click="change_filter_tab('gain_log')" ng-class="{'active': tab == 'gain_log'}">
+          <div class="text">积分明细</div>
+        </div>
+        <div class="tab-item" ng-click="change_filter_tab('exchange_log')" ng-class="{'active': tab == 'exchange_log'}">
+          <div class="text">兑换记录</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="has-header" ng-if="tab == 'exchange'">
+    <div class="no-record" ng-if="coupon_versions.length == 0">
+        没有优惠劵
+    </div>
+
+    <div class="coupon-item"  ng-repeat="version in coupon_versions" ng-class="{'coupon-orange': $index%4 == 0, 'coupon-red': $index%4 == 1, 'coupon-yellow': $index%4 == 2, 'coupon-green': $index%4==3}"
+        ng-click="go_coupon_version(version)">
+      <div class="coupon-inner">
+        <div class="name">
+          {{::version.name}}
+        </div>
+        <div class="coupon-left">
+          <div class="norminal-value">{{::version.norminal_value|currency: shop.currency}}</div>
+          <div class="usable-condition">(满{{::version.coupon_min_usable_amount}} 可用)</div>
+        </div>
+        <div class="coupon-right">
+          <div class="usablestarts">{{::version.usable_starts_at|date: 'yyyy.MM.dd'}}-{{::version.usable_expires_at|date: 'yyyy.MM.dd'}}
+          </div>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="detail-button overflow-ellipsis"> {{::version.credit_count}}积分兑一张</div>
+    </div>
+  </div>
+
+  <div class="has-header" ng-if="tab == 'gain_log'">
+    <div class="weui_cells" ng-if="gain_logs.length == 0">
+      <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p>对不起，暂时没有赠送记录</p>
+          </div>
+      </div>
+    </div>
+    <div class="weui_cells" ng-repeat="log in gain_logs">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>{{::log.note || log.reason_name}}</p>
+            </div>
+            <div class="weui_cell_ft">时间：{{::log.created_at}}</div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p ng-if="log.amount">变动积分：{{::log.amount}}</p>
+            </div>
+            <div class="weui_cell_ft" ng-if="log.balance">剩余积分：{{::log.balance}}</div>
+        </div>
+    </div>
+  </div>
+
+
+  <div class="has-header" ng-if="tab == 'exchange_log'">
+    <div class="weui_cells" ng-if="exchange_logs.length == 0">
+      <div class="weui_cell">
+          <div class="weui_cell_bd weui_cell_primary">
+              <p>对不起，暂时没有兑换记录</p>
+          </div>
+      </div>
+    </div>
+    <div class="weui_cells" ng-repeat="log in exchange_logs">
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p>{{::log.note || log.reason_name}}</p>
+            </div>
+            <div class="weui_cell_ft">时间：{{::log.created_at}}</div>
+        </div>
+        <div class="weui_cell">
+            <div class="weui_cell_bd weui_cell_primary">
+                <p ng-if="log.amount">变动积分：{{::log.amount}}</p>
+            </div>
+            <div class="weui_cell_ft" ng-if="log.balance">剩余积分：{{::log.balance}}</div>
+        </div>
+    </div>
+  </div>
+
+</div>
+

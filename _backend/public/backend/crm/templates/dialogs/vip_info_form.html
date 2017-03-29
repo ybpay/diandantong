@@ -1,0 +1,81 @@
+<md-dialog flex="60">
+  <md-toolbar class="md-toolbar-tools">
+    <h2 ng-hide="vi.id">添加</h2>
+    <h2 ng-show="vi.id">编辑</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <form name="vipLevelForm" layout="column">
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">会员编号</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vi.vip_no" placeholder="不填写则自动生成">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">会员姓名</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vi.name" placeholder="会员姓名">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">会员手机号</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vi.phone" placeholder="会员手机号">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">级别</label>
+        <div class="crm-form-control" flex="80">
+          <md-radio-group ng-model="vi.vip_level_id" layout="row" layout-align="start center">
+            <md-radio-button ng-repeat="vl in vip_levels" value="{{::vl.id}}" class="md-primary">{{::vl.name}}</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">性别</label>
+        <div class="crm-form-control" flex="80">
+          <md-radio-group ng-model="vi.sex" layout="row" layout-align="start center">
+            <md-radio-button value="male" class="md-primary">先生</md-radio-button>
+            <md-radio-button value="female" class="md-primary">女士</md-radio-button>
+          </md-radio-group>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">生日</label>
+        <div class="crm-form-control" flex="80">
+          <adm-dtp ng-model='vi.birthday' options='{format: "YYYY-MM-DD", dtpType:"date"}'></adm-dtp>
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">地址</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vi.address" placeholder="地址">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">邮箱</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vi.email" placeholder="邮箱">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">备注</label>
+        <div class="crm-form-control" flex="80">
+          <textarea ng-model="vi.note" placeholder="备注"/>
+        </div>
+      </div>
+    </form>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <md-button flex flex="50" ng-click="close()" class="md-primary">
+      取消
+    </md-button>
+    <md-button flex flex="50" ng-click="submit()" class="md-primary md-raised">
+      确认
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

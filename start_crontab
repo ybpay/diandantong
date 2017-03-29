@@ -1,0 +1,4 @@
+#!/bin/bash
+# rvm cron setup
+whenever --update-crontab ddt_whenever --roles slaver
+# whenever --update-crontab ddt_whenever --roles master

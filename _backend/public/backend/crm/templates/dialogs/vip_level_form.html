@@ -1,0 +1,67 @@
+<md-dialog flex="60">
+  <md-toolbar class="md-toolbar-tools">
+    <h2 ng-hide="vip_level.id">添加会员级别</h2>
+    <h2 ng-show="vip_level.id">编辑会员级别</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <form name="vipLevelForm" layout="column">
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">会员级别名称</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vip_level.name" placeholder="会员级别名称">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">级别</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vip_level.level" placeholder="大于0的数值，数值越大代表会员等级越高">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">会员折扣</label>
+        <div class="crm-form-control" flex="80">
+          <input type="text" ng-model="vip_level.discount" placeholder="会员折扣">
+        </div>
+      </div>
+      <div class="crm-form-line" layout="row" layout-align="left center">
+        <label class="crm-form-label" flex="20">自动升级</label>
+        <div class="crm-form-control" flex="80">
+          <!-- <md-checkbox ng-model="vip_level.auto_upgrade" class="md-primary"></md-checkbox> -->
+          <md-switch ng-model="vip_level.auto_upgrade" class="md-primary"></md-switch>
+        </div>
+      </div>
+      <div ng-show="vip_level.auto_upgrade">
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="20">累计消费升级</label>
+          <div class="crm-form-control" flex="80">
+            <input type="text" ng-model="vip_level.upgrade_total_amount" placeholder="累计消费升级">
+          </div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="20">累计充值升级</label>
+          <div class="crm-form-control" flex="80">
+            <input type="text" ng-model="vip_level.upgrade_recharge_money" placeholder="累计充值升级">
+          </div>
+        </div>
+        <div class="crm-form-line" layout="row" layout-align="left center">
+          <label class="crm-form-label" flex="20">累计积分升级</label>
+          <div class="crm-form-control" flex="80">
+            <input type="text" ng-model="vip_level.upgrade_get_credits" placeholder="累计积分升级">
+          </div>
+        </div>
+      </div>
+    </form>
+  </md-dialog-content>
+  <md-dialog-actions layout='row' layout-align="center center">
+    <md-button flex flex="50" ng-click="close()" class="md-primary">
+      取消
+    </md-button>
+    <md-button flex flex="50" ng-click="submit()" class="md-primary md-raised">
+      确认
+    </md-button>
+  </md-dialog-actions>
+</md-dialog>

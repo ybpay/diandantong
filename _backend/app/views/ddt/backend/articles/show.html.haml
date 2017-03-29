@@ -1,0 +1,11 @@
+.panel.panel-default
+  .panel-heading
+    %strong
+      = Ddt::Article.human_attribute_name(:description)
+  .panel-body
+    %div= image_tag @article.image.medium.url
+    = @article.description
+%label 文章链接：
+%input{type: "text",value:@article.link(version = 'whole_url'),class: 'form-control', onmouseover: "this.select()"}
+%br
+= edit_btn(@article)

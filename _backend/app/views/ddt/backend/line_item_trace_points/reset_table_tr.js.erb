@@ -1,0 +1,4 @@
+bootbox.hideAll();
+$('.line-item-trace-point-table-tr[data-id=<%= @line_item_trace_point.id %>]')
+  .replaceWith("<%= j render partial: '/ddt/backend/order/trace_points_table_tr',
+                             locals: {trace: @line_item_trace_point.reload} %>");

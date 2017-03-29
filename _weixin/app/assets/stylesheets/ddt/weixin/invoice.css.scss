@@ -1,0 +1,14 @@
+.submit-invoice{
+  .submit-button{
+    height: 34px;
+    background-color: $color-red;
+    border: 0;
+    color: white;
+    line-height: 24px;
+    padding:5px 15px;
+    margin-right: 5px;
+    &.disable{
+      background-color: $gray-lighter;
+    }
+  }
+}

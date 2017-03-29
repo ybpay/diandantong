@@ -1,0 +1,4 @@
+bootbox.hideAll()
+var item = $("<%= j render partial: 'item', locals: { subtract_reason: @subtract_reason }%>")
+item.hide().appendTo($(".reasons > ol")).fadeIn()
+$(document).trigger('ajax:replace')

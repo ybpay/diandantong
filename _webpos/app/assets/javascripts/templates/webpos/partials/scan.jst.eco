@@ -1,0 +1,20 @@
+<wp-modal wp-show="scan_modal.show">
+  <div class="wp-modal-header">{{scan_modal.title}}</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group">
+      <div class="wp-form-label">{{ scan_modal.info }}</div>
+    </div>
+    <div class="wp-form-group" ng-hide="scan_modal.show_input">
+      <div class="wp-form-label">{{ scan_modal.code }}</div>
+    </div>
+    <div class="wp-form-group scan-modal-code" ng-show="scan_modal.show_input">
+      <wp-input input-model="scan_modal.code" input-type="text" input-size="large"></wp-input>
+    </div>
+    <div class="wp-modal-actions">
+      <wp-btn ng-click="scan_modal.success()" ng-show="scan_modal.show_input">确认</wp-btn>
+      <wp-btn ng-click="scan_modal.toggle_input()">手动输入</wp-btn>
+      <wp-btn ng-click="scan_modal.action()" ng-show="scan_modal.action_name">{{scan_modal.action_name}}</wp-btn>
+      <wp-btn ng-click="scan_modal.close()">取消</wp-btn>
+    </div>
+  </div>
+</wp-modal>

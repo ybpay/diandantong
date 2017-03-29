@@ -1,0 +1,56 @@
+- content_for(:header) do
+  = javascript_include_tag "thirdparty/zepto.min", "data-turbolinks-track" => true
+  -#- javascript_include_tag "http://res.wx.qq.com/open/js/jweixin-1.0.0.js", "data-turbolinks-track" => true
+- unless @payment.present?
+  %div{id: 'wechatpay-data', callback_url: @callback_url, style: 'font-size: 14px; padding: 10px; text-align:center;'} 请指定订单的支付方式
+  :javascript
+    alert('请指定订单的支付方式');
+    var data_elem = $('#wechatpay-data');
+    var callback_url = data_elem.attr('callback_url');
+    window.location.href = callback_url;
+- else
+  %div{id: 'wechatpay-data', callback_url: @callback_url, data: @data.to_json, style: 'font-size: 14px; padding: 10px; text-align:center;'} 订单支付中
+
+  :javascript
+    $(function(){
+      var data_elem = $('#wechatpay-data');
+      var data = JSON.parse(data_elem.attr('data'));
+      var callback_url = data_elem.attr('callback_url');
+      var onBridgeReady = function(){
+        WeixinJSBridge.invoke('getBrandWCPayRequest',
+              {
+                "appId": data.appId,
+                "timeStamp": data.timeStamp,
+                "nonceStr": data.nonceStr,
+                "package": data.package,
+                "signType": data.signType,
+                "paySign": data.paySign
+              }, function(res){
+                if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                  alert('支付成功，等待3秒后返回... ...');
+                  //$scope.$emit("events:success_info", '支付成功，等待3秒后返回... ...');
+                } else if(res.err_msg == "get_brand_wcpay_request:cancel") {
+                  alert("支付取消！");
+                } else if(res.err_msg == "get_brand_wcpay_request:fail") {
+                  alert("支付失败，请检查错误或者重新尝试！");
+                } else if(res.err_msg == "system:access_denied" || res.err_msg == "access_control:not_allow" || res.err_msg == 'getBrandWCPayRequest:fail_invalid appid'){
+                  alert('请关注我们的公众帐号，进行微信支付');
+                } else {
+                  alert(res.err_msg);
+                }
+                setTimeout(function(){
+                  window.location.href = callback_url;
+                }, 3000);
+              });
+      };
+      if (typeof WeixinJSBridge == "undefined"){
+          if( document.addEventListener ){
+              document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+          }else if (document.attachEvent){
+              document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+              document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+          }
+      }else{
+          onBridgeReady();
+      }
+    });

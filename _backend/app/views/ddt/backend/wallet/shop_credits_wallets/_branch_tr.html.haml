@@ -1,0 +1,7 @@
+- wallet = branch.credits_wallet
+%tr.branch-wallet-tr{:'data-id' => branch.id}
+  %td= branch.name
+  %td= wallet.display_amount
+  %td
+    = link_to tag(:icon,:class=>"fa fa-eraser"), [:get_clearing, :backend, @current_shop, wallet], :class => "btn btn-xs btn-success no-border" ,title: '结算', remote: true, method: :get
+    = link_to tag(:icon,:class=>"fa fa-list"), [:wallet_logs, :backend, @current_shop, wallet], :class => "btn btn-xs btn-info no-border", title: '日志'

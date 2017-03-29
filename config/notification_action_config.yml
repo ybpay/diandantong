@@ -1,0 +1,16 @@
+defaults: &defaults
+  app:           "default"
+  backend:       "default"
+  email:         "seldom"
+  printer:       "critical"
+  sms:           "seldom"
+  system_weixin: "default"
+  webpos:        "default"
+  weixin:        "seldom"
+  cloud_server:  "default"
+development:
+  <<: *defaults
+test:
+  <<: *defaults
+production:
+  <<: *defaults

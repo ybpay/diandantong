@@ -1,0 +1,19 @@
+<div id="sharable-coupons-page" class="main-view">
+  <div class="weui_cells no-top" ng-if="sharable_coupons.length == 0">
+    <div class="weui_cell">
+      <div class="weui_cell_hd">没有优惠券红包</div>
+    </div>
+  </div>
+
+  <div class="weui_cells no-top" ng-if="sharable_coupons.length > 0">
+      <div class="weui_cell" ng-repeat="sharable_coupon in sharable_coupons" ng-click="go_show(sharable_coupon)">
+          <div class="weui_cell_hd">
+            <img ng-src="{{img_url('/images/ddt/hongbao-list.png')}}" alt="" style="width:60px;margin-right:5px;display:block">
+          </div>
+          <div class="weui_cell_bd weui_cell_primary">
+              <div class="title">恭喜您获得{{::sharable_coupon.count}}个{{::sharable_coupon.coupon_version_name}}红包</div>
+              <div class="desc">注意该红包不能自己使用，只能分享给好友使用</div>
+          </div>
+      </div>
+  </div>
+</div>

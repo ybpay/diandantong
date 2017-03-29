@@ -1,0 +1,16 @@
+= simple_form_for([:backend, @current_shop, @branch_group], html: { class: 'form-horizontal'}) do |f|
+  - f.with_options disabled: (disabled rescue nil) do |f|
+    = f.error_notification :message => error_message_in_html(@branch_group)
+
+    .form-inputs
+      = f.input :name
+      = f.input :branch_ids_string,
+          input_html: { data: { url: backend_shop_branches_path(@current_shop, multiple: true),
+            saved: @branch_group.branches.map(&:select_json),
+            placeholder: '请选择商户' },
+          class: 'ddb-select2'},
+          hint: raw("可以输入商户名称搜索更多<br />#{link_to '管理商户', backend_shop_branches_path(@current_shop), target: 'blank', class: 'btn btn-xs btn-info'}"),
+          required: false
+
+    .form-actions.col-xs-offset-2
+      = f.button :submit, :class => 'btn btn-primary btn-sm'

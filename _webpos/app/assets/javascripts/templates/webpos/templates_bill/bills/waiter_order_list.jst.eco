@@ -1,0 +1,37 @@
+<div class="main-part" wp-scroll-zone ng-show="active_menu.tag == 'waiter_list'">
+  <div class="waiter_list">
+    <wp-datetime-input class="left" input-type="datetime" input-model="params.start_time" placeholder="起始时间"></wp-datetime-input>
+    <wp-datetime-input class="left" input-type="datetime" input-model="params.end_time" placeholder="结束时间"></wp-datetime-input>
+    <wp-btn-sm ng-click="search_waiter_list()">查询</wp-btn-sm>
+    <wp-btn-sm ng-click="print_waiter_list()">打印</wp-btn-sm>
+    <div class="wp-subject col-xs-12" ng-show="waiter_list.from_cache">以下是缓存的查询结果，查询最新数据请点击<a ng-click="search_waiter_list({refresh: true})">这里</a></div>
+    <table class="wp-table-sm" ng-show="waiter_list.items">
+      <thead>
+        <th width="25%">点菜员姓名</th>
+        <th width="25%">负责订单数量</th>
+        <th width="25%">金额</th>
+        <th width="25%">客单价</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in waiter_list.items | orderBy: 'order_count' :true" ng-class="{odd: $index %2 == 0}">
+          <td>{{::item.waiter_name}}</td>
+          <td>{{::item.order_count}}</td>
+          <td>{{::item.order_amount}}</td>
+          <td>{{::item.order_average}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="wp-subject col-xs-12">
+      <span class="red">合计</span>
+    </div>
+    <table class="wp-table-sm">
+      <tbody>
+        <tr>
+          <td width="25%"></td>
+          <td width="25%">{{waiter_list.total_orders_amount}}</td>
+          <td colspan="2"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

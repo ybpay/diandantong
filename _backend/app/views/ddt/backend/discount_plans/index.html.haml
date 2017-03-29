@@ -1,0 +1,35 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/discount_plan')} 列表"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = new_btn(:discount_plan, label: t('activerecord.models.ddt/discount_plan'))
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-1= Ddt::DiscountPlan.human_attribute_name(:name)
+                %th.col-sm-1= Ddt::DiscountPlan.human_attribute_name(:start_at)
+                %th.col-sm-1= Ddt::DiscountPlan.human_attribute_name(:end_at)
+                %th.col-sm-4 折扣信息
+                %th.col-sm-4
+            %tbody
+              - @discount_plans.each do |discount_plan|
+                %tr
+                  %td= discount_plan.name
+                  %td= discount_plan.start_at.try(:strftime, "%F %T")
+                  %td= discount_plan.end_at.try(:strftime, "%F %T")
+                  %td= raw discount_plan.desc.join("<br/>")
+                  %td
+                    = edit_btn(discount_plan)
+                    = delete_btn(discount_plan)
+              = no_record_hint(@discount_plans)
+          %br
+          .pull-right= will_paginate @discount_plans , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

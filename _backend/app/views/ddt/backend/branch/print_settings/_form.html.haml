@@ -1,0 +1,14 @@
+= simple_nested_form_for([:backend, @current_shop, @current_branch, @print_setting], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@print_setting)
+  .col-sm-6
+    .form-inputs
+      = f.input :is_auto_confirm, as: :boolean, hint: "自动确认外卖订单和堂点订单"
+      = f.input :is_webpos_print_eatinhall_order_when_place
+      = f.input :is_current_print_when_place
+      = f.input :merge_same_item
+
+    .form-actions
+      .col-xs-offset-4
+        = f.button :submit, :class => "btn btn-primary"
+
+  .clearfix

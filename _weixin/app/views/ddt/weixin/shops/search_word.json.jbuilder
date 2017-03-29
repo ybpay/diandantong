@@ -1,0 +1,1 @@
+json.array! @current_shop.splited_search_words

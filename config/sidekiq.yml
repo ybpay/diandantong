@@ -1,0 +1,16 @@
+---
+:concurrency: 10
+:pidfile: tmp/pids/sidekiq.pid
+staging:
+  :concurrency: 10
+production:
+  :concurrency: 20
+:queues:
+  - [critical, 200]
+  - [default, 100]
+  - [normal, 100]
+  - [seldom, 40]
+  - [hardly, 5]
+#  这两行在线上不能添加的。只有统计调试机器能单独起线程
+#  - [statistics, 2]
+#  - [heavy_statistics, 1]

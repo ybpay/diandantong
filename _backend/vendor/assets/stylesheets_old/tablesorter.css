@@ -1,0 +1,11 @@
+table.tablesorter thead tr .header {
+  cursor: pointer;
+}
+table.tablesorter thead tr .headerSortUp {
+  color: white;
+  background-color: #6fb3e0;
+}
+table.tablesorter thead tr .headerSortDown {
+  color: white;
+  background-color: #ffb752;
+}

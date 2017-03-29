@@ -1,0 +1,216 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-title
+      %h5= "#{t('activerecord.models.ddt/branch')} 详情"
+    .ibox-content.header
+      .row
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:name)
+            \:
+          = @branch.name
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:open_days)
+            \:
+          = @branch.open_days
+        
+        .col-md-6.form-group
+          %b
+            微信访问网址
+            \:
+          - url = Ddt::LinkResource.new(shop: @current_shop, branch: @current_branch).branch_home_url
+          = link_to url, url
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:service_periods)
+            \:
+          - @branch.service_periods.each do |service_period|
+            = "#{service_period.start_at.strftime("%H:%M")} ~ #{service_period.end_at.strftime("%H:%M")}"
+            %br
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:notice)
+            \:
+          = @branch.notice
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:note_placeholder)
+            \:
+          = @branch.note_placeholder
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:phone)
+            \:
+          = @branch.phone
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:address)
+            \:
+          = @branch.address
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:latitude)
+            \:
+          = @branch.latitude
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:longitude)
+            \:
+          = @branch.longitude
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:expiration_time)
+            \:
+          = @branch.expiration_time
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:product_list_style)
+            \:
+          = @branch.product_list_style_name
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:branch_type)
+            \:
+          = @branch.branch_type.name rescue nil
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:branch_category)
+            \:
+          = @branch.branch_category_name
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:branch_group)
+            \:
+          = @branch.branch_groups.map(&:name).join(',')
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:zone_ids)
+            \:
+          = @branch.zones.map(&:name).join(", ")
+        .col-md-6.form-group
+          %b
+            支持的下单方式
+            \:
+          = %W[use_delivery_setting use_reservation_setting use_eat_in_hall_setting use_fastfood_setting use_queue_setting use_pay_online_setting].select{|s| @branch.send(s.to_sym)}.map{|s| Ddt::Branch.human_attribute_name(s.to_sym)}.join(", ")
+
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:image)
+            \:
+          = image_tag @branch.image.thumb.url, width: 150
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:rect_image)
+            \:
+          = image_tag @branch.rect_image.thumb.url, width: 150
+        .col-md-6.form-group
+          %b
+            = Ddt::Branch.human_attribute_name(:introduction)
+            \:
+          = raw @branch.introduction
+        .clearfix
+        = advanced_options do
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:check_stock)
+              \:
+            = @branch.check_stock? ? '是'  : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:show_stock_quantity)
+              \:
+            = @branch.show_stock_quantity? ? '是'  : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:show_sale_quantity)
+              \:
+            = @branch.show_sale_quantity? ? '是'  : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:support_wifi)
+              \:
+            = @branch.support_wifi? ? '提供'  : '不提供'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:support_parking)
+              \:
+            = @branch.support_parking? ? "#{@branch.parking_space_count}个"  : '没有'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:check_stock)
+              \:
+            = @branch.check_stock? ? '是'  : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:support_invoice)
+              \:
+            = @branch.support_invoice? ? '支持'  : '不支持'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:wechat_no)
+              \:
+            = @branch.wechat_no
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:qq_no)
+              \:
+            = @branch.qq_no
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:promotion_in_webpos)
+              \:
+            = @branch.promotion_in_webpos? ? '是' : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:enable_tts_local)
+              \:
+            = @branch.enable_tts_local? ? '开启' : '关闭'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:hasten_minute_since_place)
+              \:
+            = @branch.hasten_minute_since_place
+            分钟
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:moling_type)
+              \:
+            = @branch.moling_type_name
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:moling_precision)
+              \:
+            = @branch.moling_precision_name
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:moling_auto)
+              \:
+            = @branch.moling_auto ? '是' : '否'
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:enable_user_location_limitation)
+              \:
+            = @branch.enable_user_location_limitation ? '是' : '否'
+
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:table_sticker_custom_line1)
+              \:
+            = @branch.table_sticker_custom_line1
+
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:table_sticker_custom_line2)
+              \:
+            = @branch.table_sticker_custom_line2
+
+          .col-md-6.form-group
+            %b
+              = Ddt::Branch.human_attribute_name(:auto_publish_comment)
+              \:
+            = @branch.auto_publish_comment ? '是' : '否'
+
+          .col-md-6.form-group
+            = link_to '删除此门店', [:backend, @current_shop, @branch], :method => :delete, :data => { :confirm => '确定要删除此门店吗?一旦删除，所有数据将不可恢复，请慎重选择' }, :class => "btn btn-xs btn-danger"
+      = link_to t('Edit'), edit_backend_shop_branch_path(@current_shop, @branch), :class => "btn btn-primary", :"data-no-turbolink"=>""

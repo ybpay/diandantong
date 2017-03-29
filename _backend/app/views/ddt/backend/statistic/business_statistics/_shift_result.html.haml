@@ -1,0 +1,62 @@
+- if @result.length > 5000
+  查询结果太大，请下载 csv 或 xls 格式文件查看
+- else
+  %br/
+  %table.statistic-table
+    %thead
+      %tr
+        %th 门店
+        %th 当班人
+        %th 当班时间
+        %th 折前金额
+        %th 折扣金额
+        %th 抹零金额
+        %th 折后金额
+        %th 实收总额
+        / %th 会员卡充值总额
+        / %th 会员卡兑换总额
+        %th 消费人数
+        %th 堂点单数
+        %th 单均
+        %th 人均
+        %th
+    %tbody
+      - @shifts = @result
+      - @shifts.each do |shift|
+        %tr
+          %td= shift.branch.name
+          %td= shift.account.try(:name)
+          %td= "#{shift.created_at.strftime('%m-%d %H:%M')} ~ #{shift.closed_at.strftime("%m-%d %H:%M")}"
+          %td= shift.total_amount + shift.discount_amount.abs - shift.moling_amount
+          %td= shift.discount_amount
+          %td= shift.moling_amount
+          %td= shift.total_amount
+          %td= shift.total_actual_amount
+          / %td= shift.recharge_amount
+          / %td= shift.exchange_amount
+          %td= shift.total_customter_count
+          %td= shift.total_eat_in_hall_order_count
+          %td= shift.per_eat_in_hall_order_consumption
+          %td= shift.per_capita_consumption
+          %td
+            = info_btn(shift, remote: true)
+            = link_to tag(:icon, class: 'fa fa-print'), print_backend_shop_shift_path(@current_shop, shift, format: 'js'), remote: true, :'data-rel' => "tooltip", :title => '打印', class: 'btn btn-warning btn-xs'
+
+      %tr
+        %td{ colspan: 3 } 合计
+        %td= @shifts.sum(:total_amount) + @shifts.sum(:discount_amount).abs - @shifts.sum(:moling_amount)
+        %td= @shifts.sum(:discount_amount)
+        %td= @shifts.sum(:moling_amount)
+        %td= @shifts.sum(:total_amount)
+        %td= @shifts.sum(:total_actual_amount)
+        / %td= @shifts.sum(:recharge_amount)
+        / %td= @shifts.sum(:exchange_amount)
+        %td= @shifts.sum(:total_customter_count)
+        %td= @shifts.sum(:total_eat_in_hall_order_count)
+        %td= (1.0 * @shifts.sum(:total_amount) / @shifts.sum(:total_eat_in_hall_order_count)).round(2)
+        %td= (1.0 * @shifts.sum(:total_amount) / @shifts.sum(:total_customter_count)).round(2)
+
+        %td
+  %br
+    =# will_paginate @shifts , renderer: BootstrapPagination::Rails, bootstrap: 3
+  %br

@@ -1,0 +1,41 @@
+.header
+  %h3= "产品将复制到目标门店，请选择目标门店"
+  .alert.alert-info
+    复制产品需要一定的时间， 请耐心等待.
+    %br
+    %strong
+      注意：
+    %br
+    相同产品的判别标准： 如果产品有设置sku，则sku相同判别为同一个产品，没有设置sku，则以产品名称为依据
+= form_tag([:batch_copy, :backend, @current_shop, @current_branch, :products], class: 'form-horizontal', remote: true, method: :post, id: "batch_copy_form") do
+  .field.form-group
+    .col-xs-3.control-label
+      = label_tag "选择目标门店"
+    .col-xs-9
+      = text_field_tag :branch_ids, "", data: { url: backend_shop_branches_path(@current_shop, :"q[id_not_eq]" => @current_branch.id, multiple: true)}, class: 'ddb-select2 col-xs-6'
+  .field.form-group
+    .col-xs-3.control-label
+      = label_tag "选择目标门店分组"
+    .col-xs-9
+      = text_field_tag :branch_group_ids, "", data: { url: backend_shop_branch_groups_path(@current_shop)}, class: 'ddb-select2 col-xs-6'
+
+  .field.form-group
+    .col-xs-3.control-label
+    .col-x3-9
+      = check_box_tag :replace_same_product
+      覆盖掉相同的产品？
+  - if @ids.present?
+    = hidden_field_tag :ids, @ids
+
+  .form-actions.col-xs-offset-2{style: "margin-top: 100px;"}
+    = submit_tag "确认", :class => "btn btn-primary btn-sm"
+:javascript
+  $(function(){init_ddb_select2();});
+
+  $('form#batch_copy_form').submit(function() {
+    bootbox.hideAll();
+    bootbox.dialog({
+      message: "<div style='text-align:center;'><i class='fa fa-spinner fa-spin fa-5x'></i></div>",
+      title: "正在复制数据，请耐心等候"
+    });
+  });

@@ -1,0 +1,30 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 代理区域
+    .form-group
+      = link_to '新添区域', new_backend_agent_zone_path, :class=>"btn btn-sm btn-primary"
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %tr
+              %th= Ddt::AgentZone.human_attribute_name(:name)
+              %th= Ddt::AgentZone.human_attribute_name(:agents_count)
+              %th
+
+            - @agent_zones.each do |agent_zone|
+              %tr
+                %td= agent_zone.name
+                %td= agent_zone.agents_count
+                %td
+                  = link_to '详情', [:backend, agent_zone]
+                  = link_to '编辑', edit_backend_agent_zone_path(agent_zone)
+                  = link_to '删除', [:backend, agent_zone], :method => :delete, :data => { :confirm => 'Are you sure?' }
+                  = link_to "代理关系", [:backend, agent_zone, :agent_rels]
+
+            = no_record_hint(@agent_zones)
+
+          %br
+

@@ -1,0 +1,16 @@
+
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs
+            - @statistics.each do |statistic|
+              %li{class: ('active' if action_name == statistic[:name])}
+                = link_to statistic[:label], [statistic[:name], :backend, @current_shop, controller_name.to_sym]
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+
+= render template: "ddt/layouts/backend"

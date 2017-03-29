@@ -1,0 +1,15 @@
+bootbox.hideAll();
+<%
+  owner = @wallet.owner
+  if owner.is_a?(Ddt::VipInfo)
+    base_user = owner.base_user
+  else
+    base_user = owner
+  end
+%>
+
+<% if params[:v] == "wallet" %>
+  $('.user-wallet-tr[data-id=<%= base_user.id%>]').replaceWith("<%= j render partial: '/ddt/backend/wallet/shop_credits_wallets/base_user_tr', locals: { base_user: base_user}%>")
+<% elsif params[:v] == "base_user" %>
+  $('.credits_wallet_amount').html("<%= @wallet.amount%>")
+<% end %>

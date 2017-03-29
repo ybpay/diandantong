@@ -1,0 +1,22 @@
+-content_for(:branch_body) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs
+            %li{class: ('active' if %W[products].include?(controller_name) && %W[index new create].include?(action_name))}
+              = link_to '全部产品', backend_shop_branch_products_path(@current_shop, @current_branch)
+            %li{class: ('active' if %W[categories].include?(controller_name))}
+              = link_to t('activerecord.models.ddt/category'), backend_shop_branch_categories_path(@current_shop, @current_branch)
+            - if @product.present? && @product.persisted?
+              %li{class: ('active' if %W[products].include?(controller_name) && !%W[index new create].include?(action_name))}
+                = link_to '产品详情', backend_shop_branch_product_path(@current_shop, @current_branch, @product)
+              %li{class: ('active' if %W[variants].include? controller_name)}
+                = link_to t('activerecord.models.ddt/variant'), backend_shop_branch_product_variants_path(@current_shop, @current_branch, @product)
+              %li{class: ('active' if %W[variant_images].include? controller_name)}
+                = link_to t('activerecord.models.ddt/variant_image'), backend_shop_branch_product_variant_variant_images_path(@current_shop, @current_branch, @product, @variant||@product.master)
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend/branch"

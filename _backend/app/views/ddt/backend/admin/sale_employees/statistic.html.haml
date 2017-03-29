@@ -1,0 +1,8 @@
+.ibox
+  .ibox-title
+    %h2= "#{@sale_employee.info}, shop数量：#{@sale_employee.shops.count}"
+  .ibox-content
+    - if @sale_employee.shops.present?
+      = render partial: '/ddt/backend/admin/sale_employees/statistic_chart', locals: {time_filter: :this_week, shop: nil, query_date: params[:query_date] }
+    - else
+      = '当前售后还没有指定shop'

@@ -1,0 +1,20 @@
+<div ng-include src="partial('header')" include-replace></div>
+<div wp-footbar branch-id='{{branch.id}}' ng-if="branch"></div>
+
+<div class="branch-payment-page main-view">
+  <div class="wp-subject">买单</div>
+  <div class="wp-hint">买单功能是指在顾客没有订单的情况下需要直接向顾客收取现金，支付宝、微信支付、会员卡等情况，系统会将此收入纳入财务核算报表。</div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">买单金额</div>
+    <wp-input class="payment-amount" input-model="amount" input-type="number"></wp-input>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label">备注</div>
+    <wp-input input-model="note" input-type="text"></wp-input>
+  </div>
+  <div class="wp-form-group">
+    <div class="wp-form-label"></div>
+    <wp-btn class="primary" ng-class="{disabled: !can_submit()}" ng-click="submit()">创建</wp-btn>
+  </div>
+</div>
+

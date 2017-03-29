@@ -1,0 +1,10 @@
+= simple_form_for([:backend, @current_shop, @article], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@article)
+
+  .form-inputs
+    = f.input :title
+    = f.input :image, as: :image_preview, hint: '推荐图片尺寸为900×500'
+    = f.input :description, as: :ckeditor, input_html: { ckeditor: { toolbar: 'mini'} }
+
+  .form-actions.col-xs-offset-4
+    = f.button :submit, class: "btn btn-primary"

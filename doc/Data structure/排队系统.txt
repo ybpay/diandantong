@@ -1,0 +1,42 @@
+===========================================================================
+================================ 微信扫码排队
+===========================================================================
+QueueSetting: order_by('guest_num_le DESC')
+  branch: references
+  name: 队列名字
+  queue_url: string
+  queue_qr_code: file 队列的二维码
+  guest_num_le: integer, unique: {branch_id} 客户数量小于此值时自动排入此队列
+  start_at: time
+  end_at: time
+  queue_no_prefix: string 队列的编号前缀
+  current_queue_head: references, class_name: BranchQueue 当前队首客户
+  current_queue_tail: references, class_name: BranchQueue 最后一个加入队列的客户
+  last_push_queue_item_at: datetime 最后一个加入队列的时间
+  enabled: boolean 临时关闭队列
+  -----未来功能
+  notify_msg_in_advance: text "客户{xxx},您前面还有{2}桌客人，请尽快回到{shop_name}进行排队就餐！"
+  voice_notify_msg: text "客户{xxx},外婆喊你吃饭拉！" 语音播报
+  voice_type: string 播放声音的配置信息，比如男声、女声，音速等
+
+GuestQueue 客人队列
+  guest_no    用户编号
+  branch: references
+  queue_setting: references    队号
+  state       accepted 排队成功， rejected 过号，cancel 主动取消， queueing 排队中
+  is_notified true/false
+  user_id     用户是谁？
+  phone       用户手机
+  guest_num   客人数量
+
+（可能还需要和桌台类型联系）
+
+1. 查询队长
+select count(*) from branch_queues where state = queueing
+
+2. 查询队头
+select count(*) from branch_queues where state = queueing limit 1 order by created_at asc limit 1
+
+3. 通过成功排上队的 updated_at 和 created_at 比较，可知排队时间。
+
+4. 过号，则是手动把某人的 accepted 改为 rejected

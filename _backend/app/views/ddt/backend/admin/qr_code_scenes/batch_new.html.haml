@@ -1,0 +1,14 @@
+.ibox
+  .ibox-title
+    %h2= "批量新建#{t('activerecord.models.ddt/qr_code_scene')}"
+  .ibox-content
+    = simple_form_for(:batch_qr_code_scenes, url: [:batch_create, :backend, :qr_code_scenes], html: { class: 'form-horizontal'}) do |f|
+      = f.error_notification :message => flash[:error]
+      .col-sm-6
+        .form-inputs
+          = f.input :count, label: '创建二维码数量', as: :integer
+
+        .form-actions
+          .col-xs-offset-4
+            = f.button :submit, :class => "btn btn-primary", value: '立即创建'
+      .clearfix

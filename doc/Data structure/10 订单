@@ -1,0 +1,116 @@
+通用字段
+id               :
+shop_id          :
+branch_id        :
+created_at       :
+updated_at       :
+deleted_at       :
+
+表 orders         : 订单
+number           : integer   : 订单号
+user_id          :
+type             : string    : 类型  DeliveryOrder ReservationOrder EatInHallOrder
+is_proxy         : boolean   : 是否代点(self or     phone or waiter)
+state            : string    : 状态    pending confirmed completed canceled
+has_one :payment
+completed_at     : datetime  : 完成时间
+note             : text      : 备注
+items_count       : integer
+# DeliveryOrder
+has_one         : shipment
+# ReservationOrder
+has_one :reservation_info
+# EatInHallOrder
+table_id         :
+
+item_total       : decimal   :
+adjustment_total : decimal   :             在创建/修改订单时会重新计算
+shipment_total   : decimal   : 运费总额
+total            : decimal   :
+credits_total    : decimal   : 积分支付总额
+wallet_total     : decimal   : 余额支付总额
+payment_total    : decimal   : 支付总额
+is_commented     : boolean   : 用户消费成功完成后，该用户获取一次评论机会
+
+
+表 reservation_info 预订信息
+order_id
+table_zone_id    :
+reservation_time_point_id    :
+reservation_date    : datetime  : 预订日期
+time_point: time
+
+(作状态变更日志用)
+表 state_changes  : 状态变更
+stateful_type    :
+stateful_id      :
+state_name       : string    : 状态名称
+previous_state   :
+next_state       :
+
+表 delivery_zones : 配送区域
+name			 : string	 : 区域名字
+cost             : decimal   : 配送费
+position         : integer
+
+
+表 delivery_times : 配送时间,只有在delivery_setting的use_fixed_delivery_time启用时才有效
+start_time       : time      : 开始时间
+end_time         : time      : 结束时间
+position         : integer
+
+表 shipments
+order_id         :
+state            : string    : 状态 pending shipping shipped
+address_id       :
+delivery_zone_id :
+delivery_time_id :
+delivery_man_id  :
+shipping_at      : datetime  : 发货时间
+shipped_at       : datetime  : 送达时间
+cost             : 费用
+# cache column
+content
+name
+phone
+
+表 addresses		 :
+content          : string
+name             : string
+phone            : string
+
+表 adjustments
+source_type      :
+source_id        :
+adjustable_type  :
+adjustable_id    :
+order_id         :
+label            : string
+amount           : decimal   :
+eligible         : boolean
+
+表 search_groups  : 搜索选项组
+name             : string
+type             : string
+state            : string
+payment_state    : string
+query_start_time : datetime
+query_end_time   : datetime
+...todo
+
+表 notification           : 通知  （实现时详细讨论： 通知模板）
+notification_target_type :
+notification_target_id   :
+order_id                 :
+type                     : string : 类型
+content                  : string : 内容
+state                    : string : 状态 pending notified
+
+
+
+
+
+
+
+
+

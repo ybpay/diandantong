@@ -1,0 +1,6 @@
+- field_name = "#{param_prefix}[abstract_coupon_version_id]"
+.col-sm-3
+  = label_tag field_name, I18n.t("promotion.actions.events.voucher_version")
+.col-sm-3.input-group
+  = select_tag field_name, options_from_collection_for_select(@current_shop.voucher_versions.usable, :id, :name, selected: promotion_action.voucher_version.try(:id)), include_blank: true
+%div 若没有代金券可在活动与推广中心——团购设置--代金券产品中设置

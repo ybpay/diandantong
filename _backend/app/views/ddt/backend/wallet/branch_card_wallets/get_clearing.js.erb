@@ -1,0 +1,5 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'clearing_form' %>",
+  title: "门店余额结算 <%= @wallet.owner.name%>"
+});

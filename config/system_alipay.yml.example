@@ -1,0 +1,16 @@
+defaults: &defaults
+  pid: ''
+  pkey: ''
+  email: ''
+  app_id: ''
+  contract: 'wap|pay_on_face_v4'
+  rsa_pri_key: |
+    -----BEGIN RSA PRIVATE KEY-----
+    YOUR KEY CODE HERE!!!
+    -----END RSA PRIVATE KEY-----
+
+development:
+  <<: *defaults
+
+production:
+  <<: *defaults

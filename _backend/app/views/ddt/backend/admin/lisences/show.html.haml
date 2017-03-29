@@ -1,0 +1,48 @@
+%p#notice= notice
+.panel.panel-default
+  .panel-heading 授权详情
+  .panel-body
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:lisence_no)
+      \:
+      = @lisence.lisence_no
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:price)
+      \:
+      = number_to_currency(@lisence.price, :unit=>'¥')
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:feature_module_group)
+      \:
+      = @lisence.group_name_to_label   
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:is_used)
+      \:
+      - if @lisence.is_used
+        %span.label.label-danger 已使用
+      - else
+        %span.label.label-success 未使用
+    - if @lisence.is_used
+      %p
+        %b= Ddt::Lisence.human_attribute_name(:used_time)
+        \:
+        = @lisence.used_time
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:agent)
+      \:
+      = @lisence.agent.name rescue '<空>'
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:increment_days)
+      \:
+      = @lisence.increment_days
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:lisence_type)
+      \:
+      = @lisence.lisence_type_name
+    %p
+      %b= Ddt::Lisence.human_attribute_name(:note)
+      \:
+      = @lisence.note
+
+    = link_to t('Edit'), edit_backend_lisence_path(@lisence), :class=>"btn btn-default btn-sm"
+    \|
+    = link_to t('Back'), :back, :class=>"btn btn-default btn-sm"

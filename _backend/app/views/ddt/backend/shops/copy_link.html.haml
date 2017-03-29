@@ -1,0 +1,15 @@
+.alert.alert-success
+  %p
+    %strong
+      温馨提示：
+  
+  %ol
+    %li 1、请先点击选择您要获得链接的页面名称
+    %li 2、将生成的页面链接直接复制粘贴到您所需要使用该链接的位置：比如微信菜单跳转、或者首页导航链接、首页幻灯片
+.select_url
+= raw("#{render '/ddt/backend/branch_sliders/auto_insert_url', {input_field_id: 'link', version: 'whole_url'}}")
+%br
+%br
+.link{ style: 'width:100%;'}
+  %input{type: 'text', id: 'link', class: 'form-control', onmouseover: "this.select();"}
+  

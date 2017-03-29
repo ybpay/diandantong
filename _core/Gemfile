@@ -1,0 +1,2 @@
+eval(File.read(File.dirname(__FILE__) + '/../common_ddt_dependencies.rb'))
+gemspec

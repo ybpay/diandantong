@@ -1,0 +1,71 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/printer_code')} 列表"
+    %h5= "商圈版平均每个门店最多拥有2个授权码, 其他版本平均每个门店可拥有 10 个授权码"
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        .col-sm-4
+          %button.btn.btn-primary{:"data-toggle"=>"modal", :"data-target"=>'#create-print-code'} 申请授权码
+          %button.btn.btn-primary{:"data-toggle"=>"modal", :"data-target"=>'#bind-print-code'} 认领授权码
+        .col-sm-8
+          
+  .row
+    .col-lg-12
+      .ibox 
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-3= Ddt::PrinterCode.human_attribute_name(:code)
+                %th.col-sm-3= Ddt::PrinterCode.human_attribute_name(:secret)
+                %th.col-sm-3= Ddt::PrinterCode.human_attribute_name(:created_at)
+                %th.col-sm-3= Ddt::PrinterCode.human_attribute_name(:branches)
+            
+            - @printers = Ddt::PrinterCode.printers_of_codes(@current_shop, @printer_codes.map(&:code))
+            - @printer_codes.each do |code|
+              %tbody
+                %tr
+                  %td= code.code
+                  %td= code.secret
+                  %td= code.created_at
+                  %td
+                    - branch_ids = @printers.select{|printer| printer.number == code.code}.map(&:branch_id).uniq
+                    = Ddt::PrinterCode.branch_name_of_codes(@current_shop, branch_ids)
+
+
+                = no_record_hint(@printer_codes)
+
+#create-print-code.modal.fade{:tabindex=>"-1", :role=>"dialog"}
+  .modal-dialog{:role=>"document"}
+    .modal-content
+      .modal-header
+        %button.close{:type=>"button", :data=>{:dismiss=>"modal"}, :"aria-label"=>"Close"}
+          %span{:"aria-hidden"=>"true"} &times;
+        %h4.modal-title 申请打印机授权码
+      .modal-body
+        %p 申请新的打印机授权码
+        - @printer_code = @current_shop.printer_codes.build
+        = simple_form_for [:backend, @current_shop, @printer_code], html: {class: "form-horizontal", role: "form"} do |f|
+          .col-sm-offset-4
+            = f.submit '立即申请', class: 'btn btn-primary'
+          .clearfix
+
+
+#bind-print-code.modal.fade{:tabindex=>"-1", :role=>"dialog"}
+  .modal-dialog{:role=>"document"}
+    .modal-content
+      .modal-header
+        %button.close{:type=>"button", :data=>{:dismiss=>"modal"}, :"aria-label"=>"Close"}
+          %span{:"aria-hidden"=>"true"} &times;
+        %h4.modal-title 认领打印机授权码
+      .modal-body
+        %p 绑定之前已经购买的授权码，绑定后可以更安全，避免因授权码泄漏导致的被盗用
+        - @printer_code = @current_shop.printer_codes.build
+        = simple_form_for @printer_code, url: bind_backend_shop_printer_codes_path, html: {class: "form-horizontal", role: "form"} do |f|
+          = f.input :code, placeholder: '输入授权码编号'
+          = f.input :secret, placeholder: '授权码秘钥'
+          .col-sm-offset-4
+            = f.submit '立即认领', class: 'btn btn-primary'
+          .clearfix

@@ -1,0 +1,1 @@
+json.(current_account, :id, :name)

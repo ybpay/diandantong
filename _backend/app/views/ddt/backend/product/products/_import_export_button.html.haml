@@ -1,0 +1,27 @@
+.btn-group
+  %button.btn.dropdown-toggle{type: "button", data: {toggle: "dropdown"}}
+    导入导出
+    %i.fa.fa-caret-down
+  %ul.dropdown-menu
+    %li
+      = link_to "导出产品csv", backend_shop_branch_products_path(@current_shop, @current_branch, format: "csv")
+    %li
+      = link_to "导出产品xls", backend_shop_branch_products_path(@current_shop, @current_branch, format: "xls")
+    %li
+      = link_to "导入产品", "javascript:void(0);", data: { toggle: "modal", target: "#upload-products"}
+
+#upload-products.modal.inmodal.fade{ role: "dialog" }
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button{ type: "button", class: "close", :"data-dismiss" => "modal"}
+          %span{ :"aria-hidden" => true} x
+          %span.sr-only Close
+        %h3 上传产品文件
+      = form_tag import_products_backend_shop_branch_products_path(@current_shop, @current_branch), method: "post", multipart: true do
+        .modal-body
+          .form-group
+            %label{for: "file"} 选择文件(csv xls)
+            = file_field_tag "file"
+        .modal-footer
+          = submit_tag "上传文件", class: "btn btn-primary"

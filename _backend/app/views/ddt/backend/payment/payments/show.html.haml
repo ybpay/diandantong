@@ -1,0 +1,10 @@
+.header
+  %h3= "#{t("activerecord.models.#{@model_class.to_s.underscore}")} 详情"
+.model-show
+  - show_for @payment do
+    - show_simple_attr :branch do |branch|
+      = branch.name
+    - show_simple_attr :order_id, :amount, :workflow_state
+    - show_simple_attr :payment_method do |payment_method|
+      = payment_method.name
+    - show_simple_attr :out_trade_no

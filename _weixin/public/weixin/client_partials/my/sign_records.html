@@ -1,0 +1,60 @@
+<div class="vip-section" id="sign-record-section">
+  <div vip-card ng-user="user" ng-shop="current_shop"></div>
+
+  <div class="balance-group">
+    <div class="balance-item">
+      <div class="label">
+        累计签到
+      </div>
+      <div class="value">
+        {{user.sign_records_count}}天
+      </div>
+    </div>
+    <div class="balance-item">
+      <div class="label">
+        连续签到
+      </div>
+      <div class="value">
+        {{user.continuous_sign_count}}天
+      </div>
+    </div>
+    <div class="balance-item">
+      <div class="label">
+        签到状态
+      </div>
+      <div class="value">
+        {{user.today_signed ? "已签到":"未签到"}}
+      </div>
+    </div>
+  </div>
+
+  <div class="padding">
+    <div class="weui_btn weui_btn_warn" ng-if="!user.today_signed" ng-click="sign()">
+        立即签到
+    </div>
+  </div>
+  <div class="weui_cells">
+    <div class="weui_cell">
+      <div class="weui_cell_bd weui_cell_primary">
+        {{ ::load_time |date: 'M月d日'}}(今天)
+      </div>
+      <div class="weui_cell_ft orange">
+        签到获取积分
+      </div>
+    </div>
+  </div>
+  <div class="my-items">
+    <div class="my-item-group" ng-repeat="item_group in item_groups">
+      <div class="my-item opacity" ng-class="{'active': item.signed}" ng-repeat="item in item_group">
+        <div ng-if="!!item.label">
+          <div class="text">
+            {{item.signed ? "已签到":"未签到"}}
+          </div>
+          <div class="label">
+            {{item.label}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

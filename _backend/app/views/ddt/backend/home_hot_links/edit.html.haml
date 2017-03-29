@@ -1,0 +1,10 @@
+.ibox
+  .ibox-title
+    %h3= "编辑#{t('activerecord.models.ddt/home_hot_link')}"
+  .ibox-content
+    .col-md-6
+      = render 'form'
+      = link_to t('Show'), [:backend, @current_shop, :custom_weixin_info, @home_hot_link], :class => "btn btn-default btn-sm"
+      \
+      = link_to t('Back'), [:backend, @current_shop, :custom_weixin_info, :home_hot_links], :class => "btn btn-default btn-sm"
+    .clearfix

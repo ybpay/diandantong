@@ -1,0 +1,38 @@
+//== Colors
+//
+//## Gray and brand colors for use across Bootstrap.
+
+$gray-darker:            lighten(#000, 13.5%) !default; // #222
+$gray-dark:              lighten(#000, 20.0%) !default; // #333
+$gray:                   lighten(#000, 33.5%) !default; // #555
+$gray-light:             lighten(#000, 46.7%) !default; // #777
+$gray-lighter:           lighten(#000, 85.7%) !default;
+$gray-lightest:          lighten(#000, 93.5%) !default; // #eee
+
+$color-red:             #ef4437 !default;
+
+$color-primary:         #428bca !default;
+$color-success:         #5cb85c !default;
+$color-info:            #5bc0de !default;
+$color-warning:         #f0ad4e !default;
+$color-danger:          #d9534f !default;
+$color-orange:          #FFA500 !default;
+
+// theme color
+$color-theme: #ff2d4b;
+$color-theme-dark: #dc1432;
+$color-theme-darker: #C00A24;
+$color-background-defualt: #fafafa;
+
+.green  { color: #28a267;}
+.red    { color: #f34b3f;}
+.blue   { color: #34afbe;}
+.gray   { color: #959595;}
+.yellow { color: #ffff00;}
+.orange { color: #FFA500;}
+.label-green {background-color: #28a267; color: white;}
+.label-red {background-color: #f34b3f; color: white;}
+.label-blue {background-color: #34afbe; color: white;}
+.label-pink {background-color: #ff7994; color: white;}
+.label-gray {background-color: #959595; color: white;}
+.label-orange {background-color: $color-orange; color: white;}

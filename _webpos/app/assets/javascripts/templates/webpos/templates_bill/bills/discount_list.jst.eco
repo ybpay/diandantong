@@ -1,0 +1,43 @@
+<div class="main-part" wp-scroll-zone ng-show="active_menu.tag == 'discount_list'">
+  <div class="discount_list">
+    <wp-datetime-input class="left" input-type="datetime" input-model="params.start_time" placeholder="起始时间"></wp-datetime-input>
+    <wp-datetime-input class="left" input-type="datetime" input-model="params.end_time" placeholder="结束时间"></wp-datetime-input>
+    <wp-btn-sm ng-click="search_discount_list()">查询</wp-btn-sm>
+    <wp-btn-sm ng-click="print_discount_list()">打印</wp-btn-sm>
+    <div class="wp-subject col-xs-12" ng-show="discount_list.from_cache">以下是缓存的查询结果，查询最新数据请点击<a ng-click="search_discount_list({refresh: true})">这里</a></div>
+    <table class="wp-table-sm" ng-show="discount_list.items">
+      <thead>
+        <th width="15%">订单号</th>
+        <th width="10%">桌台</th>
+        <th width="20%">时间</th>
+        <th width="20%">折扣类型</th>
+        <th width="10%">折扣金额</th>
+        <th width="10%">操作人</th>
+        <th width="15%">授权人</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in discount_list.items | orderBy:'created_at':true" ng-class="{odd: $index %2 == 0}">
+          <td>{{::item.order_number}}</td>
+          <td>{{::item.table_name}}</td>
+          <td>{{::item.created_at}}</td>
+          <td>{{::item.label}}</td>
+          <td>{{::item.amount }}</td>
+          <td>{{::item.operator_name}}</td>
+          <td>{{::item.authorizer_name}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="wp-subject col-xs-12">
+      <span class="red">合计</span>
+    </div>
+    <table class="wp-table-sm">
+      <tbody>
+        <tr>
+          <td width="65%"></td>
+          <td width="10%">{{discount_list.total_discount_amount | number:2}}</td>
+          <td width="25%"></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

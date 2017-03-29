@@ -1,0 +1,14 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @tick_account], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@tick_account)
+
+  .form-inputs
+    .col-sm-6
+      = f.input :name
+    .col-sm-6
+      = f.input :enable
+    .clearfix
+    .col-sm-6
+      = f.input :note
+    .clearfix
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"

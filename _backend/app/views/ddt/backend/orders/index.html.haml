@@ -1,0 +1,106 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2= "#{t('activerecord.models.ddt/order')} 列表"
+    .p
+      - if @current_shop.max_branches_limit >= 100
+        = "您当前使用的 [ #{@current_shop.shop_type_name} ] 可创建门店数量无限制"
+      - else
+        = "您当前使用的 [ #{@current_shop.shop_type_name} ] 可创建门店数量最多为#{@current_shop.max_branches_limit}家"
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .m-b-sm
+    .row
+      .col-lg-12
+        = form_for @q.form_model, url: @search_url, method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :number_eq, placeholder: '订单号', class: "form-control"
+          - if [:delivery_order, :reservation_order].include?(@order_type)
+            = f.input_field :delivery_name_or_reservation_name_cont, placeholder: '姓名', class: "form-control"
+            = f.input_field :delivery_phone_or_reservation_phone_cont, placeholder: '电话', class: "form-control"
+            %br
+            %br
+
+          = f.input_field :branch_id_eq, data: {"local-datas" => @current_shop.branches, useas: "local_select", single: true},placeholder: "选择门店", class: "form-control ddb-select2"
+          - if [:eat_in_hall_order].include?(@order_type)
+            = f.input_field :table_id_eq, data: { url: backend_shop_branch_tables_path(@current_shop, params["q"]["branch_id_eq"].blank? ? 0 : params["q"]["branch_id_eq"] ), useas: "select", single: true}, placeholder: "选择桌台", class: "form-control ddb-select2"
+
+          = f.input_field :type_eq, collection: Ddt::OrderService::Order::Base.type_collection, include_blank: true, prompt: "选择类型", style: (@order_type == :all ? '' : 'display:none'), class: "form-control"
+          = f.input_field :state_eq, collection: Ddt::OrderService::Order::Base.state_collection, include_blank: true, prompt: "状态", class: "form-control"
+          = f.input_field :pay_item_state_eq, collection: Ddt::OrderService::Order::Base.pay_item_state_collection, include_blank: true, prompt: "支付状态", class: "form-control"
+          = f.input_field :settle_account_id_eq, data: {"local-datas" => @current_shop.accounts, useas: "local_select", single: true, placeholder: '结算员'},class: "form-control ddb-select2"
+          - if can_show_delivery_man?
+            = f.input_field :shipment_state_eq, collection: Ddt::OrderService::Order::Delivery.shipment_state_collection, include_blank: true, prompt: ""
+          = f.input_field :placed_at_gteq, as: :date, placeholder: "下单时间", class: 'input-medium'
+          %label{style: 'font-size:20px;'} ~
+          = f.input_field :placed_at_lteq, as: :date, placeholder: "下单时间", class: 'input-medium'
+          = f.input_field :per_page, collection: [["20/页", 20],["50/页", 50], ["100/页", 100]], include_blank: true, prompt:"每页数量", class: "form-control"
+          = f.submit '搜索', class: 'btn btn-success'
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped.orders-table
+            %thead
+              %tr
+                %th.col-sm-1{ style: "width:2%;"}
+                  = check_box_tag "all_orders", "", false, title: '全选', id: "batch_op_select_all", data: {model: "order", token: form_authenticity_token}
+                  %label{for: "all_orders"}
+                %th.col-sm-2= sort_link(@q.ransack_model , :number, "订单编号/下单时间")
+                - if @current_shop.multi_branch?
+                  %th.col-sm-1= sort_link(@q.ransack_model , :branch_id, "门店")
+                - if is_search_eatinhall_order?
+                  %th.col-sm-1= sort_link(@q.ransack_model , :table_id, "桌台")
+                %th.col-sm-1= sort_link(@q.ransack_model , :total, "订单总额")
+                %th.col-sm-1= sort_link(@q.ransack_model , :type, "订单类型")
+                %th.col-sm-1= sort_link(@q.ransack_model , :state, "状态")
+                %th.col-sm-1= sort_link(@q.ransack_model , :pay_item_state, "支付状态/方式")
+                %th.col-sm-1= sort_link(@q.ransack_model , :paid_at, "支付时间")
+                - if can_show_delivery_man?
+                  %th.col-sm-1= "配送员"
+                  %th.col-sm-1= sort_link(@q.ransack_model , :shipment_state , "配送状态")
+                - if is_search_reservation_order?
+                  %th.col-sm-1= sort_link(@q.ransack_model , :reservation_date, "预订日期")
+                  %th.col-sm-1= sort_link(@q.ransack_model , :reservation_table_zone_name , "桌台类型")
+                %th.col-sm-2
+
+            %tbody
+              = render partial: '/ddt/backend/orders/table_tr', collection: @orders.all, as: :order
+              = no_record_hint(@orders.all)
+          - if controller_name == 'orders' and action_name == 'index'
+            = render 'ddt/backend/orders/batch_op_toolbar'
+            .vspace-10
+
+          .row
+            .col-lg-12
+              .form-group.pull-left
+                .btn-group
+                  %button.btn.btn-default.dropdown-toggle{type:"button", data:{toggle:"dropdown"}}
+                    批量修改状态
+                    %span.caret
+                  %ul.dropdown-menu
+                    - {confirmed:"已确认", completed: "已完成", canceled: "已取消"}.each do |state, state_name|
+                      %li
+                        = link_to state_name, batch_change_state_backend_shop_orders_path(@current_shop, params: filted_params.merge({state: state})), class: "batch_op_action", confirmtxt: "确认修改选中订单的状态？"
+                    %li
+                      = link_to '已付款',batch_change_pay_item_state_backend_shop_orders_path(@current_shop, params), id: 'set_all_to_paid',class: 'batch_op_action', confirmtxt: '确认设置该订单为以现金结账方式完成支付吗？', method: :post
+
+                = link_to "导出选中",  export_selected_backend_shop_orders_path(@current_shop, format: 'csv'), class: "btn btn-primary btn-sm batch_op_action"
+
+                - if @record_num && @record_num < 50
+                  = link_to "导出结果", @export_all_path, class: "btn btn-primary btn-sm"
+                - else
+                  = link_to "导出结果",  get_export_list_backend_shop_orders_path(@current_shop, params: filted_params), class: "btn btn-primary btn-sm", remote: true
+
+              .pull-right= will_paginate @orders, renderer: BootstrapPagination::Rails, bootstrap: 3, total_entries: 100
+              %br
+
+              = render partial: '/ddt/backend/order/cancel_reason'
+              - if controller_name == 'delivery_orders' && !@current_shop.enable_foreign?
+                %script(type='text/javascript' src='http://map.qq.com/api/js?v=2.exp&key=D6XBZ-7O2R5-P5HI6-QSCGE-33WGJ-DDFG4' charset='utf-8')
+
+:javascript
+  $('#q_branch_id_eq').on('change', function(e){
+    var table_url = $('#q_table_id_eq').data('url').replace(/branches\/\d+/, 'branches/'+e.val);
+    $('#q_table_id_eq').data('url', table_url)
+    init_ddb_select2();
+  })
+

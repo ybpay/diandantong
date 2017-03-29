@@ -1,0 +1,18 @@
+%tr{id: "_#{device.id}"}
+  - if @mode && controller_name == "pages"
+    %td= check_box_tag "device[id][]", device.id, false, id: "device_id_#{device.id}"
+  %td= device.device_id
+  %td= device.comment
+  %td= device.status_name
+  %td= device.uuid
+  %td= device.major
+  %td= device.minor
+  %td= device.major_hex
+  %td= device.minor_hex
+  %td= device.count
+  - if @mode.blank?
+    %td
+      = link_to tag(:icon,:class=>"fa fa-refresh"), backend_shop_wechat_account_shake_around_device_path(@current_shop, @wechat_account, device), remote: true, title: "刷新", class: "btn btn-success btn-xs"
+      = link_to tag(:icon,:class=>"fa fa-bars"), backend_shop_wechat_account_shake_around_device_shake_infos_path(@current_shop, @wechat_account, device), class: "btn btn-default btn-xs", title: "摇一摇日志"
+      = link_to tag(:icon,:class=>"fa fa-edit"), edit_backend_shop_wechat_account_shake_around_device_path(@current_shop, @wechat_account, device), remote: true, title: "编辑", class: "btn btn-primary btn-xs"
+      = link_to "管理绑定", get_bind_backend_shop_wechat_account_shake_around_device_path(@current_shop, @wechat_account, device), class: "btn btn-primary btn-xs"

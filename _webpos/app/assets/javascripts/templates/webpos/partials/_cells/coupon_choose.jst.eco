@@ -1,0 +1,16 @@
+
+<div class="master-part" ng-controller="couponChooseCell" wp-scroll-zone>
+  <div class="wp-subject">选择优惠券</div>
+  <div>
+    <wp-btn-md  ng-click="choose_coupon(coupon)"
+                  ng-class="{'active': coupon == active_coupon}"
+                  ng-repeat="coupon in coupons">
+                  {{coupon.name}}
+      </wp-btn-md>
+      <div class="space"></div>
+  </div>
+  <div class="wp-no-record" ng-hide="coupons.length > 0">该用户没有可用的优惠券</div>
+  <div>
+    <wp-btn ng-click="confirm()" ng-if="coupons.length > 0">使用该优惠券</wp-btn>
+  </div>
+</div>

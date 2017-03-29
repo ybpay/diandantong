@@ -1,0 +1,22 @@
+<md-content layout="column" layout-padding layout-margin>
+  <div class="crm-form-line" layout="row" layout-align="left center">
+    <label class="crm-form-label" flex="20">过期提醒</label>
+    <div class="crm-form-control" flex="80">
+      <md-checkbox class="md-primary" ng-model="setting.enable_expired_notify"></md-checkbox>
+    </div>
+  </div>
+  <div class="crm-form-line" layout="row" layout-align="left start" ng-show="setting.enable_expired_notify">
+    <label class="crm-form-label" flex="20">过期提前通知天数</label>
+    <div class="crm-form-control" flex="80" layout="column" layout-align="">
+      <input type="text" ng-model="setting.expired_notify_in_advance_days">
+    </div>
+  </div>
+  <div class="crm-form-line no-border-bottom" layout="row" layout-align="left left">
+    <label class="crm-form-label" flex="10"></label>
+    <div class="crm-form-control" flex="90">
+      <md-button class="md-primary md-raised" ng-click="update()">
+        更新
+      </md-button>
+    </div>
+  </div>
+</md-content>

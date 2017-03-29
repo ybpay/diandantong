@@ -1,0 +1,18 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/role')} 详情"
+.model-show
+  %p
+    %b
+      = Ddt::Role.human_attribute_name(:display_name)
+      \:
+    = @role.display_name
+  %p
+    %b
+      = Ddt::Role.human_attribute_name(:permission_set)
+      \:
+    %br/
+    = raw @role.permission_set_text.gsub("\n", "<br/>")
+  .space
+= link_to t('Edit'), edit_backend_shop_role_path(@current_shop, @role), :class => "btn btn-primary btn-sm"
+\
+= link_to t('Back'), backend_shop_roles_path(@current_shop), :class => "btn btn-default btn-sm"

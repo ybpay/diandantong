@@ -1,0 +1,27 @@
+.header
+  %h3 用户余额管理
+
+%p
+  %b
+    = Ddt::ShopCardWallet.human_attribute_name(:amount)
+    \:
+  = @wallet.display_amount
+
+= search_form_for @q, url: [:base_users, :backend, @current_shop, :shop_card_wallet], html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+  = f.input_field :type_eq, collection: Ddt::BaseUser.type_collection, include_blank: true, class: 'form-control'
+  = f.input_field :phone_cont, placeholder: Ddt::BaseUser.human_attribute_name(:phone), class: 'form-control'
+  = f.submit "搜索", class: "btn btn-success"
+%br
+
+%table.table.table-striped
+  %thead
+    %tr
+      %th.col-sm-6= Ddt::BaseUser.human_attribute_name(:name)
+      %th.col-sm-3= Ddt::UserCardWallet.human_attribute_name(:amount)
+      %th
+
+  %tbody
+    = render partial: '/ddt/backend/wallet/shop_card_wallets/base_user_tr', collection: @base_users, as: :base_user
+%br
+.pull-right= will_paginate @base_users , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

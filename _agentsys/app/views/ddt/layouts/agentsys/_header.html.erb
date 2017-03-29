@@ -1,0 +1,5 @@
+<% if agentsys_agent_signed_in? %>
+  <%= render 'ddt/layouts/agentsys/header_signed' %>
+<% else %>
+  <%= render 'ddt/layouts/agentsys/header_unsigned' %>
+<% end %>

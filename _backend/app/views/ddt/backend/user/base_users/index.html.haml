@@ -1,0 +1,37 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/base_user')} 列表"
+
+
+.form-group
+  .btn-group
+    %button.btn.btn-sm.dropdown-toggle{type: "button", data: {toggle: "dropdown"}}
+      - str = { index: '所有用户', normal_users: '普通用户', vip_users: '会员用户(已绑定)' }[action_name.to_sym]
+      = str.present? ? str : '所有用户'
+      %i.fa.fa-caret-down
+    %ul.dropdown-menu
+      %li
+        = link_to "所有用户", backend_shop_base_users_path(@current_shop)
+      %li
+        = link_to "普通用户", normal_users_backend_shop_base_users_path(@current_shop)
+      %li
+        = link_to "会员用户(已绑定)", vip_users_backend_shop_base_users_path(@current_shop)
+      %li
+        = link_to "根据用户OpenID查找", find_by_user_open_id_backend_shop_base_users_path(@current_shop)
+
+= render 'search_form'
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-1= sort_link(@q, :id, Ddt::BaseUser.human_attribute_name(:id))
+      %th.col-sm-1= sort_link(@q, :name, Ddt::BaseUser.human_attribute_name(:name))
+      %th.col-sm-1= sort_link(@q, :phone, Ddt::BaseUser.human_attribute_name(:phone))
+      %th.col-sm-1= sort_link(@q, :type, Ddt::BaseUser.human_attribute_name(:type))
+      %th.col-sm-1= sort_link(@q, :placed_orders_count, Ddt::BaseUser.human_attribute_name(:placed_orders_count))
+      %th.col-sm-2
+
+  %tbody
+    = render partial: "user_tr", collection: @base_users, as: :base_user
+    = no_record_hint(@base_users)
+%br
+.pull-right= will_paginate @base_users , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

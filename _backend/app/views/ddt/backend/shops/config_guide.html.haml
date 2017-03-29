@@ -1,0 +1,212 @@
+- branch = fake_branch
+- download_url = "http://www.diandantong.com/download#{@current_shop.is_oem? ? '?oem=true' : ''}"
+.guide-group
+  .guide-gh
+    .guide-ght 一、筹备运营
+    .guide-ghd
+      %p 了解系统功能，根据自身盈利模式和运营方法设置和搭建基本设置、系统公众账号、设置运营门店
+  .guide-items
+    .guide-item{ data: { url: edit_backend_shop_url(@current_shop)}}
+      .guide-itt 基本设置
+      .guide-itd
+        %p 设置你的企业账号及基本信息；密码修改，保护账户安全
+    .guide-item{ data: { modal: true}}
+      .guide-itt 支付管理
+      .guide-itd
+        %p 开通在线支付账号，配置相关参数，实现在线支付功能，没有现金，手机也能买单。
+      .guide-mt
+        %p
+          = link_to "支付宝支付：", [:backend, @current_shop, :alipay_methods]
+          %span 开通企业支付宝账户，在企业支付宝后台获取pid，pkey等参数，配置到点单通后台，付款金额直接转入商家支付宝账户
+        %p
+          = link_to "微信支付：", [:backend, @current_shop, :wechatpay_method_v336s]
+          %span 申请开通企业微信支付账户，微信公众号后台获取原始ID，appid，appSecret等参数，配置到点单通后台，顾客付款金额直接转入商家微信支付账户
+        %p
+          = link_to "百度钱包：", [:backend, @current_shop, :baidupay_methods]
+          %span 开通百付宝账号，获取百付宝门店号及合作密钥等参数，并配置到后台，顾客使用百度钱包付款，直接打入商家百度钱包账户
+    .guide-item{ data: { modal: true}}
+      .guide-itt 微信公众账号对接
+      .guide-itd
+        %p 将您的餐厅微信公众号与点单通进行对接，并将相关权限授权给点单通，帮助您快速搭建微信餐厅，推送图文消息给顾客，直接与消费者互动。
+      .guide-mt
+        %p
+          = link_to "一键授权添加公众号：", [:backend, @current_shop, :wechat_accounts]
+          %span 仅需输入公众号用户名、密码即可自动配置ID，Token，appid，appsecret等参数，将微信公众号授权给点单通，为您的公众号提供素材管理，消息自动回复，二维码管理等功能服务，配置微信公众号菜单，与用户直接互动，引导进入微信餐厅
+        %p
+          = link_to "素材配置：", [:backend, @current_shop, :materials]
+          %span 编辑文本或图文消息，设定指定动作，用户触发动作后，系统自动推送相应消息给用户，例如用户扫描二维码，关注公众号或者回复关键字等，系统自动推送对应的消息。
+        %p
+          = link_to "自动回复设置：", [:backend, @current_shop, :events]
+          %span 设置关注自动回复和关键词自动回复内容，用户关注已授权给点单通的餐厅公众号后系统自动推送预先配置好的素材，素材类型可以是纯文本，也可以是图文消息。
+        %p
+          = link_to "二维码管理：", [:backend, @current_shop, :base_qr_code_scenes]
+          %span 创建与餐厅公众号相关联的普通二维码和参数二维码，用户微信扫描普通二维码可进入指定的页面，扫描参数二维码进入指定页面的同时自动关注您的公众号，您可以在此设置餐厅的排号二维码、快餐二维码，门贴二维码甚至为每一个服务员配置专属二维码来检测服务员二维码扫描次数。
+    .guide-item{ data: { url: download_url, target: '_blank'}}
+      .guide-itt 收银系统安装
+      .guide-itd
+        %p 订单信息、会员信息云端实时同步，支持多样化的支付方式，实现线上线下一体化；登陆点单通官网下载中心，下载并安装点单通云收银系统。
+    .guide-item{ data: { url: download_url, target: '_blank'}}
+      .guide-itt 手机APP的安装
+      .guide-itd
+        %p 使用点单通管理员及子账号登录APP，兼具点菜和收银功能，如同移动收银机，同时取代服务铃，大幅提高服务员效率。
+    .guide-item{ data: { url: download_url, target: '_blank'}}
+      .guide-itt 平板点餐系统的安装
+      .guide-itd
+        %p 基于Pad端的餐桌点餐APP，通过Pad端点菜加退菜以及排号取号等服务，提高用户体验。
+.guide-group
+  .guide-gh
+    .guide-ght 二、基础业务运营
+    .guide-ghd
+      %p
+  .guide-items
+    .guide-item{ data: { url: backend_shop_branches_url(@current_shop)}}
+      .guide-itt 设置门店
+      .guide-itd
+        %p 创建微信餐厅，完善门店名称、营业时间、电话、经纬度、门店地址、门店展示图片以及门店介绍等详细信息，这些信息将会展示在您的微信餐厅上。
+    .guide-item{ data: { url: backend_shop_branch_products_url(@current_shop, branch)}}
+      .guide-itt 产品管理
+      .guide-itd
+        %p 批量创建上传产品图片，展示菜品, 设置菜品规格菜品介绍及品注等信息, 产品分类展示，菜单结构更加清晰
+    .guide-item{ data: { url: backend_shop_branch_combos_url(@current_shop, branch)}}
+      .guide-itt 套餐管理
+      .guide-itd
+        %p 创建产品套餐，菜品搭配销售，提高销量
+    .guide-item{ data: { url: backend_shop_branch_tables_url(@current_shop, branch)}}
+      .guide-itt 桌位设置
+      .guide-itd
+        %p 设置桌台信息，批量生成桌贴二维码供打印张贴
+    .guide-item{ data: { url: backend_shop_branch_printers_url(@current_shop, branch)}}
+      .guide-itt 设置门店打印机
+      .guide-itd
+        %p 配置打印机：配置打印机，保证正常出单
+        %p 小票打印设置：不同设置显示不同打印内容
+    .guide-item{ data: { modal: true}}
+      .guide-itt 外卖服务
+      .guide-itd
+        %p 收银系统、微信端、网页端均支持外卖下单，电话订单，网络订单全面覆盖，多样化的在线支付方式，满足不同顾客的需要。
+      .guide-mt
+        %p
+          = link_to "配送范围：", [:backend, @current_shop, branch, :delivery_setting]
+          %span 设置外卖配送区域范围，自动识别顾客订单配送距离
+        %p
+          = link_to "外卖起送金额：", [:backend, @current_shop, branch, :delivery_setting]
+          %span 设置起送金额，不满起送金额无法下单，提高外卖客单价
+    .guide-item{ data: { modal: true}}
+      .guide-itt 堂点服务
+      .guide-itd
+        %p 收银端点菜、服务员APP点菜、PAD点餐点菜、顾客扫码自助点菜等多终端点餐系统，点餐不再只依赖服务员，点餐效率大幅提高。
+      .guide-mt
+        %p
+          = link_to "扫码点餐：", "#"
+          %span 手机扫一扫就可点菜下单，在线支付，还可在线催单、呼叫服务员
+        %p
+          = link_to "服务员APP点餐：", download_url, target: '_blank'
+          %span 通过服务员APP点菜下单，提高服务员下单效率
+        %p
+          = link_to "PAD点餐点餐：", download_url, target: '_blank'
+          %span 精美的界面设计，取代纸质菜单，顾客自助点餐下单
+    .guide-item{ data: { modal: true}}
+      .guide-itt 预订服务
+      .guide-itd
+        %p 通过电话预订或者微信享受在线预订服务；针对电话预订，安装来电宝硬件，自动识别来电号码和顾客身份，大幅提高电话预订效率；微信预订生成电子邀请函，节省餐厅和顾客时间
+      .guide-mt
+        %p
+          = fake_branch_link "预定设置: ", [:backend, @current_shop, branch, :reservation_setting]
+          %span 设置最长提前预订天数, 预付款方式
+        %p
+          = link_to "预订开放时间段设置：", [:backend, @current_shop, branch, :reservation_time_points]
+          %span 设置预订时间段
+        %p
+          = link_to "预付金比例设置：", [:backend, @current_shop, branch, :table_zones]
+          %span 顾客预先支付订金的比例
+    .guide-item{ data: { modal: true}}
+      .guide-itt 快餐服务
+      .guide-itd
+        %p 适用于快餐店和经营快餐业务的餐厅，收银端、微信端均可实现快餐下单支付；微信端顾客扫描快餐二维码进入快餐点餐下单页面，支付后生成取餐牌号，顾客凭取餐牌号取餐，无需排队等候出餐
+      .guide-mt
+        %p
+          = link_to "扫码点餐：", "#"
+          %span 点餐支付不再局限收银台，扫码自助点餐，凭编号直接取餐
+        %p
+          = link_to "Pad下单：", download_url, target: '_blank'
+          %span Pad化身自助点餐收银机，自动出单，凭号取餐，无需排队
+    .guide-item{ data: { modal: true}}
+      .guide-itt 排队服务
+      .guide-itd
+        %p 针对客流高峰期的餐厅排队服务，收银端、微信端、APP端、Pad端均可在线取号排号，配合餐厅语音叫号和微信通知，确保顾客及时入座，还可进行预点菜，预先点菜，入座即可下单，提高翻台率。
+      .guide-mt
+        %p 在线取号：多终端入口在线取号，满足顾客需求
+        %p 语音叫号：语音播放叫号，一键提醒顾客入座就餐
+        %p 微信提醒：微信端实时推送排号进展，避免错过进店时间，防止过号
+        %p 排号引导：播放语音排号引导，店内设置排号二维码，为餐厅积累粉丝
+        %p
+          = link_to "排号设置：", [:backend, @current_shop, branch, :arranging_setting]
+          %span 设置排号模式
+        %p
+          = link_to "队列设置：", [:backend, @current_shop, branch, :queue_settings]
+          %span 设置排号队列
+    .guide-item{ data: { modal: true}}
+      .guide-itt 电话订餐服务
+      .guide-itd
+        %p 电话也可外卖预订，安装使用来电宝来电弹屏功能，自动识别顾客电话号码、姓名和下单记录中的地址备注等信息，无需服务员手动输入，大幅提高电话订餐效率
+      .guide-mt
+        %p 来电弹屏：来电自动识别顾客手机号，抓取顾客下单记录，行为偏好一手掌握
+        %p 自动填写订单，节约服务员时间，提高订单效率
+    .guide-item
+      .guide-itt 买单服务
+      .guide-itd
+        %p 收银情况复杂多样，买单服务支持在收银端直接输入付款金额买单，点单通系统之外的订单也能录入餐厅流水
+    .guide-item{ data: { modal: true}}
+      .guide-itt 物料准备
+      .guide-itd
+        %p 微信餐厅上线之前，你还需要准备以下物料，以确保顾客能够享受相应的微信餐厅服务：排号二维码、门贴二维码、快餐二维码，这些二维码可以让你顾客直接扫码进入您的微信餐厅，还可为您的公众号积累粉丝。
+      .guide-mt
+        %p
+          = link_to "排号二维码：", [:queue_qr_codes, :backend, @current_shop, :supplies]
+          %span 创建微信排号二维码即可使用点单通微信排号功能，将创建好的取号参数二维码贴在餐厅醒目位置，引导顾客扫码取号，不仅可以解决客流高峰期顾客排队困扰，还可以让用户自动关注餐厅公众号，积累粉丝。
+        %p
+          = link_to "门贴二维码：", [:door_stickers, :backend, @current_shop, :supplies]
+          %span 创建门贴二维码，将二维码贴在餐厅门前，顾客扫码就可进入到餐厅公众号；一个微信公众号可创建多个门贴二维码，用于不同门店。
+        %p
+          = link_to "快餐二维码：", [:fastfood_stickers, :backend, @current_shop, :supplies]
+          %span 适用于快餐店和经营快餐业务的餐厅，顾客扫码后直接进入微信快餐点菜页面，不用排队，直接下单，凭取餐编号即可取餐。
+.guide-group
+  .guide-gh
+    .guide-ght 三、营销活动
+    .guide-ghd
+      %p
+  .guide-items
+    .guide-item{ data: { url: backend_shop_base_users_url(@current_shop)}}
+      .guide-itt 会员设置与管理
+      .guide-itd
+        %p 设置分等级会员体系，建立会员数据库，掌握会员消费记录和消费习惯，会员信息实时同步，兼容实体会员卡和虚拟会员卡
+    .guide-item{ data: { url: backend_shop_order_promotions_url(@current_shop)}}
+      .guide-itt 满减营销
+      .guide-itd
+        %p 编辑满减营销名称、时间、适用范围等基础信息，并设置系统自动优惠减额的优惠规则和优惠动作，用户下单时满足一种或多种条件即可享受到相应的减免优惠
+    .guide-item{ data: { url: backend_shop_event_promotions_url(@current_shop)}}
+      .guide-itt 免赠营销
+      .guide-itd
+        %p 您可以设置餐厅免费赠送活动规则和动作，例如关注送积分、满额送券、首次关注赠券、分享赠券等优惠动作，当用户满足活动指定的条件时，向用户赠送虚拟或实物礼品给予鼓励...
+:javascript
+  $(function(){
+    $(".guide-item[data-url]").click(function(e){
+      var url = $(this).data('url')
+      var target = $(this).data('target')
+      if(target == '_blank'){
+        setTimeout(function(){window.open(url)}, 100);
+      }else{
+        window.location.href = url
+      }
+    })
+    $(".guide-item[data-modal]").click(function(e){
+      var title = $('.guide-itt', $(this)).html()
+      var desc = $('.guide-itd', $(this)).html()
+      var content = $('.guide-mt', $(this)).html()
+      bootbox.hideAll();
+      bootbox.dialog({
+        message: content,
+        title: title
+      });
+    })
+  })

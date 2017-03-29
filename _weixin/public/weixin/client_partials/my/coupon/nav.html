@@ -1,0 +1,52 @@
+<div class="vip-section">
+  <div vip-card ng-user="user" ng-shop="current_shop"></div>
+  <div class="balance-group">
+    <div class="balance-item">
+      <div class="label">
+        可用
+      </div>
+      <div class="value">
+        {{coupon_status.available}}
+      </div>
+    </div>
+    <div class="balance-item">
+      <div class="label">
+        已用
+      </div>
+      <div class="value">
+        {{coupon_status.applied}}
+      </div>
+    </div>
+    <div class="balance-item">
+      <div class="label">
+        过期
+      </div>
+      <div class="value">
+        {{coupon_status.expired}}
+      </div>
+    </div>
+    <div class="balance-item">
+      <div class="label">
+        退款
+      </div>
+      <div class="value">
+        {{coupon_status.refund}}
+      </div>
+    </div>
+  </div>
+
+  <div class="padding-20"></div>
+
+  <div class="my-items">
+    <div class="my-item-group" ng-repeat="item_group in item_groups">
+      <div class="my-item" ng-repeat="item in item_group" ng-click="item.click()">
+        <div ng-if="!!item.label">
+          <img ng-src="{{item.img}}"/>
+          <div class="label">
+            {{item.label}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs#delivery-tabs
+            %li{class: (params[:q].blank? || params[:q][:type_eq].blank?) ? 'active' : nil}
+              = link_to "所有订单", backend_shop_orders_path(@current_shop)
+            - Ddt::OrderService::Order::Base.type_collection.each do |type_item|
+              %li{class: ( params[:q].present? && params[:q][:type_eq] == type_item[1].to_s ? 'active' : nil)}
+                = link_to "#{type_item[0]}订单", backend_shop_orders_path(@current_shop, {q: {type_eq: type_item[1]}})
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend"

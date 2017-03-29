@@ -1,0 +1,8 @@
+<div id="products-page">
+  <div ng-include src="partial('cart/products/common-footer')"></div>
+  <div class="product-notice-section">
+    {{cart.table_zone.name}} {{cart.reservation_date_str}} {{cart.reservation_time_point_str}} ({{cart.table_zone.min_reservation_price|currency:currency}} 起订)
+  </div>
+  <div ng-include src="partial('cart/products/common-main-view')" class="main-view"></div>
+
+</div>

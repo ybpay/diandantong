@@ -1,0 +1,59 @@
+%table.table.table-striped.table-bordered
+  %tbody
+    %tr
+      %td= "订单号：#{@order.number}"
+      %td= "订单类型：#{@order.type_name}"
+    %tr
+      %td= "下单时间：#{@order.placed_at.strftime("%F %T")}"
+      %td= "结单时间：#{@order.completed_at.strftime("%F %T") rescue ""}"
+    %tr
+      %td= "订单金额：#{@order.total}"
+      %td= "实收金额：#{@order.amount_for_pay}"
+    %tr
+      %td= "会员卡号：#{@order.current_vip.try(:is_default) ? '' : @order.current_vip.try(:vip_no)}"
+      %td= "会员折扣：#{@order.current_vip.try(:is_default) ? '' : @order.current_vip.try(:discount)}"
+    %tr
+      %td= "优惠券优惠：#{@order.coupon.present? ? @order.coupon.coupon_version.norminal_value : ''}"
+      %td= "代金券优惠：#{@order.voucher.present? ? @order.voucher.voucher_version.norminal_value : ''}"
+    %tr
+      %td= "权限折扣：#{@order.get_privilege_discount}"
+      %td= "权限减免：#{@order.get_privilege_reduction}"
+    %tr
+      %td{colspan: 2}= "权限免单：#{@order.privilege_free_adjustment.present? ? '是' : '否'}"
+    %tr
+      %td= "满减优惠：#{@order.adjustments.sum(:amount)}"
+    %tr
+      %td{ colspan: 2 }= "订单内容"
+    - if @order.is_eat_in_hall?
+      %tr
+        %td= "桌台：#{@order.table.try(:name_with_zone)}"
+        %td= "就餐人数：#{@order.guest_num}"
+    - if @order.is_delivery?
+      %tr
+        %td= "配送日期：#{@order.delivery_date.try(:strftime, "%Y-%m-%d")}"
+        %td= "配送时间：#{@order.delivery_time_display}"
+      %tr
+        %td= "配送区域：#{@order.delivery_zone_name}"
+        %td= "地址信息：#{[@order.delivery_name, @order.delivery_phone, @order.delivery_address].join(",")}"
+    - if @order.is_reservation?
+      %tr
+        %td= "预订人信息：#{@order.reservation_customer_info}"
+        %td= "预定时间：#{@order.reservation_time_info}"
+      - if @order.reservation_note.present?
+        %tr
+          %td= "预订备注：#{@order.reservation_note}"
+    - if @order.note.present?
+      %tr
+        %td{ colspan: 2 }= "备注：#{@order.note}"
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th 商品
+      %th 数量
+      %th 单价
+  %tbody
+    - @order.line_items.each do |line_item|
+      %tr
+        %td= line_item.name_with_note
+        %td= line_item.quantity
+        %td= line_item.price

@@ -1,0 +1,39 @@
+.crm-table{
+  padding: 0;
+  text-align: center;
+  .crm-table-header{
+    min-height: 50px;
+    .crm-table-header-content{
+      .crm-table-th{
+
+      }
+    }
+    .crm-table-header-action{
+    }
+  }
+  .crm-table-content{
+    .crm-table-row{
+      height: 50px;
+      border-bottom: 1px solid #ddd;
+      &.row-action{
+        background-color: #555;
+        color: #fff;
+        md-icon{
+          color: #fff;
+        }
+      }
+      .crm-table-row-content{
+        border-right: 1px solid #ddd;
+        .crm-table-td{
+          md-checkbox{
+            margin-left: 14px;
+            margin-bottom: 0;
+          }
+        }
+      }
+      .crm-table-row-action{
+
+      }
+    }
+  }
+}

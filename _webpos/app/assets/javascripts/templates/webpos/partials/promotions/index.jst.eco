@@ -1,0 +1,63 @@
+<div ng-include src="partial('header')" include-replace></div>
+<div wp-footbar branch-id='{{branch_id}}' ng-if="branch"></div>
+  <div class="main-view" wp-scroll-zone>
+    <div class="wp-subject">请选择兑换券的类型</div>
+    <div>
+      <wp-btn-lg ng-click="exchange_groupon()"
+                 ng-class="{'active': promotion_type == 'groupon' }"
+      >团购券</wp-btn-lg>
+      <wp-btn-lg ng-click="exchange_voucher()"
+                 ng-class="{'active': promotion_type == 'voucher' }"
+      >代金券</wp-btn-lg>
+      <wp-btn-lg ng-click="exchange_coupon()"
+                 ng-class="{'active': promotion_type == 'coupon' }"
+      >优惠券</wp-btn-lg>
+      <div class="space"></div>
+    </div>
+
+    <div class="space"></div>
+  </div>
+
+<div ng-show="input_exchange_code" class="wp-modal">
+  <div class="wp-modal-class"></div>
+  <div class="wp-modal-body">
+    <div class="wp-form-group">
+      <div class="wp-form-label">兑换码</div>
+      <wp-input input-model="exchange_code" input-type="text"></wp-input>
+      <wp-btn ng-click="search()">查找</wp-btn>
+      <wp-btn ng-click="scan_code()">扫码</wp-btn>
+    </div>
+    <div ng-show="show_promotion">
+       <div class="wp-subject">兑换券信息</div>
+       <div class="wp-table">
+          <wp-table-row>
+            <div class="wp-table-col col-1">券名：</div>
+            <div class="wp-table-col col-2">{{promotion.name}}</div>
+          </wp-table-row>
+          <wp-table-row>
+            <div class="wp-table-col col-1">描述：</div>
+            <div class="wp-table-col col-2">{{promotion.description}}</div>
+          </wp-table-row>
+          <wp-table-row>
+            <div class="wp-table-col col-1">兑换码：</div>
+            <div class="wp-table-col col-2">{{promotion.exchange_code}}</div>
+          </wp-table-row>
+          <wp-table-row>
+            <div class="wp-table-col col-1"></div>
+            <div class="wp-table-col col-2">{{promotion.value_desc}}</div>
+          </wp-table-row>
+          <wp-table-row ng-repeat="usage_instruction in promotion.usage_instructions">
+            <div class="wp-table-col col-1">使用条款：</div>
+            <div class="wp-table-col col-2">{{usage_instruction}}</div>
+          </wp-table-row>
+       </div>
+    </div>
+    <div class="wp-form-group">
+      <div class="wp-form-action">
+        <div class="wp-form-label"></div>
+        <wp-btn ng-click="exchange()" ng-if="show_promotion">兑换</wp-btn>
+        <wp-btn ng-click="cancel()">取消</wp-btn>
+      </div>
+    </div>
+  </div>
+</div>

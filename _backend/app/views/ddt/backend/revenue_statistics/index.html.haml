@@ -1,0 +1,41 @@
+.tabbable
+  .tab-content
+    .tab-pane.in.active
+      .order-query-form
+        = form_for :revenue_statistic, url: [:backend, @current_shop, :revenue_statistics], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          = f.input_field :branch_id, data: {"local-datas" => current_account.is_boss? ? @current_shop.branches : current_account.manage_branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2'
+          = f.input_field :start_time, as: :datetime, placeholder: "开始时间", class: 'input-medium'
+          %label{style: 'font-size:20px;'} ~
+          = f.input_field :end_time, as: :datetime, placeholder: "结束时间", class: 'input-medium'
+          = f.submit "搜索", class: 'btn btn-sm btn-success', onClick: "$(this).closest('form').attr('action', '#{ backend_shop_revenue_statistics_path(@current_shop, format: :html) }')"
+          = f.submit "导出csv表格", class: 'btn btn-sm btn-info', onClick: "$(this).closest('form').attr('action', '#{ backend_shop_revenue_statistics_path(@current_shop, format: :csv) }')"
+      %br/
+      - pay_methods = @current_shop.pay_methods.enable
+      %table.table.table-striped.table-bordered
+        %thead
+          %tr
+            %th 门店
+            - pay_methods.each do |pay_method|
+              %th= pay_method.name
+            %th 合计
+            %th 实收合计
+            %th 消费人次
+            %th 消费桌次
+        %tbody
+          - @result.each do |item|
+            %tr
+              %td= item[:branch_name]
+              - pay_methods.each do |pay_method|
+                %td= item[pay_method.name] || 0
+              %td= item[:total]
+              %td= item[:actual_total]
+              %td= item[:consumer_total]
+              %td= item[:desk_total]
+          %tr
+            %td 合计
+            - pay_methods.each do |pay_method|
+              %th= @result.map{|h| h[pay_method.name] || 0}.sum
+            %td= @result.map{|h| h[:total]}.sum
+            %td= @result.map{|h| h[:actual_total]}.sum
+            %td= @result.map{|h| h[:consumer_total]}.sum
+            %td= @result.map{|h| h[:desk_total]}.sum

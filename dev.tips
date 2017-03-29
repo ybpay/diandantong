@@ -1,0 +1,29 @@
+
+=============rails
+#web: bundle exec puma -e production -b tcp://0.0.0.0:9000
+web: export RUBY_GC_HEAP_INIT_SLOTS=2000000; export RUBY_GC_HEAP_FREE_SLOTS=4096; export RUBY_GC_HEAP_OLDOBJECT_LIMIT_FACTOR=10; export RUBY_GC_MALLOC_LIMIT=16777216; export RUBY_GC_MALLOC_LIMIT_MAX=33554432; export RUBY_GC_OLDMALLOC_LIMIT=268435456; export RUBY_GC_OLDMALLOC_LIMIT_MAX=536870912; bundle exec unicorn_rails -p 9000 -c config/unicorn.rb -E production
+sidekiq: bundle exec sidekiq -C config/sidekiq.yml -e production -L log/sidekiq.log
+pubsub: bundle exec rackup ./private_pub.ru -s thin -E production
+
+rake assets:precompile
+rake assets:precompile RAILS_ENV=production
+
+
+===========linux and servers
+servers
+
+find . -type f -mmin -40
+
+
+grep -rnw './' -e "diandantong"
+
+find . -type f -exec sed -i 's/赏嗨嗨/赏嗨嗨/g' {} +
+
+================mysql
+
+
+
+================wechat
+d.shanghaihai.com/common/wechat_account_oauth_callback
+d.shanghaihai.com/common/shops//$APPID$/api
+Dh9QcAH3tVBJp2fPcqVspVMx64Z5x26t6e879F9s8Vj

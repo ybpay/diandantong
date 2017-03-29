@@ -1,0 +1,11 @@
+- if @current_branch.present?
+  - content_for(:branch_body) do
+    = render 'ddt/layouts/backend/promotion/promotion_nav'
+  = render template: "ddt/layouts/backend/branch"
+-else
+  - content_for(:content) do
+    - if @promotion 
+      = render 'ddt/layouts/backend/promotion/promotion_nav'
+    - else
+      = render 'ddt/layouts/backend/promotion/promotion'
+  = render template: "ddt/layouts/backend"

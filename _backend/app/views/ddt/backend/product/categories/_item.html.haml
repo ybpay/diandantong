@@ -1,0 +1,13 @@
+%li.dd-item.category{ data: { id: category.id } }
+  %div.dd-handle
+    %span.category-name
+      = category.name
+      = category.enable_discount? ? '(折)' : ''
+    %div.pull-right.action-buttons
+      - if category.depth == 1
+        = link_to tag(:icon, :class => "fa fa-plus bigger-130"), new_backend_shop_branch_category_path(@current_shop, @current_branch, :parent_id => category.id), :class => "green", data: { rel: :tooltip }, title: "添加子分类", remote: true, method: "get"
+      = link_to tag(:icon, :class => "fa fa-pencil bigger-130"), edit_backend_shop_branch_category_path(@current_shop, @current_branch, category), :class => "blue", data: { rel: :tooltip }, title: "修改分类", remote: true, method: "get"
+      = link_to tag(:icon, :class => "fa fa-trash-o bigger-130"), backend_shop_branch_category_path(@current_shop, @current_branch, category), :class => "red", data: { rel: :tooltip, confirm: "确定删除?"}, title: "删除", remote: true, method: 'delete'
+      = link_to tag(:icon, :class => "fa fa-pencil bigger-130"), [:products_actions, :backend, @current_shop, @current_branch, category], :class => "blue", title: "菜品批量设置", remote: true, method: 'get'
+  %ol.dd-list
+    = render partial: "item", collection: category.subs, as: :category

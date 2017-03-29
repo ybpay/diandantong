@@ -1,0 +1,33 @@
+%p#notice= notice
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox
+    .ibox-content.header
+      .row
+        %p
+          %b
+            = Ddt::AgentMaterial.human_attribute_name(:title)
+            \:
+          = @agent_material.title
+        %p
+          %b
+            = Ddt::AgentMaterial.human_attribute_name(:content)
+            \:
+          = raw @agent_material.content
+        %p
+          %b
+            = Ddt::AgentMaterial.human_attribute_name(:d_files)
+          %table.table.table-striped.table-bordered
+            %thead
+              %tr
+                %th= Ddt::DFile.human_attribute_name(:file_name)
+                %th= Ddt::DFile.human_attribute_name(:file_path)
+            %tbody
+              - @agent_material.d_files.each do |d_file|
+                %tr
+                  %th= d_file.file_name
+                  %th= link_to d_file.file_path.url, d_file.file_path.url
+
+
+        = link_to t('Edit'), edit_backend_agent_material_path(@agent_material), :class=>"btn btn-default btn-sm"
+        \|
+        = link_to t('Back'), backend_agent_materials_path, :class=>"btn btn-default btn-sm"

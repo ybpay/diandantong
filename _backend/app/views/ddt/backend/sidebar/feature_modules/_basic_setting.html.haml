@@ -1,0 +1,17 @@
+.ul.nav.nav-list
+  - if @current_shop.present?
+    - cache(@current_shop, expires_in: 1.day) do
+      = menu_tag(content_tag(:span, '控制面板', class: 'menu-text'), dashboard_backend_shop_path(@current_shop),'fa-dashboard', permitted: :dashboard_shop, controllers: "shops", actions: "dashboard")
+      %li.sm-parent-li{ sm_role: "admin boss worker deliveryman"}
+        = menu_toggle("订单中心", "fa-file-text-o")
+        %ul.submenu
+          = menu_tag("订单管理", backend_shop_orders_path(@current_shop),'fa-file-text-o', permitted: :index_order, controllers: 'orders', actions: 'index')
+          = menu_tag("餐饮收银管理系统", webpos_path, 'fa-keyboard-o', target: '_blank')
+          = menu_tag('兑换码', backend_shop_exchange_codes_path(@current_shop), 'fa-exchange', permitted: :index_exchange_code, controllers: 'exchange_codes')
+          = menu_tag("反结账订单", anti_settlements_backend_shop_orders_path(@current_shop),'fa-file-text-o', permitted: :index_order, controllers: 'orders', actions: 'anti_settlements')
+
+      %li.sm-parent-li{ sm_if_module: :delivery_module}
+        = menu_toggle("配送中心", "fa-fighter-jet")
+        %ul.submenu
+          = menu_tag("未指派", backend_shop_delivery_orders_path(@current_shop), 'fa-file-text-o', permitted: :index_delivery_order, controllers: "delivery_orders", actions: "index")
+          = menu_tag("已指派", assigned_backend_shop_delivery_orders_path(@current_shop), 'fa-file-text-o', permitted: :index_delivery_order, controllers: "delivery_orders", actions: "assigned")

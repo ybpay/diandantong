@@ -1,0 +1,19 @@
+.variant-images{
+  overflow: hidden;
+  .variant-image{
+    float: left;
+    width: 120px;
+    height: 70px;
+    margin: 5px;
+    img{
+      border: 1px solid #ddd;
+      border-radius: 4px!important;
+      cursor: pointer;
+      width: 120px;
+      height: 70px;
+      &.active, &:hover{
+        border-color: red;
+      }
+    }
+  }
+}

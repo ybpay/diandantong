@@ -1,0 +1,47 @@
+#ddb-comments-index {
+    background-color: $bg-color;
+}
+.comment-item {
+    line-height: 1.5em;
+    padding: 5px;
+    border-bottom: 1px solid $light-gray;
+    background-color: white;
+    > .comment-info {
+      padding: 5px;
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      display: -webkit-flex;
+      .nickname {
+        -webkit-box-flex: 1;
+        -webkit-flex: 1;
+        -ms-flex: 1;
+        flex: 1;
+      }
+      .comment-level {
+
+      }
+    }
+
+    .content {
+      padding: 5px;
+    }
+    .time {
+      padding: 5px;
+      color: $dark-gray;
+      text-align: right;
+    }
+
+    .comment-info {
+      padding: 5px;
+      color: $orange;
+    }
+
+    .comment-reply {
+      border-top: 1px dashed $light-gray;
+      padding: 5px;
+      background-color: $light-gray;
+      margin-left: 15px;
+      border-radius: 5px;
+    }
+}

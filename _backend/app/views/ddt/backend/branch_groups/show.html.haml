@@ -1,0 +1,27 @@
+.ibox
+  .ibox-title
+    %h2= "#{t('activerecord.models.ddt/branch_group')} 详情"
+  .ibox-content
+    .col-md-12
+      .model-show
+        %p
+          %b
+            = Ddt::BranchGroup.human_attribute_name(:name)
+            \:
+          = @branch_group.name
+        .content
+          = link_to '删除此门店分组', [:backend, @current_shop, @branch_group], :method => :delete, :data => { :confirm => '确定删除?' }, :class => 'btn btn-xs btn-danger'
+        .space
+
+      门店列表:
+      - if @branch_group.branches.present?
+        %ul
+          - @branch_group.branches.each do |branch|
+            %li
+              = link_to branch.name, backend_shop_branch_path(@current_shop, branch)
+
+
+      = link_to t('Edit'), edit_backend_shop_branch_group_path(@current_shop, @branch_group), :class => 'btn btn-primary btn-sm'
+      \
+      = link_to t('Back'), backend_shop_branch_groups_path(@current_shop), :class => 'btn btn-default btn-sm'
+    .clearfix

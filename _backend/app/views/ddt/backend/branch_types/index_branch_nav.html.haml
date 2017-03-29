@@ -1,0 +1,103 @@
+.ibox
+  .ibox-title
+    .alert.alert-success 系统将会根据门店所属门店类型的不同自动显示不同的导航按钮及文本
+  .ibox-content
+    .col-md-12
+      .model-show
+        - @branch_types.each do |branch_type|
+          .branch-type
+            .form-group
+              %h3
+                = branch_type.name
+                = link_to t('Edit'), edit_branch_nav_backend_shop_branch_type_path(@current_shop, branch_type), :class => "btn btn-primary btn-sm"
+            - if branch_type.show_reservation_img
+              .block
+                .icon
+                  - if branch_type.reservation_img.present?
+                    %span.image_icon= image_tag branch_type.reservation_img.mini.url
+                  - else
+                    %span.image_icon
+                      %i.fa.fa-dot-circle-o
+                .text= branch_type.reservation_img_text.presence||Ddt::BranchType.human_attribute_name(:reservation_img)
+            - if branch_type.show_order_in_seat_img
+              .block
+                .icon
+                  - if branch_type.order_in_seat_img.present?
+                    %span.image_icon= image_tag branch_type.order_in_seat_img.mini.url
+                  - else
+                    %span.image_icon
+                      %i.fa.fa-cutlery
+                .text= branch_type.order_in_seat_img_text.presence||Ddt::BranchType.human_attribute_name(:order_in_seat_img)
+            - if branch_type.show_delivery_img
+              .block
+                .icon
+                  - if branch_type.delivery_img.present?
+                    %span.image_icon= image_tag branch_type.delivery_img.mini.url
+                  - else
+                    %span.image_icon
+                      %i.fa.fa-truck
+                .text= branch_type.delivery_img_text.presence||Ddt::BranchType.human_attribute_name(:delivery_img)
+            - if branch_type.show_fastfood_img
+              .block
+                .icon
+                  - if branch_type.fastfood_img.present?
+                    %span.image_icon= image_tag branch_type.fastfood_img.mini.url
+                  - else
+                    %span.image_icon
+                      %i.fa.fa-delicious
+                .text= branch_type.fastfood_img_text.presence||Ddt::BranchType.human_attribute_name(:fastfood_img)
+            - if branch_type.show_queue_img
+              .block
+                .icon
+                  - if branch_type.queue_img.present?
+                    %span.image_icon= image_tag branch_type.queue_img.mini.url
+                  - else
+                    %span.image_icon
+                      %i.fa.fa-weixin
+                .text= branch_type.queue_img_text.presence||Ddt::BranchType.human_attribute_name(:queue_img)
+            - if branch_type.show_pay_online_img
+              .block
+                .icon
+                  - if branch_type.pay_online_img.present?
+                    %span.image_icon= image_tag branch_type.pay_online_img.mini.url
+                  - else
+                    %span.image_icon
+                      %i.fa.fa-cc-visa
+                .text= branch_type.pay_online_img_text.presence||Ddt::BranchType.human_attribute_name(:pay_online_img)
+            .clearfix
+    .clearfix
+
+:css
+  .branch-type  .form-group {
+    padding: 10px;
+    background-color: #eee;
+  }
+  .block {
+    float:left;
+    width: 20%;
+    text-align:center;
+    border-right: 1px solid #ccc;
+  }
+  .block:last-child {
+    border-right: 0;
+  }
+  .image_icon {
+    display: inline-block;
+    margin: auto;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    font-size: 25px;
+    overflow: hidden;
+    border: 5px solid #fcfcfc;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: 1000px;
+  }
+  .image_icon i{
+    color: #f34b3f;
+  }
+  .image_icon img {
+    width: 100%;
+    height: 100%;
+  }

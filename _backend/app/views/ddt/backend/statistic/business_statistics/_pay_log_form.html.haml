@@ -1,0 +1,16 @@
+.order-query-form
+  = form_for :business_statistic, url: [:pay_log, :backend, @current_shop, :business_statistics], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+    = f.input_field :branch_id, data: {"local-datas" => current_account.is_boss? ? @current_shop.branches : current_account.manage_branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2', value: @statistic.branch_id
+    %br
+    %br
+    = f.input_field :start_time, as: :datetime, value: @statistic.start_time
+    = f.input_field :end_time, as: :datetime, value: @statistic.end_time
+    %br
+    %br
+    = f.input_field :order_number, as: :string, placeholder: '输入订单号', class: 'input-medium',value: @statistic.order_number
+    = f.input_field :pay_methods, data: {"local-datas" => @current_shop.pay_methods.map{|p| {id: p.name, name: p.name}}, single: false, useas: 'local_select', placeholder: '选择支付方式'}, class: 'ddb-select2 col-lg-2'
+    = f.input_field :settle_account_id, data: {"local-datas" => @current_shop.accounts.with_deleted.map{|a| {id: a.id, name: a.name}}, useas: "local_select", single: true, placeholder: '选择结算员'}, class: 'ddb-select2 col-lg-2', value: @statistic.settle_account_id
+    = f.input_field :page, as: :integer, value: (@statistic.page.blank? ? 1: @statistic.page), placeholder: '', style: 'display:none;'
+
+    = f.submit "搜索", class: 'btn btn-sm btn-success', onClick: "$(this).closest('form').attr('action', '#{ pay_log_backend_shop_business_statistics_path(@current_shop, format: :html) }')"
+    = f.submit "导出csv表格", class: 'btn btn-sm btn-info', onClick: "$(this).closest('form').attr('action', '#{ pay_log_backend_shop_business_statistics_path(@current_shop, format: :csv) }')"

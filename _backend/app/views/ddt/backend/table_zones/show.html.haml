@@ -1,0 +1,62 @@
+.ibox
+  .ibox-title
+    %h3= "#{t('activerecord.models.ddt/table_zone')} 详情"
+  .ibox-content.header
+    .row
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:name)
+          \:
+        = @table_zone.name
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:tables_count_for_reservation)
+          \:
+        = @table_zone.tables_count_for_reservation
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:min_reservation_price)
+          \:
+        = @table_zone.min_reservation_price
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:reservation_price)
+          \:
+        = @table_zone.reservation_price
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:reservation_price_percent)
+          \:
+        = @table_zone.reservation_price_percent
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:branch)
+          \:
+        = @table_zone.branch.name
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:tables_count)
+          \:
+        = @table_zone.tables_count
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:weixin_ban_product_ids_string)
+          \:
+        = labels(@table_zone.weixin_ban_products.map(&:name) )
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:webpos_ban_product_ids_string)
+          \:
+        = labels(@table_zone.webpos_ban_products.map(&:name), color: 'warning')
+      .col-md-6.form-group
+        %b
+          = Ddt::TableZone.human_attribute_name(:ban_selfpay)
+          \:
+        = @table_zone.ban_selfpay ? '是' : '否'
+      .space
+
+    = render 'ddt/backend/tables/tables', {tables: @tables}
+
+    = link_to t('Edit'), edit_backend_shop_branch_table_zone_path(@current_shop, @current_branch, @table_zone), :class => "btn btn-primary btn-sm"
+    \
+    = link_to t('Back'), backend_shop_branch_table_zones_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

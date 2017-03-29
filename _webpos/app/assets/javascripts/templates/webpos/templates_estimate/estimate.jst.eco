@@ -1,0 +1,134 @@
+<div class="branch-show-page main-view">
+    <div class="master-part product-choose-cell">
+      <div class="menu-part" wp-scroll-zone>
+        <div>
+          <div class="menu" ng-repeat="choose_way in choose_ways"
+                  ng-click="change_active_choose_way(choose_way)"
+                  ng-class="{active: active_choose_way == choose_way }">
+            {{::choose_way.label}}
+          </div>
+        </div>
+      </div>
+      <div class="table-state-summary">
+          <div class="item" ng-click="syncProducts()">
+            同步菜品
+          </div>
+      </div>
+      <div class="master-part-with-menu" wp-scroll-zone>
+        <div ng-show="active_choose_way.value == 'variant'">
+          <wp-alpha-search-input input-model="search_key" class="search_key"></wp-alpha-search-input>
+          <div class="clearfix"></div>
+          <div ng-hide="search_key">
+            <div>
+              <wp-btn-sm  class="fillet" ng-repeat="category in categories"
+                          ng-class="{'active': category == active_category}"
+                          ng-click="change_active_category(category)">
+                {{::category.name}}
+              </wp-btn-sm>
+            </div>
+            <div class="clearfix"></div>
+            <div>
+              <wp-btn-sm  class="fillet" ng-class="{'active':active_sub_category==null}"
+                          ng-click="change_active_sub_category(null)"
+                          ng-show="is_show_default_sub_category(active_category)">
+                默认
+              </wp-btn-sm>
+              <wp-btn-sm  class="fillet" ng-repeat="sub in active_category.subs"
+                          ng-class="{'active':sub==active_sub_category}"
+                          ng-click="change_active_sub_category(sub)">
+                          {{::sub.name}}
+              </wp-btn-sm>
+            </div>
+            <div class="clearfix"></div>
+            <div class="products">
+              <wp-btn-md class="product-btn" ng-repeat="product in current_category_products_with_filter()"
+                          ng-class="{'disabled': show_disabled(product)}"
+                          ng-click="change_active_product(product)"
+                          class="hover">
+                <div class="product-name">{{::product.name}}</div>
+                <div class="product-price" ng-hide="estimate_clear_page.show_stock_quantity">{{::product.price|currency:shop.currency}}</div>
+                <div class="product-stock-quantity" ng-show="estimate_clear_page.show_stock_quantity">库存: {{ product.stock_quantity || estimate_clear_page.stock_quantity_str(product.variants[0])}}</div>
+              </wp-btn-md>
+              <wp-btn-md  ng-if="show_load_next_page()"
+                          ng-click="load_next_page()">
+                下一页
+              </wp-btn-md>
+              <div class="space"></div>
+            </div>
+          </div>
+          <div ng-show="search_key">
+            <div class="products">
+              <wp-btn-md class="product-btn" ng-repeat="product in search_products"
+                          ng-class="{'disabled': show_disabled(product)}"
+                          ng-click="change_active_product(product)"
+                          class="hover">
+                <div class="product-name">{{::product.name}}</div>
+                <div class="product-price" ng-hide="estimate_clear_page.show_stock_quantity">{{::product.price|currency:shop.currency}}</div>
+                <div class="product-stock-quantity" ng-show="estimate_clear_page.show_stock_quantity">库存: {{ product.stock_quantity || estimate_clear_page.stock_quantity_str(product.variants[0])}}</div>
+              </wp-btn-md>
+              <div class="space"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <wp-modal wp-show="active_product">
+        <div class="wp-modal-header">{{active_product.name}} 规格选择</div>
+        <div class="wp-modal-content">
+          <wp-btn-md  ng-repeat="variant in active_product.variants"
+                      ng-click="choose_variant(variant)"
+                      ng-show="active_product"
+                      class="hover"
+                      ng-class="{'disabled': variant.estimate_clear}">
+            <span ng-show="variant.sku">{{::variant.sku}}</span>
+            <br ng-show="variant.sku"/>
+            <span>{{::variant.name}}</span>
+            <br/>
+            <span ng-hide="estimate_clear_page.show_stock_quantity">{{::variant.price|currency:shop.currency}}</span>
+            <span class="product-stock-quantity red" ng-show="estimate_clear_page.show_stock_quantity">库存:  {{estimate_clear_page.stock_quantity_str(variant)}}</span>
+          </wp-btn-md>
+        </div>
+      </wp-modal>
+      <div ng-include src="'/webpos/partials/_directives/wp-keypad-alpha.html'"></div>
+    </div>
+
+    <div class="op-part estimate-clear-list" wp-scroll-zone>
+        <div class="wp-subject" ng-click="clear(branch)">已估清商品列表<span class="red">(点击去除估清)</span></div>
+        <div class="wp-table">
+            <wp-table-row>
+                <div class="wp-table-col col-1">序号</div>
+                <div class="wp-table-col col-5">名称</div>
+                <div class="wp-table-col col-2">库存量</div>
+            </wp-table-row>
+            <wp-table-row ng-repeat="variant in variants"
+                          ng-click="remove(variant)"
+                          class="transition">
+                <div class="wp-table-col col-1">{{$index+1}}</div>
+                <div class="wp-table-col col-5">{{variant.name}}</div>
+                <div class="wp-table-col col-2">
+                  {{variant.stock_quantity}}
+                  <span ng-show="variant.estimate_clear_reciprocal"> [数量沽清]</span>
+                </div>
+            </wp-table-row>
+        </div>
+    </div>
+  <wp-footer-menu branch-id="branch_id"></wp-footer-menu>
+</div>
+
+<wp-modal wp-show="estimate_clear_modal.show">
+  <div class="wp-modal-header">估清类型选择</div>
+  <div class="wp-modal-content">
+    <wp-btn ng-click="estimate_clear_modal.change_type('direct')" class="hover" ng-class="{active: estimate_clear_modal.type == 'direct'}">直接估清</wp-btn>
+    <wp-btn ng-click="estimate_clear_modal.change_type('add_reciprocal')" class="hover" ng-class="{active: estimate_clear_modal.type == 'add_reciprocal'}">数量估清</wp-btn>
+    <div class="wp-form-group" ng-show="estimate_clear_modal.type == 'add_reciprocal'">
+      <div class="wp-form-label">请填写估清前可卖数量</div>
+      <wp-input input-model="estimate_clear_modal.stock_quantity" input-type="number" input-size="normal"></wp-input>
+      <div class="wp-form-label right">(目前库存量:{{estimate_clear_modal.variant.stock_quantity}})</div>
+    </div>
+    <wp-btn ng-click="estimate_clear_modal.change_type('remove_reciprocal')" class="hover" ng-class="{active: estimate_clear_modal.type == 'remove_reciprocal'}" ng-show="estimate_clear_modal.reciprocal">去除数量估清</wp-btn>
+    <div class="clearfix"></div>
+    <div class="wp-modal-actions">
+      <wp-btn ng-click="estimate_clear_modal.submit()">确定</wp-btn>
+      <wp-btn ng-click="estimate_clear_modal.close()">取消</wp-btn>
+    </div>
+  </div>
+</wp-modal>

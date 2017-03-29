@@ -1,0 +1,13 @@
+<div class='order-state-section' ng-show="order && order.state != 'canceled'">
+  <div ddb-order-state ddb-state="等待处理" ddb-active="true" ddb-hide-left="true"></div>
+  <div ddb-order-state ddb-state="已确认" ddb-active="order && order.state != 'pending'" ng-hide="order && order.type == 'Ddt::DeliveryOrder'"></div>
+  <div ddb-order-state ddb-state="制作中" ddb-active="order && order.state != 'pending'" ng-show="order && order.type == 'Ddt::DeliveryOrder' && order.shipment_state == 'pending'"></div>
+  <div ddb-order-state ddb-state="制作完成" ddb-active="order" ng-show="order && order.type == 'Ddt::DeliveryOrder' && order.shipment_state != 'pending' && order.state != 'pending'"></div>
+  <div ddb-order-state ddb-state="等待配送" ng-show="order && order.type == 'Ddt::DeliveryOrder' && order.shipment_state == 'pending'"></div>
+  <div ddb-order-state ddb-state="配送中" ddb-active="order&& order.shipment_state == 'shipping'" ng-show="order && order.type == 'Ddt::DeliveryOrder' && order.shipment_state == 'shipping'"></div>
+  <div ddb-order-state ddb-state="已送达" ddb-active="order && order.shipment_state == 'shipped'" ng-show="order && order.type == 'Ddt::DeliveryOrder' && order.shipment_state == 'shipped'"></div>
+  <div ddb-order-state ddb-state="已完成" ddb-active="order && order.state == 'completed'" ddb-hide-right="true"></div>
+</div>
+<div class='order-state-section' ng-show="order && order.state == 'canceled'">
+  <div ddb-order-state ddb-state="已取消" ddb-active="false"></div>
+</div>

@@ -1,0 +1,20 @@
+%tr.censor-report-tr{ :"data-id" => censor_report.id}
+  %td
+    = censor_report.shop.name
+    = link_to tag(:icon, :class => 'fa fa-wechat'), [:weixin, censor_report.shop]
+    = link_to tag(:icon, :class => 'fa fa-dashboard'), [:backend, censor_report.shop]
+  %td= censor_report.title
+  %td= censor_report.desc
+  %td= base_user_label(censor_report.base_user)
+  %td.state-col= censor_report.state
+  %td.auditor-col= censor_report.auditor.try(:login_id)
+  %td.audited_at-col= censor_report.audited_at
+  %td= censor_report.created_at
+  %td
+    = link_to tag(:icon,:class=>"fa fa-bars"), [:backend, censor_report], :class => "btn btn-xs btn-info"
+    = link_to tag(:icon, :class=>"fa fa-check"), [:confirm, :backend, censor_report], :method => :put, :remote => true, :class => "btn btn-xs btn-info"
+    = link_to tag(:icon, :class=>"fa fa-times"), [:reject, :backend, censor_report], :method => :put, :remote => true, :class => "btn btn-xs btn-info"
+    - if censor_report.shop.is_ban?
+      = link_to tag(:icon, :class=>"fa fa-ban"), [:cancel_ban, :backend, censor_report], :method => :put, :remote => true, :class => "btn btn-xs", title: '取消暂停'
+    - else
+      = link_to tag(:icon, :class=>"fa fa-ban"), [:ban, :backend, censor_report], :method => :put, :remote => true, :class => "btn btn-xs btn-danger", title: '暂停服务'

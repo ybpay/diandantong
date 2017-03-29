@@ -1,0 +1,23 @@
+.order-query-form
+  = form_for :business_statistic, url: [:per_user_consume, :backend, @current_shop, :business_statistics], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+    = f.input_field :branch_id, data: {"local-datas" => current_account.is_boss? ? @current_shop.branches : current_account.manage_branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2'
+    = f.input_field :start_time, as: :datetime, placeholder: "开始时间", class: 'input-medium'
+    %label{style: 'font-size:20px;'} ~
+    = f.input_field :end_time, as: :datetime, placeholder: "结束时间", class: 'input-medium'
+    = f.submit "搜索", class: 'btn btn-sm btn-success', onClick: "$(this).closest('form').attr('action', '#{ per_user_consume_backend_shop_business_statistics_path(@current_shop, format: :html) }')"
+    = f.submit "导出csv表格", class: 'btn btn-sm btn-info', onClick: "$(this).closest('form').attr('action', '#{ per_user_consume_backend_shop_business_statistics_path(@current_shop, format: :csv) }')"
+
+
+%br/
+- origin_collection = Ddt::BusinessStatistic::PerUserConsume.origin_collection
+%table.table.table-striped.table-bordered.table-center
+  %thead
+    %tr
+      - origin_collection[:type_names].each do |type_name|
+        %th= type_name
+  %tbody
+    %tr
+      - origin_collection[:types].each do |type|
+        - item = @result.detect{|item| item.type == type}
+        - per_consume = (item.try(:sum_of_total) / item.try(:sum_of_count)).round(2) rescue 0
+        %td= number_to_currency(per_consume, unit: @current_shop.currency)

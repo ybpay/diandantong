@@ -1,0 +1,21 @@
+%table.table.table-striped.branch-sliders-table
+  %thead
+    %tr
+      %th.col-sm-2= Ddt::BranchSlider.human_attribute_name(:id)
+      %th.col-sm-3= Ddt::BranchSlider.human_attribute_name(:img)
+      %th.col-sm-5= Ddt::BranchSlider.human_attribute_name(:url)
+      %th
+
+  %tbody
+    - branch_sliders.each_with_index do |branch_slider, index|
+      %tr
+        %td= branch_slider.id
+        %td= image_tag branch_slider.img.thumb.url, class: "img-rounded", width: 180
+        %td= branch_slider.url
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, branch_slider], @current_shop.branch_sliders, branch_slider)
+          = info_btn(branch_slider)
+          = edit_btn(branch_slider)
+          = delete_btn(branch_slider)
+
+    = no_record_hint(branch_sliders)

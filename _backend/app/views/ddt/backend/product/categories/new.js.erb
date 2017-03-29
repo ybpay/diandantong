@@ -1,0 +1,8 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'form' %>",
+  title: "新建<%= @category.parent_id ? '子' : '根' %>分类"
+})
+setTimeout(function(){
+  $(document).trigger('page:load')
+}, 500)

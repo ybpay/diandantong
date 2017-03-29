@@ -1,0 +1,7 @@
+%p
+  %b
+    = Ddt::CsBranchBinding.human_attribute_name(name)
+    \:
+  - value = @cs_branch_binding.send(name)
+  = value == true ? '是' : value == false ? '否' : value
+

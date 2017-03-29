@@ -1,0 +1,9 @@
+= search_form_for q, url: @search_form_path, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+  = f.input_field :created_at_gteq, as: :date, placeholder: Ddt::WalletLog.human_attribute_name(:created_at)
+  %label{style: 'font-size:20px;'} ~
+  = f.input_field :created_at_lteq, as: :date, placeholder: Ddt::WalletLog.human_attribute_name(:created_at)
+  = f.input_field :reason_eq, collection: reason_collection
+  = f.submit "搜索", class: "btn btn-sm  btn-success"
+%br
+
+= render partial: 'ddt/backend/wallet/wallet_logs_table', locals: { q: q, wallet_logs: wallet_logs }

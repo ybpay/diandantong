@@ -1,0 +1,36 @@
+<md-dialog flex="80">
+  <md-toolbar class="md-toolbar-tools">
+    <h2>图片上传</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="close()">
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-toolbar>
+  <md-dialog-content class="md-dialog-content">
+    <div class="coupon-photos">
+      <div ng-repeat="p in photos" class="coupon-photo" ng-click="p.selected = !p.selected"
+            ng-class="{'selected': p.selected}">
+        <div class="mask"></div>
+        <img ng-src="{{p.image.image.thumb.url}}"></img>
+      </div>
+    </div>
+    <div layout="row" layout="begin center">
+      <md-button ngf-select="uploadFiles($files, $invalidFiles)" multiple
+            accept="image/*" ngf-max-height="1000" ngf-max-size="0.5MB"
+            class="md-primary md-raised">
+        上传图片
+      </md-button>
+      <md-button ng-click="remove_selected_photos()" ng-show="can_remove()" class="md-warn md-raised">
+        删除选中图片
+      </md-button>
+    </div>
+    <ul>
+      <li ng-repeat="f in files" style="font:smaller">{{f.name}} {{f.$errorParam}} {{f.progress}}%
+        <md-progress-linear ng-show="f.progress" value="{{f.progress}}"></md-progress-linear>
+      </li>
+      <li ng-repeat="f in errFiles" style="font:smaller">{{f.name}} {{f.$error}} {{f.$errorParam}}
+      </li>
+    </ul>
+    {{errorMsg}}
+  </md-dialog-content>
+</md-dialog>

@@ -1,0 +1,3 @@
+- content_for(:content) do
+  = content_for(:branch_body) ? yield(:branch_body) : yield
+= render template: "ddt/layouts/backend"

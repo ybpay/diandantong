@@ -1,0 +1,25 @@
+%table.table.table-striped.table-bordered.combo-items-table
+  %thead
+    %tr
+      %th.col-sm-1= Ddt::ComboItem.human_attribute_name(:name)
+      %th.col-sm-1= Ddt::ComboItem.human_attribute_name(:select_count)
+      %th.col-sm-1= Ddt::ComboItem.human_attribute_name(:variant_ids_string)
+      %th.col-sm-1= Ddt::ComboItem.human_attribute_name(:is_necessary)
+      %th.col-sm-1= Ddt::ComboItem.human_attribute_name(:price)
+      %th.col-sm-1= Ddt::ComboItem.human_attribute_name(:vip_price)
+      %th.col-sm-2
+
+  %tbody
+    - combo_items.each do |combo_item|
+      %tr
+        %td= combo_item.name
+        %td= combo_item.select_count
+        %td= raw combo_item.variants.map(&:name_with_options_text).join("<br />")
+        %td= combo_item.is_necessary? ? '必选' : '可选'
+        %td= combo_item.is_fixed_price? ? combo_item.price : '动态价格'
+        %td= combo_item.is_fixed_price? ? combo_item.vip_price : '动态价格'
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, @current_branch, @combo, combo_item], @combo.combo_items, combo_item)
+          = edit_btn([@combo, combo_item])
+          = delete_btn([@combo, combo_item], remote: true)
+    = no_record_hint(combo_items)

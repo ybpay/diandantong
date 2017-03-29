@@ -1,0 +1,44 @@
+<wp-modal wp-show="item_notes_modal.show">
+  <div class="wp-modal-header">品注</div>
+  <div class="wp-modal-content">
+    <div class="item-notes">
+      <div class="note-list">
+        <div class="wp-subject">已选品注</div>
+        <div class="wp-table">
+          <wp-table-row
+              ng-repeat="note in item_notes_modal.notes track by $index"
+              >
+            <div class="wp-table-col col-4">{{note}}</div>
+            <div class="wp-table-col col-1 delete-btn"
+                 ng-click="item_notes_modal.delete_note(note)">删除</div>
+          </wp-table-row>
+        </div>
+      </div>
+      <div class="note-btn">
+        <div class="wp-subject">选择品注</div>
+        <wp-btn ng-repeat="item_note in item_notes_modal.item_notes"
+                ng-click="item_notes_modal.select(item_note)">
+          {{::item_note.name}}
+        </wp-btn>
+      </div>
+      <div class="note-tags">
+        <div class="wp-subject">过滤品注</div>
+        <wp-btn-sm ng-repeat="tag in item_notes_modal.tags"
+                   ng-click="item_notes_modal.change_tag(tag)"
+                   ng-class="{'active': tag.id == item_notes_modal.current_tag.id}" >
+          {{::tag.name}}
+        </wp-btn-sm>
+      </div>
+    </div>
+    <div class="item-notes">
+      <div class="wp-form-group">
+        <div class="wp-form-label">请输入品注:</div>
+        <wp-input class="item-note-field" input-model="item_notes_modal.custom_item_note" input-type="string" input-size="middle"></wp-input>
+        <div class="wp-form-action pull-right">
+          <wp-btn ng-click="item_notes_modal.submit()" class="default-action">确认</wp-btn>
+          <wp-btn ng-click="item_notes_modal.close()" class="cancel-action">取消</wp-btn>
+        </div>
+      </div>
+    </div>
+  </div>
+</wp-modal>

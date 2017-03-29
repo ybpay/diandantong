@@ -1,0 +1,8 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'products_actions' %>",
+  title: "<%= @category.name %> 菜品批量设置"
+})
+setTimeout(function(){
+  $(document).trigger('page:load')
+}, 500)

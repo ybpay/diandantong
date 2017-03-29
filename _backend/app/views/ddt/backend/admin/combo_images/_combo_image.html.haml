@@ -1,0 +1,11 @@
+%tr.combo-image-tr{ :"data-id" => combo_image.id }
+  %td= check_box_tag "combo_image[id][]", combo_image.id, false, id: "combo_image_id_#{combo_image.id}"
+  %td= image_tag(combo_image.attachment.small.url)
+  %td= combo_image.created_at.strftime("%F %T")
+  %td= combo_image.is_global? ? "是" : '否'
+  %td= combo_image.combos.first.try(:name)
+  %td= combo_image.asset_tag_names
+  %td
+    = link_to '编辑', edit_backend_combo_image_path(combo_image), remote: true
+    - unless combo_image.is_global?
+      = link_to "设为全局",  batch_set_backend_combo_images_path(combo_image: { combo_image_ids: [combo_image.id] }), method: :put, remote: true

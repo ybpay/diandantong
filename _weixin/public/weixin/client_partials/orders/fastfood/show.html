@@ -1,0 +1,50 @@
+<div common-header></div>
+<div ng-include src="partial('orders/show-footer')"></div>
+<div ng-include src="partial('orders/wechat-account-float')"></div>
+<div class="main-view order-show">
+  <div class="space-8"></div>
+  <div ng-include src="partial('orders/show-order-state')"></div>
+  <div class="space-8"></div>
+  <div class="section food-number-section" ng-show="order.pay_item_state == 'paid'">
+    <div class="list-item  no-bottom-border"><span>您的牌号</span></div>
+    <div class="food-number">
+      <span class="number">{{order.food_number}}</span><br />
+    </div>
+    <div class="food-number-hint"><span>请凭号取餐</span></div>
+  </div>
+  <div class="section" ng-show="order.pay_item_state == 'unpaid'">
+    <div class="list-item center red" ng-hide="order.pay_method == 'pay_on_face'">请先支付该订单，厨房才会开始处理哦</div>
+    <div class="list-item center red" ng-show="order.pay_method == 'pay_on_face'">请到收银台支付该订单，厨房才会开始处理哦</div>
+    <a class="list-item" ng-click="paid()" ng-show="order.pay_method == 'pay_on_face'">
+      <div class="service-button">
+        <span>支付好了</span>
+      </div>
+    </a>
+  </div>
+  <div class="section no-bottom-border">
+    <div class="list-item time">
+      <span>订单号：{{::order.number}}</span><br/>
+      <span>点餐时间：{{order.placed_at | date:'yyyy-MM-dd HH:mm'}}</span>
+    </div>
+    <div class="list-item">合计：<span class="red">{{order.item_count}}份</span>，<strong class="red">{{order.total|currency:currency}}</strong>
+      <span ng-if="enable_foreign &&order.tax_total>0">(税 {{order.tax_total|currency:currency}})</span><span ng-if='enable_foreign && order.tax_total==0'>（免税）</span>
+    </div>
+    <div class='list-item' ng-repeat="line_item in order.line_items">
+      <div class="name">
+        {{line_item.name_with_note}}<span ng-if="line_item.gift" class="red">(赠)</span>
+      </div>
+      <div class="quantity-info">
+        <span class="quantity">{{line_item.active_quantity}}{{line_item.unit_name}}</span>
+          ×
+        <span class="price">{{line_item.price|currency: currency}}</span>
+      </div>
+    </div>
+    <div class="list-item">
+      <div ng-repeat="item in order.order_items" class="order-item">
+        {{item.name}}: {{item.value}}
+      </div>
+    </div>
+  </div>
+  <div class="juchi"></div>
+
+</div>

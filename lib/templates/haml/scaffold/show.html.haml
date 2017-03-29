@@ -1,0 +1,14 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/<%= singular_table_name %>')} 详情"
+
+<% for attribute in attributes -%>
+%p
+  %b
+    = <%= "#{singular_table_name.classify}.human_attribute_name(:#{attribute.name})"%>
+    \:
+  = @<%= singular_table_name %>.<%= attribute.name %>
+<% end -%>
+
+= link_to t('Edit'), edit_backend_shop_<%= singular_table_name %>_path(@current_shop, @<%= singular_table_name %>), :class => "btn btn-primary btn-sm"
+\
+= link_to t('Back'), backend_shop_<%= index_helper %>_path(@current_shop), :class => "btn btn-default btn-sm"

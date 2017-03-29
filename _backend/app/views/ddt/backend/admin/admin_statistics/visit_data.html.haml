@@ -1,0 +1,41 @@
+= render partial: 'query_form', locals: { url: [:visit_data, :backend, :admin_statistics] }
+.admin-chart
+:javascript
+  $(document).ready(function(){
+    $('.admin-chart').highcharts({
+      chart:{
+      },
+      title: {
+        text: "访问量统计"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@tick_interval},
+        categories: #{raw @empty_data.keys.to_json}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: '次'
+      },
+      legend: {
+        enabled: false
+      },
+      series: [{
+        "name": "访问次数",
+        "data": #{@data.values.to_json}
+      }]
+    });
+  });

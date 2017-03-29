@@ -1,0 +1,10 @@
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-title
+          %h2= "新建#{t('activerecord.models.ddt/account')}"
+      .ibox-content
+        = render 'form'
+
+        = link_to t('Back'), backend_shop_accounts_path(@current_shop), :class => "btn btn-default btn-sm"

@@ -1,0 +1,92 @@
+<div class="master-part product-choose-cell" ng-controller="moveableChooseCell" wp-scroll-zone>
+  <div class="wp-subject">可转菜品</div>
+
+  <div class="table-cart-line-item-index">
+    <div class="wp-subject">{{table.name_with_zone}} {{table.workflow_state_name}}</div>
+    <div class="wp-table" ng-show="line_items.length">
+      <wp-table-row>
+        <div class="wp-table-col col-1">序号</div>
+        <div class="wp-table-col col-7">名称</div>
+        <div class="wp-table-col col-3">数量</div>
+        <div class="wp-table-col col-3">转菜数量</div>
+        <div class="wp-table-col col-3">单价</div>
+      </wp-table-row>
+      <wp-table-row ng-repeat-start="line_item in line_items"
+                    ng-click="change_active_line_item(line_item)"
+                    ng-class="{'active':line_item == active_line_item}">
+        <div class="wp-table-col col-1">{{$index+1}}</div>
+        <div class="wp-table-col col-7">
+          {{line_item.name}}
+          <span ng-if="line_item.gift" class="red">(赠)</span>
+          <span ng-show="line_item.note">[{{line_item.note}}]</span>
+        </div>
+        <div class="wp-table-col col-3">{{line_item.active_quantity}}</div>
+        <div class="wp-table-col col-3 red">
+          <span ng-show="line_item.move_quantity > 0">{{line_item.move_quantity}}</span>
+        </div>
+        <div class="wp-table-col col-3">{{line_item.price|currency:''}}</div>
+      </wp-table-row>
+      <div ng-repeat-end class="delete-actions" ng-if="line_item == active_line_item">
+        <div class="delete-actions-wrapper">
+          <wp-btn-sm ng-click="add(active_line_item)">
+            <i class="fa fa-plus fa-2x" ng-class="{red: can_plus(active_line_item), gray: !can_plus(active_line_item)}"></i>
+          </wp-btn-sm>
+          <wp-btn-sm ng-click="remove(active_line_item)">
+            <i class="fa fa-minus fa-2x" ng-class="{red: can_minus(active_line_item), gray: !can_minus(active_line_item)}"></i>
+          </wp-btn-sm>
+          <wp-btn-sm ng-click="confirm_moveables()" ng-show="can_move()" class="active">
+            <span>确定转菜</span>
+          </wp-btn-sm>
+        </dvi>
+      </div>
+    </div>
+
+  </div>
+</div>
+<wp-modal wp-show="move_modal.show">
+  <div class="wp-modal-header">转菜确认</div>
+  <div class="wp-modal-content">
+    <div class="wp-form-group">
+      <div class="wp-form-label">确认菜品</div>
+      <div class="wp-form-input"></div>
+    </div>
+    <div class="clear:both"></div>
+    <div class="delete-itemables">
+      <div class='left-part'>
+        <div ng-repeat="itemable in moveables_l" class="delete-info">
+          {{itemable.name}} * {{itemable.quantity}}
+        </div>
+      </div>
+      <div class='right-part'>
+        <div ng-repeat="itemable in moveables_r" class="delete-info">
+          {{itemable.name}} * {{itemable.quantity}}
+        </div>
+      </div>
+    </div>
+
+    <br />
+    <div style="clear:both"></div>
+    <div class="wp-form-group">
+      <div class="wp-form-label">转菜桌台</div>
+      <div class="wp-form-input"></div>
+    </div>
+
+    <div class=''>
+      <wp-btn-sm ng-repeat="table in move_modal.tables"
+                   ng-click="move_modal.choose_table(table)"
+                   ng-class="{'active': move_modal.table == table}">{{::table.name_with_zone}}</wp-btn-sm>
+    </div>
+
+    <div style="clear:both"></div>
+    <br />
+    <div class="wp-form-group">
+      <div class="wp-form-label"></div>
+      <div class="wp-form-action">
+        <wp-btn ng-click="move_modal.submit()"
+                class="default-action"
+                ng-class="{'disabled': !move_modal.can_submit()}">确定</wp-btn>
+        <wp-btn ng-click="move_modal.cancel()" class="cancel-action">取消</wp-btn>
+      </div>
+    </div>
+  </div>
+</wp-modal>

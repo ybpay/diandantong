@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><% if is_ddt_domain %><%= @current_shop.try(:support_brand_name).presence || '点单通' %> - <%= slogan_word %><% end %></title>
+  <%= stylesheet_link_tag "ddt/basic", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "ddt/basic", "data-turbolinks-track" => true %>
+  <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9" ></meta>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" name="viewport" ></meta>
+  <!--[if IE 7]>
+    <link rel="stylesheet" href="/assets/css/font-awesome-ie7.min.css" />
+  <![endif]-->
+
+  <!-- page specific plugin styles -->
+
+  <!-- fonts -->
+  <!-- ace settings handler -->
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+  <!--[if lt IE 9]>
+  <script src="/assets/js/html5shiv.js"></script>
+  <script src="/assets/js/respond.min.js"></script>
+  <![endif]-->
+  <%= yield :head %>
+  <%= csrf_meta_tags %>
+</head>
+<body class="top-navigation">
+  <!-- Wrapper-->
+    <div id="wrapper">
+
+        <!-- Page wraper -->
+        <div id="page-wrapper" class="<%= @page_bg_class.presence||'gray-bg'%>">
+
+            <!-- Page wrapper -->
+            <%= render 'ddt/layouts/topnavbar_2' %>
+
+            <%= bootstrap_flash %>
+            <!-- Main view  -->
+            <%- unless browser.modern? %>
+              <div class="alert alert-warning">
+                <p>检测到您当前使用的浏览器版本过于陈旧, 推荐下载主流浏览器继续使用，链接:<a href="http://www.chromeliulanqi.com/" target="_blank">chrome谷歌浏览器</a> <a href="http://www.firefox.com.cn/download/" target="_blank">火狐浏览器</a></p>
+              </div>
+            <% else %>
+              <%= content_for?(:content) ? yield(:content) : yield %>
+            <% end %>
+
+            <!-- Footer -->
+            <%= render 'ddt/layouts/footer' %>
+
+        </div>
+        <!-- End page wrapper-->
+
+    </div>
+    <!-- End wrapper-->
+    <%= yield :javascript %>
+</body>
+</html>

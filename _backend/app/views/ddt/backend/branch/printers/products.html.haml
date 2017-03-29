@@ -1,0 +1,43 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 打印档口
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .ibox-content.m-b-sm.border-bottom
+    .row
+      .col-lg-12
+        = search_form_for @q, url: products_backend_shop_branch_printers_path(@current_shop, @current_branch),html:{ class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
+          =f.input_field :master_sku_cont, placeholder: Ddt::Product.human_attribute_name(:sku),class: "form-control"
+          =f.input_field :name_cont, placeholder: Ddt::Product.human_attribute_name(:name),class: "form-control"
+          =f.input_field :categories_id_eq, collection: @current_branch.categories.map{|c| [c.name_with_parent, c.id]}, prompt:Ddt::Product.human_attribute_name(:categories), include_blank: true,class: "form-control"
+          =f.input_field :name_abbr_eq, placeholder: Ddt::Product.human_attribute_name(:name_abbr),class: "form-control"
+          = f.submit "搜索", class: 'btn btn-sm btn-success'
+          = link_to '未配档口产品', products_backend_shop_branch_printers_path(@current_shop, @current_branch, not_configured: true), class: 'btn btn-success'
+          = link_to '有多档口产品', products_backend_shop_branch_printers_path(@current_shop, @current_branch, multi_configured: true), class: 'btn btn-success'
+
+
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.col-sm-2= sort_link(@q, :sku, Ddt::Product.human_attribute_name(:sku))
+                %th.col-sm-4= sort_link(@q, :name, Ddt::Product.human_attribute_name(:name))
+                %th.col-sm-2= "分类"
+                %th.col-sm-3= "打印机"
+
+            %tbody
+              - @products.each do |product|
+                %tr
+                  %td= product.sku
+                  %td= product.name
+                  %td= product.categories.map(&:name_with_parent).join(" ")
+                  %td
+                    - @printers.select{|p| p.white_list_product_ids.include?(product.id)}.each do |printer|
+                      = link_to "#{printer.name}(#{printer.number})", edit_backend_shop_branch_printer_path(@current_shop, @current_branch, printer), target: "_blank"
+              = no_record_hint(@products)
+          %br
+          .pull-right= will_paginate @products , renderer: BootstrapPagination::Rails, bootstrap: 3
+          %br

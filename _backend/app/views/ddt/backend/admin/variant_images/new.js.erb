@@ -1,0 +1,8 @@
+bootbox.hideAll();
+bootbox.dialog({
+  message: "<%= j render 'form' %>",
+  title: "新建<%= t('activerecord.models.ddt/variant_image')%>"
+});
+setTimeout(function(){
+  $(document).trigger('page:load')
+}, 1500)

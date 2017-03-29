@@ -1,0 +1,7 @@
+.ibox
+  .ibox-title
+    %h2= "编辑#{t('activerecord.models.ddt/essential_product')}"
+  .ibox-content
+    = render 'form'
+
+    = link_to t('Back'), [:backend, @current_shop, @current_branch, :essential_products], :class => 'btn btn-default btn-sm'

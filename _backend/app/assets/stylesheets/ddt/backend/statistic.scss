@@ -1,0 +1,13 @@
+.big-table{
+  display: inline-block;
+  min-width: 200%;
+  width: auto;
+  max-width: 400%;
+  overflow: auto;
+}
+
+.statistic-content{
+  width: 100%;
+  max-height: 800px;
+  overflow: scroll;
+}

@@ -1,0 +1,90 @@
+.ibox
+  .ibox-title
+    %h3 订单信息
+    .ibox-content
+      %table.table.table-striped
+        %thead
+          %tr
+            %td
+              %b
+                下单方式:
+            %td= order.place_type_name
+          %tr
+            %td
+              %b
+                下单时间:
+            %td= order.placed_at
+          %tr
+            %td
+              %b
+                订单状态:
+            %td= order_state_label(order)
+          %tr
+            %td
+              %b
+                支付状态:
+            %td= raw pay_item_state_label(order)
+          %tr
+            %td
+              %b
+                付款方式:
+            %td= order.pay_method_name
+
+          - if order.payments.completed.count > 0
+            %tr
+              %td
+                %b
+                  已支付:
+              %td= @order.paid_amount_in_currency
+          - if order.is_paid?
+            %tr
+              %td
+                %b
+                  支付时间:
+              %td= order.paid_at
+          - if order.invoice.present?
+            %tr
+              %td
+                %b
+                  发票抬头:
+              %span.label.label-info= order.invoice.title
+          - if order.user.present?
+            %tr
+              %td
+                %b
+                  下单用户:
+              %td= link_to "查看", backend_shop_base_user_path(@current_shop, order.user), target: "_blank"
+          - if order.waiter_id.present?
+            %tr
+              %td
+                %b
+                  点菜员:
+              %td= order.waiter.try(:name)
+          %tr
+            %td
+              %b
+                备注:
+            %td= order.note
+          .clearfix
+          - if order.is_canceled?
+            %tr
+              %td
+                %b
+                  取消原因:
+              %td= order.cancel_reason
+          - if order.refunded_amount && order.refunded_amount > 0
+            %tr
+              %td
+                %b
+                  退款:
+              %td= order.refunded_amount
+          %tr
+            %td
+              %b
+                订单总额:
+            %td
+              %span.label.label-danger
+                = order.total_in_currency
+                - if @current_shop && @current_shop.enable_foreign? && @current_shop.foreign_tax_rate != 0
+                  税收
+                  = order.tax_total_in_currency

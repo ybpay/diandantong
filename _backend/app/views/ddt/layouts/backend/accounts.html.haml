@@ -1,0 +1,20 @@
+
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs
+            %li{class: ('active' if ['show', 'edit', 'update'].include? action_name)}
+              = link_to '账户详情', backend_shop_account_path(@current_shop, @account)
+            - if Ddt::Account.current.id != @account.id
+              %li{class: ('active' if ['edit_password', 'update_password'].include? action_name)}
+                = link_to '修改密码', edit_password_backend_shop_account_path(@current_shop, @account)
+            %li{class: ('active' if ['get_bind'].include? action_name)}
+              = link_to '绑定微信', get_bind_backend_shop_account_path(@current_shop, @account)
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+
+= render template: "ddt/layouts/backend"

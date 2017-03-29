@@ -1,0 +1,15 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @eat_in_hall_setting], html: { class: 'form-horizontal'}) do |f|
+  = f.error_notification :message => error_message_in_html(@eat_in_hall_setting)
+
+  .form-inputs
+
+    = f.input :auto_clear_table
+    = f.input :disable_service, hint: '关闭呼叫服务(催单，呼叫服务员，请求买单..)'
+    = f.input :mode, collection: Ddt::EatInHallSetting.mode_collection, include_blank: false
+    = f.input :can_place_when_zero
+    = f.input :auto_pay_when_zero
+    = f.input :accessable_ssid_for_app, hint: "限制除管理员和店长以外的人员登陆APP所使用的WIFI网络名称，留空表示不限制登陆所使用的wifi网络"
+    = f.input :confirm_type, collection: Ddt::EatInHallSetting.confirm_type_collection
+
+  .form-actions.col-xs-offset-2
+    = f.button :submit, :class => "btn btn-primary btn-sm"

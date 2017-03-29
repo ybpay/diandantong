@@ -1,0 +1,78 @@
+<md-content layout="column" layout-padding layout-margin>
+  <div layout="row" layout-align="space-between center">
+    <div layout="row" class="query-form" >
+      <md-input-container>
+        <label>ID</label>
+        <input ng-model="q.id_eq">
+      </md-input-container>
+      <md-input-container>
+        <label>会员</label>
+        <input ng-model="q.base_user_id_or_base_user_phone_or_base_user_email_or_base_user_unique_user_nickname_cont">
+      </md-input-container>
+      <md-input-container>
+        <label>过期与否</label>
+        <md-select ng-model="q.is_expired">
+          <md-option>
+          </md-option>
+          <md-option value="false">
+            未过期
+          </md-option>
+          <md-option value="true">
+            已过期
+          </md-option>
+        </md-select>
+      </md-input-container>
+      <md-button class="md-fab md-primary md-mini" ng-click="search()">
+        <md-tooltip md-direction="top">搜索</md-tooltip>
+        <md-icon>search</md-icon>
+      </md-button>
+      <!-- <md-button class="md-fab md-primary md-mini" ng-click="new_coupon($event)">
+        <md-tooltip md-direction="top">发放优惠券</md-tooltip>
+        <md-icon>add</md-icon>
+      </md-button> -->
+    </div>
+  </div>
+
+  <div class="crm-table" layout="column" md-whiteframe="2">
+    <md-toolbar class="crm-table-header" layout="row">
+      <div class="crm-table-header-content" layout="row" flex="100" layout-align="space-around center">
+        <div class="crm-table-th" flex>ID</div>
+        <div class="crm-table-th" flex>券名</div>
+        <div class="crm-table-th" flex>面值</div>
+        <div class="crm-table-th" flex>持有用户</div>
+        <div class="crm-table-th" flex>过期时间</div>
+        <div class="crm-table-th" flex>使用状态</div>
+      </div>
+    </md-toolbar>
+
+    <md-content class="crm-table-content" layout="column">
+      <div class="crm-table-row" layout="row" ng-repeat="coupon in coupons">
+        <div class="crm-table-row-content" layout="row" flex="100" layout-align="space-around center">
+          <div class="crm-table-td" flex>{{::coupon.id}}</div>
+          <div class="crm-table-td" flex>{{::coupon.name}}</div>
+          <div class="crm-table-td" flex>{{::coupon.value_desc}}</div>
+          <div class="crm-table-td" flex>{{::coupon.user_msg}}</div>
+          <div class="crm-table-td" flex>{{::coupon.expires_at | date: 'yyyy-MM-dd'}}</div>
+          <div class="crm-table-td" flex>{{::coupon.applied_at ? '已使用':'未使用'}}</div>
+        </div>
+      </div>
+    </md-content>
+
+
+
+  </div>
+  <section layout="row" layout-align="center center">
+      <md-button class="group-btn left" ng-click="p.previous_page().query()">
+        <md-tooltip md-direction="left">上一页</md-tooltip>
+        <md-icon>arrow_back</md-icon>
+      </md-button>
+      <md-button class="group-btn middle">
+        <md-tooltip md-direction="top">当前页</md-tooltip>
+        {{p.current_page()}}
+      </md-button>
+      <md-button class="group-btn right" ng-click="p.next_page().query()">
+        <md-tooltip md-direction="right">下一页</md-tooltip>
+        <md-icon>arrow_forward</md-icon>
+      </md-button>
+    </section>
+</md-content>

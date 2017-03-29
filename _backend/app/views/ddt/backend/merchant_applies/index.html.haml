@@ -1,0 +1,20 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/merchant_apply')} 列表"
+
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th.col-sm-2= Ddt::MerchantApply.human_attribute_name(:user)
+      %th.col-sm-2= Ddt::MerchantApply.human_attribute_name(:phone)
+      %th.col-sm-2= Ddt::MerchantApply.human_attribute_name(:note)
+      %th.col-sm-2= Ddt::MerchantApply.human_attribute_name(:state)
+      %th.col-sm-2= Ddt::MerchantApply.human_attribute_name(:created_at)
+      %th
+
+  %tbody
+    = render partial: '/ddt/backend/merchant_applies/table_tr', collection: @merchant_applies, as: :merchant_apply
+    = no_record_hint(@merchant_applies)
+
+%br
+.pull-right= will_paginate @merchant_applies, renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

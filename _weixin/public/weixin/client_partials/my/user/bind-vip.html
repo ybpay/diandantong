@@ -1,0 +1,39 @@
+<div id="update-bind-vip-info" class="main-view">
+  <div class="padding-10"></div>
+  <div class="weui_cells_title">
+    必填信息
+  </div>
+  <div class="weui_cells weui_cells_form">
+
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">手机号</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" type="tel" pattern="[0-9]*" placeholder="请输入手机号" ng-model="vip_info.phone">
+        </div>
+    </div>
+    
+    <div class="weui_cell" ng-if="current_shop.use_sms && current_shop.enable_vip_info_phone_validation && !is_vip">
+        <div class="weui_cell_hd"><label class="weui_label">验证码</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" type="tel" placeholder="请输入验证码" ng-model="vip_info.sms_captcha_code">
+        </div>
+        <div class="weui_cell_bd">
+            <a ng-click="send_validation_code()" class="orange" ng-if="!validation_time">获取验证码</a>
+            <a ng-if="validation_time" class="time gray">{{validation_time}}秒后重新获取</a>
+        </div>
+    </div>
+
+    <div class="weui_cell">
+        <div class="weui_cell_hd"><label class="weui_label">密码</label></div>
+        <div class="weui_cell_bd weui_cell_primary">
+            <input class="weui_input" type="text" placeholder="默认初始密码为 123456" ng-model="vip_info.password">
+        </div>
+    </div>
+  </div>
+
+  <div class="padding">
+    <a class="weui_btn weui_btn_warn" ng-click="submit()" ng-class="{'weui_btn_disabled': !can_submit() }">
+      立即绑定
+    </a>
+  </div>
+</div>

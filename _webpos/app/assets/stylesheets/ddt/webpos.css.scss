@@ -1,0 +1,29 @@
+// vendor
+@import "bootstrap";
+@import "bootstrap-datetimepicker";
+@import "font-awesome";
+
+// common
+@import "common/variable";
+@import "common/mixins";
+@import "common/base";
+
+// custom
+@import "webpos_common/*";
+@import "webpos_common/**/*";
+@import "webpos/*";
+@import "webpos/**/*";
+
+
+.bootstrap-datetimepicker-widget{
+  .btn{
+    &:active{
+      box-shadow: none;
+    }
+  }
+  .timepicker-hour, .timepicker-minute, .timepicker-second{
+    width: 100%;
+  }
+}
+
+.lh-50 { line-height: 50px;}

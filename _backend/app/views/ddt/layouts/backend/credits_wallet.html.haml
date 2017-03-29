@@ -1,0 +1,19 @@
+- content_for(:content) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs#tables
+            %li{class: ('active' if controller_name == 'shop_credits_wallets' && action_name == 'branches')}
+              = link_to '门店积分管理', [:branches, :backend, @current_shop, :shop_credits_wallet]
+            %li{class: ('active' if controller_name == 'shop_credits_wallets' && action_name == 'base_users')}
+              = link_to '用户积分管理', [:base_users, :backend, @current_shop, :shop_credits_wallet]
+            %li{class: ('active' if controller_name == 'credits_settings')}
+              = link_to '积分设置', [:backend, @current_shop, :credits_setting]
+            %li{class: ('active' if controller_name == 'shop_credits_wallets' && action_name == 'wallet_logs')}
+              = link_to '积分日志', [:wallet_logs, :backend, @current_shop, :shop_credits_wallet]
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+= render template: "ddt/layouts/backend"

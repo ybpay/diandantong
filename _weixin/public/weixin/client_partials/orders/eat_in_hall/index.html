@@ -1,0 +1,39 @@
+<div common-header></div>
+<div class="ddb-secondary-nav-header orders-index-secondary-nav">
+  <div class="filter-switch">
+    <div class="filter-tab" ng-click="change_filter_tab('all')" ng-class="{'active': tab_key == 'all'}">
+      点单记录
+    </div>
+    <div class="filter-tab" ng-click="change_filter_tab('no-comments')" ng-class="{'active': tab_key == 'no-comments'}">
+      待评价
+    </div>
+  </div>
+</div>
+<div class="orders-index-page main-view" id="eat-in-hall-orders-index">
+  <div class="space-12"></div>
+
+  <div class="no-record" ng-if="orders.length == 0">
+      没有找到订单
+    </div>
+
+  <div class="order-item section" ng-repeat="order in orders">
+    <div class="time list-item" ng-click="go_detail(order)"下单时间：{{::order.placed_at|moment}}</div>
+    <div class="list-item" ng-click="go_detail(order)">
+      <div class="name">{{::order.branch_name}} {{::order.table_name_with_zone}}
+        <span  ng-if="(order.state == 'canceled')||(order.state == 'completed')" class="workflow-state right">
+          {{order.state_name}}
+        </span>
+      </div>
+    </div>
+    <div class="list-item">
+      <div class="total-amount"><span class="amount-label">{{::order.item_count}}份 金额：</span>{{order.total|currency: currency}}</div>
+      <div class="operation">
+        <span class="button" ng-if="order.state == 'completed' && !order.is_commented">
+          <a ng-click="go_new_comment(order)">评价</a>
+        </span>
+      </div>
+      <div class="space"></div>
+    </div>
+  </div>
+  <div class="space-12"></div>
+</div>

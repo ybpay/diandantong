@@ -1,0 +1,33 @@
+branch
+--------------------------------------------
+ id                       :  int(11)
+ shop_id                  :  int(11)
+ name                     :  varchar(255)
+ image                    :  varchar(255)   : 方图
+ rect_image               :  varchar(255)   : 长方图
+ is_open                  :  tinyint(1)     : 营业中?
+ expiration_time          :  datetime       : 过期时间
+ notice                   :  varchar(255)   : 公告
+ phone                    :  varchar(255)
+ address                  :  varchar(255)
+ zip_code                 :  varchar(255)
+ latitude                 :  decimal(8,2)   : 纬度
+ longitude                :  decimal(8,2)   : 经度
+ introduction             :  text           : 介绍
+ charge_method            :  varchar(255)   : 计费方式
+ left_orders_count        :  int(11)        : 剩余订单        --- 已删除字段
+ product_list_style       :  varchar(255)   : 产品排序方式
+ wallet_given             :  decimal(8,2)   : 钱包获得
+ wallet_consume           :  decimal(8,2)   : 钱包消耗
+ credits_given            :  int(11)        : 积分获得
+ credits_consume          :  int(11)        : 积分消耗
+ branch_type_id           :  int(11)        : 分店类型
+ use_delivery_setting     :  tinyint(1)     : 外送设置
+ use_reservation_setting  :  tinyint(1)     : 预订设置
+ use_eat_in_hall_setting  :  tinyint(1)     : 堂吃设置
+ use_queue_setting        :  tinyint(1)     : 支持排号
+ deleted_at               :  datetime
+ check_stock              :  tinyint(1)     : 是否检查库存
+ position                 :  int(11)        : 排序
+ created_at               :  datetime
+ updated_at               :  datetime

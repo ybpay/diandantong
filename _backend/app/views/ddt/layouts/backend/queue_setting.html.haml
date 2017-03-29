@@ -1,0 +1,17 @@
+
+- content_for(:branch_body) do
+  .wrapper.wrapper-content.animated.fadeInRight.ecommerce
+    .row
+      .col-lg-12
+        .tabs-container
+          %ul.nav.nav-tabs
+            %li{class: ('active' if (%W[guest_queues].include?(controller_name) or (action_name == 'board')))}
+              = link_to t('activerecord.models.ddt/guest_queue'), board_backend_shop_branch_queue_settings_path(@current_shop, @current_branch)
+            %li{class: ('active' if (%W[queue_settings].include? controller_name) and (action_name != 'board'))}
+              = link_to t('activerecord.models.ddt/queue_setting'), backend_shop_branch_queue_settings_path(@current_shop, @current_branch)
+          .tab-content
+            .tab-pane.active
+              .panel-body
+                = yield
+
+= render template: "ddt/layouts/backend/branch"

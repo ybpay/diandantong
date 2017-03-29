@@ -1,0 +1,1 @@
+json.partial! partial: 'shop', locals: { shop: @shop }

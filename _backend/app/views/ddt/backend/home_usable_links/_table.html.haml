@@ -1,0 +1,23 @@
+%table.table.table-striped.home-usable-links-table
+  %thead
+    %tr
+      %th.col-sm-2= Ddt::HomeUsableLink.human_attribute_name(:title)
+      %th.col-sm-3= Ddt::HomeUsableLink.human_attribute_name(:keywords)
+      %th.col-sm-2= Ddt::HomeUsableLink.human_attribute_name(:image)
+      %th.col-sm-2= Ddt::HomeUsableLink.human_attribute_name(:link)
+      %th.col-sm-2
+
+  %tbody
+    - home_usable_links.each do |home_usable_link|
+      %tr
+        %td= home_usable_link.title
+        %td= home_usable_link.keywords
+        %td= image_tag(home_usable_link.image.thumb.url) if home_usable_link.image.url.present?
+        %td= home_usable_link.link
+        %td
+          = change_position_form([:change_position, :backend, @current_shop, :custom_weixin_info, home_usable_link], home_usable_links, home_usable_link)
+          = info_btn([:custom_weixin_info, home_usable_link])
+          = edit_btn([:custom_weixin_info, home_usable_link])
+          = delete_btn([:custom_weixin_info, home_usable_link])
+
+    = no_record_hint(home_usable_links)

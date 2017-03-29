@@ -1,0 +1,37 @@
+.order-query-form
+  = render 'table_form'
+
+%br/
+%table.table.table-striped.table-bordered
+  %thead
+    %tr
+      %th 门店
+      %th 桌台类型
+      %th 桌台号
+      %th 订单数
+      %th 消费人数
+      %th 订单总价
+      %th 人均消费
+  %tbody
+    - @result.each do |item|
+      %tr
+        %td= item[:branch_name]
+        %td= item[:table_zone]
+        %td= item[:name]
+        %td= item[:order_count]
+        %td= item[:guest_num]
+        %td= item[:total]
+        %td= item[:per_total]
+    %tr
+      %td 总计
+      %td
+      %td
+      %td= @result.map{|item| item[:order_count]}.sum
+      %td= @result.map{|item| item[:guest_num]}.sum
+      %td= @result.map{|item| item[:total]}.sum.round(2)
+      - sum_of_guest_num = @result.map{|item| item[:guest_num]}.sum
+      - if sum_of_guest_num == 0
+        %td 0
+      - else
+        %td= (@result.map{|item| item[:total]}.sum / sum_of_guest_num).round(2)
+%br

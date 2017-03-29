@@ -1,0 +1,19 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2 系统消息详情
+
+.wrapper.wrapper-content.animated.fadeInRight.ecommerce
+  .row
+    .col-lg-12
+      .ibox
+        .ibox-content
+          %p
+            %strong= Ddt::SystemMessage.human_attribute_name(:message_type)
+            = @system_message.message_type_name
+          %p
+            %strong= Ddt::SystemMessage.human_attribute_name(:created_at)
+            = @system_message.created_at
+          %p
+            %strong= Ddt::SystemMessage.human_attribute_name(:content)
+          %p  
+            = @system_message.content

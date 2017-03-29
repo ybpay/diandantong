@@ -1,0 +1,6 @@
+.header
+  %h3= "新建#{t('activerecord.models.ddt/vip_level')}"
+
+= render 'form'
+
+= link_to t('Back'), backend_shop_vip_levels_path(@current_shop), :class => "btn btn-default btn-sm"

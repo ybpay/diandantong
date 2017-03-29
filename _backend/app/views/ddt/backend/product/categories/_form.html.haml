@@ -1,0 +1,34 @@
+= simple_form_for([:backend, @current_shop, @current_branch, @category], html: { class: 'form-horizontal'}, remote: true) do |f|
+  = f.error_notification :message => error_message_in_html(@category)
+
+  .form-inputs
+    = f.input :name
+    = f.input :show_on_wechat
+    .use_wechat
+      = f.input :parent_id, as: :hidden
+      - if @category.parent_id.blank?
+        = f.input :support_delivery
+        = f.input :support_reservation
+        = f.input :support_eat_in_hall
+
+    .form-actions
+      .col-xs-offset-4
+        = f.button :submit, :class => "btn btn-primary"
+    .clearfix
+
+:javascript
+  (function(){
+      var check_box = $("#category_show_on_wechat")
+      var check_box_handler = function(){
+          var This = $("#category_show_on_wechat")
+          if(This[0].checked){
+              $(".use_wechat").css('display','block');
+          }
+          else{
+              $(".use_wechat").css('display','none');
+          };
+      }
+
+      check_box.on('click', check_box_handler)
+      check_box_handler();
+  })();

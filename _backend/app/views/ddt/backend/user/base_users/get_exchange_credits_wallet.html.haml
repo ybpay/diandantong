@@ -1,0 +1,6 @@
+= render 'display_amount'
+= simple_form_for @exchange, :url => exchange_credits_wallet_backend_shop_base_user_path(@current_shop, @base_user), method: :put, html: { class: 'form-horizontal'} do |f|
+  = f.input :amount, as: :decimal, label: '兑换积分', hint: '兑换积分会同时在用户积分和平台总积分中扣除'
+  = f.input :note, as: :text, label: '备注'
+  .form-actions.col-xs-offset-2
+    = f.submit '兑换', :class => "btn btn-primary btn-sm", :data => {:confirm => t('Are you sure?')}

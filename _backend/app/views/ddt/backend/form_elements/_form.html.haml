@@ -1,0 +1,48 @@
+-action = @form_element.new_record? ? backend_shop_branch_form_elements_path(@current_shop, @current_branch) : backend_shop_branch_form_element_path(@current_shop, @current_branch, @form_element)
+
+.ibox
+  .ibox-content
+    .col-md-10
+      = simple_nested_form_for @form_element, url: action, html: {class: "form-horizontal", role: "form"}, remote: true do |f|
+        = hidden_field_tag :type, @form_element.class
+        = f.error_notification :message => error_message_in_html(@form_element)
+        %fieldset
+          = f.hidden_field :type
+          = f.hidden_field :sequence
+          .field.form-group
+            = f.label :need, class: "control-label no-padding-right col-sm-3"
+            .col-sm-8
+              %label
+                = f.check_box :need, class: "ace ace-switch ace-switch-1"
+                %span.lbl
+          .field.form-group
+            = f.label :statement, class: "control-label no-padding-right col-sm-3"
+            .col-sm-8= f.text_field :statement, class: "col-sm-7", placeholder: "表单项名称，例：其他送餐时间"
+          -if @form_element.is_a?(Ddt::FormElementText)
+            .field.form-group
+              = f.label :placeholder, class: "control-label no-padding-right col-sm-3"
+              .col-sm-8= f.text_field :placeholder, class: "col-sm-7", placeholder: "表单提示，例：请填写送餐时间"
+
+          .field.form-group
+            = f.label :support_order_types, class: "control-label no-padding-right col-sm-3"
+            .col-sm-8
+              = f.input :support_delivery
+              = f.input :support_eat_in_hall
+              = f.input :support_reservation
+              = f.input :support_fastfood
+
+        -if @form_element.is_a?(Ddt::FormElementSelect)
+          %strong{style: "color:red"} 温馨提示：点击“添加可选项目”以添加可供访客选择项
+          %center= f.link_to_add "添加可选项目", :form_elements, class: "btn btn-sm btn-warning", data: {target: "#options"}
+          %br/
+          %fieldset#options
+            = f.fields_for :form_elements do |op|
+              .field.form-group
+                = op.label :statement, '可选值', class:"control-label no-padding-right col-sm-2 col-sm-offset-1"
+                .col-sm-20
+                  = op.text_field :statement, class: "col-sm-5", placeholder: "例：11点30分"
+                  = op.link_to_remove '移除可选值', class: "btn btn-sm btn-danger"
+        %center.actions
+          = f.submit '保存', class: "btn btn-sm btn-primary"
+
+    .clearfix

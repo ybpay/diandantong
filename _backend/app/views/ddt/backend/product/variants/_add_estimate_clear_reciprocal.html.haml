@@ -1,0 +1,6 @@
+= simple_form_for([:add_estimate_clear_reciprocal,:backend, @current_shop, @current_branch, @product, @variant], html: { class: 'form-horizontal'}, method: :post) do |f|
+  = f.error_notification :message => error_message_in_html(@variant)
+  .form-inputs
+    = f.input :stock_quantity
+  .form-actions.col-xs-offset-2
+    = f.submit "提交", :class => "btn btn-primary btn-sm"

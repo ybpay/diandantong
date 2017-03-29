@@ -1,0 +1,10 @@
+<%- case @state.try(:to_sym)%>
+<%- when :online%>
+  bootbox.alert("在线")
+<%- when :offline%>
+  bootbox.alert("离线")
+<%- when :no_paper%>
+  bootbox.alert("缺纸")
+<%- else%>
+  bootbox.alert("未知")
+<%- end%>

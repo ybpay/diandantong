@@ -1,0 +1,20 @@
+.ibox
+  .ibox-title
+    %h2= "#{t('activerecord.models.ddt/arranging_setting')} 详情"
+  .ibox-content
+    .col-md-6
+      .model-show
+        %p
+          %b
+            = Ddt::ArrangingSetting.human_attribute_name(:mode)
+            \:
+          = @arranging_setting.mode_name
+        / %p
+        /   %b
+        /     二维码入口
+        /   = image_tag @arranging_setting.qr_code_scene.url, width: '70%'
+        /   %br
+        /   可将此二维码直接张贴至派号处供微信用户扫码排号
+
+      = link_to t('Edit'), edit_backend_shop_branch_arranging_setting_path(@current_shop, @current_branch), :class => "btn btn-primary btn-sm"
+    .clearfix

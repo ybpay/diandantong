@@ -1,0 +1,212 @@
+.coupons-index-secondary-nav {
+  .filter-switch {
+    border: 0;
+    color: $gray;
+    .filter-tab {
+      padding: 7px 0;
+      border-right: 0;
+      .text {
+        line-height: 28px;
+        border-right: 1px solid $gray-lightest;
+      }
+    }
+    .filter-tab.active {
+      background-color: white;
+      color: $gray;
+      border-bottom: 3px solid $color-red;
+    }
+
+  }
+}
+.coupons-index-page {
+
+  .coupon-item {
+    margin: 0 10px 10px 10px;
+    background-color: white;
+    .name {
+      height: 80px;
+      padding: 10px;
+      text-align: center;
+      color: white;
+      border-radius: 5px 5px 0 0;
+      font-size: 24px;
+      font-weight: bold;
+      line-height: 60px;
+    }
+    .exchangecode{
+      display: inline-block;
+      color: white;
+      font-size: 14px;
+      padding: 10px 0 0 10px;
+    }
+    .norminal-value{
+      float: right;
+      color: white;
+      font-size: 14px;
+      margin-right: 10px;
+      padding: 10px 0 0 10px;
+    }
+    .usablestarts{
+      color: white;
+      text-align: center;
+      padding: 0 0 10px 0;
+    }
+    .coupon-inner{
+      border-radius: 5px 5px 0 0 ;
+    }
+    .coupon-spliter {
+      height: 5px;
+    }
+  }
+
+  .coupon-item.coupon-green {
+    .coupon-inner {
+      background: url(/images/ddt/coupons/coupon-green.png) repeat;
+    }
+    .coupon-spliter {
+      background: url(/images/ddt/coupons/coupon-juchi-green.png) repeat-x;
+    }
+  }
+
+  .coupon-item.coupon-pink {
+    .coupon-inner {
+      background: url(/images/ddt/coupons/coupon-pink.png) repeat;
+    }
+    .coupon-spliter {
+      background: url(/images/ddt/coupons/coupon-juchi-pink.png) repeat-x;
+    }
+  }
+
+  .coupon-item.coupon-red {
+    .coupon-inner {
+      background: url(/images/ddt/coupons/coupon-red.png) repeat;
+    }
+    .coupon-spliter {
+      background: url(/images/ddt/coupons/coupon-juchi-red.png) repeat-x;
+    }
+  }
+
+  .coupon-item.coupon-orange {
+    .coupon-inner {
+      background: url(/images/ddt/coupons/coupon-orange.png) repeat;
+    }
+    .coupon-spliter {
+      background: url(/images/ddt/coupons/coupon-juchi-orange.png) repeat-x;
+    }
+  }
+
+  .branch-name {
+    font-size: 14px;
+    padding: 8px 10px;
+    color: $gray-light;
+    line-height: 1.2em;
+  }
+}
+.sharable-coupons-index-page {
+  background-color: white;
+  .sharable-coupon-item {
+    height: 54px;
+    background-color: $color-red;
+    color: white;
+    margin-bottom: 20px;
+    padding-left: 80px;
+    img {
+      float: left;
+      width: 70px;
+      margin-left: -75px;
+      margin-top: 5px;
+    }
+
+    .name {
+      font-size :16px;
+      line-height: 30px;
+    }
+
+    .desciption {
+      height: 24px;
+      font-size: 10px;
+      line-height: 12px;
+      color: $gray-lighter;
+    }
+  }
+}
+
+.sharable-coupon-page {
+  .sharable-coupon-top {
+    width: 100%;
+    display: table;
+    padding: 20px;
+    height: 100px;
+  }
+  .cloud {
+    vertical-align: middle;
+    display: table-cell;
+    width: 3%;
+    img {
+      height: 16px;
+    }
+  }
+  .sun {
+    vertical-align: middle;
+    display: table-cell;
+    width: 7%;
+    img {
+      float: right;
+      height: 50px;
+    }
+  }
+
+  .sharable-coupon {
+    width: 120px;
+    margin: 10px auto;
+    display: block;
+  }
+
+  .title {
+    padding: 10px;
+    font-size: 16px;
+    fong-weight: bold;
+    text-align: center;
+  }
+
+  .description {
+    margin-top: 10px;
+    font-size: 12px;
+    padding: 10px;
+    color: $gray-lighter;
+  }
+
+  .received-users {
+    padding: 10px;
+  }
+
+  .sharable-coupon-body {
+    padding-bottom: 150px
+  }
+
+  .sharable-coupon-btn {
+    background-color: #fbe053;
+    border-radius: 2px;
+    margin: auto;
+    width: 160px;
+    text-align: center;
+    color: $color-red;
+    font-size: 19px;
+    font-weight: bold;
+    padding: 10px 0;
+  }
+
+  .sharable-coupon-bottom {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    display: table-cell;
+    vertical-align: bottom;
+    img {
+      max-height: 100px;
+      width: 100%;
+      overflow: hidden;
+      display: block;
+    }
+  }
+}

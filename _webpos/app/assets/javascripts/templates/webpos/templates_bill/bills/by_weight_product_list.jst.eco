@@ -1,0 +1,52 @@
+<div class="main-part" wp-scroll-zone ng-show="active_menu.tag == 'by_weight_product_list'">
+    <div class="by_weight_product_list">
+        <wp-datetime-input class="left" input-type="datetime" input-model="params.start_time" placeholder="起始时间"></wp-datetime-input>
+        <wp-datetime-input class="left" input-type="datetime" input-model="params.end_time" placeholder="结束时间"></wp-datetime-input>
+        <wp-btn-sm ng-click="search_by_weight_product_list()">查询</wp-btn-sm>
+        <wp-btn-sm ng-click="print_by_weight_product_list()">打印</wp-btn-sm>
+        <div class="clearfix"></div>
+        <div class="wp-subject col-xs-12" ng-show="by_weight_product_list.from_cache">以下是缓存的查询结果，查询最新数据请点击<a ng-click="search_by_weight_product_list({refresh: true})">这里</a></div>
+        <div ng-repeat="item in by_weight_product_list.items" ng-show="by_weight_product_list.items">
+            <div class="wp-subject"><span class="red">{{::item.name}}</span></div>
+            <table class="wp-table-sm">
+                <thead>
+                <th width="40%">项目</th>
+                <th width="15%">数量总计</th>
+                <th width="15%">称重总计({{::item.unit_name}})</th>
+                <th width="15%">金额总计</th>
+                <th width="15%">称重商品金额占比</th>
+                </thead>
+                <tbody>
+                <tr ng-repeat="variant in item.variants"
+                    ng-class="{odd: $index % 2 == 0}">
+                    <td>{{::variant.name}}</td>
+                    <td>{{::variant.quantity}}</td>
+                    <td>{{::variant.weight | number:2}}</td>
+                    <td>{{::variant.amount | number:2}}</td>
+                    <td>{{::variant.percent * 100 | number:2 }}%</td>
+                </tr>
+                <tr class="red">
+                  <td>小计</td>
+                  <td>{{::item.total_quantity}}</td>
+                  <td>{{::item.total_weight}}</td>
+                  <td>{{::item.total_amount}}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div>
+            <div class="wp-subject"><span class="red">合计</span></div>
+            <table class="wp-table-sm">
+                <tbody>
+                    <tr>
+                        <td width="40%"></td>
+                        <td width="15%">{{by_weight_product_list.total_quantity}}</td>
+                        <td width="15%"></td>
+                        <td width="15%">{{by_weight_product_list.total_amount | number:2}}</td>
+                        <td width="15%"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

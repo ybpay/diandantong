@@ -1,0 +1,15 @@
+.ibox 
+  .ibox-title
+    %h3= "#{t('activerecord.models.ddt/subtract_reason')}列表"
+
+    .form-group
+      = new_btn(:subtract_reason, title: '新建', remote: true)
+  .ibox-content
+    .reasons-wrapper
+      .ibox-content
+        .row
+          %div.dd.col-sm-6.reasons{ data: { base_url: backend_shop_subtract_reasons_path(@current_shop)}}
+            %ol.dd-list
+              = render :partial => "item", :collection => @subtract_reasons, :as => :subtract_reason
+              = no_record_hint(@subtract_reasons)
+

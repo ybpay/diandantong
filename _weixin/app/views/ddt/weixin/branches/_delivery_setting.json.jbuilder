@@ -1,0 +1,1 @@
+json.extract! branch, :min_delivery_fee, :support_delivery_if_amount_gt, :receive_delivery_order_within_days, :use_fixed_delivery_time, :delivery_radius, :support_order_if_not_in_delivery_radius, :is_charge_by_distance

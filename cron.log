@@ -1,0 +1,5 @@
+rake aborted!
+Don't know how to build task 'statistic:send_email_to_sale_employee'
+/home/franky/.rvm/gems/ruby-2.1.6/bin/ruby_executable_hooks:15:in `eval'
+/home/franky/.rvm/gems/ruby-2.1.6/bin/ruby_executable_hooks:15:in `<main>'
+(See full trace by running task with --trace)

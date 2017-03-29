@@ -1,0 +1,2 @@
+json.extract! @account, :id, :login_id, :name, :authentication_token, :phone, :email, :last_sign_in_at, :last_sign_in_ip, :current_sign_in_at, :current_sign_in_ip
+json.roles @account.roles.map(&:select_json)

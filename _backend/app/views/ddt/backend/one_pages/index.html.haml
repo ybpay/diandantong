@@ -1,0 +1,11 @@
+.header
+  %h3= "#{t('activerecord.models.ddt/one_page')} 列表"
+
+.alert.alert-success 温馨提示： 建议开机动画数量不应超过5张，否则图片的加载数量会导致用户需要等待过长的时间。用户首次登录会显示开机动画，以后每隔30分钟访问您的微信页面时会显示一次
+.form-group
+  = link_to "新建 #{t('activerecord.models.ddt/one_page')}", new_backend_shop_one_page_path(@current_shop), :class=>"btn btn-primary btn-sm"
+
+= render partial: 'ddt/backend/one_pages/table', locals: { one_pages: @one_pages}
+%br
+.pull-right= will_paginate @one_pages , renderer: BootstrapPagination::Rails, bootstrap: 3
+%br

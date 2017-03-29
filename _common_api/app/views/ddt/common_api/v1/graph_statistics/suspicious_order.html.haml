@@ -1,0 +1,46 @@
+.suspicious-order-chart
+:javascript
+  $(document).ready(function(){
+    $('.suspicious-order-chart').highcharts({
+      chart: {
+      },
+      title: {
+        text: "#{@branch.try(:name) || current_shop.name} 稽核统计"
+      },
+      subtitle: {
+        text: "#{@start_date.strftime("%F")} ~ #{@end_date.strftime("%F")}"
+      },
+      xAxis: {
+        tickInterval: #{@cancel_order_statistic.tick_interval},
+        categories: #{raw @cancel_order_statistic.labels}
+      },
+      yAxis: {
+        title: {
+          text: null
+        },
+        plotLines: [{
+          value: 0,
+          width: 1,
+          color: '#808080'
+        }],
+        min: 0,
+        minTickInterval: 1
+      },
+      tooltip: {
+        valueSuffix: ''
+      },
+      legend: {
+        layout: 'horizontal',
+        align: 'center',
+        verticalAlign: 'bottom',
+        borderWidth: 0
+      },
+      series: [{
+          name: "退单数",
+          data: #{@cancel_order_statistic.query.values.to_json}
+        },{
+          name: "反结数",
+          data: #{@anti_settlement_order_statistic.query.values.to_json}
+        }]
+    });
+  });
