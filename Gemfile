@@ -1,9 +1,8 @@
 source 'https://gems.ruby-china.com'
-ruby '~> 2.1.0'
 
 gem 'rails', '4.1.13'
 gem 'mysql2', '0.3.17'
-gem 'exception_notification', git: 'https://github.com/smartinez87/exception_notification.git'
+gem 'exception_notification', '~> 4.2.0'
 gem 'jpush', "3.2.1"
 gem 'foreman', '0.63.0'
 gem 'uglifier'
@@ -58,5 +57,5 @@ gem 'whenever', require: false
 gem 'unicorn'
 gem 'doorkeeper', '~> 3.1.0'
 # gem 'rbtrace'
-# gem 'marginalia' # log controller:action to mysql-slow.log
+# gem 'marginalia' # log controller:action to mysql-slow-log
 gem 'sqlite3'
