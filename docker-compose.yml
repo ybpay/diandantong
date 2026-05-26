@@ -1,5 +1,3 @@
-version: '3.8'
-
 x-app-env: &app-env
   RAILS_ENV: ${RAILS_ENV:-development}
   RACK_ENV: ${RACK_ENV:-development}
@@ -38,7 +36,7 @@ services:
       - ddt-network
 
   redis:
-    image: redis:5.0-alpine
+    image: redis:7-alpine
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"

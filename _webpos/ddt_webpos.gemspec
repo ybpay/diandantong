@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = version
   s.summary     = 'The webpos for ddt.'
   s.description = 'The webpos for ddt.'
-  s.required_ruby_version = '>= 3.0.0'
+  s.required_ruby_version = '>= 3.2.0'
   s.author      = 'ddt'
   s.email       = 'xie_s@diandantong.com'
   s.homepage    = 'http://www.diandantong.com'

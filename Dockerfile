@@ -1,8 +1,8 @@
-# Phase 3: Rails 6.0 + Ruby 3.0 upgrade for diandantong (点单通) restaurant SaaS
-# Multi-stage build with Ruby 3.0 + MySQL 5.7
+# Phase 4: Rails 8.1 + Ruby 4.0 upgrade for diandantong (点单通) restaurant SaaS
+# Multi-stage build with Ruby 4.0 + MySQL 5.7 + Propshaft
 
 # ===== Stage 1: Build dependencies =====
-FROM ruby:3.0-slim AS builder
+FROM ruby:4.0-slim AS builder
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
@@ -33,7 +33,7 @@ RUN bundle install --jobs 4 --retry 3 --without development test && \
     rm -rf /usr/local/bundle/cache/*.gem
 
 # ===== Stage 2: Runtime =====
-FROM ruby:3.0-slim
+FROM ruby:4.0-slim
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     libmariadb3 \
@@ -59,11 +59,7 @@ WORKDIR /app
 COPY --from=builder /usr/local/bundle /usr/local/bundle
 COPY . .
 
-RUN mkdir -p tmp/pids log public/uploads public/assets
-
-# Precompile assets (requires SECRET_KEY_BASE)
-ARG SECRET_KEY_BASE=dummy_for_asset_precompilation
-RUN bundle exec rake assets:precompile || true
+RUN mkdir -p tmp/pids log public/uploads
 
 EXPOSE 9000
 
@@ -71,4 +67,4 @@ COPY docker-entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/docker-entrypoint.sh
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["bundle", "exec", "unicorn_rails", "-p", "9000", "-c", "config/unicorn.rb", "-E", "production"]
+CMD ["bundle", "exec", "puma", "-C", "config/puma.rb"]

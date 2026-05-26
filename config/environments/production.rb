@@ -1,4 +1,3 @@
-#encoding: utf-8
 Rails.application.configure do
   config.cache_classes = true
   config.eager_load = true
@@ -8,16 +7,11 @@ Rails.application.configure do
 
   config.public_file_server.enabled = true
 
-  config.assets.js_compressor = :uglifier
-  config.assets.compile = false
-  config.assets.digest = true
-
   config.disable_app_notification = false
-  config.assets.version = '1.0'
 
   config.log_level = :info
 
-  config.action_controller.asset_host = "http://d.cache.diandantong.com"
+  config.action_controller.asset_host = ENV.fetch("ASSET_HOST", "http://d.cache.diandantong.com")
 
   config.i18n.fallbacks = true
   config.active_support.deprecation = :notify
@@ -29,11 +23,14 @@ Rails.application.configure do
     port:                 25,
     domain:               'diandantong.com',
     user_name:            'noreply@diandantong.com',
-    password:             'ddt2013',
+    password:             ENV.fetch('SMTP_PASSWORD', 'ddt2013'),
     authentication:       :login,
     enable_starttls_auto: false
   }
   ActionMailer::Base.default :from => "微信点单 <noreply@diandantong.com>"
-  config.action_controller.default_url_options = { host: 'cy.diandantong.com' }
-  config.action_mailer.default_url_options = { host: 'cy.diandantong.com' }
+  config.action_controller.default_url_options = { host: ENV.fetch('APP_HOST', 'cy.diandantong.com') }
+  config.action_mailer.default_url_options = { host: ENV.fetch('APP_HOST', 'cy.diandantong.com') }
+
+  # Do not dump schema after migrations (Rails 8 default)
+  config.active_record.dump_schema_after_migration = false
 end
