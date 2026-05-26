@@ -1,0 +1,18 @@
+{
+  "name": "@webpos/ui",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "element-plus": "^2.7.0",
+    "@webpos/types": "workspace:*"
+  },
+  "devDependencies": {
+    "vue-tsc": "^2.0.0"
+  }
+}
