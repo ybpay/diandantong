@@ -20,16 +20,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libmysqlclient-dev libxml2-dev libxslt1-dev
+
       - name: Set up Ruby 2.1
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.1'
+          bundler: '1'
           bundler-cache: true
-
-      - name: Install dependencies
-        run: |
-          gem install bundler -v '~> 1.17.0'
-          bundle install --jobs 4 --retry 3
 
       - name: Run RuboCop
         run: bundle exec rubocop --format progress --format json --out rubocop-report.json || true
@@ -72,16 +73,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends libmysqlclient-dev libxml2-dev libxslt1-dev
+
       - name: Set up Ruby 2.1
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.1'
+          bundler: '1'
           bundler-cache: true
-
-      - name: Install dependencies
-        run: |
-          gem install bundler -v '~> 1.17.0'
-          bundle install --jobs 4 --retry 3
 
       - name: Configure database
         run: |
