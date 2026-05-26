@@ -1011,7 +1011,7 @@ module Ddt
             when :day
               "TO_CHAR(#{table_name}.#{time_column}, 'DD')"
             when :week
-              "TO_CHAR(#{table_name}.#{time_column}, 'D')"
+              "EXTRACT(DOW FROM #{table_name}.#{time_column})::text"
             when :month
               "TO_CHAR(#{table_name}.#{time_column}, 'DD')"
             when :year
@@ -1028,7 +1028,7 @@ module Ddt
             when :day
               "TO_CHAR(#{table_name}.#{time_column}, 'DD') as time"
             when :week
-              "TO_CHAR(#{table_name}.#{time_column}, 'D') as time"
+              "EXTRACT(DOW FROM #{table_name}.#{time_column})::text as time"
             when :month
               "TO_CHAR(#{table_name}.#{time_column}, 'DD') as time"
             when :year

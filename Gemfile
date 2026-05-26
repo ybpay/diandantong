@@ -6,6 +6,8 @@ gem 'jquery-rails'
 gem 'jbuilder', '~> 2.7'
 gem 'puma', '~> 7.0'
 
+eval_gemfile 'common_ddt_dependencies.rb'
+
 group :test, :development do
   gem 'byebug', platform: :mri
   gem 'database_cleaner', '~> 2.0'
