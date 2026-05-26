@@ -1,8 +1,7 @@
 class Ckeditor::Asset < ActiveRecord::Base
+  self.table_name = 'ckeditor_assets'
 
-  include Ckeditor::Orm::ActiveRecord::AssetBase
+  has_one_attached :data_file
 
-  delegate :url, :current_path, :content_type, :to => :data
-
-  validates_presence_of :data
+  validates_presence_of :data_file_name
 end

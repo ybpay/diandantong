@@ -2,20 +2,23 @@ module Ddt
   module OrderService
     class Litp
       include OrderService::Concern::Base
+      include AASM
       belongs_to :itemable, polymorphic: true, with_deleted: true
       attr_accessor :id, :shop_id, :branch_id, :order_id, :line_item_id, :order_change_log_id, :note, :created_at, :name
       attr_accessor :order
       attr_accessor_with_dirty :updated_at, :state, :cook_id
       acts_as_type :state, [:pending, :confirmed, :completed, :canceled], %W[未烹饪 烹饪中 已烹饪 已取消]
-      state_machine :state, initial: :pending do
+      aasm column: :state do
+        state :pending, :confirmed, :completed, :canceled, initial: :pending
+
         event :confirm do
-          transition from: :pending, to: :confirmed
+          transitions from: :pending, to: :confirmed
         end
         event :complete do
-          transition from: [:pending,:confirmed], to: :completed
+          transitions from: [:pending, :confirmed], to: :completed
         end
         event :cancel do
-          transition from: [:completed,:pending,:confirmed], to: :canceled
+          transitions from: [:completed, :pending, :confirmed], to: :canceled
         end
 
         after_transition to: any do |litp|

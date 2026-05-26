@@ -5,7 +5,7 @@ module Ddt
     include TrackFrom
     include Scanable
     include ActionView::Helpers::DateHelper
-    include Workflow
+    include AASM
 
     belongs_to :base_user, class_name: 'Ddt::BaseUser'
     alias_method :user, :base_user
@@ -37,23 +37,28 @@ module Ddt
     acts_as_type :workflow_state, [:queueing, :accepted, :canceled, :past], %W(排队中 已入号 已取消 已过号)
     acts_as_type :track_from, [WECHAT, WEBPOS, APP, UNKNOW], [WECHAT_LABEL, WEBPOS_LABEL, APP_LABEL, UNKNOW_LABEL]
 
-    workflow do
-      state :queueing do
-        event :accept, :transitions_to => :accepted
-        event :cancel, :transitions_to => :canceled
-        event :pass, :transitions_to => :past
+    aasm column: :workflow_state, initial: :queueing do
+      state :queueing, :accepted, :canceled, :past
+
+      event :accept do
+        transitions from: :queueing, to: :accepted
+        transitions from: :past, to: :accepted
       end
-      state :accepted do
-        event :requeue, :transitions_to => :queueing
+      event :cancel do
+        transitions from: :queueing, to: :canceled
       end
-      state :past do
-        event :accept, :transitions_to => :accepted
-        event :requeue, :transitions_to => :queueing
+      event :pass do
+        transitions from: :queueing, to: :past
       end
-      state :canceled do
-        event :requeue, :transitions_to => :queueing
+      event :requeue do
+        transitions from: :accepted, to: :queueing
+        transitions from: :past, to: :queueing
+        transitions from: :canceled, to: :queueing
       end
     end
+
+    # Backward-compatible scope for workflow gem's with_<state>_state pattern
+    scope :with_queueing_state, -> { where(workflow_state: :queueing) }
 
     def front_guest_no
       return '' if self.guest_no.nil?

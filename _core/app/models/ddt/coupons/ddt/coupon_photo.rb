@@ -5,6 +5,7 @@ module Ddt
     #### relationships
     belongs_to :owner, polymorphic: true
 
+    include Ddt::CarrierWaveBridge
     mount_uploader :image, CouponImageUploader
 
     ####validations

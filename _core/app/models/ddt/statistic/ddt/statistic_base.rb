@@ -403,8 +403,8 @@ module Ddt
     def wrap_paginate(collection)
       current_page = (page||1).to_i
       total_size = (collection.size == 20 ? 20*current_page+1 : 20+20*(current_page-1))
-      collection = WillPaginate::Collection.create(current_page, 20, total_size) do |pager|
-        pager.replace collection
+      Pagy.new(count: total_size, page: current_page, items: 20).tap do |pagy|
+        collection = pagy
       end
     end
 

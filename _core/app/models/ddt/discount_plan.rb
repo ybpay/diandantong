@@ -1,6 +1,6 @@
 module Ddt
   class DiscountPlan < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     include BelongsToBranch
     has_many :discount_plan_items, inverse_of: :discount_plan
     alias_method :items, :discount_plan_items

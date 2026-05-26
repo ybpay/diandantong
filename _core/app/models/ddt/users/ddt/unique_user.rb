@@ -1,6 +1,6 @@
 module Ddt
   class UniqueUser < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     has_many :users, class_name: 'Ddt::User'
     validates :gonghao_open_id, presence: true, gonghao: true

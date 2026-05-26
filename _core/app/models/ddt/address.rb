@@ -1,6 +1,6 @@
 module Ddt
   class Address < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     include Ddt::ListScope
     include LatLng

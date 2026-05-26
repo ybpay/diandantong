@@ -1,7 +1,7 @@
 # encoding: utf-8
 module Ddt
   class FormElement < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     serialize :support_order_types
     ### relationships

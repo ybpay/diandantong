@@ -2,7 +2,7 @@ module Ddt
   class TempRechargeProduct < Ddt::Base
     include BelongsToShop
 
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     validates_presence_of :price, :recharge_amount
     validates_numericality_of :price, :recharge_amount, :greater_than => 0

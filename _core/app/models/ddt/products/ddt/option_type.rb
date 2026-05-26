@@ -1,7 +1,7 @@
 # encoding:utf-8
 module Ddt
   class OptionType < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     include Ddt::BelongsToBranch
     include Ddt::ListScope
 

@@ -1,6 +1,6 @@
 module Ddt
   class BaseQrCodeScene < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     ### plugins
     extend FriendlyId
     friendly_id :slug, use: [:slugged, :finders]

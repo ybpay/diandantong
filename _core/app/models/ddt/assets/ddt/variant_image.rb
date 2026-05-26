@@ -2,6 +2,7 @@ module Ddt
   class VariantImage < Ddt::Image
 
     include Ddt::Core::Engine.routes.url_helpers
+    include Ddt::CarrierWaveBridge
     mount_uploader :attachment, VariantImageUploader
 
     has_many :variants_variant_images, class_name: 'Ddt::VariantsVariantImage'

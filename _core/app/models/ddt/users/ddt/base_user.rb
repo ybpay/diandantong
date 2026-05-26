@@ -1,6 +1,6 @@
 module Ddt
   class BaseUser < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     acts_as_type :type, ['Ddt::User', 'Ddt::PhoneUser', 'Ddt::WebUser', 'Ddt::WifiUser'], %W[微信用户 电话用户 网站用户 wifi用户]
     ##### relationship

@@ -1,7 +1,7 @@
 module Ddt
   class PromotionAction < Ddt::Base
 
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     include Ddt::BelongsToShop
     belongs_to :promotion, class_name: 'Ddt::Promotion', inverse_of: :promotion_actions
 

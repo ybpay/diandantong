@@ -14,16 +14,19 @@ module Ddt
 
     STATES = [:applying, :confirmed, :rejected, :canceled]
     acts_as_type :workflow_state, STATES, STATES.map { |state| I18n.t("activerecord.attributes.ddt/merchant_apply.states.#{state}") }
-    include Workflow
-    workflow do
-      state :applying do
-        event :confirm, transition_to: :confirmed
-        event :reject, transition_to: :rejected
-        event :cancel, transition_to: :canceled
+    include AASM
+    aasm column: :workflow_state, initial: :applying do
+      state :applying, :confirmed, :rejected, :canceled
+
+      event :confirm do
+        transitions from: :applying, to: :confirmed
       end
-      state :confirmed
-      state :rejected
-      state :canceled
+      event :reject do
+        transitions from: :applying, to: :rejected
+      end
+      event :cancel do
+        transitions from: :applying, to: :canceled
+      end
     end
 
   end

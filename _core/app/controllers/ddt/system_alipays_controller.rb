@@ -9,7 +9,7 @@ module Ddt
       notify_params = params.except(*request.path_parameters.keys)
       Ddt::AlipayMethod.use_system_alipay
       if Alipay::Notify.verify?(notify_params)
-        if @service_product_order.current_state == :new
+        if @service_product_order.aasm_state.to_sym == :new
           @service_product_order.verify!(notify_params)
         end
         render plain: 'success'

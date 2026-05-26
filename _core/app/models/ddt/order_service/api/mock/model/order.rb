@@ -12,7 +12,7 @@ module Ddt
             has_many :order_change_logs, class_name: "Ddt::OrderService::Api::Mock::Model::OrderChangeLog"
             has_many :form_contents, class_name: "Ddt::OrderService::Api::Mock::Model::FormContent"
             has_many :line_item_trace_points, class_name: "Ddt::OrderService::Api::Mock::Model::LineItemTracePoint"
-            acts_as_paranoid
+            include Ddt::SoftDeletable
           end
         end
       end

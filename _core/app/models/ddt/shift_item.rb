@@ -4,7 +4,7 @@ module Ddt
 
     belongs_to :shift
     belongs_to :pay_method, ->{ with_deleted }
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     set_from :shift
     before_create :set_pay_method_info
     acts_as_type :item_type, [:base, :recharge]

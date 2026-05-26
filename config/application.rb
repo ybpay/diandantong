@@ -46,7 +46,7 @@ module Ddt
   end
 end
 
-WillPaginate.per_page = 20
+Pagy::DEFAULT[:items] = 20
 Date::DATE_FORMATS[:default] = "%Y-%m-%d"
 Time::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M"
 DateTime::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M"

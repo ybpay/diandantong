@@ -3,6 +3,7 @@ module Ddt
     module Order
       class Base
         include OrderService::Concern::Base
+        include AASM
         include OrderService::Order::Concern::ClassModel
         include OrderService::Order::Concern::OrderType
         include OrderService::Order::Concern::Adjust
@@ -133,27 +134,29 @@ module Ddt
           self
         end
 
-        state_machine :state, initial: :pending do
+        aasm column: :state, no_direct_assignment: true do
+          state :pending, :confirmed, :completed, :canceled, :merged, :refunding, :refunded, initial: :pending
+
           event :confirm do
-            transition :pending => :confirmed
+            transitions from: :pending, to: :confirmed
           end
           event :complete do
-            transition :confirmed => :completed
+            transitions from: :confirmed, to: :completed
           end
           event :init_refund do
-            transition :completed => :refunding
+            transitions from: :completed, to: :refunding
           end
           event :complete_refund do
-            transition :refunding => :refunded
+            transitions from: :refunding, to: :refunded
           end
           event :cancel_refund do
-            transition :refunding => :completed
+            transitions from: :refunding, to: :completed
           end
           event :cancel do
-            transition [:pending, :confirmed] => :canceled
+            transitions from: [:pending, :confirmed], to: :canceled
           end
           event :merged do
-            transition [:pending, :confirmed] => :merged
+            transitions from: [:pending, :confirmed], to: :merged
           end
           after_transition on: :confirm, do: :after_confirm
           after_transition on: :complete, do: :after_complete
@@ -162,7 +165,7 @@ module Ddt
           after_transition on: :complete_refund, do: :after_complete_refund
           after_transition on: :cancel_refund, do: :after_cancel_refund
           after_transition from: :pending, to: :canceled, do: :after_user_cancel
-          after_transition on: :cancel  do |order, transition|
+          after_transition on: :cancel do |order, transition|
             order.cancel_reason = transition.args.first
             order.after_cancel
           end

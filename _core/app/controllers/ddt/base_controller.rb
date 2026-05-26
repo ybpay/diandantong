@@ -22,6 +22,7 @@ module Ddt
   class ErrorNoAuthException < StandardError; end
 
   class BaseController < ActionController::Base
+    include Pagy::Backend
 
     # Prevent CSRF attacks by raising an exception.
     # For APIs, you may want to use :null_session instead.

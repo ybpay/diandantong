@@ -1,6 +1,6 @@
 module Ddt
   class TickAccount < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     include BelongsToBranch
     has_many :tick_account_items
     alias_method :items, :tick_account_items

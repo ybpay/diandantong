@@ -1,7 +1,7 @@
 # encoding:utf-8
 module Ddt
   class PayMethod < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     include ListScope
     include Ddt::BelongsToShopWithTouch
