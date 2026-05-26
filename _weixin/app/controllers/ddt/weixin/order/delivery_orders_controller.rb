@@ -83,7 +83,7 @@ module Ddt
       current_account = @current_user.account_user
       if @order.shipment.delivery_man_id.blank?
         @order.assign_delivery_man(current_account.id)
-        render nothing: true
+        head :ok
       else
         render json: {errors: '此单已被抢'}, status: :bad_request
       end

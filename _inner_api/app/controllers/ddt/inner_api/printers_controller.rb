@@ -8,10 +8,10 @@ module Ddt
           printers.each do |printer|
             printer.notify_error(params[:print_state], params[:print_state_reason])
           end
-          render nothing: true, status: 200, content_type: 'text/html'
+          head 200, content_type: 'text/html'
         else
           # 不存在对应打印机
-          render nothing: true, status: 404, content_type: 'text/html'
+          head 404, content_type: 'text/html'
         end
       end
 
@@ -21,10 +21,10 @@ module Ddt
           printers.each do |printer|
             printer.notify_not_working(params[:last_print_success_at])
           end
-          render nothing: true, status: 200, content_type: 'text/html'
+          head 200, content_type: 'text/html'
         else
           # 不存在对应打印机
-          render nothing: true, status: 404, content_type: 'text/html'
+          head 404, content_type: 'text/html'
         end
       end
 
@@ -39,7 +39,7 @@ module Ddt
             printer.notify_not_working(printers[printer.number.to_sym])
           end
         end
-        render nothing: true, status: 200, content_type: 'text/html'
+        head 200, content_type: 'text/html'
       end
 
     end

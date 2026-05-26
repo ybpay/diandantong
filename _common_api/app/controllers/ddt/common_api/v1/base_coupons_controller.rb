@@ -19,7 +19,7 @@ module Ddt
 
         def exchange
           @base_coupon.exchange
-          render nothing: true
+          head :ok
         end
 
         private

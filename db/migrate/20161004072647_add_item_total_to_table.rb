@@ -9,7 +9,7 @@ class AddItemTotalToTable < ActiveRecord::Migration
     end
     Ddt::Table.where(:workflow_state => [:ordered, :check_outing, :paid]).find_each do |table|
       order = (Ddt::Order.find(table.current_order_id) rescue nil) if table.current_order_id.present?
-      table.update_attributes(:track_from => order.track_from, :item_total => order.item_total) if order.present?
+      table.update(:track_from => order.track_from, :item_total => order.item_total) if order.present?
     end
   end
 end

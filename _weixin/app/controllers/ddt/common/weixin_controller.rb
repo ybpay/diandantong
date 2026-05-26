@@ -41,7 +41,7 @@ module Ddt
         if account.present?
           render plain: open(account.server_auth_file.url).read
         else
-          render nothing: true, status: 404
+          head 404
         end
       end
 

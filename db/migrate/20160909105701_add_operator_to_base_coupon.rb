@@ -22,7 +22,7 @@ class AddOperatorToBaseCoupon < ActiveRecord::Migration
           operator_id = bc.base_user_id
           operator_type = "Ddt::BaseUser"
         end
-        bc.update_attributes(
+        bc.update(
           applied_in_branch_id: order.branch_id,
           operator_id: operator_id,
           operator_type: operator_type
