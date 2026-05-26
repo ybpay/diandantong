@@ -5,7 +5,7 @@ module Ddt
       include CheckFeature
       include CheckPermission
       before_action :set_terminal_id
-      before_filter :set_track_from
+      before_action :set_track_from
       before_action :authenticate_webpos_webpos_account!
       layout 'ddt/layouts/webpos/webpos'
       before_action :set_current_shop
@@ -102,7 +102,7 @@ module Ddt
 
       def check_multi_branches
         if @current_shop.is_multi_branches? && !Rails.env.development? && @current_account.present? && !@current_account.is_boss?
-          render text: "多店旗舰版暂不开放收银系统"
+          render plain: "多店旗舰版暂不开放收银系统"
         end
       end
 

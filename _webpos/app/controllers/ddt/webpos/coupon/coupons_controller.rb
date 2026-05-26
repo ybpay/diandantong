@@ -22,7 +22,7 @@ module Ddt
           if @order.present? && @coupon.can_apply?(@order)
             @coupon.apply(@order)
             @order.update!(update_pay_item: true)
-            render nothing: true
+            head :ok
           else
             render json: {errors: "该优惠券不能使用在该订单上"}, status: :bad_request
           end

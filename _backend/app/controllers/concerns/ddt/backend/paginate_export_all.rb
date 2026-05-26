@@ -31,7 +31,7 @@ module Ddt
           @page_invalid = true if page && (page <= 0 || page > page_num)
           params[:per_page] = per_page
           if @page_invalid
-            render text: "操作非法"
+            render plain: "操作非法"
             return
           end
         end

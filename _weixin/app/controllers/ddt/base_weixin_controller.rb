@@ -14,13 +14,13 @@ class Ddt::BaseWeixinController < Ddt::BaseController
   helper Ddt::Backend::Engine.helpers
   include Ddt::CheckFeature
 
-  before_filter :set_current_shop
-  #before_filter :check_shop_enabled
-  before_filter :set_current_branch
-  before_filter :validate_user_info
-  before_filter :record_shake_around
-  before_filter :check_current_shop
-  before_filter :check_shop_ban
+  before_action :set_current_shop
+  #before_action :check_shop_enabled
+  before_action :set_current_branch
+  before_action :validate_user_info
+  before_action :record_shake_around
+  before_action :check_current_shop
+  before_action :check_shop_ban
   before_action :set_track_from
   before_action :check_branch_online
   helper_method :has_feature?

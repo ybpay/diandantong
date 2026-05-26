@@ -14,7 +14,7 @@ module Ddt
 
         def exchange_by_id
           @groupon.exchange
-          render nothing: true
+          head :ok
         end
 
         private

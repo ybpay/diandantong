@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = version
   s.summary     = 'The common api for ddt.'
   s.description = 'The common api for ddt.'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 3.2.0'
   s.author      = 'ddt'
   s.email       = 'xie_s@diandantong.com'
   s.homepage    = 'http://www.diandantong.com'

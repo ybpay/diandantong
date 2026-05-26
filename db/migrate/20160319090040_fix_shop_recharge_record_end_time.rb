@@ -12,7 +12,7 @@ class FixShopRechargeRecordEndTime < ActiveRecord::Migration
                 puts "#{shop_recharge_record.shop_id}: #{shop_recharge_record.id}: #{shop_recharge_record.ending_time} != #{shop_recharge_record.created_at} + #{shop_recharge_record.increment_days}days"
                 beginning_time = shop_recharge_record.created_at
                 ending_time = shop_recharge_record.created_at + shop_recharge_record.increment_days.days
-                shop_recharge_record.update_attributes({beginning_time: beginning_time, ending_time: ending_time})
+                shop_recharge_record.update({beginning_time: beginning_time, ending_time: ending_time})
                 shop.update_attribute(:expiration_time, ending_time)
             end
         end

@@ -21,14 +21,14 @@ module Ddt
       def test_print
         printer = @current_branch.printers.active.find(params[:id])
         printer.test_print if printer.present?
-        render nothing: true, status: 200, content_type: 'application/javascript'
+        head 200, content_type: 'application/javascript'
       end
 
       def test_print_all
         @current_branch.printers.active.find_each do |printer|
           printer.test_print
         end
-        render nothing: true, status: 200, content_type: 'application/javascript'
+        head 200, content_type: 'application/javascript'
       end
 
       private

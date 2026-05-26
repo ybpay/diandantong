@@ -1,27 +1,11 @@
 require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
-# Require the gems listed in Gemfile, including any gems
-# you've limited to :test, :development, or :production.
 Bundler.require(:default, Rails.env)
 
 module Ddt
   class Application < Rails::Application
 
-    # enable collect GC status
-    # GC::Profiler.enable
-
-    # Settings in config/environments/* take precedence over those specified here.
-    # Application configuration should go into files in config/initializers
-    # -- all .rb files in that directory are automatically loaded.
-
-    # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
-    # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
-    # config.time_zone = 'Central Time (US & Canada)'
-
-    # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
-    # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
-    # config.i18n.default_locale = :de
     config.i18n.enforce_available_locales = true
     config.i18n.default_locale = :"zh-CN"
     config.time_zone = 'Asia/Shanghai'
@@ -33,7 +17,6 @@ module Ddt
     config.eager_load_paths += Dir["#{config.root}/app/models/**/"]
     config.eager_load_paths += Dir["#{config.root}/lib/**/"]
 
-    config.assets.precompile = [ /\A[^\/\\]+\.(css|scss|js)$/i ]
     config.generators do |g|
       g.template_engine :haml
       g.stylesheets     false
@@ -49,11 +32,17 @@ module Ddt
     config.customer_service_group = 'cs@diandantong.com'
     config.worker_mail = 'cb@diandantong.com'
 
-
     # config.middleware.use Rack::Attack
 
     config.log_formatter = ::Logger::Formatter.new
     config.log_formatter.datetime_format = '%F %T'
+
+    # Load Rails 8.1 defaults
+    config.load_defaults 8.1
+
+    # Backward compatibility overrides
+    config.active_record.belongs_to_required_by_default = false
+    config.action_controller.default_protect_from_forgery = false
   end
 end
 

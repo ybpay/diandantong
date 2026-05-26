@@ -5,8 +5,8 @@ module Ddt
       engine_name 'ddt'
 
       config.i18n.load_path += Dir[config.root.join('config', 'locales', '*.{rb,yml}').to_s]
-      config.autoload_paths += %W(#{config.root}/lib/ddt/core/validators)
-      config.autoload_paths += %W(#{config.root}/app/workers/)
+      config.eager_load_paths += %W(#{config.root}/lib/ddt/core/validators)
+      config.eager_load_paths += %W(#{config.root}/app/workers/)
       [
         :search,
         :adjustments,
@@ -42,7 +42,7 @@ module Ddt
         :features,
         :ddb_cs
       ].each do |dir|
-        config.autoload_paths += %W(#{config.root}/app/models/ddt/#{dir})
+        config.eager_load_paths += %W(#{config.root}/app/models/ddt/#{dir})
       end
 
 

@@ -1,7 +1,7 @@
 module Ddt
   class Backend::CustomWeixinInfosController < Backend::BaseController
     check_permission :shop, :wechat_config, {[:edit, :update] => :update}
-    before_filter :set_custom_weixin_info, only: [:show, :update, :edit]
+    before_action :set_custom_weixin_info, only: [:show, :update, :edit]
     layout 'ddt/layouts/backend/shop'
 
     def edit

@@ -37,7 +37,7 @@ module Ddt
     before_action { TCC.enable }
     after_action { TCC.clear }
 
-    #around_filter :global_request_logging
+    #around_action :global_request_logging
     def global_request_logging
       Rails.logger.info "REQUEST INSPECTOR"
       Rails.logger.info "  [REQUEST_URI] #{request.headers['REQUEST_URI'].inspect}"
@@ -85,7 +85,7 @@ module Ddt
     def check_shop_ban
       if (current_account.nil? || !current_account.is_admin?) && @current_shop && @current_shop.is_ban?
         respond_to do |format|
-          format.html{ render text: '系统供应商已暂停该门店服务，详情请联系您的系统供应商或代理商' }
+          format.html{ render plain: '系统供应商已暂停该门店服务，详情请联系您的系统供应商或代理商' }
           format.json{ render json: { errors: '系统供应商已暂停该门店服务，详情请联系您的系统供应商或代理商' }, status: :bad_request }
         end
 

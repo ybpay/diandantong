@@ -1,7 +1,7 @@
 #encoding: utf-8
 module Ddt
   class Common::VerifyVipInfosController < CommonApplicationController
-    before_filter :set_order
+    before_action :set_order
 
     def show
       if ! @order.present?

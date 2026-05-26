@@ -1,0 +1,23 @@
+# Docker-specific database.yml
+# Copy to config/database.yml when running with docker-compose
+
+defaults: &defaults
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
+  password: <%= ENV['POSTGRES_PASSWORD'] || 'postgres' %>
+  host: <%= ENV['POSTGRES_HOST'] || 'postgres' %>
+  port: <%= ENV['POSTGRES_PORT'] || '5432' %>
+
+development:
+  <<: *defaults
+  database: <%= ENV['POSTGRES_DATABASE'] || 'ddt_dev' %>
+
+test:
+  <<: *defaults
+  database: <%= ENV['POSTGRES_DATABASE'] || 'ddt_test' %>
+
+production:
+  <<: *defaults
+  database: <%= ENV['POSTGRES_DATABASE'] || 'ddt_dev' %>
