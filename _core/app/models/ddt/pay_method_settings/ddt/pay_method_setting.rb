@@ -1,7 +1,6 @@
 # encoding:utf-8
 module Ddt
   class PayMethodSetting < Base
-    replicated_model
 
     include BelongsToShop
     belongs_to :branch, class_name: 'Ddt::Branch', touch: true

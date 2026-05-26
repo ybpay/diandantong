@@ -1,7 +1,6 @@
 module Ddt
   class SignRecord < Base
     include BelongsToShop
-    replicated_model
 
 
     belongs_to :base_user, class_name: 'Ddt::BaseUser', counter_cache: true, touch: true

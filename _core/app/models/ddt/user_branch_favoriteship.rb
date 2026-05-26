@@ -1,6 +1,5 @@
 module Ddt
   class UserBranchFavoriteship < Ddt::Base
-    replicated_model
 
     self.table_name = 'ddt_users_branches_favoriteship'
 

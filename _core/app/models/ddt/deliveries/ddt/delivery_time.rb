@@ -2,7 +2,6 @@
 module Ddt
   class DeliveryTime < Ddt::Base
     include Ddt::ListScope
-    replicated_model
 
     belongs_to :delivery_setting, touch: true
     acts_as_list scope: :delivery_setting

@@ -1,9 +1,7 @@
 class FixRefundCompleteWalletLog < ActiveRecord::Migration
   def change
-    Octopus.using(:master) do
-      Ddt::RechargeRefund.where(state: 'completed').find_each do |recharge_refund|
-        create_complete_wallet_log(recharge_refund)
-      end
+    Ddt::RechargeRefund.where(state: 'completed').find_each do |recharge_refund|
+      create_complete_wallet_log(recharge_refund)
     end
   end
 

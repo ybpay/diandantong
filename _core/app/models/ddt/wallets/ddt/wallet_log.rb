@@ -5,7 +5,6 @@ module Ddt
     include ActiveSupport::NumberHelper
     include Ddt::BelongsToShop
     include Ddt::CacheModel
-    replicated_model
 
 
     cache_model 'Ddt::Branch', with_deleted: true

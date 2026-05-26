@@ -2,7 +2,6 @@ module Ddt
   class HomeUsableLink < Base
     include Ddt::BelongsToShop
     include Ddt::ListScope
-    replicated_model
 
     belongs_to :custom_weixin_info , class_name: 'Ddt::CustomWeixinInfo', touch: true
     acts_as_list scope: [:custom_weixin_info]

@@ -62,20 +62,18 @@ module Ddt
 
         concerning :Place do
           def place
-            Octopus.using(:master) do
-              if self.valid?
-                transaction do
-                  create_deduction
-                  update_discount
-                  self.number = generater_order_number
-                  create_pay_item
-                  add_change_log(:order_place, description: note)
-                  result = OrderService::Api::Order.place(self.to_options)
-                  order = OrderService::Order::Base.init(result.merge(terminal_id: terminal_id))
-                  order.operator = self.operator
-                  after_place(order, order.operator)
-                  order
-                end
+            if self.valid?
+              transaction do
+                create_deduction
+                update_discount
+                self.number = generater_order_number
+                create_pay_item
+                add_change_log(:order_place, description: note)
+                result = OrderService::Api::Order.place(self.to_options)
+                order = OrderService::Order::Base.init(result.merge(terminal_id: terminal_id))
+                order.operator = self.operator
+                after_place(order, order.operator)
+                order
               end
             end
           end

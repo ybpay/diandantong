@@ -1,20 +1,15 @@
 class AddProductNameToLineItem < ActiveRecord::Migration
   def up
     execute <<-SQL
-      UPDATE ddt_line_items line_item
-      SET
-        line_item.product_name = if(itemable_name REGEXP '\\\\[.+\\\\]$',
-        REPLACE(itemable_name,
-            CONCAT('[',
-                    SUBSTRING_INDEX(itemable_name, '[', - 1)),
-            ''),
-        if(itemable_name REGEXP '\\\\(.+\\\\)$',
-            REPLACE(itemable_name,
-                CONCAT('(',
-                        SUBSTRING_INDEX(itemable_name, '(', - 1)),
-                ''),
-            itemable_name))
-      where line_item.itemable_name REGEXP '(\\\\[.+\\\\])|(\\\\(.+\\\\))$';
+      UPDATE ddt_line_items
+      SET product_name = CASE
+        WHEN itemable_name ~ '\[[^\]]+\]$' THEN
+          regexp_replace(itemable_name, '\[[^\]]+\]$', '')
+        WHEN itemable_name ~ '\([^)]+\)$' THEN
+          regexp_replace(itemable_name, '\([^)]+\)$', '')
+        ELSE itemable_name
+      END
+      WHERE itemable_name ~ '(\[.+\])|(\(.+\))$';
     SQL
   end
 

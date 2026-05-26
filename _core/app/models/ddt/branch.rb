@@ -21,7 +21,6 @@ module Ddt
                    :lng_column_name => :longitude
 
     acts_as_paranoid
-    replicated_model
 
     acts_as_type :product_list_style, [:thumb, :txt], %W[缩略图风格 文本风格]
     acts_as_type :moling_type, [:moling_erase, :moling_round], %W[直接抹除 四舍五入]
@@ -353,7 +352,7 @@ module Ddt
     def order_related_people
       manager_ids = self.managers.pluck(:id)
       if manager_ids.present?
-        roles = Ddt::Role.find_by_sql "select * from ddt_roles inner join ddt_accounts_roles on ddt_roles.id = ddt_accounts_roles.role_id where ddt_accounts_roles.account_id in (#{manager_ids.join(',')})"
+        roles = Ddt::Role.joins("INNER JOIN ddt_accounts_roles ON ddt_roles.id = ddt_accounts_roles.role_id").where("ddt_accounts_roles.account_id IN (?)", manager_ids)
       else
         roles = []
       end

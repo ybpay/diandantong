@@ -1,7 +1,6 @@
 module Ddt
   class DeliverySetting < Ddt::Base
     include Ddt::BelongsToBranchWithTouch
-    replicated_model
 
 
     delegate :shop, to: :branch

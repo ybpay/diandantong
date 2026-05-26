@@ -8,7 +8,6 @@ module Ddt
     ### relationships
     default_scope ->{ order(created_at: :desc) }
     acts_as_paranoid
-    replicated_model
 
 
     has_one :credits_wallet, as: :owner, class_name: 'Ddt::ShopCreditsWallet'
@@ -563,11 +562,11 @@ module Ddt
       yesterday = (Time.now - 1.days).strftime('%Y-%m-%d')
       this_year = (Time.now - 1.days).strftime('%Y-')
       vip_infos.not_default_level.where(
-        "phone IS NOT NULL AND birthday IS NOT NULL 
-         AND ( DATE_FORMAT(birthday, '%m-%d')=:date or 
-               ( DATE_FORMAT(ddt_vip_infos.become_vip_at, '%Y-%m-%d')=:yesterday
-                 AND concat(:this_year, DATE_FORMAT(birthday,'%m-%d'))>=:yesterday
-                 AND concat(:this_year, DATE_FORMAT(birthday,'%m-%d'))<:date_y
+        "phone IS NOT NULL AND birthday IS NOT NULL
+         AND ( TO_CHAR(birthday, 'MM-DD')=:date or
+               ( TO_CHAR(ddt_vip_infos.become_vip_at, 'YYYY-MM-DD')=:yesterday
+                 AND (:this_year || TO_CHAR(birthday,'MM-DD'))>=:yesterday
+                 AND (:this_year || TO_CHAR(birthday,'MM-DD'))<:date_y
                )
              )",
          this_year: this_year, date: date, yesterday: yesterday, date_y: date_y)

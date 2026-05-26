@@ -22,13 +22,13 @@ module Ddt
         return @extra_amounts if @extra_amounts.present?
         if abstract_branch?
           branch = find_one_branch
-          @extra_amounts = Ddt::WalletLog.where(st_time: start_time..end_time, branch_id: nil, reason: [:for_recharge, :for_recharge_refund_complete]).group("DATE_FORMAT(created_at, '%m-%d')").order(created_at: :asc).sum(:extra_amount)
+          @extra_amounts = Ddt::WalletLog.where(st_time: start_time..end_time, branch_id: nil, reason: [:for_recharge, :for_recharge_refund_complete]).group("TO_CHAR(created_at, 'MM-DD')").order(created_at: :asc).sum(:extra_amount)
         elsif one_branch?
           branch = find_one_branch
-          @extra_amounts = Ddt::WalletLog.where(st_time: start_time..end_time, wallet_id: branch.card_wallet.id, reason: [:for_recharge, :for_recharge_refund_complete]).group("DATE_FORMAT(created_at, '%m-%d')").order(created_at: :asc).sum(:extra_amount)
+          @extra_amounts = Ddt::WalletLog.where(st_time: start_time..end_time, wallet_id: branch.card_wallet.id, reason: [:for_recharge, :for_recharge_refund_complete]).group("TO_CHAR(created_at, 'MM-DD')").order(created_at: :asc).sum(:extra_amount)
         else
           card_wallet_ids = shop.branches_include_abstract.map{|b| b.card_wallet.id}
-          @extra_amounts = Ddt::WalletLog.where(st_time: start_time..end_time, wallet_id: card_wallet_ids, reason: [:for_recharge, :for_recharge_refund_complete]).group("DATE_FORMAT(created_at, '%m-%d')").order(created_at: :asc).sum(:extra_amount)
+          @extra_amounts = Ddt::WalletLog.where(st_time: start_time..end_time, wallet_id: card_wallet_ids, reason: [:for_recharge, :for_recharge_refund_complete]).group("TO_CHAR(created_at, 'MM-DD')").order(created_at: :asc).sum(:extra_amount)
         end
         @extra_amounts = keys.inject({}){|h, k| h[k] = 0; h; }.merge(@extra_amounts)
       end

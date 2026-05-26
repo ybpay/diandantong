@@ -1,7 +1,6 @@
 #encoding: utf-8
 module Ddt
   class WechatTemplateId < Ddt::Base
-    replicated_model
 
     belongs_to :wechat_account, class_name: "Ddt::WechatAccount"
     validates_presence_of :wechat_account_id, :template_id_short

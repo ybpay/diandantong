@@ -1,9 +1,7 @@
 #encoding: utf-8
 
-# Use this hook to configure impressionist parameters
-# Impressionist.setup do |config|
-#   # Define ORM. Could be :active_record (default), :mongo_mapper or :mongoid
-#   config.orm = :active_record
-# end
-# class Impression 
-# end
+# Impressionist configuration for PostgreSQL
+# Impression data is now stored in the primary database (no separate DB)
+Impressionist.setup do |config|
+  config.orm = :active_record
+end

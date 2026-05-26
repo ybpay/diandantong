@@ -292,14 +292,12 @@ module Ddt
 
         concerning :Complete do
           def after_complete
-            Octopus.using(:master) do
-              touch :completed_at
-              add_change_log(:order_complete)
-              after_complete_action
-              save
-              send_complete_notification
-              create_promotion_event_for_order_complete
-            end
+            touch :completed_at
+            add_change_log(:order_complete)
+            after_complete_action
+            save
+            send_complete_notification
+            create_promotion_event_for_order_complete
           end
 
           private

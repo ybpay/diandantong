@@ -1,7 +1,6 @@
 # encoding: utf-8
 module Ddt
   class ShortMessage < Ddt::Base
-    replicated_model
 
     belongs_to :branch, class_name: "Ddt::Branch"
     belongs_to :shop, class_name: "Ddt::Shop"

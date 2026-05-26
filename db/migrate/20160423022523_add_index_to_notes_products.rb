@@ -11,6 +11,6 @@ class AddIndexToNotesProducts < ActiveRecord::Migration
     add_index :ddt_cs_branch_bindings, :token
     add_index :ddt_comments, :order_id
     remove_index :ddt_promotions_promotion_events, name: "index_ddt_ppe_on_promotion"
-    add_index :ddt_promotions_promotion_events, [:promotion_id, :promotion_event_id], name: "index_ddt_ppe_on_pid_and_peid", using: :btree
+    add_index :ddt_promotions_promotion_events, [:promotion_id, :promotion_event_id], name: "index_ddt_ppe_on_pid_and_peid"
   end
 end

@@ -12,7 +12,7 @@ module Ddt
 
       def result
         return @result if @result.present?
-        @result = ::Ddt::User.group("DATE_FORMAT(created_at, '%m-%d')").ransack({
+        @result = ::Ddt::User.group("TO_CHAR(created_at, 'MM-DD')").ransack({
             shop_id_eq: shop.id,
             from_branch_id_eq: branch.try(:id),
             created_at_gteq: start_time,

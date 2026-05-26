@@ -4,7 +4,6 @@ module Ddt
     acts_as_paranoid
     include Ddt::BelongsToBranch
     include Ddt::ListScope
-    replicated_model
 
     # reladtions
     has_many :product_option_types, dependent: :destroy, class_name: 'Ddt::ProductOptionType'

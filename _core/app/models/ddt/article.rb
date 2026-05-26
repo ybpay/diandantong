@@ -2,7 +2,6 @@ require 'file_size_validator'
 module Ddt
   class Article < Ddt::Base
     include Ddt::BelongsToShop
-    replicated_model
 
 
 

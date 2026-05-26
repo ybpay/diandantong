@@ -1,7 +1,6 @@
 module Ddt
   class ReservationTimePoint < Ddt::Base
     include Ddt::BelongsToBranch
-    replicated_model
 
   	### relationships
     belongs_to :table_zone, class_name: 'Ddt::TableZone'

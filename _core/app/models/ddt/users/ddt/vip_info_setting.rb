@@ -1,6 +1,5 @@
 module Ddt
   class VipInfoSetting < Ddt::Base
-    replicated_model
 
     include BelongsToShop
     serialize :data, Hash

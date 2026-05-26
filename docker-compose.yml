@@ -1,42 +1,53 @@
+version: '3.8'
+
 x-app-env: &app-env
   RAILS_ENV: ${RAILS_ENV:-development}
   RACK_ENV: ${RACK_ENV:-development}
   SECRET_KEY_BASE: ${SECRET_KEY_BASE:-development_secret_key_base_0b818b2119fcb1328992197b9507dc9e}
-  MYSQL_HOST: mysql
-  MYSQL_PORT: "3306"
-  MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-  MYSQL_DATABASE: ${MYSQL_DATABASE:-ddt_dev}
+  POSTGRES_HOST: postgres
+  POSTGRES_PORT: "5432"
+  POSTGRES_USER: ${POSTGRES_USER:-postgres}
+  POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+  POSTGRES_DATABASE: ${POSTGRES_DATABASE:-ddt_dev}
   REDIS_HOST: redis
   REDIS_PORT: "6379"
   REDIS_DB: "11"
-  WAIT_FOR_MYSQL: "true"
+  WAIT_FOR_POSTGRES: "true"
   WAIT_FOR_REDIS: "true"
   RUN_MIGRATIONS: ${RUN_MIGRATIONS:-false}
 
 services:
-  mysql:
-    image: mysql:5.7
-    restart: unless-stopped
+  postgres:
+    image: postgres:18
+    container_name: ddt_postgres
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
-      MYSQL_DATABASE: ${MYSQL_DATABASE:-ddt_dev}
-      MYSQL_CHARSET: utf8mb4
-      MYSQL_COLLATION: utf8mb4_unicode_ci
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DATABASE:-ddt_dev}
     ports:
-      - "${MYSQL_PORT:-3306}:3306"
+      - "${POSTGRES_PORT:-5432}:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - postgres_data:/var/lib/postgresql/data
+      - ./tools/pg_migration/init.sql:/docker-entrypoint-initdb.d/01-init.sql
+    command: >
+      postgres
+        -c shared_buffers=256MB
+        -c effective_cache_size=768MB
+        -c work_mem=4MB
+        -c maintenance_work_mem=64MB
+        -c max_connections=200
+        -c default_text_search_config='pg_catalog.simple'
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root}"]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
-      retries: 10
-      start_period: 30s
+      retries: 5
     networks:
       - ddt-network
 
   redis:
-    image: redis:7-alpine
+    image: redis:8.6
+    container_name: ddt_redis
     restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
@@ -61,7 +72,7 @@ services:
       - "${APP_PORT:-9000}:9000"
     environment: *app-env
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
@@ -82,7 +93,7 @@ services:
     command: bundle exec sidekiq -C config/sidekiq.yml -e ${RAILS_ENV:-development} -L log/sidekiq.log
     environment: *app-env
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_healthy
@@ -93,7 +104,7 @@ services:
       - ddt-network
 
 volumes:
-  mysql_data:
+  postgres_data:
   redis_data:
   app_uploads:
   app_log:

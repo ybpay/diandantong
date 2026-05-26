@@ -1,14 +1,14 @@
 #!/bin/bash
 set -e
 
-# Wait for MySQL to be ready
-if [ "$WAIT_FOR_MYSQL" = "true" ]; then
-    echo "Waiting for MySQL at ${MYSQL_HOST:-mysql}:${MYSQL_PORT:-3306}..."
-    until nc -z ${MYSQL_HOST:-mysql} ${MYSQL_PORT:-3306} 2>/dev/null; do
-        echo "MySQL is unavailable - sleeping..."
+# Wait for PostgreSQL to be ready
+if [ "$WAIT_FOR_POSTGRES" = "true" ]; then
+    echo "Waiting for PostgreSQL at ${POSTGRES_HOST:-postgres}:${POSTGRES_PORT:-5432}..."
+    until nc -z ${POSTGRES_HOST:-postgres} ${POSTGRES_PORT:-5432} 2>/dev/null; do
+        echo "PostgreSQL is unavailable - sleeping..."
         sleep 2
     done
-    echo "MySQL is up!"
+    echo "PostgreSQL is up!"
 fi
 
 # Wait for Redis to be ready
@@ -25,22 +25,21 @@ fi
 if [ ! -f config/database.yml ]; then
     cat > config/database.yml <<EOF
 defaults: &defaults
-  adapter: mysql2
-  charset: utf8mb4
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
-  username: root
-  password: "${MYSQL_ROOT_PASSWORD:-root}"
-  host: ${MYSQL_HOST:-mysql}
-  port: ${MYSQL_PORT:-3306}
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: "${POSTGRES_USER:-postgres}"
+  password: "${POSTGRES_PASSWORD:-postgres}"
+  host: ${POSTGRES_HOST:-postgres}
+  port: ${POSTGRES_PORT:-5432}
 
 development:
   <<: *defaults
-  database: ${MYSQL_DATABASE:-ddt_dev}
+  database: ${POSTGRES_DATABASE:-ddt_dev}
 
 production:
   <<: *defaults
-  database: ${MYSQL_DATABASE:-ddt_dev}
+  database: ${POSTGRES_DATABASE:-ddt_dev}
 EOF
 fi
 

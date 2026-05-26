@@ -1,6 +1,5 @@
 module Ddt
   class NotificationReceiveSetting < Ddt::Base
-    replicated_model
 
     belongs_to :shop
     belongs_to :account

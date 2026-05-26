@@ -2,7 +2,6 @@
 module Ddt
   class Promotion < Ddt::Base
     include BelongsToShopWithTouch
-    replicated_model
 
     acts_as_type :match_policy, [:match_all, :match_any], %W[全部匹配 至少匹配一个]
     acts_as_type :branch_scope_policy, [:match_all_branches, :match_part_branches], %W[适用于所有门店 适用于部分门店]

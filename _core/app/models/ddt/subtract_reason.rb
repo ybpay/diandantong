@@ -1,7 +1,6 @@
 module Ddt
   class SubtractReason < Ddt::Base
     include ListScope
-    replicated_model
 
 
     include BelongsToShopWithTouch

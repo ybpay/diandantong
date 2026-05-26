@@ -132,11 +132,11 @@ module Ddt
       def group_string(time_column)
         case @interval
         when :day
-          "DATE_FORMAT(#{time_column}, '%m-%d')"
+          "TO_CHAR(#{time_column}, 'MM-DD')"
         when :month
-          "DATE_FORMAT(#{time_column}, '%Y-%m')"
+          "TO_CHAR(#{time_column}, 'YYYY-MM')"
         when :year
-          "DATE_FORMAT(#{time_column}, '%Y')"
+          "TO_CHAR(#{time_column}, 'YYYY')"
         end
       end
     end

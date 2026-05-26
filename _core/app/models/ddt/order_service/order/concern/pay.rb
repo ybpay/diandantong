@@ -70,15 +70,13 @@ module Ddt
 
           concerning :SaveActions do
             def change_pay_item_to_paid(pay_item, paid_amount:nil, change:nil)
-              Octopus.using(:master) do
-                if pay_item.is_unpaid?
-                  transaction do
-                    pay_item.change_to_paid(paid_amount: paid_amount, change: change)
-                    add_change_log(:order_pay) if pay_items.is_paid?
-                    update_pay_info_and_settle_account_and_save
-                  end
-                  after_pay if is_paid?
+              if pay_item.is_unpaid?
+                transaction do
+                  pay_item.change_to_paid(paid_amount: paid_amount, change: change)
+                  add_change_log(:order_pay) if pay_items.is_paid?
+                  update_pay_info_and_settle_account_and_save
                 end
+                after_pay if is_paid?
               end
             end
 
@@ -168,17 +166,15 @@ module Ddt
 
             # 支付所有不是在线支付的支付方式
             def pay_all_pay_items
-              Octopus.using(:master) do
-                transaction do
-                  self.pay_items.not_pay_platform.unpaid.each do |pay_item|
-                    pay_item.change_to_paid
-                  end
-                  add_change_log(:order_pay) if pay_items.is_paid?
-                  update_pay_info_and_settle_account_and_save
+              transaction do
+                self.pay_items.not_pay_platform.unpaid.each do |pay_item|
+                  pay_item.change_to_paid
                 end
-                after_pay if is_paid?
-                true
+                add_change_log(:order_pay) if pay_items.is_paid?
+                update_pay_info_and_settle_account_and_save
               end
+              after_pay if is_paid?
+              true
             end
 
             def do_anti_settlement

@@ -2,7 +2,6 @@
 module Ddt
   class ReservationSetting < Ddt::Base
     include BelongsToBranchWithTouch
-    replicated_model
 
     validates_presence_of :average_consumption, :prepayment_type, :max_reservation_days
     validates :max_reservation_days, numericality: { greater_than_or_equal_to: 1}

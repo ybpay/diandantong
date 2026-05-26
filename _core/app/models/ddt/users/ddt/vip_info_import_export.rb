@@ -92,35 +92,33 @@ module Ddt
       private
 
       def update_and_create_from_rows(shop, rows, line_start = 1)
-        Octopus.using(:master) do
-          Rails.logger.tagged('IMPORT_VIP_INFO') do
-            error_lines = []
-            ActiveRecord::Base.transaction do
-              params_list = rows.map do |row|
-                {
-                    vip_no:            row[0].to_s,
-                    name:              row[1],
-                    phone:             row[2].to_s,
-                    vip_level_name:    row[3],
-                    card_wallet_amount:row[4],
-                    credits_wallet_amount:row[5],
-                    total_amount:       row[6],
-                    placed_orders_count: row[7],
-                    sex_name:          row[8],
-                    id_number:         row[9].to_s,
-                    birthday:          row[10],
-                    address:           row[11],
-                    email:             row[12],
-                    note:              row[13]
-                }
-              end
-              part_error_lines = batch_save_vip_info_from_rows(shop, params_list, line_start)
-              error_lines.concat(part_error_lines)
-              Rails.logger.info("[#{shop.id}]: #{rows.length} records processed")
+        Rails.logger.tagged('IMPORT_VIP_INFO') do
+          error_lines = []
+          ActiveRecord::Base.transaction do
+            params_list = rows.map do |row|
+              {
+                  vip_no:            row[0].to_s,
+                  name:              row[1],
+                  phone:             row[2].to_s,
+                  vip_level_name:    row[3],
+                  card_wallet_amount:row[4],
+                  credits_wallet_amount:row[5],
+                  total_amount:       row[6],
+                  placed_orders_count: row[7],
+                  sex_name:          row[8],
+                  id_number:         row[9].to_s,
+                  birthday:          row[10],
+                  address:           row[11],
+                  email:             row[12],
+                  note:              row[13]
+              }
             end
-            Rails.logger.info("[#{shop.id}] commit")
-            error_lines
+            part_error_lines = batch_save_vip_info_from_rows(shop, params_list, line_start)
+            error_lines.concat(part_error_lines)
+            Rails.logger.info("[#{shop.id}]: #{rows.length} records processed")
           end
+          Rails.logger.info("[#{shop.id}] commit")
+          error_lines
         end
       end
 

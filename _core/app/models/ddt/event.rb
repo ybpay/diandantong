@@ -1,7 +1,6 @@
 # encoding: utf-8
 module Ddt
   class Event < Ddt::Base
-    replicated_model
 
     KEY_PREFIX = 'key_'
     include ActsAsType

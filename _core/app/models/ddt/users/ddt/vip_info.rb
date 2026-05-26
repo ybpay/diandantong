@@ -7,7 +7,6 @@ require 'barby/outputter/html_outputter'
 module Ddt
   class VipInfo < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     include Ddt::BelongsToShopWithTouch
     include Ddt::VipInfoImportExport

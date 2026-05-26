@@ -1,7 +1,6 @@
 # encoding: utf-8
 module Ddt
   class Material < Ddt::Base
-    replicated_model
 
 
     MATERIAL_PROMOTION_TYPE = "promotion"

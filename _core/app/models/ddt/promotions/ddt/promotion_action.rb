@@ -1,6 +1,5 @@
 module Ddt
   class PromotionAction < Ddt::Base
-    replicated_model
 
     acts_as_paranoid
     include Ddt::BelongsToShop

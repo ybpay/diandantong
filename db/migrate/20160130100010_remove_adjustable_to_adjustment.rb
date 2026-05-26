@@ -3,7 +3,7 @@ class RemoveAdjustableToAdjustment < ActiveRecord::Migration
     Ddt::Adjustment.where(adjustable_type: 'Ddt::Shipment').delete_all if column_exists? :ddt_adjustments, :adjustable_type
     Ddt::Adjustment.where(source_type: 'Ddt::PromotionAction', eligible: false).delete_all
     if column_exists? :ddt_adjustments, :adjustable_type
-      remove_index :ddt_adjustments, column: [:adjustable_type, :adjustable_id], name: "index_ddt_adjustments_on_adjustable", using: :btree
+      remove_index :ddt_adjustments, column: [:adjustable_type, :adjustable_id], name: "index_ddt_adjustments_on_adjustable"
       remove_column :ddt_adjustments, :adjustable_type, :string
       remove_column :ddt_adjustments, :adjustable_id, :integer
       add_column :ddt_adjustments, :reason, :string
@@ -38,6 +38,6 @@ class RemoveAdjustableToAdjustment < ActiveRecord::Migration
     remove_column :ddt_adjustments, :reason, :string
     add_column :ddt_adjustments, :adjustable_id, :integer
     add_column :ddt_adjustments, :adjustable_type, :string
-    add_index :ddt_adjustments, [:adjustable_type, :adjustable_id], name: "index_ddt_adjustments_on_adjustable", using: :btree
+    add_index :ddt_adjustments, [:adjustable_type, :adjustable_id], name: "index_ddt_adjustments_on_adjustable"
   end
 end

@@ -1,7 +1,7 @@
 class DeleteDuplicateVariant < ActiveRecord::Migration
   def change
     sql = <<SQL
-  select a.id, a.combi_id from ddt_combo_items_variants a, ddt_combo_items_variants b where a.id != b.id and a.combi_id = b.combi_id;
+  SELECT a.id, a.combi_id FROM ddt_combo_items_variants a INNER JOIN ddt_combo_items_variants b ON a.combi_id = b.combi_id WHERE a.id != b.id
 SQL
     r = Ddt::ComboItemsVariant.find_by_sql(sql)
 

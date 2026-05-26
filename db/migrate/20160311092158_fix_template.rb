@@ -7,7 +7,6 @@ class FixTemplate < ActiveRecord::Migration
   def up
     unless table_exists? :ddt_bill_template_settings_new
       sql = ActiveRecord::Base.connection()
-      sql.execute "SET autocommit=0"
       sql.begin_db_transaction
       create_table :ddt_bill_template_settings_new do |t|
         t.integer  "shop_id"
@@ -19,13 +18,15 @@ class FixTemplate < ActiveRecord::Migration
       end
       sql.execute <<-SQL
         INSERT INTO ddt_bill_template_settings_new
-          SELECT id, shop_id, branch_id, created_at != updated_at, NULL, created_at, updated_at
+          (id, shop_id, branch_id, enable, templates, created_at, updated_at)
+          SELECT id, shop_id, branch_id,
+            CASE WHEN created_at IS DISTINCT FROM updated_at THEN TRUE ELSE FALSE END,
+            NULL, created_at, updated_at
           FROM ddt_bill_template_settings
       SQL
       rename_table :ddt_bill_template_settings, :ddt_bill_template_settings_old
       rename_table :ddt_bill_template_settings_new, :ddt_bill_template_settings
       sql.commit_db_transaction
-      sql.execute "SET autocommit=1"
     end
 
     Ddt::BillTemplateSetting.where(enable: true).find_each do |setting|

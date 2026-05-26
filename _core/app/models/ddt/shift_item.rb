@@ -1,7 +1,6 @@
 module Ddt
   class ShiftItem < Ddt::Base
     include BelongsToBranch
-    replicated_model
 
     belongs_to :shift
     belongs_to :pay_method, ->{ with_deleted }

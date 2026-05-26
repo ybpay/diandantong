@@ -1,12 +1,12 @@
-# Phase 4: Rails 8.1 + Ruby 4.0 upgrade for diandantong (点单通) restaurant SaaS
-# Multi-stage build with Ruby 4.0 + MySQL 5.7 + Propshaft
+# Phase 5: Rails 8.1 + Ruby 4.0 upgrade for diandantong (点单通) restaurant SaaS
+# Multi-stage build with Ruby 4.0 + PostgreSQL 18 + Propshaft
 
 # ===== Stage 1: Build dependencies =====
 FROM ruby:4.0-slim AS builder
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
-    libmariadb-dev \
+    libpq-dev \
     libxml2-dev \
     libxslt1-dev \
     libmagickwand-dev \
@@ -36,7 +36,7 @@ RUN bundle install --jobs 4 --retry 3 --without development test && \
 FROM ruby:4.0-slim
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    libmariadb3 \
+    libpq5 \
     libxml2 \
     libxslt1.1 \
     libmagickwand-6.q16-6 \

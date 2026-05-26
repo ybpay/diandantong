@@ -1,6 +1,5 @@
 module Ddt
   class ComboImage < Ddt::Image
-    replicated_model
 
     include Ddt::Core::Engine.routes.url_helpers
     mount_uploader :attachment, ComboImageUploader

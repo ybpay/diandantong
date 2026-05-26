@@ -4,7 +4,6 @@ module Ddt
     acts_as_paranoid
     include Ddt::ListScope
     include Ddt::BelongsToBranch
-    replicated_model
 
     # relations
     belongs_to :option_type, touch: true, class_name: 'Ddt::OptionType'

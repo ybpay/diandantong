@@ -1,7 +1,6 @@
 #encoding: utf-8
 module Ddt
   class Withdraw < Ddt::Base
-    replicated_model
 
     include Ddt::BelongsToShop
     include Ddt::Frozenable

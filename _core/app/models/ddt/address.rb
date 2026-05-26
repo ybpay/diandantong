@@ -1,7 +1,6 @@
 module Ddt
   class Address < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     include Ddt::ListScope
     include LatLng

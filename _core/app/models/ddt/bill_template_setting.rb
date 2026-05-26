@@ -4,7 +4,6 @@ module Ddt
     BillTemplate::Queue::Base
     include BelongsToBranch
     serialize :templates, Hash
-    replicated_model
 
 
     def set_enable

@@ -2,7 +2,6 @@
 module Ddt
   class FormElement < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     serialize :support_order_types
     ### relationships

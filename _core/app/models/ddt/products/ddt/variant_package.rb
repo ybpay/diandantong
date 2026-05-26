@@ -2,7 +2,6 @@ module Ddt
   class VariantPackage < Ddt::Base
     include BelongsToBranch
     include Itemable
-    replicated_model
 
 
     belongs_to_order

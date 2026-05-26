@@ -1,7 +1,6 @@
 module Ddt
   class Zone < Ddt::Base
     include BelongsToShop
-    replicated_model
 
     belongs_to :parent_zone, class_name: 'Ddt::Zone', foreign_key: :parent_zone_id, inverse_of: :zones
     has_and_belongs_to_many :branches, class_name: 'Ddt::Branch'

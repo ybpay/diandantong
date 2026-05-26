@@ -1,7 +1,6 @@
 module Ddt
   class BranchType < Ddt::Base
     ### relationships
-    replicated_model
 
     belongs_to :shop, class_name: 'Ddt::Shop', touch: true
     has_many :branches, class_name: 'Ddt::Branch'
