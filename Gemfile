@@ -1,26 +1,27 @@
 source 'https://gems.ruby-china.com'
 
-gem 'rails', '~> 5.0.7'
-gem 'mysql2', '>= 0.3.18', '< 0.6'
-gem 'exception_notification', '~> 4.2.0'
+gem 'rails', '~> 6.0.6'
+gem 'mysql2', '>= 0.4.4', '< 0.6'
+gem 'exception_notification', '~> 4.5.0'
 gem 'jpush', "3.2.1"
 gem 'foreman', '0.63.0'
 gem 'uglifier'
-gem 'paper_trail', '~> 5.2.0'
+gem 'paper_trail', '~> 10.3.0'
 
 gem 'settingslogic'
 gem 'angularjs-rails'
 gem 'puma'
 gem 'thin'
 
-gem 'sass-rails', '~> 5.0.6'
-gem 'sprockets', '~> 3.7'
-gem 'rack-attack', '~> 5.0'
+gem 'sass-rails', '~> 6.0'
+gem 'sprockets', '~> 4.0'
+gem 'rack-attack', '~> 6.0'
 gem 'ar-octopus'
 
 gem 'activerecord-session_store', '~> 1.1'
 gem 'alipay'                        , '~> 0.17.0', git: 'https://github.com/chloerei/alipay.git'
 gem 'eco'
+gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -28,7 +29,7 @@ group :development, :test do
   gem 'hirb-unicode'
   gem 'newrelic_rpm'
   gem 'spring'
-  gem 'listen', '~> 3.0'
+  gem 'listen', '~> 3.2'
 end
 
 group :test do
@@ -51,6 +52,6 @@ gem 'ddt_inner_api', path: './_inner_api'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'whenever', require: false
 gem 'unicorn'
-gem 'doorkeeper', '~> 4.0'
+gem 'doorkeeper', '~> 5.0'
 gem 'sqlite3'
-gem 'responders', '~> 2.4'
+gem 'responders', '~> 3.0'

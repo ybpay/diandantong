@@ -23,7 +23,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.0'
 
       - name: Install RuboCop
         run: gem install rubocop --no-document
@@ -74,11 +74,11 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y --no-install-recommends libmariadb-dev libxml2-dev libxslt1-dev
 
-      - name: Set up Ruby 2.7
+      - name: Set up Ruby 3.0
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
-          bundler: '1'
+          ruby-version: '3.0'
+          bundler: '2'
 
       - name: Install dependencies
         run: |

@@ -3,7 +3,7 @@ module Ddt
     class Engine < ::Rails::Engine
       # config.assets.paths << config.root.join("vendor/assets/")
 
-      config.autoload_paths += %W(#{config.root}/lib/)
+      config.eager_load_paths += %W(#{config.root}/lib/)
       # filter sensitive information during logging
       initializer "ddt.params.filter" do |app|
         app.config.filter_parameters += [:password, :password_confirmation, :pay_password]

@@ -1,4 +1,4 @@
-Ddt::Application.routes.draw do
+Rails.application.routes.draw do
   namespace :ddt do
   get 'branch/index'
   end

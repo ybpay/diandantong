@@ -18,7 +18,7 @@ module Ddt
 
     def update_bind
       @table = Ddt::Table.find(qr_code_scene_params[:owner_id])
-      if @qr_code_scene.update_attributes(:name => @table.name, :owner => @table, :builtin => true)
+      if @qr_code_scene.update(:name => @table.name, :owner => @table, :builtin => true)
         redirect_to request.referer, notice: '绑定成功'
       else
         redirect_to request.referer, notice: "绑定失败：失败原因：#{@qr_code_scene.errors.full_messages.join('<br/>')}"

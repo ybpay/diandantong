@@ -419,7 +419,7 @@ module Ddt
                 puts "#{fmc.id}: #{fmc.feature_module} in shop #{shop.slug}"
                 fmc.save!
             end
-            self.update_attributes!(
+            self.update!(
                 :shop_type => new_feature_module_group_str,
                 :max_branches_limit => max_branches_limit,
                 :expiration_time => expired_at)

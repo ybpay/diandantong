@@ -27,7 +27,7 @@ module Ddt
 
         def exchange_by_id
           @voucher.exchange
-          render nothing: true
+          head :ok
         end
 
         private

@@ -1,8 +1,8 @@
-# Phase 2: Rails 5.0 + Ruby 2.7 upgrade for diandantong (点单通) restaurant SaaS
-# Multi-stage build with Ruby 2.7 + MySQL 5.7
+# Phase 3: Rails 6.0 + Ruby 3.0 upgrade for diandantong (点单通) restaurant SaaS
+# Multi-stage build with Ruby 3.0 + MySQL 5.7
 
 # ===== Stage 1: Build dependencies =====
-FROM ruby:2.7-slim AS builder
+FROM ruby:3.0-slim AS builder
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
@@ -33,7 +33,7 @@ RUN bundle install --jobs 4 --retry 3 --without development test && \
     rm -rf /usr/local/bundle/cache/*.gem
 
 # ===== Stage 2: Runtime =====
-FROM ruby:2.7-slim
+FROM ruby:3.0-slim
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     libmariadb3 \

@@ -2,8 +2,8 @@ module Ddt
   module Backend
     class Engine < ::Rails::Engine
 
-      config.autoload_paths += %W(#{config.root}/lib/ddt/backend/inputs)
-      config.autoload_paths += %W(#{config.root}/app/models/ckeditor)
+      config.eager_load_paths += %W(#{config.root}/lib/ddt/backend/inputs)
+      config.eager_load_paths += %W(#{config.root}/app/models/ckeditor)
       config.assets.paths << config.root.join("vendor/assets/ace/")
       config.assets.paths << config.root.join("vendor/assets/javascripts/")
       config.assets.paths << config.root.join("vendor/assets/stylesheets/")

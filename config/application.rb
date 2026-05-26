@@ -38,12 +38,24 @@ module Ddt
     config.log_formatter = ::Logger::Formatter.new
     config.log_formatter.datetime_format = '%F %T'
 
-    # Rails 5.0: load defaults
+    # Load defaults from 5.0 for backward compatibility, with targeted overrides
     config.load_defaults 5.0
+
+    # Rails 5.1+ defaults (override selectively)
     config.active_record.belongs_to_required_by_default = false
-    config.action_controller.per_form_csrf_tokens = false
-    config.action_controller.forgery_protection_origin_check = false
-    config.active_support.halt_callback_chains_on_return_false = true
+
+    # Rails 5.2+ defaults
+    config.active_record.cache_versioning = true
+    config.active_record.collection_cache_versioning = true
+    config.active_support.hash_digest_class = OpenSSL::Digest::SHA1
+    config.active_support.use_authenticated_message_encryption = false
+
+    # Rails 6.0 defaults
+    config.autoloader = :zeitwerk
+    config.action_controller.default_protect_from_forgery = false
+    config.action_dispatch.use_cookies_with_metadata = false
+    config.action_mailer.delivery_job = "ActionMailer::MailDeliveryJob"
+    config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end
 

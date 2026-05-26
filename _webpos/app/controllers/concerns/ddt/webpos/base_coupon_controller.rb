@@ -24,7 +24,7 @@ module Ddt
       def exchange_by_code
         @base_coupon.update(applied_in_branch_id: params[:branch_id], operator: current_account)
         @base_coupon.exchange
-        render nothing: true
+        head :ok
       end
 
 
