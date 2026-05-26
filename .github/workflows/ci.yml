@@ -23,10 +23,10 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.3'
 
       - name: Install RuboCop
-        run: gem install rubocop --no-document
+        run: gem install rubocop -v '~> 1.57' --no-document
 
       - name: Run RuboCop
         run: rubocop --format progress --format json --out rubocop-report.json || true

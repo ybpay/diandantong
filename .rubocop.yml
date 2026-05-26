@@ -1,9 +1,9 @@
 # RuboCop configuration for diandantong
-# Target: Ruby 2.1 (current version)
+# Target: Ruby 2.7 (Phase 2 upgrade)
 # Strategy: Gradual — warnings only, not blocking CI initially
 
 AllCops:
-  TargetRubyVersion: 2.1
+  TargetRubyVersion: 2.7
   # Exclude generated and vendor files
   Exclude:
     - 'db/**/*'
