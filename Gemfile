@@ -20,7 +20,7 @@ gem 'rack-attack', '4.3.1'
 gem 'ar-octopus'
 
 gem 'activerecord-session_store', "0.1.2"
-gem 'alipay'                        , '~> 0.14.0', git: 'https://github.com/chloerei/alipay.git'
+gem 'alipay'                        , '~> 0.17.0', git: 'https://github.com/chloerei/alipay.git'
 gem 'eco'
 
 group :development, :test do
