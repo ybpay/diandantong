@@ -1,7 +1,7 @@
 # encoding : utf-8
 module Ddt
   class Backend::Admin::QrCodeScenesController < Backend::BaseAdminController
-    before_filter :set_qr_code_scene, only: [:show, :edit, :update, :destroy]
+    before_action :set_qr_code_scene, only: [:show, :edit, :update, :destroy]
     def index
       @q = Ddt::QrCodeScene.ransack(params[:q])
       @q.sorts = 'id desc' 

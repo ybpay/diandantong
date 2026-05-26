@@ -1,8 +1,8 @@
 module Ddt
   module Webpos
     class VipInfosController < Webpos::BaseController
-      before_filter :set_vip_info, only: [:show, :update, :wallet_logs, :merge, :become, :reject]
-      before_filter :set_wallet, only: [:wallet_logs]
+      before_action :set_vip_info, only: [:show, :update, :wallet_logs, :merge, :become, :reject]
+      before_action :set_wallet, only: [:wallet_logs]
       check_permission :shop, :user, {
         [:index, :show, :get_by_scan_code, :wallet_logs] => :show,
         create: :create,

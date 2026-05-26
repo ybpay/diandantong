@@ -1,7 +1,7 @@
 #encoding: utf-8
 module Ddt
   class Common::QrCodeScenesController < CommonApplicationController
-    before_filter :set_qr_code_scene, only: [:show]
+    before_action :set_qr_code_scene, only: [:show]
     skip_before_action :validate_user_info
     skip_before_action :set_current_shop
     skip_before_action :check_current_shop
@@ -10,7 +10,7 @@ module Ddt
       debugger
       unless ddt_app?
         if !@qr_code_scene.is_enable?
-          render text: '啊哦！商家把我关闭了，以后再扫我吧 :)'
+          render plain: '啊哦！商家把我关闭了，以后再扫我吧 :)'
           return
         end
         validate_user_info

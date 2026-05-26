@@ -12,9 +12,9 @@ module Ddt
         if @service_product_order.current_state == :new
           @service_product_order.verify!(notify_params)
         end
-        render text: 'success'
+        render plain: 'success'
       else
-        render text: 'error'
+        render plain: 'error'
       end
     end
 

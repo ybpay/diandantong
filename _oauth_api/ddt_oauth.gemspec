@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = version
   s.summary     = 'The oauth api for ddt.'
   s.description = 'The oauth api for ddt.'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.3.0'
   s.author      = 'ddt'
   s.email       = 'xie_s@diandantong.com'
   s.homepage    = 'http://www.diandantong.com'
@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
 
 
   s.add_dependency 'ddt_core'                  , version
-  s.add_dependency 'doorkeeper'                  , '~> 3.1.0'
-  s.add_dependency 'oauth2'                  , '~> 1.0.0'
+  s.add_dependency 'doorkeeper'                  , '~> 4.0'
+  s.add_dependency 'oauth2'                  , '~> 1.4.0'
 end

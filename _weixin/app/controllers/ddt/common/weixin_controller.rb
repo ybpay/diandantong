@@ -15,12 +15,12 @@ module Ddt
         if hash[:ComponentVerifyTicket].present?
           # 推送 ComponentVerifyTicket
           Ddt::WechatComponent.instance.update_component_verify_ticket(hash[:ComponentVerifyTicket])
-          render text: 'success'
+          render plain: 'success'
         elsif hash[:AuthorizerAppid].present?
           # 取消授权
           wechat_account = Ddt::WechatAccount.find_by(authorizer_appid: hash[:AuthorizerAppid])
           wechat_account.cancel_authorize if wechat_account.present?
-          render text: 'success'
+          render plain: 'success'
         end
       end
 
@@ -32,7 +32,7 @@ module Ddt
           WechatComponent.instance.expire_pre_auth_code
           redirect_to "/backend/shops/#{shop.slug}/wechat_accounts"
         else
-          render text: 'error'
+          render plain: 'error'
         end
       end
 

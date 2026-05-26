@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = version
   s.summary     = 'The webpos for ddt.'
   s.description = 'The webpos for ddt.'
-  s.required_ruby_version = '>= 1.9.3'
+  s.required_ruby_version = '>= 2.3.0'
   s.author      = 'ddt'
   s.email       = 'xie_s@diandantong.com'
   s.homepage    = 'http://www.diandantong.com'
@@ -17,13 +17,13 @@ Gem::Specification.new do |s|
 
 
   s.add_dependency 'ddt_core'                  , version
-  s.add_dependency 'turbolinks'                       , '~> 2.4.0'
+  s.add_dependency 'turbolinks'                       , '~> 5.0.0'
   s.add_dependency 'jquery-turbolinks'                , '~> 2.1.0'
   s.add_dependency 'angularjs-rails'                  , '~> 1.3.15'
   s.add_dependency 'jbuilder'                         , '~> 2.0'
   s.add_dependency 'will_paginate-bootstrap'         , '~> 1.0.1'
-  s.add_dependency 'hamlit'                          , '~> 1.7.1'
-  s.add_dependency 'hamlit-rails'                      , '~> 0.1.0'
-  s.add_dependency 'bootstrap-sass'                  , '3.3.6'
+  s.add_dependency 'hamlit'                          , '~> 2.9.0'
+  s.add_dependency 'hamlit-rails'                      , '~> 0.2.0'
+  s.add_dependency 'bootstrap-sass'                  , '~> 3.4.0'
   s.add_dependency 'highcharts-rails'                , '~> 4.0.4'
 end

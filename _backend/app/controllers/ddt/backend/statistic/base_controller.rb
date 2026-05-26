@@ -8,7 +8,7 @@ module Ddt
 
         def self.init_statistics(statistics=[])
           statistics = statistics.map{|s| OpenStruct.new(s)}
-          around_filter :select_statistics_db, only: statistics.map(&:name).map(&:to_sym)
+          around_action :select_statistics_db, only: statistics.map(&:name).map(&:to_sym)
           statistics.each do |s|
             define_method s.name do
 

@@ -1,7 +1,7 @@
 module Ddt
   class Weixin::ShopsController < WeixinApplicationController
-    before_filter :set_wx_config, only: [:show, :my, :cart, :order, :queue]
-    before_filter :record_visit, only: [:show, :my, :cart, :order, :queue]
+    before_action :set_wx_config, only: [:show, :my, :cart, :order, :queue]
+    before_action :record_visit, only: [:show, :my, :cart, :order, :queue]
 
     def show
 

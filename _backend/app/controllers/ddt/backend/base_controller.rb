@@ -22,7 +22,7 @@ module Ddt
 
       check_feature :backend
 
-      # before_filter do
+      # before_action do
       #   resource = controller_name.singularize.to_sym
       #   method = "#{resource}_params"
       #   params[resource] &&= send(method) if respond_to?(method, true)
@@ -69,7 +69,7 @@ module Ddt
       end
 
       rescue_from ActionController::UnknownFormat do |exception|
-        render text: "直接点击就行呢 :)"
+        render plain: "直接点击就行呢 :)"
       end
 
       def filted_params
