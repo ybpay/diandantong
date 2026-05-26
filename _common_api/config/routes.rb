@@ -250,4 +250,25 @@ Ddt::Core::Engine.add_routes do
   # http://[host]:[port]/oapi/v1/payments/[payment_id]/notify
   get 'oapi/v1/payments/:id/notify', to: 'common_api/v1/payments#notify'
   post 'oapi/v1/payments/:id/notify', to: 'common_api/v1/payments#notify'
+
+  # API v1 Routes (unified)
+  namespace :api do
+    namespace :v1 do
+      namespace :common do
+        resource :session, only: [:create, :destroy]
+        resource :account, only: [:show, :create] do
+          post :update_password, on: :member
+        end
+        resources :shops, only: [:show], param: :shop_slug do
+          resources :branches, only: [] do
+            resources :products, only: [:index, :show]
+            resources :categories, only: [:index]
+            resources :orders, only: [:index, :show, :create, :update]
+            resources :printers, only: [:index]
+            resources :tables, only: [:index]
+          end
+        end
+      end
+    end
+  end
 end

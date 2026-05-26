@@ -880,4 +880,37 @@ Ddt::Core::Engine.add_routes do
       mount Sidekiq::Web, at: '/sidekiq', as: :sidekiq_web
     end
   end
+
+  # API v1 Routes
+  namespace :api do
+    namespace :v1 do
+      namespace :backend do
+        resources :shops, only: [:show], param: :shop_slug do
+          resources :branches, only: [:index, :show, :create, :update] do
+            resources :products, only: [:index, :show, :create, :update, :destroy] do
+              collection do
+                get :search
+                post :batch_on_shelf
+                post :batch_off_shelf
+                post :batch_remove
+              end
+            end
+            resources :categories, only: [:index, :show, :create, :update, :destroy]
+            resources :orders, only: [:index, :show, :update]
+            resources :printers, only: [:index, :show, :create, :update, :destroy]
+            namespace :crm do
+              resources :vip_infos, only: [:index, :show, :create, :update]
+            end
+            namespace :statistics do
+              get :business
+              get :orders
+              get :products
+              get :finance
+            end
+          end
+          resources :coupons, only: [:index, :show, :create, :update, :destroy]
+        end
+      end
+    end
+  end
 end
