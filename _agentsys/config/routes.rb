@@ -42,4 +42,15 @@ Ddt::Core::Engine.add_routes do
     get :edit_profile, to: 'agents#edit_profile'
     match 'update_profile', to: 'agents#update_profile', via: [:put, :patch]
   end
+
+  # API v1 Routes
+  namespace :api do
+    namespace :v1 do
+      namespace :agentsys do
+        resources :shops, only: [:index, :show] do
+          resources :recharge_records, only: [:index, :create]
+        end
+      end
+    end
+  end
 end

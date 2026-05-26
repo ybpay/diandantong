@@ -168,6 +168,11 @@ module Ddt
           end
         end
       end
+
+      initializer "ddt.api.routes" do |app|
+        api_routes_path = config.root.join("config", "api_routes.rb")
+        load(api_routes_path) if File.exist?(api_routes_path)
+      end
     end
   end
 end

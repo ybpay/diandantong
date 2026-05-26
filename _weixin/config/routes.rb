@@ -264,4 +264,21 @@ Ddt::Core::Engine.add_routes do
       end
     end
   end
+
+  # API v1 Routes
+  namespace :api do
+    namespace :v1 do
+      namespace :weixin do
+        resources :shops, only: [:index, :show] do
+          resources :branches, only: [] do
+            resources :products, only: [:index, :show]
+            resources :categories, only: [:index]
+            resources :orders, only: [:index, :show, :create]
+            resources :guest_queues, only: [:index, :show, :create]
+            resources :vip_infos, only: [:index, :show]
+          end
+        end
+      end
+    end
+  end
 end
