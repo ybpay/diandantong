@@ -70,5 +70,6 @@ dump.rdb
 script/*.rb
 tools/
 *.sh
+!docker-entrypoint.sh
 start_crontab
 cron.log
