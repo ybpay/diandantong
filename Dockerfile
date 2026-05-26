@@ -1,12 +1,16 @@
-# Phase 1: Ruby 2.1.6 + MySQL 5.7 Docker setup
-# Multi-stage build for diandantong (点单通) restaurant SaaS
+# Phase 1: Docker setup for diandantong (点单通) restaurant SaaS
+# Multi-stage build with Ruby 2.7 + MySQL 5.7
+#
+# NOTE: Ruby 2.1.6 Docker images use deprecated Docker manifest v1
+# and are no longer pullable from Docker Hub. Using Ruby 2.7 as a
+# stepping stone — the full Ruby upgrade is planned for a later phase.
 
 # ===== Stage 1: Build dependencies =====
-FROM ruby:2.1.6-slim AS builder
+FROM ruby:2.7-slim AS builder
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
     build-essential \
-    libmysqlclient-dev \
+    libmariadb-dev \
     libxml2-dev \
     libxslt1-dev \
     libmagickwand-dev \
@@ -33,17 +37,18 @@ RUN bundle install --jobs 4 --retry 3 --without development test && \
     rm -rf /usr/local/bundle/cache/*.gem
 
 # ===== Stage 2: Runtime =====
-FROM ruby:2.1.6-slim
+FROM ruby:2.7-slim
 
 RUN apt-get update -qq && apt-get install -y --no-install-recommends \
-    libmysqlclient18 \
+    libmariadb3 \
     libxml2 \
     libxslt1.1 \
-    libmagickwand-6.q16-2 \
+    libmagickwand-6.q16-6 \
     nodejs \
     imagemagick \
     fonts-wqy-zenhei \
     tzdata \
+    netcat-openbsd \
     && rm -rf /var/lib/apt/lists/*
 
 ENV RAILS_ENV=production \
