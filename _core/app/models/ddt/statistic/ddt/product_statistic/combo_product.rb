@@ -177,7 +177,7 @@ module Ddt
           sql = " SELECT sku, cpi.combo_id, variant_id, SUM(quantity * #{line_item_quantity}) AS quantity, SUM(price * #{line_item_quantity}) AS amount, SUM(adjustment_total + apportion_adjustment_total) as adjustment_total, SUM(not_actual_amount) as not_actual_amount "
           sql << ' FROM ddt_combo_package_items AS cpi'
           sql << ' INNER JOIN ddt_combo_packages AS cp ON cp.id = cpi.combo_package_id'
-          sql << " WHERE cp.id IN (#{package_ids.join(',')}) #{(append_query.nil? ? '' : ' AND ' + append_query)}"
+          sql << " WHERE cp.id IN (#{package_ids.map { |id| ActiveRecord::Base.connection.quote(id) }.join(',')}) #{(append_query.nil? ? '' : ' AND ' + append_query)}"
           sql << " GROUP BY #{group.join(',')}"
           cpitems = Ddt::ComboPackageItem.find_by_sql(sql)
 

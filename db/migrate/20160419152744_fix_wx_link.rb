@@ -17,11 +17,11 @@ class FixWxLink < ActiveRecord::Migration
     execute <<-SQL
       UPDATE ddt_home_usable_links
       SET link = CASE
-        WHEN link ~ '^#/branches/[0-9]+/guest_queue$|^#/branches/[0-9]+/guest_queues/new_guest$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/queue?' || link
-        WHEN link ~ '^#/user/profile$|^#/user/vip-info$|^#/user/scan-code$|^#/sign_records$|^#/user/coupon_nav$|^#/wechat_share_records$|^#/user/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/my?' || link
-        WHEN link ~ '^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/reservation_time_points$|^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/pay_online$|^#/branches/[0-9]+/products/fastfood$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/cart?' || link
-        WHEN link ~ '^#/orders/nav$|^#/branches/[0-9]+/orders/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/order?' || link
-        WHEN link ~ '^#/$|^#/branches/[0-9]+$|^#/promotions$|^#/tuans$|^#/recharge_products$|^#/merchant_apply$|^#/nearby_branch$|^#/promotions/[0-9]+$|^#/articles/[0-9]+$|^#/delivery_branches|^#/branches' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/main?' || link
+        WHEN link ~ '^#/branches/[0-9]+/guest_queue$|^#/branches/[0-9]+/guest_queues/new_guest$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/queue?' || link
+        WHEN link ~ '^#/user/profile$|^#/user/vip-info$|^#/user/scan-code$|^#/sign_records$|^#/user/coupon_nav$|^#/wechat_share_records$|^#/user/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/my?' || link
+        WHEN link ~ '^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/reservation_time_points$|^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/pay_online$|^#/branches/[0-9]+/products/fastfood$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/cart?' || link
+        WHEN link ~ '^#/orders/nav$|^#/branches/[0-9]+/orders/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/order?' || link
+        WHEN link ~ '^#/$|^#/branches/[0-9]+$|^#/promotions$|^#/tuans$|^#/recharge_products$|^#/merchant_apply$|^#/nearby_branch$|^#/promotions/[0-9]+$|^#/articles/[0-9]+$|^#/delivery_branches|^#/branches' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/main?' || link
         ELSE link
       END
       WHERE link LIKE '#/%';
@@ -30,11 +30,11 @@ class FixWxLink < ActiveRecord::Migration
     execute <<-SQL
       UPDATE ddt_home_hot_links
       SET link = CASE
-        WHEN link ~ '^#/branches/[0-9]+/guest_queue$|^#/branches/[0-9]+/guest_queues/new_guest$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/queue?' || link
-        WHEN link ~ '^#/user/profile$|^#/user/vip-info$|^#/user/scan-code$|^#/sign_records$|^#/user/coupon_nav$|^#/wechat_share_records$|^#/user/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/my?' || link
-        WHEN link ~ '^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/reservation_time_points$|^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/pay_online$|^#/branches/[0-9]+/products/fastfood$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/cart?' || link
-        WHEN link ~ '^#/orders/nav$|^#/branches/[0-9]+/orders/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/order?' || link
-        WHEN link ~ '^#/$|^#/branches/[0-9]+$|^#/promotions$|^#/tuans$|^#/recharge_products$|^#/merchant_apply$|^#/nearby_branch$|^#/promotions/[0-9]+$|^#/articles/[0-9]+$|^#/delivery_branches|^#/branches' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/main?' || link
+        WHEN link ~ '^#/branches/[0-9]+/guest_queue$|^#/branches/[0-9]+/guest_queues/new_guest$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/queue?' || link
+        WHEN link ~ '^#/user/profile$|^#/user/vip-info$|^#/user/scan-code$|^#/sign_records$|^#/user/coupon_nav$|^#/wechat_share_records$|^#/user/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/my?' || link
+        WHEN link ~ '^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/reservation_time_points$|^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/pay_online$|^#/branches/[0-9]+/products/fastfood$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/cart?' || link
+        WHEN link ~ '^#/orders/nav$|^#/branches/[0-9]+/orders/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/order?' || link
+        WHEN link ~ '^#/$|^#/branches/[0-9]+$|^#/promotions$|^#/tuans$|^#/recharge_products$|^#/merchant_apply$|^#/nearby_branch$|^#/promotions/[0-9]+$|^#/articles/[0-9]+$|^#/delivery_branches|^#/branches' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/main?' || link
         ELSE link
       END
       WHERE link LIKE '#/%';
@@ -43,11 +43,11 @@ class FixWxLink < ActiveRecord::Migration
     execute <<-SQL
       UPDATE ddt_branch_sliders
       SET url = CASE
-        WHEN url ~ '^#/branches/[0-9]+/guest_queue$|^#/branches/[0-9]+/guest_queues/new_guest$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/queue?' || url
-        WHEN url ~ '^#/user/profile$|^#/user/vip-info$|^#/user/scan-code$|^#/sign_records$|^#/user/coupon_nav$|^#/wechat_share_records$|^#/user/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/my?' || url
-        WHEN url ~ '^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/reservation_time_points$|^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/pay_online$|^#/branches/[0-9]+/products/fastfood$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/cart?' || url
-        WHEN url ~ '^#/orders/nav$|^#/branches/[0-9]+/orders/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/order?' || url
-        WHEN url ~ '^#/$|^#/branches/[0-9]+$|^#/promotions$|^#/tuans$|^#/recharge_products$|^#/merchant_apply$|^#/nearby_branch$|^#/promotions/[0-9]+$|^#/articles/[0-9]+$|^#/delivery_branches|^#/branches' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id || '/main?' || url
+        WHEN url ~ '^#/branches/[0-9]+/guest_queue$|^#/branches/[0-9]+/guest_queues/new_guest$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/queue?' || url
+        WHEN url ~ '^#/user/profile$|^#/user/vip-info$|^#/user/scan-code$|^#/sign_records$|^#/user/coupon_nav$|^#/wechat_share_records$|^#/user/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/my?' || url
+        WHEN url ~ '^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/reservation_time_points$|^#/branches/[0-9]+/products/delivery$|^#/branches/[0-9]+/pay_online$|^#/branches/[0-9]+/products/fastfood$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/cart?' || url
+        WHEN url ~ '^#/orders/nav$|^#/branches/[0-9]+/orders/.+/[0-9]+$' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/order?' || url
+        WHEN url ~ '^#/$|^#/branches/[0-9]+$|^#/promotions$|^#/tuans$|^#/recharge_products$|^#/merchant_apply$|^#/nearby_branch$|^#/promotions/[0-9]+$|^#/articles/[0-9]+$|^#/delivery_branches|^#/branches' THEN 'http://cy.diandantong.com/weixin/shops/' || shop_id::text || '/main?' || url
         ELSE url
       END
       WHERE url LIKE '#/%';

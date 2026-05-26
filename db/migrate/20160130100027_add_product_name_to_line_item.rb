@@ -3,10 +3,10 @@ class AddProductNameToLineItem < ActiveRecord::Migration
     execute <<-SQL
       UPDATE ddt_line_items
       SET product_name = CASE
-        WHEN itemable_name ~ '\[.+\]$' THEN
-          REPLACE(itemable_name, '[' || SUBSTRING(itemable_name FROM '\[([^\]]+)\]$'), '')
-        WHEN itemable_name ~ '\(.+\)$' THEN
-          REPLACE(itemable_name, '(' || SUBSTRING(itemable_name FROM '\(([^)]+)\)$'), '')
+        WHEN itemable_name ~ '\[[^\]]+\]$' THEN
+          regexp_replace(itemable_name, '\[[^\]]+\]$', '')
+        WHEN itemable_name ~ '\([^)]+\)$' THEN
+          regexp_replace(itemable_name, '\([^)]+\)$', '')
         ELSE itemable_name
       END
       WHERE itemable_name ~ '(\[.+\])|(\(.+\))$';

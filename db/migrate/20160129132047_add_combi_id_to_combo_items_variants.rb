@@ -3,7 +3,7 @@ class AddCombiIdToComboItemsVariants < ActiveRecord::Migration
     unless column_exists? :ddt_combo_items_variants, :combi_id
       add_column :ddt_combo_items_variants, :combi_id, :string
       ActiveRecord::Base.connection.execute <<-SQL
-        UPDATE ddt_combo_items_variants SET combi_id = combo_item_id || ':' || variant_id;
+        UPDATE ddt_combo_items_variants SET combi_id = combo_item_id::text || ':' || variant_id::text;
       SQL
     end
   end
