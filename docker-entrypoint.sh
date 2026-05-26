@@ -24,7 +24,23 @@ fi
 # Generate config files from environment if not mounted
 if [ ! -f config/database.yml ]; then
     cat > config/database.yml <<EOF
-${DATABASE_YML_CONTENT}
+defaults: &defaults
+  adapter: mysql2
+  charset: utf8mb4
+  encoding: utf8mb4
+  collation: utf8mb4_unicode_ci
+  username: root
+  password: "${MYSQL_ROOT_PASSWORD:-root}"
+  host: ${MYSQL_HOST:-mysql}
+  port: ${MYSQL_PORT:-3306}
+
+development:
+  <<: *defaults
+  database: ${MYSQL_DATABASE:-ddt_dev}
+
+production:
+  <<: *defaults
+  database: ${MYSQL_DATABASE:-ddt_dev}
 EOF
 fi
 

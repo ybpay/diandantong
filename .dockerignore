@@ -66,10 +66,8 @@ db/*.sqlite3
 db/*.sqlite3-journal
 dump.rdb
 
-# Scripts
+# Scripts (but keep entrypoint for Docker)
 script/*.rb
 tools/
-*.sh
-!docker-entrypoint.sh
 start_crontab
 cron.log

@@ -1,8 +1,24 @@
 version: '3.8'
 
+x-app-env: &app-env
+  RAILS_ENV: ${RAILS_ENV:-development}
+  RACK_ENV: ${RACK_ENV:-development}
+  SECRET_KEY_BASE: ${SECRET_KEY_BASE:-development_secret_key_base_0b818b2119fcb1328992197b9507dc9e}
+  MYSQL_HOST: mysql
+  MYSQL_PORT: "3306"
+  MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+  MYSQL_DATABASE: ${MYSQL_DATABASE:-ddt_dev}
+  REDIS_HOST: redis
+  REDIS_PORT: "6379"
+  REDIS_DB: "11"
+  WAIT_FOR_MYSQL: "true"
+  WAIT_FOR_REDIS: "true"
+  RUN_MIGRATIONS: ${RUN_MIGRATIONS:-false}
+
 services:
   mysql:
     image: mysql:5.7
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-ddt_dev}
@@ -12,7 +28,6 @@ services:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./charset_utf8_mb4.sql:/docker-entrypoint-initdb.d/01-charset.sql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-root}"]
       interval: 10s
@@ -24,6 +39,7 @@ services:
 
   redis:
     image: redis:5.0-alpine
+    restart: unless-stopped
     ports:
       - "${REDIS_PORT:-6379}:6379"
     volumes:
@@ -42,23 +58,10 @@ services:
       dockerfile: Dockerfile
       args:
         SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy_for_build}
+    restart: unless-stopped
     ports:
       - "${APP_PORT:-9000}:9000"
-    environment:
-      - RAILS_ENV=${RAILS_ENV:-development}
-      - RACK_ENV=${RACK_ENV:-development}
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE:-development_secret_key_base_0b818b2119fcb1328992197b9507dc9e}
-      - MYSQL_HOST=mysql
-      - MYSQL_PORT=3306
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-ddt_dev}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - REDIS_DB=11
-      - WAIT_FOR_MYSQL=true
-      - WAIT_FOR_REDIS=true
-      - RUN_MIGRATIONS=${RUN_MIGRATIONS:-false}
-      - DATABASE_YML_CONTENT=development:\n  adapter: mysql2\n  database: ${MYSQL_DATABASE:-ddt_dev}\n  charset: utf8mb4\n  encoding: utf8mb4\n  collation: utf8mb4_unicode_ci\n  username: root\n  password: "${MYSQL_ROOT_PASSWORD:-root}"\n  host: mysql\n  port: 3306\n\nproduction:\n  adapter: mysql2\n  database: ${MYSQL_DATABASE:-ddt_dev}\n  charset: utf8mb4\n  encoding: utf8mb4\n  collation: utf8mb4_unicode_ci\n  username: root\n  password: "${MYSQL_ROOT_PASSWORD:-root}"\n  host: mysql\n  port: 3306
+    environment: *app-env
     depends_on:
       mysql:
         condition: service_healthy
@@ -67,6 +70,7 @@ services:
     volumes:
       - app_uploads:/app/public/uploads
       - app_log:/app/log
+      - ./config/database.yml.docker:/app/config/database.yml:ro
     networks:
       - ddt-network
 
@@ -76,21 +80,9 @@ services:
       dockerfile: Dockerfile
       args:
         SECRET_KEY_BASE: ${SECRET_KEY_BASE:-dummy_for_build}
+    restart: unless-stopped
     command: bundle exec sidekiq -C config/sidekiq.yml -e ${RAILS_ENV:-development} -L log/sidekiq.log
-    environment:
-      - RAILS_ENV=${RAILS_ENV:-development}
-      - RACK_ENV=${RACK_ENV:-development}
-      - SECRET_KEY_BASE=${SECRET_KEY_BASE:-development_secret_key_base_0b818b2119fcb1328992197b9507dc9e}
-      - MYSQL_HOST=mysql
-      - MYSQL_PORT=3306
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
-      - MYSQL_DATABASE=${MYSQL_DATABASE:-ddt_dev}
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - REDIS_DB=11
-      - WAIT_FOR_MYSQL=true
-      - WAIT_FOR_REDIS=true
-      - DATABASE_YML_CONTENT=development:\n  adapter: mysql2\n  database: ${MYSQL_DATABASE:-ddt_dev}\n  charset: utf8mb4\n  encoding: utf8mb4\n  collation: utf8mb4_unicode_ci\n  username: root\n  password: "${MYSQL_ROOT_PASSWORD:-root}"\n  host: mysql\n  port: 3306\n\nproduction:\n  adapter: mysql2\n  database: ${MYSQL_DATABASE:-ddt_dev}\n  charset: utf8mb4\n  encoding: utf8mb4\n  collation: utf8mb4_unicode_ci\n  username: root\n  password: "${MYSQL_ROOT_PASSWORD:-root}"\n  host: mysql\n  port: 3306
+    environment: *app-env
     depends_on:
       mysql:
         condition: service_healthy
@@ -98,6 +90,7 @@ services:
         condition: service_healthy
     volumes:
       - app_log:/app/log
+      - ./config/database.yml.docker:/app/config/database.yml:ro
     networks:
       - ddt-network
 
