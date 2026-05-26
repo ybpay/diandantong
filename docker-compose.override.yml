@@ -1,0 +1,28 @@
+# Development overrides — auto-loaded by docker-compose
+version: '3.8'
+
+services:
+  app:
+    build:
+      target: builder
+    volumes:
+      - .:/app
+      - bundle_data:/usr/local/bundle
+    environment:
+      - RAILS_ENV=development
+      - BUNDLE_WITHOUT=
+    command: bundle exec unicorn_rails -p 9000 -c config/unicorn.rb -E development
+
+  sidekiq:
+    build:
+      target: builder
+    volumes:
+      - .:/app
+      - bundle_data:/usr/local/bundle
+    environment:
+      - RAILS_ENV=development
+      - BUNDLE_WITHOUT=
+    command: bundle exec sidekiq -C config/sidekiq.yml -e development -L log/sidekiq.log
+
+volumes:
+  bundle_data:
