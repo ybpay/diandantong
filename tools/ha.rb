@@ -28,10 +28,10 @@ module HeapAnalyzerHelper
   class << self
 
     def rails_pids(file = "#{File.dirname($0)}/../tmp/pids/unicorn.pid")
-      unless File.exists?(file)
+      unless File.exist?(file)
         file = "#{File.dirname(file)}/server.pid"
       end
-      if File.exists?(file)
+      if File.exist?(file)
         ppid = `cat #{file}`
         if File.basename(file) == 'unicorn'
           pids = `pgrep -P #{ppid}`.split(/\\s+/)

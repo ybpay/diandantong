@@ -1,7 +1,7 @@
 #encoding: utf-8
 module Ddt
   class Common::VerifyVipInfoQrCodeScenesController < CommonApplicationController
-    before_filter :set_qr_code_scene, only: [:show, :verify]
+    before_action :set_qr_code_scene, only: [:show, :verify]
     skip_before_action :validate_user_info
 
     def show

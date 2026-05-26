@@ -20,7 +20,7 @@ module Ddt
           by_weight_product_list: :by_weight_product_list,
       }
 
-      around_filter :query_by_cache, only: [
+      around_action :query_by_cache, only: [
           :discount_list,
           :waiter_list,
           :gift_item_list,

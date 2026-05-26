@@ -1,12 +1,12 @@
 source 'https://gems.ruby-china.com'
 
-gem 'rails', '4.1.13'
-gem 'mysql2', '0.3.17'
+gem 'rails', '~> 5.0.7'
+gem 'mysql2', '>= 0.3.18', '< 0.6'
 gem 'exception_notification', '~> 4.2.0'
 gem 'jpush', "3.2.1"
 gem 'foreman', '0.63.0'
 gem 'uglifier'
-gem 'paper_trail', '3.0.6'
+gem 'paper_trail', '~> 5.2.0'
 
 gem 'settingslogic'
 gem 'angularjs-rails'
@@ -14,34 +14,30 @@ gem 'puma'
 gem 'thin'
 
 gem 'sass-rails', '~> 5.0.6'
-gem 'sprockets', '2.11.0'
-gem 'rack-attack', '4.3.1'
+gem 'sprockets', '~> 3.7'
+gem 'rack-attack', '~> 5.0'
 gem 'ar-octopus'
 
-gem 'activerecord-session_store', "0.1.2"
+gem 'activerecord-session_store', '~> 1.1'
 gem 'alipay'                        , '~> 0.17.0', git: 'https://github.com/chloerei/alipay.git'
 gem 'eco'
 
 group :development, :test do
-  if $:.grep(/RubyMine/).empty?
-    gem 'byebug'
-  else
-    gem 'ruby-debug-ide'
-    gem 'debase'
-  end
-  gem 'quiet_assets'
+  gem 'byebug', platform: :mri
   gem 'hirb'
   gem 'hirb-unicode'
   gem 'newrelic_rpm'
   gem 'spring'
+  gem 'listen', '~> 3.0'
 end
 
 group :test do
   gem 'database_cleaner', '~> 1.3'
-  gem 'factory_girl_rails', '~> 4.4'
+  gem 'factory_bot_rails', '~> 4.8'
   gem 'minitest-spec-rails', '~> 5.3.0'
   gem 'minitest-reporters', '~> 1.1.5'
   gem 'mocha', '~> 1.1.0'
+  gem 'rails-controller-testing'
 end
 
 gem 'ddt_core', path: './_core'
@@ -55,7 +51,6 @@ gem 'ddt_inner_api', path: './_inner_api'
 gem 'auto_strip_attributes', '~> 2.0'
 gem 'whenever', require: false
 gem 'unicorn'
-gem 'doorkeeper', '~> 3.1.0'
-# gem 'rbtrace'
-# gem 'marginalia' # log controller:action to mysql-slow-log
+gem 'doorkeeper', '~> 4.0'
 gem 'sqlite3'
+gem 'responders', '~> 2.4'

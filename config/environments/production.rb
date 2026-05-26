@@ -21,7 +21,7 @@ Ddt::Application.configure do
   # config.action_dispatch.rack_cache = true
 
   # Disable Rails's static asset server (Apache or nginx will already do this).
-  config.serve_static_assets = true
+  config.public_file_server.enabled = true
 
   # Compress JavaScripts and CSS.
   config.assets.js_compressor = :uglifier
@@ -93,7 +93,7 @@ Ddt::Application.configure do
     authentication:       :login,
     enable_starttls_auto:  false  }
   ActionMailer::Base.default :from => "微信点单 <noreply@diandantong.com>"
-  default_url_options[:host] = 'cy.diandantong.com'
+  config.action_controller.default_url_options = { host: 'cy.diandantong.com' }
   config.action_mailer.default_url_options = { :host => 'cy.diandantong.com' }
 
 end

@@ -1,6 +1,6 @@
 module Ddt
   class Weixin::TuansController < WeixinApplicationController
-    before_filter :set_tuan, only: [:show]
+    before_action :set_tuan, only: [:show]
 
     def index
       @query = @current_shop.abstract_coupon_versions.tuans_on_sale.ransack(params[:query])

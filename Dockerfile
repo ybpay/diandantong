@@ -1,9 +1,5 @@
-# Phase 1: Docker setup for diandantong (点单通) restaurant SaaS
+# Phase 2: Rails 5.0 + Ruby 2.7 upgrade for diandantong (点单通) restaurant SaaS
 # Multi-stage build with Ruby 2.7 + MySQL 5.7
-#
-# NOTE: Ruby 2.1.6 Docker images use deprecated Docker manifest v1
-# and are no longer pullable from Docker Hub. Using Ruby 2.7 as a
-# stepping stone — the full Ruby upgrade is planned for a later phase.
 
 # ===== Stage 1: Build dependencies =====
 FROM ruby:2.7-slim AS builder

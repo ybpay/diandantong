@@ -10,15 +10,15 @@ class ErrorsController < ApplicationController
 
 
   def file_not_found
-    render text: 'lost', layout: false, status: 404
+    render plain: 'lost', layout: false, status: 404
   end
 
   def unprocessable
-    render text: 'unprocessable', layout: false, status: 422
+    render plain: 'unprocessable', layout: false, status: 422
   end
 
   def internal_server_error
-    render text: 'internal_server_error', layout: false, status: 500
+    render plain: 'internal_server_error', layout: false, status: 500
   end
 
   private

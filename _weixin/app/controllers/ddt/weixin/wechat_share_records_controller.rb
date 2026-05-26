@@ -1,7 +1,7 @@
 module Ddt
   class Weixin::WechatShareRecordsController < WeixinApplicationController
 
-    before_filter :set_wechat_share_record, only: [:confirm, :show]
+    before_action :set_wechat_share_record, only: [:confirm, :show]
 
     def create
       @wechat_share_record = @current_user.wechat_share_records.build(shop: @current_shop, trigger_timestamp: wechat_share_record_params[:trigger_timestamp])

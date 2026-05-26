@@ -1,7 +1,7 @@
 module Ddt
   class WeixinApplicationController < Ddt::BaseWeixinController
     layout 'ddt/layouts/weixin'
-    before_filter :record_viewed_user
+    before_action :record_viewed_user
     check_feature :weixin
 
     private

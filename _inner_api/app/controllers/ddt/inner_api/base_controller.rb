@@ -3,12 +3,12 @@ module Ddt
     class NoInnerApiPermissionError < StandardError; end;
     class BaseController < ActionController::Base
 
-      before_filter :api_authenticate
+      before_action :api_authenticate
 
       rescue_from NoInnerApiPermissionError do |exception|
         respond_to do |format|
             format.json{ render json: {error: "无权访问" }, status: 401 }
-            format.html{ render text: "无权访问", layout: false, status: 401 }
+            format.html{ render plain: "无权访问", layout: false, status: 401 }
           end
       end
 

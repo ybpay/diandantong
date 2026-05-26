@@ -5,7 +5,7 @@ module Ddt
 
       protect_from_forgery :except => :create
       before_action :set_current_shop, only: [:validate]
-      # around_filter :global_request_logging
+      # around_action :global_request_logging
 
       def create
         if message_for_authorized_wechat_account?

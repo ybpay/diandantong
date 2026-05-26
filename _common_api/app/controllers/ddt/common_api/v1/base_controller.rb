@@ -23,42 +23,42 @@ module Ddt
         rescue_from TokenError do |exception|
           respond_to do |format|
             format.json{ render json: { error_code: 11, msg: "登录失败" }, status: 401 }
-            format.html{ render text: "登录失败", layout: false, status: 401 }
+            format.html{ render plain: "登录失败", layout: false, status: 401 }
           end
         end
 
         rescue_from TokenExpiredError do |exception|
           respond_to do |format|
             format.json{ render json: { error_code: 12, msg: "Token过期" }, status: 401}
-            format.html{ render text: "Token过期", layout: false, status: 401 }
+            format.html{ render plain: "Token过期", layout: false, status: 401 }
           end
         end
 
         rescue_from NoAuthError do |exception|
           respond_to do |format|
             format.json{ render json: { error_code: 13, msg: "权限不足" }, status: 401}
-            format.html{ render text: "权限不足", layout: false, status: 401 }
+            format.html{ render plain: "权限不足", layout: false, status: 401 }
           end
         end
 
         rescue_from Error::NoPermissionError do |exception|
           respond_to do |format|
             format.json{ render json: {msg: exception.message }, status: 400}
-            format.html{ render text: exception.message, layout: false, status: 401 }
+            format.html{ render plain: exception.message, layout: false, status: 401 }
           end
         end
 
         rescue_from ::Ddt::PaymentException do |exception|
           respond_to do |format|
             format.json{ render json: {msg: exception.message, data: exception.log_json_entry}, status: 400}
-            format.html{ render text: exception.message, layout: false, status: 401 }
+            format.html{ render plain: exception.message, layout: false, status: 401 }
           end
         end
 
         rescue_from ::Ddt::Error::NoFeatureError, ::Ddt::Error::FeatureNotEnabled do |exception|
           respond_to do |format|
             format.json{ render json: {msg: exception.message }, status: 400}
-            format.html{ render text: exception.message, layout: false, status: 401 }
+            format.html{ render plain: exception.message, layout: false, status: 401 }
           end
         end
 
@@ -69,7 +69,7 @@ module Ddt
         rescue_from Ddt::OrderService::Api::UpdateLockError do |exception|
           respond_to do |format|
             format.json{ render json: { msg: "操作失败，请重新尝试" }, status: :bad_request}
-            format.html{ render text: "操作失败，请重新尝试", layout: false, status: 401 }
+            format.html{ render plain: "操作失败，请重新尝试", layout: false, status: 401 }
           end
         end
 
@@ -77,7 +77,7 @@ module Ddt
           respond_to do |format|
             Rails.logger.info "[ParameterMissing common_api] #{exception.message}"
             format.json{ render json: { msg: "参数非法"}, status: :bad_request}
-            format.html{ render text: "非法的操作", layout: false, status: 401}
+            format.html{ render plain: "非法的操作", layout: false, status: 401}
           end
         end
 
@@ -184,7 +184,7 @@ module Ddt
           if Ddt::CsBranchBinding.deny_online_access?(@current_branch, request)
             respond_to { |format|
               format.html {
-                render text: '门店未连网,不接受在线点餐'
+                render plain: '门店未连网,不接受在线点餐'
               }
               format.json {
                 render :json => {errors: '门店未连网,不接受在线点餐'}, status: :bad_request
