@@ -2,7 +2,9 @@ module Ddt
   module Api
     module V1
       module Common
-        class SessionsController < Ddt::Api::V1::PublicController
+        class SessionsController < BaseController
+          skip_before_action :authenticate_api_account!, only: [:create]
+
           def create
             account = Account.where(
               ["lower(login_id) = :value OR lower(email) = :value", { value: params[:login_id].to_s.downcase }]

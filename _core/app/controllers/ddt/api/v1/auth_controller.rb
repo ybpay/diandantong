@@ -1,7 +1,9 @@
 module Ddt
   module Api
     module V1
-      class AuthController < Ddt::Api::V1::PublicController
+      class AuthController < BaseController
+        skip_before_action :authenticate_api_account!, only: [:login]
+
         def login
           account = Account.where(
             ["lower(login_id) = :value OR lower(email) = :value", { value: params[:login_id].to_s.downcase }]
@@ -28,9 +30,7 @@ module Ddt
         end
 
         def me
-          return render_unauthorized unless @current_account
-
-          account = @current_account
+          account = current_account
           render json: {
             data: {
               id: account.id,

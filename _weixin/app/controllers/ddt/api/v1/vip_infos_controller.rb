@@ -18,7 +18,7 @@ module Ddt
           private
 
           def set_branch
-            @branch = Ddt::Branch.find(params[:branch_id])
+            @branch = current_shop&.branches&.find(params[:branch_id]) || Ddt::Branch.find(params[:branch_id])
           end
         end
       end

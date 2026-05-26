@@ -15,7 +15,7 @@ module Ddt
                          .ransack(params[:q]).result
 
             if params[:no_paginate]
-              render json: { data: products.map(&:as_api_json) }
+              render json: { data: products.limit(500).map(&:as_api_json) }
             else
               render_paginated(products)
             end
