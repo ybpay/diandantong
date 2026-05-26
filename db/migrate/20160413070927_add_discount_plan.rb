@@ -17,7 +17,7 @@ class AddDiscountPlan < ActiveRecord::Migration
       t.timestamps
     end
 
-    create_table :ddt_discount_plan_items_variants, id: false, force: true do |t|
+    create_table :ddt_discount_plan_items_variants, id: false do |t|
       t.integer :discount_plan_item_id
       t.integer :variant_id
     end
@@ -25,7 +25,7 @@ class AddDiscountPlan < ActiveRecord::Migration
     add_index :ddt_discount_plan_items_variants, :discount_plan_item_id, name: "index_dpiv_on_dpi_id"
     add_index :ddt_discount_plan_items_variants, :variant_id, name: "index_dpiv_on_v_id"
 
-    create_table :ddt_discount_plan_items_categories, id: false, force: true do |t|
+    create_table :ddt_discount_plan_items_categories, id: false do |t|
       t.integer :discount_plan_item_id
       t.integer :category_id
     end
@@ -33,7 +33,7 @@ class AddDiscountPlan < ActiveRecord::Migration
     add_index :ddt_discount_plan_items_categories, :discount_plan_item_id, name: "index_dpica_on_dpi_id"
     add_index :ddt_discount_plan_items_categories, :category_id, name: "index_dpica_on_ca_id"
 
-    create_table :ddt_discount_plan_items_combos, id: false, force: true do |t|
+    create_table :ddt_discount_plan_items_combos, id: false do |t|
       t.integer :discount_plan_item_id
       t.integer :combo_id
     end

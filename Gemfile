@@ -1,5 +1,7 @@
 source 'https://gems.ruby-china.com'
 
+eval_gemfile 'common_ddt_dependencies.rb'
+
 gem 'rails', "~> 8.1.0"
 gem 'pg', '~> 1.5'
 gem 'jquery-rails'
@@ -12,4 +14,8 @@ group :test, :development do
   gem 'factory_bot_rails', '~> 6.0'
   gem 'minitest-spec-rails', '~> 5.3.0'
   gem 'minitest-reporters', '~> 1.1.5'
+end
+
+group :migration do
+  gem 'mysql2', '~> 0.5'
 end

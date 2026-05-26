@@ -1,7 +1,7 @@
 class CreateDeliveryRanges < ActiveRecord::Migration
   def change
 
-  create_table "ckeditor_assets", force: true do |t|
+  create_table "ckeditor_assets" do |t|
     t.string   "data_file_name",               null: false
     t.string   "data_content_type"
     t.integer  "data_file_size"
@@ -17,7 +17,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ckeditor_assets", ["assetable_type", "assetable_id"], name: "idx_ckeditor_assetable"
   add_index "ckeditor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_ckeditor_assetable_type"
 
-  create_table "ddt_abstract_coupon_versions", force: true do |t|
+  create_table "ddt_abstract_coupon_versions" do |t|
     t.string   "type"
     t.string   "name"
     t.datetime "usable_starts_at"
@@ -48,7 +48,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_abstract_coupon_versions", ["shop_id"], name: "index_ddt_abstract_coupon_versions_on_shop_id"
 
-  create_table "ddt_abstract_coupon_versions_branches", id: false, force: true do |t|
+  create_table "ddt_abstract_coupon_versions_branches", id: false do |t|
     t.integer "abstract_coupon_version_id", null: false
     t.integer "branch_id",                  null: false
   end
@@ -57,14 +57,14 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_abstract_coupon_versions_branches", ["abstract_coupon_version_id"], name: "coupon_appliable_branch_scope_coupon_index"
   add_index "ddt_abstract_coupon_versions_branches", ["branch_id"], name: "coupon_appliable_branch_scope_branch_id_index"
 
-  create_table "ddt_abstract_sources", force: true do |t|
+  create_table "ddt_abstract_sources" do |t|
     t.string   "label"
     t.decimal  "amount",     precision: 8, scale: 2, default: 0.0
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ddt_access_tokens", force: true do |t|
+  create_table "ddt_access_tokens" do |t|
     t.integer  "holder_id"
     t.string   "holder_type"
     t.string   "access_token"
@@ -74,9 +74,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "updated_at"
   end
 
-  add_index "ddt_access_tokens", ["access_token"], name: "index_ddt_access_tokens_on_access_token", length: {"access_token"=>191}
+  add_index "ddt_access_tokens", ["access_token"], name: "index_ddt_access_tokens_on_access_token"
 
-  create_table "ddt_accounts", force: true do |t|
+  create_table "ddt_accounts" do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
@@ -111,22 +111,22 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.string   "term_version"
   end
 
-  add_index "ddt_accounts", ["authentication_token"], name: "index_ddt_accounts_on_authentication_token", length: {"authentication_token"=>191}, unique: true
-  add_index "ddt_accounts", ["confirmation_token"], name: "index_ddt_accounts_on_confirmation_token", length: {"confirmation_token"=>191}, unique: true
-  add_index "ddt_accounts", ["email"], name: "index_ddt_accounts_on_email", length: {"email"=>191}, unique: true
-  add_index "ddt_accounts", ["login_id", "deleted_at"], name: "index_ddt_accounts_on_login_id_and_deleted_at", length: {"login_id"=>191}, unique: true
-  add_index "ddt_accounts", ["reset_password_token"], name: "index_ddt_accounts_on_reset_password_token", length: {"reset_password_token"=>191}, unique: true
+  add_index "ddt_accounts", ["authentication_token"], name: "index_ddt_accounts_on_authentication_token", unique: true
+  add_index "ddt_accounts", ["confirmation_token"], name: "index_ddt_accounts_on_confirmation_token", unique: true
+  add_index "ddt_accounts", ["email"], name: "index_ddt_accounts_on_email", unique: true
+  add_index "ddt_accounts", ["login_id", "deleted_at"], name: "index_ddt_accounts_on_login_id_and_deleted_at", unique: true
+  add_index "ddt_accounts", ["reset_password_token"], name: "index_ddt_accounts_on_reset_password_token", unique: true
   add_index "ddt_accounts", ["shop_id"], name: "index_ddt_accounts_on_shop_id"
-  add_index "ddt_accounts", ["unlock_token"], name: "index_ddt_accounts_on_unlock_token", length: {"unlock_token"=>191}, unique: true
+  add_index "ddt_accounts", ["unlock_token"], name: "index_ddt_accounts_on_unlock_token", unique: true
 
-  create_table "ddt_accounts_categories", id: false, force: true do |t|
+  create_table "ddt_accounts_categories", id: false do |t|
     t.integer "account_id"
     t.integer "category_id"
   end
 
   add_index "ddt_accounts_categories", ["account_id", "category_id"], name: "index_ddt_accounts_categories"
 
-  create_table "ddt_accounts_products", id: false, force: true do |t|
+  create_table "ddt_accounts_products", id: false do |t|
     t.integer "account_id"
     t.integer "product_id"
   end
@@ -134,14 +134,14 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_accounts_products", ["account_id"], name: "index_ddt_accounts_products_on_account_id"
   add_index "ddt_accounts_products", ["product_id"], name: "index_ddt_accounts_products_on_product_id"
 
-  create_table "ddt_accounts_roles", id: false, force: true do |t|
+  create_table "ddt_accounts_roles", id: false do |t|
     t.integer "account_id"
     t.integer "role_id"
   end
 
   add_index "ddt_accounts_roles", ["account_id", "role_id"], name: "index_ddt_accounts_roles_on_account_id_and_role_id"
 
-  create_table "ddt_addresses", force: true do |t|
+  create_table "ddt_addresses" do |t|
     t.integer  "base_user_id"
     t.text     "content",      limit: 16777215
     t.string   "name"
@@ -158,7 +158,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_addresses", ["base_user_id"], name: "index_ddt_addresses_on_base_user_id"
 
-  create_table "ddt_adjustments", force: true do |t|
+  create_table "ddt_adjustments" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "source_type"
@@ -174,13 +174,13 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "updated_at"
   end
 
-  add_index "ddt_adjustments", ["adjustable_type", "adjustable_id"], name: "index_ddt_adjustments_on_adjustable", length: {"adjustable_type"=>191, "adjustable_id"=>nil}
+  add_index "ddt_adjustments", ["adjustable_type", "adjustable_id"], name: "index_ddt_adjustments_on_adjustable"
   add_index "ddt_adjustments", ["branch_id"], name: "index_ddt_adjustments_on_branch_id"
   add_index "ddt_adjustments", ["order_id"], name: "index_ddt_adjustments_on_order_id"
   add_index "ddt_adjustments", ["shop_id"], name: "index_ddt_adjustments_on_shop_id"
-  add_index "ddt_adjustments", ["source_type", "source_id"], name: "index_ddt_adjustments_on_source_type_and_source_id", length: {"source_type"=>191, "source_id"=>nil}
+  add_index "ddt_adjustments", ["source_type", "source_id"], name: "index_ddt_adjustments_on_source_type_and_source_id"
 
-  create_table "ddt_agent_logs", force: true do |t|
+  create_table "ddt_agent_logs" do |t|
     t.string   "log_type"
     t.integer  "balance_delta"
     t.integer  "agent_id"
@@ -191,21 +191,21 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_agent_logs", ["agent_id"], name: "index_ddt_agent_logs_on_agent_id"
 
-  create_table "ddt_agent_materials", force: true do |t|
+  create_table "ddt_agent_materials" do |t|
     t.string   "title"
     t.text     "content",    limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ddt_agent_rels", force: true do |t|
+  create_table "ddt_agent_rels" do |t|
     t.integer  "agent_id"
     t.integer  "agent_zone_id"
     t.datetime "agent_from"
     t.datetime "agent_to"
   end
 
-  create_table "ddt_agent_zones", force: true do |t|
+  create_table "ddt_agent_zones" do |t|
     t.string   "name"
     t.integer  "parent_agent_zone_id"
     t.datetime "created_at"
@@ -215,7 +215,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_agent_zones", ["parent_agent_zone_id"], name: "index_ddt_agent_zones_on_parent_agent_zone_id"
 
-  create_table "ddt_agents", force: true do |t|
+  create_table "ddt_agents" do |t|
     t.string   "agent_no"
     t.string   "name"
     t.string   "phone"
@@ -249,7 +249,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_agents", ["email"], name: "index_ddt_agents_on_email", :length=>{"email"=>191}, unique: true
   add_index "ddt_agents", ["reset_password_token"], name: "index_ddt_agents_on_reset_password_token", :length=>{"reset_password_token"=>191}, unique: true
 
-  create_table "ddt_append_itemable_records", force: true do |t|
+  create_table "ddt_append_itemable_records" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -263,12 +263,12 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_append_itemable_records", ["branch_id"], name: "index_ddt_append_itemable_records_on_branch_id"
-  add_index "ddt_append_itemable_records", ["itemable_type", "itemable_id"], name: "index_ddt_append_itemable_records_on_itemable", length: {"itemable_type"=>191, "itemable_id"=>nil}
-  add_index "ddt_append_itemable_records", ["operator_type", "operator_id"], name: "index_ddt_append_itemable_records_on_operator", length: {"operator_type"=>191, "operator_id"=>nil}
+  add_index "ddt_append_itemable_records", ["itemable_type", "itemable_id"], name: "index_ddt_append_itemable_records_on_itemable"
+  add_index "ddt_append_itemable_records", ["operator_type", "operator_id"], name: "index_ddt_append_itemable_records_on_operator"
   add_index "ddt_append_itemable_records", ["order_id"], name: "index_ddt_append_itemable_records_on_order_id"
   add_index "ddt_append_itemable_records", ["shop_id"], name: "index_ddt_append_itemable_records_on_shop_id"
 
-  create_table "ddt_arranging_settings", force: true do |t|
+  create_table "ddt_arranging_settings" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "mode",       default: "auto_assigned"
@@ -279,7 +279,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_arranging_settings", ["branch_id"], name: "index_ddt_arranging_settings_on_branch_id"
   add_index "ddt_arranging_settings", ["shop_id"], name: "index_ddt_arranging_settings_on_shop_id"
 
-  create_table "ddt_articles", force: true do |t|
+  create_table "ddt_articles" do |t|
     t.string   "title"
     t.text     "description",  limit: 16777215
     t.string   "pic_url"
@@ -296,9 +296,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.integer  "shop_id"
   end
 
-  add_index "ddt_articles", ["owner_type", "owner_id"], name: "index_ddt_articles_on_owner_type_and_owner_id", length: {"owner_type"=>191, "owner_id"=>nil}
+  add_index "ddt_articles", ["owner_type", "owner_id"], name: "index_ddt_articles_on_owner_type_and_owner_id"
 
-  create_table "ddt_assets", force: true do |t|
+  create_table "ddt_assets" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "viewable_id"
@@ -314,9 +314,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_assets", ["branch_id"], name: "index_ddt_assets_on_branch_id"
   add_index "ddt_assets", ["shop_id"], name: "index_ddt_assets_on_shop_id"
-  add_index "ddt_assets", ["type", "viewable_type"], name: "index_ddt_assets_on_type_and_viewable_type", length: {"type"=>191, "viewable_type"=>191}
+  add_index "ddt_assets", ["type", "viewable_type"], name: "index_ddt_assets_on_type_and_viewable_type"
 
-  create_table "ddt_auto_update_configs", force: true do |t|
+  create_table "ddt_auto_update_configs" do |t|
     t.integer "shop_id"
     t.integer "branch_id"
     t.integer "owner_id"
@@ -325,10 +325,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_auto_update_configs", ["branch_id"], name: "index_ddt_auto_update_configs_on_branch_id"
-  add_index "ddt_auto_update_configs", ["owner_id", "owner_type"], name: "index_ddt_auto_update_configs_on_owner_id_and_owner_type", length: {"owner_id"=>nil, "owner_type"=>191}
+  add_index "ddt_auto_update_configs", ["owner_id", "owner_type"], name: "index_ddt_auto_update_configs_on_owner_id_and_owner_type"
   add_index "ddt_auto_update_configs", ["shop_id"], name: "index_ddt_auto_update_configs_on_shop_id"
 
-  create_table "ddt_base_coupons", force: true do |t|
+  create_table "ddt_base_coupons" do |t|
     t.integer  "base_user_id"
     t.integer  "shop_id"
     t.string   "coupon_no"
@@ -349,11 +349,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_base_coupons", ["applied_to_order_id"], name: "index_ddt_base_coupons_on_applied_to_order_id"
   add_index "ddt_base_coupons", ["base_user_id"], name: "index_ddt_base_coupons_on_base_user_id"
   add_index "ddt_base_coupons", ["bought_from_order_id"], name: "index_ddt_base_coupons_on_bought_from_order_id"
-  add_index "ddt_base_coupons", ["id", "type"], name: "index_ddt_base_coupons_on_id_and_type", length: {"id"=>nil, "type"=>191}
+  add_index "ddt_base_coupons", ["id", "type"], name: "index_ddt_base_coupons_on_id_and_type"
   add_index "ddt_base_coupons", ["shop_id"], name: "index_ddt_base_coupons_on_shop_id"
-  add_index "ddt_base_coupons", ["source_id", "source_type"], name: "index_ddt_base_coupons_on_source_id_and_source_type", length: {"source_id"=>nil, "source_type"=>191}
+  add_index "ddt_base_coupons", ["source_id", "source_type"], name: "index_ddt_base_coupons_on_source_id_and_source_type"
 
-  create_table "ddt_base_qr_code_scenes", force: true do |t|
+  create_table "ddt_base_qr_code_scenes" do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "name"
@@ -370,11 +370,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.integer  "qrcode_scaners_count",                  default: 0
   end
 
-  add_index "ddt_base_qr_code_scenes", ["owner_id", "owner_type"], name: "index_ddt_base_qr_code_scenes_on_owner_id_and_owner_type", length: {"owner_id"=>nil, "owner_type"=>191}
+  add_index "ddt_base_qr_code_scenes", ["owner_id", "owner_type"], name: "index_ddt_base_qr_code_scenes_on_owner_id_and_owner_type"
   add_index "ddt_base_qr_code_scenes", ["scene_id"], name: "index_ddt_base_qr_code_scenes_on_scene_id"
   add_index "ddt_base_qr_code_scenes", ["shop_id"], name: "index_ddt_base_qr_code_scenes_on_shop_id"
 
-  create_table "ddt_base_users", force: true do |t|
+  create_table "ddt_base_users" do |t|
     t.string   "phone"
     t.integer  "placed_orders_count",                                   default: 0
     t.boolean  "is_blocked",                                            default: false
@@ -422,7 +422,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_base_users", ["unlock_token"], name: "index_ddt_base_users_on_unlock_token", :length => {"unlock_token" => 191}, unique: true
   add_index "ddt_base_users", ["vip_info_id"], name: "index_ddt_base_users_on_vip_info_id"
 
-  create_table "ddt_branch_sliders", force: true do |t|
+  create_table "ddt_branch_sliders" do |t|
     t.integer  "shop_id"
     t.text     "description"
     t.string   "img"
@@ -434,7 +434,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_branch_sliders", ["shop_id"], name: "index_ddt_branch_sliders_on_shop_id"
 
-  create_table "ddt_branch_types", force: true do |t|
+  create_table "ddt_branch_types" do |t|
     t.string   "name"
     t.integer  "branches_count",         default: 0
     t.integer  "shop_id"
@@ -464,7 +464,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_branch_types", ["shop_id"], name: "index_ddt_branch_types_on_shop_id"
 
-  create_table "ddt_branches", force: true do |t|
+  create_table "ddt_branches" do |t|
     t.integer  "shop_id"
     t.string   "name",                    limit: 191
     t.string   "image"
@@ -507,7 +507,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_branches", ["branch_type_id"], name: "index_ddt_branches_on_branch_type_id"
   add_index "ddt_branches", ["shop_id"], name: "index_ddt_branches_on_shop_id"
 
-  create_table "ddt_branches_zones", force: true do |t|
+  create_table "ddt_branches_zones" do |t|
     t.integer "branch_id"
     t.integer "zone_id"
   end
@@ -515,7 +515,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_branches_zones", ["branch_id"], name: "index_ddt_branches_zones_on_branch_id"
   add_index "ddt_branches_zones", ["zone_id"], name: "index_ddt_branches_zones_on_zone_id"
 
-  create_table "ddt_calculators", force: true do |t|
+  create_table "ddt_calculators" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "type"
@@ -531,7 +531,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_calculators", ["id", "type"], name: "index_ddt_calculators_on_id_and_type"
   add_index "ddt_calculators", ["shop_id"], name: "index_ddt_calculators_on_shop_id"
 
-  create_table "ddt_categories", force: true do |t|
+  create_table "ddt_categories" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name"
@@ -547,7 +547,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_categories", ["branch_id"], name: "index_ddt_categories_on_branch_id"
   add_index "ddt_categories", ["shop_id"], name: "index_ddt_categories_on_shop_id"
 
-  create_table "ddt_categories_products", id: false, force: true do |t|
+  create_table "ddt_categories_products", id: false do |t|
     t.integer "product_id"
     t.integer "category_id"
   end
@@ -555,7 +555,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_categories_products", ["category_id"], name: "index_ddt_categories_products_on_category_id"
   add_index "ddt_categories_products", ["product_id"], name: "index_ddt_categories_products_on_product_id"
 
-  create_table "ddt_censor_reports", force: true do |t|
+  create_table "ddt_censor_reports" do |t|
     t.integer  "shop_id"
     t.string   "title"
     t.text     "desc"
@@ -570,7 +570,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_censor_reports", ["created_at"], name: "index_ddt_censor_reports_on_created_at"
   add_index "ddt_censor_reports", ["shop_id"], name: "index_ddt_censor_reports_on_shop_id"
 
-  create_table "ddt_change_table_records", force: true do |t|
+  create_table "ddt_change_table_records" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "from_table_id"
@@ -584,12 +584,12 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_change_table_records", ["branch_id"], name: "index_ddt_change_table_records_on_branch_id"
   add_index "ddt_change_table_records", ["from_table_id"], name: "index_ddt_change_table_records_on_from_table_id"
-  add_index "ddt_change_table_records", ["operator_type", "operator_id"], name: "index_change_table_records_on_operator", length: {"operator_type"=>191, "operator_id"=>nil}
+  add_index "ddt_change_table_records", ["operator_type", "operator_id"], name: "index_change_table_records_on_operator"
   add_index "ddt_change_table_records", ["order_id"], name: "index_ddt_change_table_records_on_order_id"
   add_index "ddt_change_table_records", ["shop_id"], name: "index_ddt_change_table_records_on_shop_id"
   add_index "ddt_change_table_records", ["to_table_id"], name: "index_ddt_change_table_records_on_to_table_id"
 
-  create_table "ddt_combo_items", force: true do |t|
+  create_table "ddt_combo_items" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "combo_id"
@@ -605,7 +605,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_combo_items", ["combo_id"], name: "index_ddt_combo_items_on_combo_id"
   add_index "ddt_combo_items", ["shop_id"], name: "index_ddt_combo_items_on_shop_id"
 
-  create_table "ddt_combo_items_variants", force: true do |t|
+  create_table "ddt_combo_items_variants" do |t|
     t.integer "combo_item_id"
     t.integer "variant_id"
   end
@@ -613,7 +613,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_combo_items_variants", ["combo_item_id"], name: "index_ddt_combo_items_variants_on_combo_item_id"
   add_index "ddt_combo_items_variants", ["variant_id"], name: "index_ddt_combo_items_variants_on_variant_id"
 
-  create_table "ddt_combo_package_items", force: true do |t|
+  create_table "ddt_combo_package_items" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "combo_package_id"
@@ -630,7 +630,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_combo_package_items", ["shop_id"], name: "index_ddt_combo_package_items_on_shop_id"
   add_index "ddt_combo_package_items", ["variant_id"], name: "index_ddt_combo_package_items_on_variant_id"
 
-  create_table "ddt_combo_packages", force: true do |t|
+  create_table "ddt_combo_packages" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -644,7 +644,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_combo_packages", ["order_id"], name: "index_ddt_combo_packages_on_order_id"
   add_index "ddt_combo_packages", ["shop_id"], name: "index_ddt_combo_packages_on_shop_id"
 
-  create_table "ddt_combos", force: true do |t|
+  create_table "ddt_combos" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name"
@@ -678,7 +678,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_combos", ["branch_id"], name: "index_ddt_combos_on_branch_id"
   add_index "ddt_combos", ["shop_id"], name: "index_ddt_combos_on_shop_id"
 
-  create_table "ddt_combos_promotion_rules", id: false, force: true do |t|
+  create_table "ddt_combos_promotion_rules", id: false do |t|
     t.integer "combo_id"
     t.integer "promotion_rule_id"
   end
@@ -686,7 +686,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_combos_promotion_rules", ["combo_id"], name: "index_ddt_combos_promotion_rules_on_combo_id"
   add_index "ddt_combos_promotion_rules", ["promotion_rule_id"], name: "index_ddt_combos_promotion_rules_on_promotion_rule_id"
 
-  create_table "ddt_comments", force: true do |t|
+  create_table "ddt_comments" do |t|
     t.string   "commentable_type"
     t.integer  "commentable_id"
     t.string   "content"
@@ -704,7 +704,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_comments", ["branch_id"], name: "index_ddt_comments_on_branch_id"
   add_index "ddt_comments", ["shop_id"], name: "index_ddt_comments_on_shop_id"
 
-  create_table "ddt_coupon_photos", force: true do |t|
+  create_table "ddt_coupon_photos" do |t|
     t.string   "image"
     t.integer  "size"
     t.integer  "shop_id"
@@ -716,14 +716,14 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_coupon_photos", ["shop_id"], name: "index_ddt_coupon_photos_on_shop_id"
 
-  create_table "ddt_coupon_usage_instructions", force: true do |t|
+  create_table "ddt_coupon_usage_instructions" do |t|
     t.integer  "abstract_coupon_version_id"
     t.string   "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ddt_custom_weixin_infos", force: true do |t|
+  create_table "ddt_custom_weixin_infos" do |t|
     t.integer  "shop_id"
     t.text     "preferences"
     t.datetime "created_at"
@@ -735,7 +735,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_custom_weixin_infos", ["shop_id"], name: "index_ddt_custom_weixin_infos_on_shop_id"
 
-  create_table "ddt_d_files", force: true do |t|
+  create_table "ddt_d_files" do |t|
     t.string   "file_name"
     t.string   "file_path"
     t.integer  "owner_id"
@@ -744,7 +744,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "updated_at"
   end
 
-  create_table "ddt_deductions", force: true do |t|
+  create_table "ddt_deductions" do |t|
     t.integer  "shop_id"
     t.integer  "order_id"
     t.integer  "wallet_id"
@@ -760,7 +760,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_deductions", ["shop_id"], name: "index_ddt_deductions_on_shop_id"
   add_index "ddt_deductions", ["wallet_id"], name: "index_ddt_deductions_on_wallet_id"
 
-  create_table "ddt_delivery_fee_settings", force: true do |t|
+  create_table "ddt_delivery_fee_settings" do |t|
     t.string   "charge_by",                             default: "zone"
     t.decimal  "per_unit_cost", precision: 8, scale: 2, default: 0.0
     t.integer  "unit",                                  default: 1
@@ -773,7 +773,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_delivery_fee_settings", ["branch_id"], name: "index_ddt_delivery_fee_settings_on_branch_id"
   add_index "ddt_delivery_fee_settings", ["shop_id"], name: "index_ddt_delivery_fee_settings_on_shop_id"
 
-  create_table "ddt_delivery_modules", force: true do |t|
+  create_table "ddt_delivery_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable"
@@ -783,7 +783,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_delivery_modules", ["shop_id"], name: "index_ddt_delivery_modules_on_shop_id"
 
-  create_table "ddt_delivery_ranges", force: true do |t|
+  create_table "ddt_delivery_ranges" do |t|
     t.integer  "start_at"
     t.integer  "end_at"
     t.decimal  "cost",       precision: 8, scale: 2, default: 0.0
@@ -796,7 +796,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_delivery_ranges", ["branch_id"], name: "index_ddt_delivery_ranges_on_branch_id"
   add_index "ddt_delivery_ranges", ["shop_id"], name: "index_ddt_delivery_ranges_on_shop_id"
 
-  create_table "ddt_delivery_settings", force: true do |t|
+  create_table "ddt_delivery_settings" do |t|
     t.integer  "branch_id"
     t.decimal  "support_delivery_if_amount_gt",           precision: 8, scale: 2, default: 10.0
     t.decimal  "charge_delivery_fee_if_amount_lt",        precision: 8, scale: 2, default: 100.0
@@ -815,7 +815,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_delivery_settings", ["branch_id"], name: "index_ddt_delivery_settings_on_branch_id"
 
-  create_table "ddt_delivery_times", force: true do |t|
+  create_table "ddt_delivery_times" do |t|
     t.time     "start_time"
     t.time     "end_time"
     t.integer  "position"
@@ -828,7 +828,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_delivery_times", ["delivery_setting_id"], name: "index_ddt_delivery_times_on_delivery_setting_id"
 
-  create_table "ddt_delivery_zones", force: true do |t|
+  create_table "ddt_delivery_zones" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.decimal  "cost",       precision: 8, scale: 2, default: 0.0
@@ -841,7 +841,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_delivery_zones", ["branch_id"], name: "index_ddt_delivery_zones_on_branch_id"
   add_index "ddt_delivery_zones", ["shop_id"], name: "index_ddt_delivery_zones_on_shop_id"
 
-  create_table "ddt_diancaibao_modules", force: true do |t|
+  create_table "ddt_diancaibao_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable",     default: true
@@ -851,7 +851,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_diancaibao_modules", ["shop_id"], name: "index_ddt_diancaibao_modules_on_shop_id"
 
-  create_table "ddt_eat_in_hall_modules", force: true do |t|
+  create_table "ddt_eat_in_hall_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable"
@@ -861,7 +861,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_eat_in_hall_modules", ["shop_id"], name: "index_ddt_eat_in_hall_modules_on_shop_id"
 
-  create_table "ddt_eat_in_hall_settings", force: true do |t|
+  create_table "ddt_eat_in_hall_settings" do |t|
     t.integer  "branch_id"
     t.integer  "shop_id"
     t.datetime "created_at"
@@ -871,7 +871,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_eat_in_hall_settings", ["branch_id"], name: "index_ddt_eat_in_hall_settings_on_branch_id"
   add_index "ddt_eat_in_hall_settings", ["shop_id"], name: "index_ddt_eat_in_hall_settings_on_shop_id"
 
-  create_table "ddt_email_settings", force: true do |t|
+  create_table "ddt_email_settings" do |t|
     t.integer  "shop_id"
     t.string   "address",    default: "smtp.qq.com"
     t.string   "user_name"
@@ -882,7 +882,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_email_settings", ["shop_id"], name: "index_ddt_email_settings_on_shop_id"
 
-  create_table "ddt_events", force: true do |t|
+  create_table "ddt_events" do |t|
     t.string   "event_type"
     t.string   "event_key"
     t.boolean  "is_system_keyword"
@@ -893,12 +893,12 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "updated_at"
   end
 
-  add_index "ddt_events", ["event_key"], name: "index ddt_events on event_key", length: {"event_key"=>191}
-  add_index "ddt_events", ["event_type"], name: "index ddt_events on event_type", length: {"event_type"=>191}
+  add_index "ddt_events", ["event_key"], name: "index ddt_events on event_key"
+  add_index "ddt_events", ["event_type"], name: "index ddt_events on event_type"
   add_index "ddt_events", ["material_id"], name: "index_ddt_events_on_material_id"
   add_index "ddt_events", ["shop_id"], name: "index_ddt_events_on_shop_id"
 
-  create_table "ddt_exchange_codes", force: true do |t|
+  create_table "ddt_exchange_codes" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "exchangeable_id"
@@ -911,10 +911,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_exchange_codes", ["branch_id"], name: "index_ddt_exchange_codes_on_branch_id"
-  add_index "ddt_exchange_codes", ["exchangeable_id", "exchangeable_type"], name: "index_exchange_codes_on_exchangeable", length: {"exchangeable_id"=>nil, "exchangeable_type"=>191}
+  add_index "ddt_exchange_codes", ["exchangeable_id", "exchangeable_type"], name: "index_exchange_codes_on_exchangeable"
   add_index "ddt_exchange_codes", ["shop_id"], name: "index_ddt_exchange_codes_on_shop_id"
 
-  create_table "ddt_form_contents", force: true do |t|
+  create_table "ddt_form_contents" do |t|
     t.integer  "form_element_id"
     t.integer  "order_id"
     t.string   "label"
@@ -927,7 +927,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_form_contents", ["form_element_id"], name: "index_ddt_form_contents_on_form_element_id"
   add_index "ddt_form_contents", ["order_id"], name: "index_ddt_form_contents_on_order_id"
 
-  create_table "ddt_form_elements", force: true do |t|
+  create_table "ddt_form_elements" do |t|
     t.string   "type"
     t.string   "statement"
     t.integer  "sequence"
@@ -948,7 +948,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_form_elements", ["form_element_id"], name: "index_ddt_form_elements_on_form_element_id"
   add_index "ddt_form_elements", ["shop_id"], name: "index_ddt_form_elements_on_shop_id"
 
-  create_table "ddt_groupon_line_items", force: true do |t|
+  create_table "ddt_groupon_line_items" do |t|
     t.integer  "groupon_version_id"
     t.string   "name"
     t.integer  "quantity"
@@ -963,7 +963,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_groupon_line_items", ["groupon_version_id"], name: "index_ddt_groupon_line_items_on_groupon_version_id"
   add_index "ddt_groupon_line_items", ["variant_id"], name: "index_ddt_groupon_line_items_on_variant_id"
 
-  create_table "ddt_groupon_modules", force: true do |t|
+  create_table "ddt_groupon_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable",     default: false
@@ -973,7 +973,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_groupon_modules", ["shop_id"], name: "index_ddt_groupon_modules_on_shop_id"
 
-  create_table "ddt_guest_queue_dequeued_events", force: true do |t|
+  create_table "ddt_guest_queue_dequeued_events" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "queue_setting_id"
@@ -987,7 +987,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_guest_queue_dequeued_events", ["shop_id"], name: "index_ddt_guest_queue_dequeued_events_on_shop_id"
   add_index "ddt_guest_queue_dequeued_events", ["source_guest_queue_id"], name: "guest_queue_dequeued_event_source_guest_id"
 
-  create_table "ddt_guest_queue_notifications", force: true do |t|
+  create_table "ddt_guest_queue_notifications" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "queue_setting_id"
@@ -1002,7 +1002,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_guest_queue_notifications", ["queue_setting_id"], name: "index_ddt_guest_queue_notifications_on_queue_setting_id"
   add_index "ddt_guest_queue_notifications", ["shop_id"], name: "index_ddt_guest_queue_notifications_on_shop_id"
 
-  create_table "ddt_guest_queues", force: true do |t|
+  create_table "ddt_guest_queues" do |t|
     t.string   "guest_no"
     t.integer  "branch_id"
     t.integer  "shop_id"
@@ -1023,7 +1023,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_guest_queues", ["queue_setting_id"], name: "index_ddt_guest_queues_on_queue_setting_id"
   add_index "ddt_guest_queues", ["shop_id"], name: "index_ddt_guest_queues_on_shop_id"
 
-  create_table "ddt_home_hot_links", force: true do |t|
+  create_table "ddt_home_hot_links" do |t|
     t.integer  "shop_id"
     t.integer  "custom_weixin_info_id"
     t.string   "label"
@@ -1040,7 +1040,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_home_hot_links", ["custom_weixin_info_id"], name: "index_ddt_home_hot_links_on_custom_weixin_info_id"
   add_index "ddt_home_hot_links", ["shop_id"], name: "index_ddt_home_hot_links_on_shop_id"
 
-  create_table "ddt_home_usable_links", force: true do |t|
+  create_table "ddt_home_usable_links" do |t|
     t.integer  "shop_id"
     t.integer  "custom_weixin_info_id"
     t.string   "title"
@@ -1055,7 +1055,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_home_usable_links", ["custom_weixin_info_id"], name: "index_ddt_home_usable_links_on_custom_weixin_info_id"
   add_index "ddt_home_usable_links", ["shop_id"], name: "index_ddt_home_usable_links_on_shop_id"
 
-  create_table "ddt_invitation_order_guests", force: true do |t|
+  create_table "ddt_invitation_order_guests" do |t|
     t.integer "order_id"
     t.integer "guest_id"
     t.boolean "agree",    default: true
@@ -1064,7 +1064,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_invitation_order_guests", ["guest_id"], name: "index_ddt_invitation_order_guests_on_guest_id"
   add_index "ddt_invitation_order_guests", ["order_id"], name: "index_ddt_invitation_order_guests_on_order_id"
 
-  create_table "ddt_invoices", force: true do |t|
+  create_table "ddt_invoices" do |t|
     t.integer  "order_id"
     t.string   "invoice_type"
     t.string   "payer",        default: "personal"
@@ -1075,13 +1075,13 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_invoices", ["order_id"], name: "index_ddt_invoices_on_order_id"
 
-  create_table "ddt_jokes", force: true do |t|
+  create_table "ddt_jokes" do |t|
     t.text     "content"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ddt_js_error_counts", force: true do |t|
+  create_table "ddt_js_error_counts" do |t|
     t.string   "ip"
     t.integer  "js_error_id"
     t.integer  "count",       default: 0
@@ -1092,7 +1092,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_js_error_counts", ["count"], name: "index_ddt_js_error_counts_on_count"
   add_index "ddt_js_error_counts", ["js_error_id"], name: "index_ddt_js_error_counts_on_js_error_id"
 
-  create_table "ddt_js_errors", force: true do |t|
+  create_table "ddt_js_errors" do |t|
     t.string   "url"
     t.string   "agent"
     t.text     "error_message", limit: 16777215
@@ -1106,11 +1106,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_js_errors", ["count"], name: "index_ddt_js_errors_on_count"
   add_index "ddt_js_errors", ["created_at"], name: "index_ddt_js_errors_on_created_at"
-  add_index "ddt_js_errors", ["digest"], name: "index_ddt_js_errors_on_digest", length: {"digest"=>191}
+  add_index "ddt_js_errors", ["digest"], name: "index_ddt_js_errors_on_digest"
   add_index "ddt_js_errors", ["updated_at"], name: "index_ddt_js_errors_on_updated_at"
-  add_index "ddt_js_errors", ["url"], name: "index_ddt_js_errors_on_url", length: {"url"=>191}
+  add_index "ddt_js_errors", ["url"], name: "index_ddt_js_errors_on_url"
 
-  create_table "ddt_last_import_product_errors", force: true do |t|
+  create_table "ddt_last_import_product_errors" do |t|
     t.text     "error_csv"
     t.integer  "branch_id"
     t.datetime "created_at"
@@ -1119,7 +1119,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_last_import_product_errors", ["branch_id"], name: "index_ddt_last_import_product_errors_on_branch_id"
 
-  create_table "ddt_line_item_trace_points", force: true do |t|
+  create_table "ddt_line_item_trace_points" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -1134,13 +1134,13 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_line_item_trace_points", ["branch_id"], name: "index_ddt_line_item_trace_points_on_branch_id"
-  add_index "ddt_line_item_trace_points", ["itemable_type", "itemable_id"], name: "index_line_item_trace_points_on_itemable", length: {"itemable_type"=>191, "itemable_id"=>nil}
+  add_index "ddt_line_item_trace_points", ["itemable_type", "itemable_id"], name: "index_line_item_trace_points_on_itemable"
   add_index "ddt_line_item_trace_points", ["line_item_id"], name: "index_ddt_line_item_trace_points_on_line_item_id"
   add_index "ddt_line_item_trace_points", ["order_change_log_id"], name: "index_ddt_line_item_trace_points_on_order_change_log_id"
   add_index "ddt_line_item_trace_points", ["order_id"], name: "index_ddt_line_item_trace_points_on_order_id"
   add_index "ddt_line_item_trace_points", ["shop_id"], name: "index_ddt_line_item_trace_points_on_shop_id"
 
-  create_table "ddt_line_items", force: true do |t|
+  create_table "ddt_line_items" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -1155,11 +1155,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_line_items", ["branch_id"], name: "index_ddt_line_items_on_branch_id"
-  add_index "ddt_line_items", ["itemable_type", "itemable_id"], name: "index_ddt_line_items_on_itemable_type_and_itemable_id", length: {"itemable_type"=>191, "itemable_id"=>nil}
+  add_index "ddt_line_items", ["itemable_type", "itemable_id"], name: "index_ddt_line_items_on_itemable_type_and_itemable_id"
   add_index "ddt_line_items", ["order_id"], name: "index_ddt_line_items_on_order_id"
   add_index "ddt_line_items", ["shop_id"], name: "index_ddt_line_items_on_shop_id"
 
-  create_table "ddt_lisences", force: true do |t|
+  create_table "ddt_lisences" do |t|
     t.string   "lisence_no"
     t.decimal  "price",                           precision: 8, scale: 2
     t.boolean  "is_used"
@@ -1176,7 +1176,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_lisences", ["agent_id"], name: "index_ddt_lisences_on_agent_id"
   add_index "ddt_lisences", ["shop_id"], name: "index_ddt_lisences_on_shop_id"
 
-  create_table "ddt_locations", force: true do |t|
+  create_table "ddt_locations" do |t|
     t.integer  "owner_id"
     t.decimal  "longitude",  precision: 9, scale: 6
     t.decimal  "latitude",   precision: 9, scale: 6
@@ -1187,7 +1187,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_locations", ["owner_id"], name: "index_ddt_locations_on_owner_id"
 
-  create_table "ddt_manageships", force: true do |t|
+  create_table "ddt_manageships" do |t|
     t.integer  "account_id"
     t.integer  "branch_id"
     t.datetime "created_at"
@@ -1197,7 +1197,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_manageships", ["account_id"], name: "index_ddt_manageships_on_account_id"
   add_index "ddt_manageships", ["branch_id"], name: "index_ddt_manageships_on_branch_id"
 
-  create_table "ddt_materials", force: true do |t|
+  create_table "ddt_materials" do |t|
     t.string   "msg_type"
     t.string   "material_name"
     t.text     "content",       limit: 16777215
@@ -1212,7 +1212,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_materials", ["shop_id"], name: "index_ddt_materials_on_shop_id"
 
-  create_table "ddt_merchant_applies", force: true do |t|
+  create_table "ddt_merchant_applies" do |t|
     t.integer  "shop_id"
     t.integer  "user_id"
     t.string   "phone"
@@ -1225,7 +1225,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_merchant_applies", ["shop_id"], name: "index_ddt_merchant_applies_on_shop_id"
   add_index "ddt_merchant_applies", ["user_id"], name: "index_ddt_merchant_applies_on_user_id"
 
-  create_table "ddt_merge_table_records", force: true do |t|
+  create_table "ddt_merge_table_records" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "from_table_id"
@@ -1241,12 +1241,12 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_merge_table_records", ["branch_id"], name: "index_ddt_merge_table_records_on_branch_id"
   add_index "ddt_merge_table_records", ["from_order_id"], name: "index_ddt_merge_table_records_on_from_order_id"
   add_index "ddt_merge_table_records", ["from_table_id"], name: "index_ddt_merge_table_records_on_from_table_id"
-  add_index "ddt_merge_table_records", ["operator_type", "operator_id"], name: "index_merge_table_records_on_operator", length: {"operator_type"=>191, "operator_id"=>nil}
+  add_index "ddt_merge_table_records", ["operator_type", "operator_id"], name: "index_merge_table_records_on_operator"
   add_index "ddt_merge_table_records", ["shop_id"], name: "index_ddt_merge_table_records_on_shop_id"
   add_index "ddt_merge_table_records", ["to_order_id"], name: "index_ddt_merge_table_records_on_to_order_id"
   add_index "ddt_merge_table_records", ["to_table_id"], name: "index_ddt_merge_table_records_on_to_table_id"
 
-  create_table "ddt_message_receptions", force: true do |t|
+  create_table "ddt_message_receptions" do |t|
     t.integer  "shop_id"
     t.string   "msg_id"
     t.string   "msg_type"
@@ -1277,7 +1277,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_message_receptions", ["shop_id"], name: "index_ddt_message_receptions_on_shop_id"
 
-  create_table "ddt_message_response_items", force: true do |t|
+  create_table "ddt_message_response_items" do |t|
     t.integer  "shop_id"
     t.integer  "message_response_id"
     t.string   "title"
@@ -1291,7 +1291,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_message_response_items", ["message_response_id"], name: "index_ddt_message_response_items_on_message_response_id"
   add_index "ddt_message_response_items", ["shop_id"], name: "index_ddt_message_response_items_on_shop_id"
 
-  create_table "ddt_message_responses", force: true do |t|
+  create_table "ddt_message_responses" do |t|
     t.integer  "shop_id"
     t.integer  "message_reception_id"
     t.string   "msg_type"
@@ -1315,7 +1315,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_message_responses", ["message_reception_id"], name: "index_ddt_message_responses_on_message_reception_id"
   add_index "ddt_message_responses", ["shop_id"], name: "index_ddt_message_responses_on_shop_id"
 
-  create_table "ddt_notification_actions", force: true do |t|
+  create_table "ddt_notification_actions" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "notification_id"
@@ -1330,7 +1330,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_notification_actions", ["notification_id"], name: "index_ddt_notification_actions_on_notification_id"
   add_index "ddt_notification_actions", ["shop_id"], name: "index_ddt_notification_actions_on_shop_id"
 
-  create_table "ddt_notification_events", force: true do |t|
+  create_table "ddt_notification_events" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -1353,7 +1353,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_notification_events", ["branch_id"], name: "index_ddt_notification_events_on_branch_id"
   add_index "ddt_notification_events", ["change_table_record_id"], name: "index_ddt_notification_events_on_change_table_record_id"
   add_index "ddt_notification_events", ["guest_queue_id"], name: "index_ddt_notification_events_on_guest_queue_id"
-  add_index "ddt_notification_events", ["id", "type"], name: "index_ddt_notification_events_on_id_and_type", length: {"id"=>nil, "type"=>191}
+  add_index "ddt_notification_events", ["id", "type"], name: "index_ddt_notification_events_on_id_and_type"
   add_index "ddt_notification_events", ["merge_table_record_id"], name: "index_ddt_notification_events_on_merge_table_record_id"
   add_index "ddt_notification_events", ["order_change_log_id"], name: "index_ddt_notification_events_on_order_change_log_id"
   add_index "ddt_notification_events", ["order_id"], name: "index_ddt_notification_events_on_order_id"
@@ -1361,28 +1361,28 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_notification_events", ["shop_id"], name: "index_ddt_notification_events_on_shop_id"
   add_index "ddt_notification_events", ["table_id"], name: "index_ddt_notification_events_on_table_id"
 
-  create_table "ddt_notification_events_accounts", id: false, force: true do |t|
+  create_table "ddt_notification_events_accounts", id: false do |t|
     t.integer "notification_event_id"
     t.integer "account_id"
   end
 
   add_index "ddt_notification_events_accounts", ["notification_event_id", "account_id"], name: "index_for_notification_events_accounts"
 
-  create_table "ddt_notification_events_base_users", id: false, force: true do |t|
+  create_table "ddt_notification_events_base_users", id: false do |t|
     t.integer "notification_event_id"
     t.integer "base_user_id"
   end
 
   add_index "ddt_notification_events_base_users", ["notification_event_id", "base_user_id"], name: "index_for_notification_events_base_users"
 
-  create_table "ddt_notification_events_printers", id: false, force: true do |t|
+  create_table "ddt_notification_events_printers", id: false do |t|
     t.integer "notification_event_id"
     t.integer "printer_id"
   end
 
   add_index "ddt_notification_events_printers", ["notification_event_id", "printer_id"], name: "index_for_notification_events_printers"
 
-  create_table "ddt_notifications", force: true do |t|
+  create_table "ddt_notifications" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "notification_target_type"
@@ -1394,10 +1394,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_notifications", ["branch_id"], name: "index_ddt_notifications_on_branch_id"
   add_index "ddt_notifications", ["notification_event_id"], name: "index_ddt_notifications_on_notification_event_id"
-  add_index "ddt_notifications", ["notification_target_type", "notification_target_id"], name: "index_ddt_notifications_on_notification_target", length: {"notification_target_type"=>191, "notification_target_id"=>nil}
+  add_index "ddt_notifications", ["notification_target_type", "notification_target_id"], name: "index_ddt_notifications_on_notification_target"
   add_index "ddt_notifications", ["shop_id"], name: "index_ddt_notifications_on_shop_id"
 
-  create_table "ddt_one_pages", force: true do |t|
+  create_table "ddt_one_pages" do |t|
     t.integer  "shop_id"
     t.string   "image"
     t.string   "abstract"
@@ -1409,7 +1409,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_one_pages", ["shop_id"], name: "index_ddt_one_pages_on_shop_id"
 
-  create_table "ddt_option_types", force: true do |t|
+  create_table "ddt_option_types" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name"
@@ -1422,7 +1422,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_option_types", ["branch_id"], name: "index_ddt_option_types_on_branch_id"
   add_index "ddt_option_types", ["shop_id"], name: "index_ddt_option_types_on_shop_id"
 
-  create_table "ddt_option_values", force: true do |t|
+  create_table "ddt_option_values" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "option_type_id"
@@ -1437,7 +1437,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_option_values", ["option_type_id"], name: "index_ddt_option_values_on_option_type_id"
   add_index "ddt_option_values", ["shop_id"], name: "index_ddt_option_values_on_shop_id"
 
-  create_table "ddt_option_values_variants", id: false, force: true do |t|
+  create_table "ddt_option_values_variants", id: false do |t|
     t.integer "variant_id"
     t.integer "option_value_id"
   end
@@ -1445,7 +1445,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_option_values_variants", ["option_value_id"], name: "index_ddt_option_values_variants_on_option_value_id"
   add_index "ddt_option_values_variants", ["variant_id"], name: "index_ddt_option_values_variants_on_variant_id"
 
-  create_table "ddt_order_change_logs", force: true do |t|
+  create_table "ddt_order_change_logs" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -1458,11 +1458,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_order_change_logs", ["branch_id"], name: "index_ddt_order_change_logs_on_branch_id"
-  add_index "ddt_order_change_logs", ["operator_type", "operator_id"], name: "index_order_change_logs_on_operator", length: {"operator_type"=>191, "operator_id"=>nil}
+  add_index "ddt_order_change_logs", ["operator_type", "operator_id"], name: "index_order_change_logs_on_operator"
   add_index "ddt_order_change_logs", ["order_id"], name: "index_ddt_order_change_logs_on_order_id"
   add_index "ddt_order_change_logs", ["shop_id"], name: "index_ddt_order_change_logs_on_shop_id"
 
-  create_table "ddt_orders", force: true do |t|
+  create_table "ddt_orders" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "base_user_id"
@@ -1504,11 +1504,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_orders", ["number"], name: "index_ddt_orders_on_number", unique: true
   add_index "ddt_orders", ["shop_id"], name: "index_ddt_orders_on_shop_id"
   add_index "ddt_orders", ["table_id"], name: "index_ddt_orders_on_table_id"
-  add_index "ddt_orders", ["type", "id"], name: "index_ddt_orders_on_type_and_id", length: {"type"=>191, "id"=>nil}
+  add_index "ddt_orders", ["type", "id"], name: "index_ddt_orders_on_type_and_id"
   add_index "ddt_orders", ["vip_info_id"], name: "index_ddt_orders_on_vip_info_id"
   add_index "ddt_orders", ["waiter_id"], name: "index_ddt_orders_on_waiter_id"
 
-  create_table "ddt_pay_method_settings", force: true do |t|
+  create_table "ddt_pay_method_settings" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "type"
@@ -1527,7 +1527,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_pay_method_settings", ["branch_id"], name: "index_ddt_pay_method_settings_on_branch_id"
   add_index "ddt_pay_method_settings", ["shop_id"], name: "index_ddt_pay_method_settings_on_shop_id"
 
-  create_table "ddt_payment_methods", force: true do |t|
+  create_table "ddt_payment_methods" do |t|
     t.integer  "shop_id"
     t.string   "type"
     t.string   "name"
@@ -1540,7 +1540,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_payment_methods", ["shop_id"], name: "index_ddt_payment_methods_on_shop_id"
 
-  create_table "ddt_payments", force: true do |t|
+  create_table "ddt_payments" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -1559,14 +1559,14 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_payments", ["payment_method_id"], name: "index_ddt_payments_on_payment_method_id"
   add_index "ddt_payments", ["shop_id"], name: "index_ddt_payments_on_shop_id"
 
-  create_table "ddt_preferences", force: true do |t|
+  create_table "ddt_preferences" do |t|
     t.string   "key"
     t.text     "value",      limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ddt_print_records", force: true do |t|
+  create_table "ddt_print_records" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "printer_id"
@@ -1581,7 +1581,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_print_records", ["printer_id"], name: "index_ddt_print_records_on_printer_id"
   add_index "ddt_print_records", ["shop_id"], name: "index_ddt_print_records_on_shop_id"
 
-  create_table "ddt_print_settings", force: true do |t|
+  create_table "ddt_print_settings" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "page_header"
@@ -1595,7 +1595,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_print_settings", ["branch_id"], name: "index_ddt_print_settings_on_branch_id"
   add_index "ddt_print_settings", ["shop_id"], name: "index_ddt_print_settings_on_shop_id"
 
-  create_table "ddt_printers", force: true do |t|
+  create_table "ddt_printers" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "type"
@@ -1615,14 +1615,14 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_printers", ["branch_id"], name: "index_ddt_printers_on_branch_id"
   add_index "ddt_printers", ["shop_id"], name: "index_ddt_printers_on_shop_id"
 
-  create_table "ddt_printers_categories", id: false, force: true do |t|
+  create_table "ddt_printers_categories", id: false do |t|
     t.integer "printer_id"
     t.integer "category_id"
   end
 
   add_index "ddt_printers_categories", ["printer_id", "category_id"], name: "index_ddt_printers_categories"
 
-  create_table "ddt_printers_products", id: false, force: true do |t|
+  create_table "ddt_printers_products", id: false do |t|
     t.integer "printer_id"
     t.integer "product_id"
   end
@@ -1630,7 +1630,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_printers_products", ["printer_id"], name: "index_ddt_printers_products_on_printer_id"
   add_index "ddt_printers_products", ["product_id"], name: "index_ddt_printers_products_on_product_id"
 
-  create_table "ddt_product_option_types", force: true do |t|
+  create_table "ddt_product_option_types" do |t|
     t.integer "shop_id"
     t.integer "branch_id"
     t.integer "product_id"
@@ -1643,7 +1643,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_product_option_types", ["product_id"], name: "index_ddt_product_option_types_on_product_id"
   add_index "ddt_product_option_types", ["shop_id"], name: "index_ddt_product_option_types_on_shop_id"
 
-  create_table "ddt_products", force: true do |t|
+  create_table "ddt_products" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name",                limit: 191
@@ -1673,7 +1673,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_products", ["branch_id"], name: "index_ddt_products_on_branch_id"
   add_index "ddt_products", ["shop_id"], name: "index_ddt_products_on_shop_id"
 
-  create_table "ddt_products_tags", id: false, force: true do |t|
+  create_table "ddt_products_tags", id: false do |t|
     t.integer "product_id"
     t.integer "tag_id"
   end
@@ -1681,7 +1681,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_products_tags", ["product_id"], name: "add_index_ddt_products_tags_on_product_id"
   add_index "ddt_products_tags", ["tag_id"], name: "add_index_ddt_products_tags_on_tag_id"
 
-  create_table "ddt_promotion_actions", force: true do |t|
+  create_table "ddt_promotion_actions" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "promotion_id"
@@ -1694,11 +1694,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_promotion_actions", ["branch_id"], name: "index_ddt_promotion_actions_on_branch_id"
-  add_index "ddt_promotion_actions", ["id", "type"], name: "index_ddt_promotion_actions_on_id_and_type", length: {"id"=>nil, "type"=>191}
+  add_index "ddt_promotion_actions", ["id", "type"], name: "index_ddt_promotion_actions_on_id_and_type"
   add_index "ddt_promotion_actions", ["promotion_id"], name: "index_ddt_promotion_actions_on_promotion_id"
   add_index "ddt_promotion_actions", ["shop_id"], name: "index_ddt_promotion_actions_on_shop_id"
 
-  create_table "ddt_promotion_events", force: true do |t|
+  create_table "ddt_promotion_events" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "base_user_id"
@@ -1710,11 +1710,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_promotion_events", ["base_user_id"], name: "index_ddt_promotion_events_on_base_user_id"
   add_index "ddt_promotion_events", ["branch_id"], name: "index_ddt_promotion_events_on_branch_id"
-  add_index "ddt_promotion_events", ["id", "type"], name: "index_ddt_promotion_events_on_id_and_type", length: {"id"=>nil, "type"=>191}
+  add_index "ddt_promotion_events", ["id", "type"], name: "index_ddt_promotion_events_on_id_and_type"
   add_index "ddt_promotion_events", ["order_id"], name: "index_ddt_promotion_events_on_order_id"
   add_index "ddt_promotion_events", ["shop_id"], name: "index_ddt_promotion_events_on_shop_id"
 
-  create_table "ddt_promotion_rules", force: true do |t|
+  create_table "ddt_promotion_rules" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "promotion_id"
@@ -1725,11 +1725,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_promotion_rules", ["branch_id"], name: "index_ddt_promotion_rules_on_branch_id"
-  add_index "ddt_promotion_rules", ["id", "type"], name: "index_ddt_promotion_rules_on_id_and_type", length: {"id"=>nil, "type"=>191}
+  add_index "ddt_promotion_rules", ["id", "type"], name: "index_ddt_promotion_rules_on_id_and_type"
   add_index "ddt_promotion_rules", ["promotion_id"], name: "index_ddt_promotion_rules_on_promotion_id"
   add_index "ddt_promotion_rules", ["shop_id"], name: "index_ddt_promotion_rules_on_shop_id"
 
-  create_table "ddt_promotions", force: true do |t|
+  create_table "ddt_promotions" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name"
@@ -1749,10 +1749,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_promotions", ["branch_id"], name: "index_ddt_promotions_on_branch_id"
-  add_index "ddt_promotions", ["id", "type"], name: "index_ddt_promotions_on_id_and_type", length: {"id"=>nil, "type"=>191}
+  add_index "ddt_promotions", ["id", "type"], name: "index_ddt_promotions_on_id_and_type"
   add_index "ddt_promotions", ["shop_id"], name: "index_ddt_promotions_on_shop_id"
 
-  create_table "ddt_promotions_branches", id: false, force: true do |t|
+  create_table "ddt_promotions_branches", id: false do |t|
     t.integer "promotion_id"
     t.integer "branch_id"
   end
@@ -1760,7 +1760,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_promotions_branches", ["branch_id"], name: "index_ddt_promotions_branches_on_branch_id"
   add_index "ddt_promotions_branches", ["promotion_id"], name: "index_ddt_promotions_branches_on_promotion_id"
 
-  create_table "ddt_promotions_line_items", id: false, force: true do |t|
+  create_table "ddt_promotions_line_items", id: false do |t|
     t.integer "promotion_id"
     t.integer "line_item_id"
   end
@@ -1768,7 +1768,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_promotions_line_items", ["line_item_id"], name: "index_ddt_promotions_line_items_on_line_item_id"
   add_index "ddt_promotions_line_items", ["promotion_id"], name: "index_ddt_promotions_line_items_on_promotion_id"
 
-  create_table "ddt_promotions_orders", id: false, force: true do |t|
+  create_table "ddt_promotions_orders", id: false do |t|
     t.integer "promotion_id"
     t.integer "order_id"
   end
@@ -1776,7 +1776,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_promotions_orders", ["order_id"], name: "index_ddt_promotions_orders_on_order_id"
   add_index "ddt_promotions_orders", ["promotion_id"], name: "index_ddt_promotions_orders_on_promotion_id"
 
-  create_table "ddt_promotions_promotion_events", id: false, force: true do |t|
+  create_table "ddt_promotions_promotion_events", id: false do |t|
     t.integer "promotion_id"
     t.integer "promotion_event_id"
   end
@@ -1784,7 +1784,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_promotions_promotion_events", ["promotion_event_id"], name: "index_ddt_ppe_on_promotion_event"
   add_index "ddt_promotions_promotion_events", ["promotion_id"], name: "index_ddt_ppe_on_promotion"
 
-  create_table "ddt_qrcode_scan_relations", force: true do |t|
+  create_table "ddt_qrcode_scan_relations" do |t|
     t.integer  "base_qr_code_scene_id"
     t.integer  "scaner_id"
     t.string   "scaner_type"
@@ -1793,9 +1793,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_qrcode_scan_relations", ["base_qr_code_scene_id"], name: "index_ddt_qrcode_scan_relations_on_base_qr_code_scene_id"
-  add_index "ddt_qrcode_scan_relations", ["scaner_id", "scaner_type"], name: "index_scanner_of_qrcode_scan_relationship", length: {"scaner_id"=>nil, "scaner_type"=>191}
+  add_index "ddt_qrcode_scan_relations", ["scaner_id", "scaner_type"], name: "index_scanner_of_qrcode_scan_relationship"
 
-  create_table "ddt_queue_modules", force: true do |t|
+  create_table "ddt_queue_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable"
@@ -1805,7 +1805,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_queue_modules", ["shop_id"], name: "index_ddt_queue_modules_on_shop_id"
 
-  create_table "ddt_queue_settings", force: true do |t|
+  create_table "ddt_queue_settings" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name"
@@ -1827,7 +1827,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_queue_settings", ["current_queue_head_id"], name: "index_ddt_queue_settings_on_current_queue_head_id"
   add_index "ddt_queue_settings", ["shop_id"], name: "index_ddt_queue_settings_on_shop_id"
 
-  create_table "ddt_recharge_products", force: true do |t|
+  create_table "ddt_recharge_products" do |t|
     t.integer  "shop_id"
     t.string   "name"
     t.decimal  "price",           precision: 8, scale: 2, default: 100.0
@@ -1842,7 +1842,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_recharge_products", ["shop_id"], name: "index_ddt_recharge_products_on_shop_id"
 
-  create_table "ddt_reservation_infos", force: true do |t|
+  create_table "ddt_reservation_infos" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "reservation_order_id"
@@ -1865,7 +1865,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_reservation_infos", ["table_id"], name: "index_ddt_reservation_infos_on_table_id"
   add_index "ddt_reservation_infos", ["table_zone_id"], name: "index_ddt_reservation_infos_on_table_zone_id"
 
-  create_table "ddt_reservation_modules", force: true do |t|
+  create_table "ddt_reservation_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable"
@@ -1875,7 +1875,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_reservation_modules", ["shop_id"], name: "index_ddt_reservation_modules_on_shop_id"
 
-  create_table "ddt_reservation_settings", force: true do |t|
+  create_table "ddt_reservation_settings" do |t|
     t.decimal  "average_consumption",  precision: 8, scale: 2, default: 30.0
     t.integer  "shop_id"
     t.integer  "branch_id"
@@ -1888,7 +1888,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_reservation_settings", ["branch_id"], name: "index_ddt_reservation_settings_on_branch_id"
   add_index "ddt_reservation_settings", ["shop_id"], name: "index_ddt_reservation_settings_on_shop_id"
 
-  create_table "ddt_reservation_time_points", force: true do |t|
+  create_table "ddt_reservation_time_points" do |t|
     t.time     "time_point"
     t.integer  "table_zone_id"
     t.integer  "branch_id"
@@ -1901,7 +1901,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_reservation_time_points", ["shop_id"], name: "index_ddt_reservation_time_points_on_shop_id"
   add_index "ddt_reservation_time_points", ["table_zone_id"], name: "index_ddt_reservation_time_points_on_table_zone_id"
 
-  create_table "ddt_roles", force: true do |t|
+  create_table "ddt_roles" do |t|
     t.string   "name"
     t.integer  "resource_id"
     t.string   "resource_type"
@@ -1913,11 +1913,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.boolean  "builtin",                        default: false
   end
 
-  add_index "ddt_roles", ["name", "resource_type", "resource_id"], name: "index_ddt_roles_on_name_and_resource_type_and_resource_id", length: {"name"=>191, "resource_type"=>191, "resource_id"=>nil}
-  add_index "ddt_roles", ["name"], name: "index_ddt_roles_on_name", length: {"name"=>191}
+  add_index "ddt_roles", ["name", "resource_type", "resource_id"], name: "index_ddt_roles_on_name_and_resource_type_and_resource_id"
+  add_index "ddt_roles", ["name"], name: "index_ddt_roles_on_name"
   add_index "ddt_roles", ["shop_id"], name: "index_ddt_roles_on_shop_id"
 
-  create_table "ddt_search_groups", force: true do |t|
+  create_table "ddt_search_groups" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.string   "name"
@@ -1930,7 +1930,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_search_groups", ["branch_id"], name: "index_ddt_search_groups_on_branch_id"
   add_index "ddt_search_groups", ["shop_id"], name: "index_ddt_search_groups_on_shop_id"
 
-  create_table "ddt_service_periods", force: true do |t|
+  create_table "ddt_service_periods" do |t|
     t.integer  "branch_id"
     t.integer  "shop_id"
     t.time     "start_at",   default: '2000-01-01 09:00:00'
@@ -1942,7 +1942,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_service_periods", ["branch_id"], name: "index_ddt_service_periods_on_branch_id"
   add_index "ddt_service_periods", ["shop_id"], name: "index_ddt_service_periods_on_shop_id"
 
-  create_table "ddt_service_product_orders", force: true do |t|
+  create_table "ddt_service_product_orders" do |t|
     t.string   "out_trade_no"
     t.string   "subject"
     t.string   "product_type"
@@ -1959,7 +1959,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_service_product_orders", ["service_product_id"], name: "index_on_service_product_id"
   add_index "ddt_service_product_orders", ["shop_id"], name: "index_ddt_service_product_orders_on_shop_id"
 
-  create_table "ddt_service_products", force: true do |t|
+  create_table "ddt_service_products" do |t|
     t.string   "subject"
     t.decimal  "price",       precision: 8, scale: 2
     t.text     "description"
@@ -1971,7 +1971,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.boolean  "is_offline",                          default: false
   end
 
-  create_table "ddt_sharable_coupons", force: true do |t|
+  create_table "ddt_sharable_coupons" do |t|
     t.integer  "shop_id"
     t.integer  "base_user_id"
     t.integer  "abstract_coupon_version_id"
@@ -1985,7 +1985,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_sharable_coupons", ["base_user_id"], name: "index_ddt_sharable_coupons_on_base_user_id"
   add_index "ddt_sharable_coupons", ["shop_id"], name: "index_ddt_sharable_coupons_on_shop_id"
 
-  create_table "ddt_shipments", force: true do |t|
+  create_table "ddt_shipments" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "order_id"
@@ -2016,7 +2016,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_shipments", ["order_id"], name: "index_ddt_shipments_on_order_id"
   add_index "ddt_shipments", ["shop_id"], name: "index_ddt_shipments_on_shop_id"
 
-  create_table "ddt_shop_recharge_records", force: true do |t|
+  create_table "ddt_shop_recharge_records" do |t|
     t.integer  "shop_id"
     t.decimal  "price",                           precision: 8, scale: 2
     t.string   "recharge_type"
@@ -2030,7 +2030,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_shop_recharge_records", ["shop_id"], name: "index_ddt_shop_recharge_records_on_shop_id"
 
-  create_table "ddt_shops", force: true do |t|
+  create_table "ddt_shops" do |t|
     t.string   "name"
     t.string   "slug"
     t.boolean  "is_open"
@@ -2082,7 +2082,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.boolean  "debug",                                                                         default: false
   end
 
-  create_table "ddt_short_message_settings", force: true do |t|
+  create_table "ddt_short_message_settings" do |t|
     t.integer  "shop_id"
     t.boolean  "use_sms"
     t.boolean  "use_validation_sms"
@@ -2095,7 +2095,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_short_message_settings", ["shop_id"], name: "index_ddt_short_message_settings_on_shop_id"
 
-  create_table "ddt_short_messages", force: true do |t|
+  create_table "ddt_short_messages" do |t|
     t.string   "to"
     t.text     "body"
     t.string   "message_number"
@@ -2113,10 +2113,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   end
 
   add_index "ddt_short_messages", ["branch_id"], name: "index_ddt_short_messages_on_branch_id"
-  add_index "ddt_short_messages", ["owner_id", "owner_type"], name: "index_ddt_short_messages_on_owner_id_and_owner_type", length: {"owner_id"=>nil, "owner_type"=>191}
+  add_index "ddt_short_messages", ["owner_id", "owner_type"], name: "index_ddt_short_messages_on_owner_id_and_owner_type"
   add_index "ddt_short_messages", ["shop_id"], name: "index_ddt_short_messages_on_shop_id"
 
-  create_table "ddt_sign_records", force: true do |t|
+  create_table "ddt_sign_records" do |t|
     t.integer  "shop_id"
     t.integer  "base_user_id"
     t.datetime "created_at"
@@ -2126,7 +2126,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_sign_records", ["base_user_id"], name: "index_ddt_sign_records_on_base_user_id"
   add_index "ddt_sign_records", ["shop_id"], name: "index_ddt_sign_records_on_shop_id"
 
-  create_table "ddt_state_changes", force: true do |t|
+  create_table "ddt_state_changes" do |t|
     t.string   "stateful_type"
     t.integer  "stateful_id"
     t.string   "state_name"
@@ -2138,10 +2138,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.integer  "operator_id"
   end
 
-  add_index "ddt_state_changes", ["operator_type", "operator_id"], name: "index_ddt_state_changes_on_operator_type_and_operator_id", length: {"operator_type"=>191, "operator_id"=>nil}
-  add_index "ddt_state_changes", ["stateful_type", "stateful_id"], name: "index_ddt_state_changes_on_stateful_type_and_stateful_id", length: {"stateful_type"=>191, "stateful_id"=>nil}
+  add_index "ddt_state_changes", ["operator_type", "operator_id"], name: "index_ddt_state_changes_on_operator_type_and_operator_id"
+  add_index "ddt_state_changes", ["stateful_type", "stateful_id"], name: "index_ddt_state_changes_on_stateful_type_and_stateful_id"
 
-  create_table "ddt_table_zones", force: true do |t|
+  create_table "ddt_table_zones" do |t|
     t.string   "name"
     t.integer  "tables_count_for_reservation",                         default: 0
     t.decimal  "min_reservation_price",        precision: 8, scale: 2, default: 0.0
@@ -2157,7 +2157,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_table_zones", ["branch_id"], name: "index_ddt_table_zones_on_branch_id"
   add_index "ddt_table_zones", ["shop_id"], name: "index_ddt_table_zones_on_shop_id"
 
-  create_table "ddt_tables", force: true do |t|
+  create_table "ddt_tables" do |t|
     t.string   "name"
     t.integer  "table_zone_id"
     t.integer  "current_order_id"
@@ -2175,7 +2175,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_tables", ["shop_id"], name: "index_ddt_tables_on_shop_id"
   add_index "ddt_tables", ["table_zone_id"], name: "index_ddt_tables_on_table_zone_id"
 
-  create_table "ddt_tags", force: true do |t|
+  create_table "ddt_tags" do |t|
     t.string   "name"
     t.integer  "count",      default: 0
     t.integer  "shop_id"
@@ -2186,10 +2186,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_tags", ["branch_id"], name: "index_ddt_tags_on_branch_id"
   add_index "ddt_tags", ["count"], name: "add_index_ddt_tags_on_count"
-  add_index "ddt_tags", ["name"], name: "add_index_ddt_tags_on_name", length: {"name"=>191}
+  add_index "ddt_tags", ["name"], name: "add_index_ddt_tags_on_name"
   add_index "ddt_tags", ["shop_id"], name: "index_ddt_tags_on_shop_id"
 
-  create_table "ddt_targets", force: true do |t|
+  create_table "ddt_targets" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "targetable_id"
@@ -2200,9 +2200,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_targets", ["branch_id"], name: "index_ddt_targets_on_branch_id"
   add_index "ddt_targets", ["shop_id"], name: "index_ddt_targets_on_shop_id"
-  add_index "ddt_targets", ["targetable_id", "targetable_type"], name: "index_ddt_targets_on_targetable_id_and_targetable_type", length: {"targetable_id"=>nil, "targetable_type"=>191}
+  add_index "ddt_targets", ["targetable_id", "targetable_type"], name: "index_ddt_targets_on_targetable_id_and_targetable_type"
 
-  create_table "ddt_targets_customs", force: true do |t|
+  create_table "ddt_targets_customs" do |t|
     t.integer  "key"
     t.string   "target_ids"
     t.integer  "shop_id"
@@ -2215,7 +2215,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_targets_customs", ["key"], name: "idx_key"
   add_index "ddt_targets_customs", ["shop_id"], name: "index_ddt_targets_customs_on_shop_id"
 
-  create_table "ddt_unique_users", force: true do |t|
+  create_table "ddt_unique_users" do |t|
     t.string   "gonghao_open_id"
     t.string   "user_open_id",    limit: 191
     t.string   "nickname",        limit: 191
@@ -2233,7 +2233,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_unique_users", ["user_open_id"], name: "user_open_id_index", :length => {"user_open_id" => 191}, unique: true
 
-  create_table "ddt_users_branches_favoriteship", force: true do |t|
+  create_table "ddt_users_branches_favoriteship" do |t|
     t.integer "base_user_id"
     t.integer "branch_id"
   end
@@ -2242,7 +2242,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_users_branches_favoriteship", ["base_user_id"], name: "index_ddt_users_branches_favoriteship_on_base_user_id"
   add_index "ddt_users_branches_favoriteship", ["branch_id"], name: "index_ddt_users_branches_favoriteship_on_branch_id"
 
-  create_table "ddt_validation_codes", force: true do |t|
+  create_table "ddt_validation_codes" do |t|
     t.integer  "owner_id"
     t.string   "owner_type"
     t.string   "code"
@@ -2250,9 +2250,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "updated_at"
   end
 
-  add_index "ddt_validation_codes", ["owner_id", "owner_type"], name: "index_ddt_validation_codes_on_owner_id_and_owner_type", length: {"owner_id"=>nil, "owner_type"=>191}
+  add_index "ddt_validation_codes", ["owner_id", "owner_type"], name: "index_ddt_validation_codes_on_owner_id_and_owner_type"
 
-  create_table "ddt_variants", force: true do |t|
+  create_table "ddt_variants" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "product_id"
@@ -2276,7 +2276,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_variants", ["product_id"], name: "index_ddt_variants_on_product_id"
   add_index "ddt_variants", ["shop_id"], name: "index_ddt_variants_on_shop_id"
 
-  create_table "ddt_variants_promotion_rules", id: false, force: true do |t|
+  create_table "ddt_variants_promotion_rules", id: false do |t|
     t.integer "variant_id"
     t.integer "promotion_rule_id"
   end
@@ -2284,7 +2284,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_variants_promotion_rules", ["promotion_rule_id"], name: "index_ddt_variants_promotion_rules_on_promotion_rule_id"
   add_index "ddt_variants_promotion_rules", ["variant_id"], name: "index_ddt_variants_promotion_rules_on_variant_id"
 
-  create_table "ddt_vip_infos", force: true do |t|
+  create_table "ddt_vip_infos" do |t|
     t.string   "phone"
     t.string   "name"
     t.integer  "vip_level_id"
@@ -2309,7 +2309,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_vip_infos", ["shop_id"], name: "index_ddt_vip_infos_on_shop_id"
   add_index "ddt_vip_infos", ["vip_level_id"], name: "index_ddt_vip_infos_on_vip_level_id"
 
-  create_table "ddt_vip_levels", force: true do |t|
+  create_table "ddt_vip_levels" do |t|
     t.integer  "shop_id"
     t.string   "name"
     t.decimal  "discount",               precision: 8, scale: 2, default: 1.0
@@ -2326,7 +2326,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_vip_levels", ["shop_id"], name: "index_ddt_vip_levels_on_shop_id"
 
-  create_table "ddt_waiter_service_items", force: true do |t|
+  create_table "ddt_waiter_service_items" do |t|
     t.integer "shop_id"
     t.integer "branch_id"
     t.string  "name"
@@ -2335,7 +2335,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_waiter_service_items", ["branch_id"], name: "index_ddt_waiter_service_items_on_branch_id"
   add_index "ddt_waiter_service_items", ["shop_id"], name: "index_ddt_waiter_service_items_on_shop_id"
 
-  create_table "ddt_wallet_logs", force: true do |t|
+  create_table "ddt_wallet_logs" do |t|
     t.integer  "shop_id"
     t.integer  "branch_id"
     t.integer  "wallet_id"
@@ -2355,7 +2355,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_wallet_logs", ["shop_id"], name: "index_ddt_wallet_logs_on_shop_id"
   add_index "ddt_wallet_logs", ["wallet_id"], name: "index_ddt_wallet_logs_on_wallet_id"
 
-  create_table "ddt_wallets", force: true do |t|
+  create_table "ddt_wallets" do |t|
     t.integer  "shop_id"
     t.string   "type"
     t.string   "owner_type"
@@ -2372,11 +2372,11 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "deleted_at"
   end
 
-  add_index "ddt_wallets", ["id", "type"], name: "index_ddt_wallets_on_id_and_type", length: {"id"=>nil, "type"=>191}
-  add_index "ddt_wallets", ["owner_id", "owner_type"], name: "index_ddt_wallets_on_owner_id_and_owner_type", length: {"owner_id"=>nil, "owner_type"=>191}
+  add_index "ddt_wallets", ["id", "type"], name: "index_ddt_wallets_on_id_and_type"
+  add_index "ddt_wallets", ["owner_id", "owner_type"], name: "index_ddt_wallets_on_owner_id_and_owner_type"
   add_index "ddt_wallets", ["shop_id"], name: "index_ddt_wallets_on_shop_id"
 
-  create_table "ddt_web_modules", force: true do |t|
+  create_table "ddt_web_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable"
@@ -2395,10 +2395,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.text     "description"
   end
 
-  add_index "ddt_web_modules", ["custom_domain_url"], name: "index_ddt_web_modules_on_custom_domain_url", length: {"custom_domain_url"=>191}
+  add_index "ddt_web_modules", ["custom_domain_url"], name: "index_ddt_web_modules_on_custom_domain_url"
   add_index "ddt_web_modules", ["shop_id"], name: "index_ddt_web_modules_on_shop_id"
 
-  create_table "ddt_wechat_accounts", force: true do |t|
+  create_table "ddt_wechat_accounts" do |t|
     t.string   "token"
     t.string   "app_id"
     t.string   "app_secret"
@@ -2438,10 +2438,10 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.string   "qrcode_url"
   end
 
-  add_index "ddt_wechat_accounts", ["gonghao_open_id"], name: "index_ddt_wechat_accounts_on_gonghao_open_id", length: {"gonghao_open_id"=>191}
+  add_index "ddt_wechat_accounts", ["gonghao_open_id"], name: "index_ddt_wechat_accounts_on_gonghao_open_id"
   add_index "ddt_wechat_accounts", ["shop_id"], name: "index_ddt_wechat_accounts_on_shop_id"
 
-  create_table "ddt_wechat_menus", force: true do |t|
+  create_table "ddt_wechat_menus" do |t|
     t.string   "name"
     t.string   "menu_type"
     t.string   "event_type"
@@ -2461,7 +2461,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_wechat_menus", ["shop_id"], name: "index_ddt_wechat_menus_on_shop_id"
   add_index "ddt_wechat_menus", ["wechat_account_id"], name: "index_ddt_wechat_menus_on_wechat_account_id"
 
-  create_table "ddt_wechat_modules", force: true do |t|
+  create_table "ddt_wechat_modules" do |t|
     t.integer  "shop_id"
     t.datetime "expired_at"
     t.boolean  "enable"
@@ -2471,7 +2471,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_wechat_modules", ["shop_id"], name: "index_ddt_wechat_modules_on_shop_id"
 
-  create_table "ddt_wechat_share_records", force: true do |t|
+  create_table "ddt_wechat_share_records" do |t|
     t.integer  "shop_id"
     t.integer  "user_id"
     t.string   "share_type"
@@ -2490,14 +2490,14 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_wechat_share_records", ["shop_id"], name: "index_ddt_wechat_share_records_on_shop_id"
   add_index "ddt_wechat_share_records", ["user_id"], name: "index_ddt_wechat_share_records_on_user_id"
 
-  create_table "ddt_wechat_subscribe_relationships", force: true do |t|
+  create_table "ddt_wechat_subscribe_relationships" do |t|
     t.string   "gonghao_open_id"
     t.string   "user_open_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "ddt_wechat_users", force: true do |t|
+  create_table "ddt_wechat_users" do |t|
     t.string   "user_open_id"
     t.string   "gonghao_open_id"
     t.integer  "orders_count"
@@ -2512,7 +2512,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_wechat_users", ["shop_id"], name: "index_ddt_wechat_users_on_shop_id"
   add_index "ddt_wechat_users", ["user_id"], name: "index_ddt_wechat_users_on_user_id"
 
-  create_table "ddt_wechat_view_records", force: true do |t|
+  create_table "ddt_wechat_view_records" do |t|
     t.integer  "wechat_share_record_id"
     t.integer  "base_user_id"
     t.datetime "created_at"
@@ -2523,7 +2523,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_wechat_view_records", ["base_user_id"], name: "index_ddt_wechat_view_records_on_base_user_id"
   add_index "ddt_wechat_view_records", ["wechat_share_record_id"], name: "index_ddt_wechat_view_records_on_wechat_share_record_id"
 
-  create_table "ddt_wechatpay_feedbacks", force: true do |t|
+  create_table "ddt_wechatpay_feedbacks" do |t|
     t.integer "shop_id"
     t.string  "feedback_id"
     t.string  "appid"
@@ -2535,7 +2535,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_wechatpay_feedbacks", ["shop_id"], name: "index_ddt_wechatpay_feedbacks_on_shop_id"
 
-  create_table "ddt_wechatpay_warnings", force: true do |t|
+  create_table "ddt_wechatpay_warnings" do |t|
     t.integer "shop_id"
     t.string  "error_type"
     t.string  "appid"
@@ -2546,7 +2546,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_wechatpay_warnings", ["shop_id"], name: "index_ddt_wechatpay_warnings_on_shop_id"
 
-  create_table "ddt_withdraws", force: true do |t|
+  create_table "ddt_withdraws" do |t|
     t.integer  "shop_id"
     t.string   "alipay_account_id"
     t.string   "alipay_account_name"
@@ -2561,9 +2561,9 @@ class CreateDeliveryRanges < ActiveRecord::Migration
 
   add_index "ddt_withdraws", ["collection_wallet_id"], name: "index_ddt_withdraws_on_collection_wallet_id"
   add_index "ddt_withdraws", ["shop_id"], name: "index_ddt_withdraws_on_shop_id"
-  add_index "ddt_withdraws", ["state"], name: "index_ddt_withdraws_on_state", length: {"state"=>191}
+  add_index "ddt_withdraws", ["state"], name: "index_ddt_withdraws_on_state"
 
-  create_table "ddt_zones", force: true do |t|
+  create_table "ddt_zones" do |t|
     t.string   "name"
     t.integer  "parent_zone_id"
     t.integer  "shop_id"
@@ -2575,7 +2575,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
   add_index "ddt_zones", ["parent_zone_id"], name: "index_ddt_zones_on_parent_zone_id"
   add_index "ddt_zones", ["shop_id"], name: "index_ddt_zones_on_shop_id"
 
-  create_table "impressions", force: true do |t|
+  create_table "impressions" do |t|
     t.string   "impressionable_type"
     t.integer  "impressionable_id"
     t.integer  "user_id"
@@ -2591,16 +2591,16 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "updated_at"
   end
 
-  add_index "impressions", ["controller_name", "action_name", "ip_address"], name: "controlleraction_ip_index", length: {"controller_name"=>191, "action_name"=>191, "ip_address"=>191}
-  add_index "impressions", ["controller_name", "action_name", "request_hash"], name: "controlleraction_request_index", length: {"controller_name"=>191, "action_name"=>191, "request_hash"=>191}
-  add_index "impressions", ["controller_name", "action_name", "session_hash"], name: "controlleraction_session_index", length: {"controller_name"=>191, "action_name"=>191, "session_hash"=>191}
-  add_index "impressions", ["impressionable_type", "impressionable_id", "ip_address"], name: "poly_ip_index", length: {"impressionable_type"=>191, "impressionable_id"=>nil, "ip_address"=>191}
-  add_index "impressions", ["impressionable_type", "impressionable_id", "request_hash"], name: "poly_request_index", length: {"impressionable_type"=>191, "impressionable_id"=>nil, "request_hash"=>191}
-  add_index "impressions", ["impressionable_type", "impressionable_id", "session_hash"], name: "poly_session_index", length: {"impressionable_type"=>191, "impressionable_id"=>nil, "session_hash"=>191}
-  add_index "impressions", ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index", length: {"impressionable_type"=>191, "message"=>191, "impressionable_id"=>nil}
+  add_index "impressions", ["controller_name", "action_name", "ip_address"], name: "controlleraction_ip_index"
+  add_index "impressions", ["controller_name", "action_name", "request_hash"], name: "controlleraction_request_index"
+  add_index "impressions", ["controller_name", "action_name", "session_hash"], name: "controlleraction_session_index"
+  add_index "impressions", ["impressionable_type", "impressionable_id", "ip_address"], name: "poly_ip_index"
+  add_index "impressions", ["impressionable_type", "impressionable_id", "request_hash"], name: "poly_request_index"
+  add_index "impressions", ["impressionable_type", "impressionable_id", "session_hash"], name: "poly_session_index"
+  add_index "impressions", ["impressionable_type", "message", "impressionable_id"], name: "impressionable_type_message_index"
   add_index "impressions", ["user_id"], name: "index_impressions_on_user_id"
 
-  create_table "versions", force: true do |t|
+  create_table "versions" do |t|
     t.string   "item_type",  null: false
     t.integer  "item_id",    null: false
     t.string   "event",      null: false
@@ -2609,7 +2609,7 @@ class CreateDeliveryRanges < ActiveRecord::Migration
     t.datetime "created_at"
   end
 
-  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id", length: {"item_type"=>191, "item_id"=>nil}
+  add_index "versions", ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
 
   end
 end

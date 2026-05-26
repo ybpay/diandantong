@@ -1,6 +1,6 @@
 class CreateCombosComboImage < ActiveRecord::Migration
   def change
-    create_table "ddt_combos_combo_images", force: true do |t|
+    create_table "ddt_combos_combo_images" do |t|
       t.integer "combo_id"
       t.integer "combo_image_id"
       t.integer "position"

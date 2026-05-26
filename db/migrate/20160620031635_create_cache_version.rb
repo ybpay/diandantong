@@ -1,6 +1,6 @@
 class CreateCacheVersion < ActiveRecord::Migration
   def change
-    create_table :ddt_cache_versions, force: true do |t|
+    create_table :ddt_cache_versions do |t|
       t.string :scope_type
       t.integer :scope_id
       t.string :key

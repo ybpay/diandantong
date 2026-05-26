@@ -13,8 +13,8 @@ class AddItemableNameToLineItem < ActiveRecord::Migration
         sql << "UPDATE ddt_line_items"
         sql << "SET itemable_name = CASE id"
         line_items.each do |k, v|
-          v.gsub!(/\\/, "\\\\'")
-          sql << "WHEN #{k} THEN '#{v}'"
+          quoted_v = ActiveRecord::Base.connection.quote(v)
+          sql << "WHEN #{k} THEN #{quoted_v}"
         end
         sql << "END"
         sql << "WHERE id IN (#{line_items.keys.join(',')});"
@@ -28,8 +28,8 @@ class AddItemableNameToLineItem < ActiveRecord::Migration
       sql << "UPDATE ddt_line_items"
       sql << "SET itemable_name = CASE id"
       line_items.each do |k, v|
-        v.gsub!(/\\/, "\\\\'")
-        sql << "WHEN #{k} THEN '#{v}'"
+        quoted_v = ActiveRecord::Base.connection.quote(v)
+        sql << "WHEN #{k} THEN #{quoted_v}"
       end
       sql << "END"
       sql << "WHERE id IN (#{line_items.keys.join(',')});"

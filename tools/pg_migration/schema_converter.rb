@@ -98,7 +98,6 @@ class MysqlToPgConverter
 
     # Convert ON DELETE/ON UPDATE
     result.gsub!(/ON DELETE RESTRICT/i, 'ON DELETE RESTRICT')
-    result.gsub!(/ON UPDATE CASCADE/i, '') # PostgreSQL doesn't support ON UPDATE CASCADE in all cases
 
     # IF EXISTS for DROP TABLE
     result.gsub!(/DROP TABLE IF EXISTS/, 'DROP TABLE IF EXISTS')
