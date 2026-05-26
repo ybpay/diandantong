@@ -20,14 +20,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Ruby 2.1
+      - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.1'
-          bundler: '1'
+          ruby-version: '3.0'
 
       - name: Install RuboCop
-        run: gem install rubocop -v '~> 0.50.0' --no-document
+        run: gem install rubocop --no-document
 
       - name: Run RuboCop
         run: rubocop --format progress --format json --out rubocop-report.json || true
