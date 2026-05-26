@@ -52,3 +52,11 @@ Gemfile.lock
 /config/inner_api_token.yml
 
 /script/*.rb
+
+# Docker artifacts
+.env
+.env.local
+docker-compose.override.local.yml
+
+# RuboCop report
+rubocop-report.json

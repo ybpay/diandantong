@@ -1,0 +1,73 @@
+# Docker ignore — minimize build context
+
+.git
+.gitignore
+.agent_context
+CLAUDE.md
+.github
+.idea
+.sass-cache
+.bundle
+.rvmrc
+byebug_history
+
+# Logs and temp
+log/*.log
+tmp/
+*.log
+
+# Test artifacts
+coverage/
+test/
+
+# Documentation
+doc/
+*.md
+README.rdoc
+todo.rdoc
+dev.tips
+product_st_sql.README
+
+# Config with secrets (mount at runtime)
+config/database.yml
+config/secrets.yml
+config/cl2009.yml
+config/cloopen.yml
+config/system_alipay.yml
+config/baidu_push.yml
+config/weixin_config.yml
+config/newrelic.yml
+config/print_manager.yml
+config/sidekiq_monitor_config.yml
+config/wechatpay_sl.yml
+config/order_service_config.yml
+config/shards.yml
+config/j_push.yml
+config/sale_data_uploader_config.yml
+config/redis_client.yml
+config/inner_api_token.yml
+
+# Docker files
+docker-compose*.yml
+Dockerfile
+.dockerignore
+
+# OS files
+.DS_Store
+*.swp
+
+# Public uploads (use volumes)
+public/uploads/
+public/test/
+public/assets/
+
+# SQLite databases
+db/*.sqlite3
+db/*.sqlite3-journal
+dump.rdb
+
+# Scripts (but keep entrypoint for Docker)
+script/*.rb
+tools/
+start_crontab
+cron.log

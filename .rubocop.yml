@@ -1,0 +1,127 @@
+# RuboCop configuration for diandantong
+# Target: Ruby 2.1 (current version)
+# Strategy: Gradual — warnings only, not blocking CI initially
+
+AllCops:
+  TargetRubyVersion: 2.1
+  # Exclude generated and vendor files
+  Exclude:
+    - 'db/**/*'
+    - 'db/schema.rb'
+    - 'bin/**/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+    - 'log/**/*'
+    - 'public/**/*'
+    - 'config/initializers/**/*'
+    - '_core/db/**/*'
+    - '_backend/db/**/*'
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+  # Start with warnings — don't fail CI
+  Severity: warning
+
+# ===== Layout =====
+Layout/LineLength:
+  Max: 120
+  AllowHeredoc: true
+  AllowURI: true
+
+Layout/TrailingWhitespace:
+  Enabled: true
+
+Layout/TrailingEmptyLines:
+  Enabled: true
+
+# ===== Style =====
+Style/Documentation:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/HashSyntax:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/WordArray:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/AsciiComments:
+  Enabled: false
+
+Style/DoubleCopDisableDirective:
+  Enabled: false
+
+Style/Encoding:
+  Enabled: false
+
+# ===== Metrics =====
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/ClassLength:
+  Enabled: false
+
+Metrics/CyclomaticComplexity:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Enabled: false
+
+Metrics/BlockNesting:
+  Max: 4
+
+# ===== Lint =====
+Lint/UselessAssignment:
+  Enabled: true
+
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+
+Lint/HandleExceptions:
+  Enabled: false
+
+Lint/Debugger:
+  Enabled: true
+
+# ===== Naming =====
+Naming/AccessorMethodName:
+  Enabled: false
+
+Naming/PredicateName:
+  Enabled: false
+
+Naming/VariableNumber:
+  Enabled: false
+
+# ===== Security =====
+Security/Eval:
+  Enabled: true
+
+Security/YAMLLoad:
+  Enabled: true
