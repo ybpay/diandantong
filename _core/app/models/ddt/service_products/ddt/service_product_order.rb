@@ -19,14 +19,16 @@ module Ddt
     ### scopes
     default_scope { order("created_at DESC") }
 
-    include Workflow
-    workflow do
-      state :new do
-        event :verify, transitions_to: :finished
-        event :fail, transitions_to: :closed
+    include AASM
+    aasm column: :workflow_state, initial: :new do
+      state :new, :finished, :closed
+
+      event :verify do
+        transitions from: :new, to: :finished
       end
-      state :finished
-      state :closed
+      event :fail do
+        transitions from: :new, to: :closed
+      end
     end
 
     def verify(params)
@@ -48,7 +50,7 @@ module Ddt
 
     private
     def check_is_expired
-      if self.current_state == :new && self.created_at < 12.hours.ago
+      if self.aasm_state.to_sym == :new && self.created_at < 12.hours.ago
         self.fail!
       end
     end

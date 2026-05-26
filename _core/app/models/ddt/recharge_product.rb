@@ -3,7 +3,7 @@ module Ddt
     include BelongsToShop
     include ListScope
 
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     acts_as_list scope: [:shop_id, :deleted_at]
 

@@ -6,7 +6,7 @@ module Ddt
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:email]
 
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     auto_strip_attributes :domain
     ### relationships
     has_many :agent_rels
@@ -32,6 +32,7 @@ module Ddt
 
 
     ### uploader
+    include Ddt::CarrierWaveBridge
     mount_uploader :logo, AgentLogoUploader
     mount_uploader :rect_logo, AgentRectLogoUploader
 

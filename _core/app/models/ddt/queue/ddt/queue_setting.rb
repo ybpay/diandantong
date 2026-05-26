@@ -12,6 +12,7 @@ module Ddt
     before_save :assign_qr_code
 
     ### mount uploader
+    include Ddt::CarrierWaveBridge
     mount_uploader :queue_qr_code, QrCodeUploader
 
     ### validations

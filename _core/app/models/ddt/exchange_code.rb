@@ -7,6 +7,7 @@ require 'barby/outputter/html_outputter'
 module Ddt
   class ExchangeCode < Ddt::Base
     include Ddt::Scanable
+    include AASM
 
     belongs_to :shop, class_name: 'Ddt::Shop'
     belongs_to :branch, -> { with_deleted }, class_name: 'Ddt::Branch'
@@ -35,15 +36,17 @@ module Ddt
     end
 
     acts_as_type :state, [:pending, :exchanged, :canceled],%W[可兑换 已兑换 已取消]
-    state_machine :state, initial: :pending do
+    aasm column: :state do
+      state :pending, :exchanged, :canceled, initial: :pending
+
       event :exchange do
-        transition :pending => :exchanged
+        transitions from: :pending, to: :exchanged
       end
       event :cancel do
-        transition :pending => :canceled
+        transitions from: :pending, to: :canceled
       end
       after_transition from: :pending, to: :exchanged, do: :after_exchange
-      after_transition from: :pending, to: :cancel, do: :after_cancel
+      after_transition from: :pending, to: :canceled, do: :after_cancel
     end
 
     def after_exchange

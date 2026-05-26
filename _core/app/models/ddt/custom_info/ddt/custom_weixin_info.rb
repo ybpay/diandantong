@@ -9,7 +9,7 @@ module Ddt
 
     has_many :home_hot_links, class_name: 'Ddt::HomeHotLink'
     has_many :home_usable_links, class_name: 'Ddt::HomeUsableLink'
-    require 'carrierwave/orm/activerecord'
+    include Ddt::CarrierWaveBridge
     mount_uploader :background_image, OnePageImageUploader
     validates :background_image, file_size: {
         maximum: 0.5.megabytes.to_i

@@ -1,8 +1,9 @@
 module Ddt
   class AbilityApi
-    include CanCan::Ability
+    include Ddt::CanCanCompatibility
 
     def initialize(account)
+      initialize_rules
       @account = account || Ddt::Account.new
       @account.roles.each do |role|
         sym = role.name.to_sym

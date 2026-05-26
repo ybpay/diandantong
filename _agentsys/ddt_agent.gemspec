@@ -1,7 +1,6 @@
 # encoding: UTF-8
 version = File.read(File.expand_path("../../DIANDANTONG_VERSION", __FILE__)).strip
 
-# Describe your gem and declare its dependencies:
 Gem::Specification.new do |s|
   s.platform    = Gem::Platform::RUBY
   s.name        = "ddt_agentsys"
@@ -15,15 +14,9 @@ Gem::Specification.new do |s|
   s.files        = Dir["{app,config,db,lib,vendor}/**/*"]
   s.require_path = 'lib'
 
-
   s.add_dependency 'ddt_core'                  , version
-  s.add_dependency 'turbolinks'                       , '~> 5.2.0'
-  s.add_dependency 'impressionist'                    , '~> 1.6.0'
+  s.add_dependency 'impressionist'                    , '~> 2.0'
   s.add_dependency 'hamlit'                          , '~> 2.9.0'
-  s.add_dependency 'hamlit-rails'                      , '~> 0.2.0'
-  s.add_dependency 'jquery-turbolinks'                , '~> 2.1.0'
-  s.add_dependency 'angularjs-rails'
-  s.add_dependency 'select2-rails'                   , '3.5.9.1'
+  s.add_dependency 'hamlit-rails'                    , '~> 0.2.0'
   s.add_dependency 'jbuilder'                         , '~> 2.7'
-  s.add_dependency 'jquery-tmpl-rails'                , '~> 1.1.0'
 end

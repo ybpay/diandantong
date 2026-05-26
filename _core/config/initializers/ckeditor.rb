@@ -1,39 +1,6 @@
-# Use this hook to configure ckeditor
-Ckeditor.setup do |config|
-  # ==> ORM configuration
-  # Load and configure the ORM. Supports :active_record (default), :mongo_mapper and
-  # :mongoid (bson_ext recommended) by default. Other ORMs may be
-  # available as additional gems.
-  require "ckeditor/orm/active_record"
-
-  # Allowed image file types for upload.
-  # Set to nil or [] (empty array) for all file types
-  # By default: %w(jpg jpeg png gif tiff)
-  # config.image_file_types = ["jpg", "jpeg", "png", "gif", "tiff"]
-
-  # Allowed attachment file types for upload.
-  # Set to nil or [] (empty array) for all file types
-  # By default: %w(doc docx xls odt ods pdf rar zip tar tar.gz swf)
-  # config.attachment_file_types = ["doc", "docx", "xls", "odt", "ods", "pdf", "rar", "zip", "tar", "swf"]
-
-  # Setup authorization to be run as a before filter
-  # By default: there is no authorization.
-  config.authorize_with :cancan, ::Ddt::Ability
-  config.current_user_method do
-    current_account
-  end
-
-  # Asset model classes
-  config.picture_model { Ckeditor::Picture }
-  # config.attachment_file_model { Ckeditor::AttachmentFile }
-
-  # Paginate assets
-  # By default: 24
-  # config.default_per_page = 24
-
-  # Customize ckeditor assets path
-  # By default: nil
-  config.asset_path = 'http://b.cache.360pinmi.com/assets/ckeditor/'
-
-  config.assets_languages = ['en', 'zh-cn']
-end
+# CKEditor has been replaced by ActionText + TipTap (Phase 6).
+# The CKEditor models (Ckeditor::Picture, Ckeditor::AttachmentFile)
+# are retained for backward compatibility with existing data but no
+# longer depend on the ckeditor gem. They now use ActiveStorage.
+#
+# Rich text editing in the new Vue 3 frontend will use TipTap.

@@ -3,6 +3,7 @@ module Ddt
 
     extend FriendlyId
     friendly_id :slug, use: [:slugged, :finders]
+    include Ddt::CarrierWaveBridge
     mount_uploader :url, QrCodeUploader
     preference :redirect_url, :text
     validates :preferred_redirect_url, presence: true, unless: :builtin? #系统生成的二维码允许跳转链接为空

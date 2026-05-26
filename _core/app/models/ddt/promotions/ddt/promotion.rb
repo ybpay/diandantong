@@ -17,6 +17,7 @@ module Ddt
     has_and_belongs_to_many :branches, join_table: 'ddt_promotions_branches', class_name: 'Ddt::Branch'
     ids_string_for :branches
 
+    include Ddt::CarrierWaveBridge
     mount_uploader :image, PromotionImageUploader
 
     access_with_shop_time_zone :starts_at, :expires_at

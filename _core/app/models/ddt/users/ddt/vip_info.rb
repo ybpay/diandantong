@@ -6,7 +6,7 @@ require 'barby/barcode/code_128'
 require 'barby/outputter/html_outputter'
 module Ddt
   class VipInfo < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     include Ddt::BelongsToShopWithTouch
     include Ddt::VipInfoImportExport
@@ -22,6 +22,7 @@ module Ddt
     acts_as_type :sex, [:male, :female], %W[先生 女士]
     has_one :card_wallet, as: :owner, class_name: 'Ddt::UserCardWallet'
     has_one :credits_wallet, as: :owner, class_name: 'Ddt::UserCreditsWallet'
+    include Ddt::CarrierWaveBridge
     mount_uploader :avatar, AvatarImageUploader
     has_many :short_messages, class_name: 'Ddt::ShortMessage', as: :owner
 

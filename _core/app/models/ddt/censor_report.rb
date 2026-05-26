@@ -2,17 +2,20 @@
 module Ddt
   class CensorReport < Base
     include BelongsToShop
+    include AASM
     belongs_to :base_user, class_name: 'Ddt::BaseUser'
     belongs_to :auditor, class_name: 'Ddt::Account'
     scope :of_unchecked, -> {where(:state => :unchecked)}
     validates_presence_of :title, :desc, :base_user
 
-    state_machine :state, initial: :unchecked do
+    aasm column: :state do
+      state :unchecked, :confirmed, :rejected, initial: :unchecked
+
       event :confirm do
-        transition all => :confirmed
+        transitions from: any, to: :confirmed
       end
       event :reject do
-        transition all => :rejected
+        transitions from: any, to: :rejected
       end
     end
 

@@ -24,6 +24,7 @@ module Ddt
     has_many :pages, class_name: '::Ddt::ShakeAround::Page', foreign_key: :wechat_account_id
     has_many :shake_infos, class_name: 'Ddt::ShakeAround::ShakeInfo'
     has_many :keywords_third_party_interfaces, class_name: 'Ddt::KeywordsThirdPartyInterface'
+    include Ddt::CarrierWaveBridge
     mount_uploader :server_auth_file, WechatAccountServerAuthFileUploader
 
     preference :auth_info, :text

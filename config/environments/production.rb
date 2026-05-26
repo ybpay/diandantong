@@ -11,6 +11,8 @@ Rails.application.configure do
 
   config.log_level = :info
 
+  config.active_storage.service = :production
+
   config.action_controller.asset_host = ENV.fetch("ASSET_HOST", "http://d.cache.diandantong.com")
 
   config.i18n.fallbacks = true

@@ -1,6 +1,6 @@
 module Ddt
   class WechatUser < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     ### relationships
     include Ddt::BelongsToShop

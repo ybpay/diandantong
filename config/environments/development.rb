@@ -28,6 +28,8 @@ Rails.application.configure do
   }
   ActionMailer::Base.default :from => "点单通 <noreply@diandantong.com>"
 
+  config.active_storage.service = :local
+
   config.require_master_key = false
 
   # Raise error on unpermitted parameters

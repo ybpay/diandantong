@@ -20,7 +20,7 @@ module Ddt
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     acts_as_type :product_list_style, [:thumb, :txt], %W[缩略图风格 文本风格]
     acts_as_type :moling_type, [:moling_erase, :moling_round], %W[直接抹除 四舍五入]
@@ -70,6 +70,7 @@ module Ddt
     has_many :tick_accounts
 
     # for directly access underlay attribute
+    include Ddt::CarrierWaveBridge
     mount_uploader :image, BranchImageUploader
     mount_uploader :rect_image, BranchRectImageUploader
     has_many :products, class_name: 'Ddt::Product'

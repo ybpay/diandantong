@@ -1,8 +1,9 @@
 #encoding: utf-8
 module Ddt
   class Ability
-    include CanCan::Ability
+    include Ddt::CanCanCompatibility
     def initialize(account)
+      initialize_rules
       alias_action :create, :read, :update, :destroy, :show, :index, :new, :to => :crud
       @account = account || Account.new
       @account_manage_branch_ids = @account.manage_branch_ids

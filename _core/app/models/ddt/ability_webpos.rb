@@ -1,9 +1,10 @@
 module Ddt
   class AbilityWebpos
-    include CanCan::Ability
+    include Ddt::CanCanCompatibility
 
 
     def initialize(account)
+      initialize_rules
       @account = account || Account.new
       @account_manage_branch_ids = @account.manage_branch_ids
       @account.roles.each do |role|

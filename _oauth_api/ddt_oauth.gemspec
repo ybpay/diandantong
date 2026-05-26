@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
 
 
   s.add_dependency 'ddt_core'                  , version
-  s.add_dependency 'doorkeeper'                  , '~> 5.0'
-  s.add_dependency 'oauth2'                  , '~> 1.4.0'
+  s.add_dependency 'doorkeeper'                  , '~> 5.7'
+  s.add_dependency 'oauth2'                  , '~> 2.0'
 end

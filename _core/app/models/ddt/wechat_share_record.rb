@@ -2,7 +2,7 @@
 module Ddt
   class WechatShareRecord < Ddt::Base
 
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     include BelongsToShop
     belongs_to :user
     acts_as_type :share_type, %W[appmessage timeline weibo], %W[分享给朋友 分享到朋友圈 分享到微博]

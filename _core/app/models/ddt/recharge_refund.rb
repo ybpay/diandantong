@@ -1,6 +1,7 @@
 module Ddt
   class RechargeRefund < Base
     include BelongsToBranch
+    include AASM
     belongs_to_order
     belongs_to :vip_info
     belongs_to :operator, class_name: "Account"
@@ -10,12 +11,14 @@ module Ddt
     default_scope ->{ order(created_at: :desc)}
     acts_as_type :state, [:pending, :completed, :canceled], %W(已冻结 已完成 已撤消)
     # credits amount cash_amount extra_amount
-    state_machine :state, initial: :pending do
+    aasm column: :state do
+      state :pending, :completed, :canceled, initial: :pending
+
       event :complete do
-        transition from: :pending, to: :completed
+        transitions from: :pending, to: :completed
       end
       event :cancel do
-        transition from: :pending, to: :canceled
+        transitions from: :pending, to: :canceled
       end
       after_transition on: :complete, do: :after_complete
       after_transition on: :cancel, do: :after_cancel

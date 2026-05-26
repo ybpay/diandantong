@@ -3,6 +3,7 @@ module Ddt
   class Shipment < Ddt::Base
     include BelongsToBranch
     include LatLng
+    include AASM
     belongs_to_order
     belongs_to :address
     belongs_to :delivery_zone
@@ -19,17 +20,19 @@ module Ddt
 
     record_state_change_for :state
     acts_as_type :state, [:pending, :shipping, :shipped, :canceled], %W(待处理 送货中 已送达 已取消)
-    state_machine :state, initial: :pending do
+    aasm column: :state do
+      state :pending, :shipping, :shipped, :canceled, initial: :pending
+
       event :start do
-        transition from: :pending, to: :shipping
+        transitions from: :pending, to: :shipping
       end
 
       event :ship do
-        transition from: [:pending, :shipping], to: :shipped
+        transitions from: [:pending, :shipping], to: :shipped
       end
 
       event :cancel do
-        transition from: [:pending, :shipping], to: :canceled
+        transitions from: [:pending, :shipping], to: :canceled
       end
 
       after_transition to: :shipping, do: :after_shipping

@@ -5,7 +5,7 @@ module Ddt
     belongs_to :owner
     validates_presence_of :file_name, :file_path
 
-    require 'carrierwave/orm/activerecord'
+    include Ddt::CarrierWaveBridge
     mount_uploader :file_path, DFileUploader
   end
 end

@@ -16,7 +16,7 @@ module Ddt
 
     filter_urls_for :url
 
-    require 'carrierwave/orm/activerecord'
+    include Ddt::CarrierWaveBridge
     mount_uploader :img, BranchSliderImageUploader
   end
 end

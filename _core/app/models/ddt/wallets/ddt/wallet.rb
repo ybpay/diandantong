@@ -1,7 +1,7 @@
 # encoding: utf-8
 module Ddt
   class Wallet < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     ### relationships
     include ActiveSupport::NumberHelper

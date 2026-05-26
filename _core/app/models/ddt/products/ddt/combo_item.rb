@@ -1,7 +1,7 @@
 # encoding:utf-8
 module Ddt
   class ComboItem < Ddt::Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
     include Ddt::ListScope
     include Ddt::BelongsToBranch

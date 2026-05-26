@@ -7,7 +7,7 @@ module Ddt
     acts_as_type :alignment, %W[top bottom left right], %W[靠上 靠底 靠左 靠右]
     belongs_to :shop, class_name: "Ddt::Shop", touch: true
 
-    require 'carrierwave/orm/activerecord'
+    include Ddt::CarrierWaveBridge
     mount_uploader :image, OnePageImageUploader
     validates :image, presence: true, file_size: {
         maximum: 0.5.megabytes.to_i

@@ -11,7 +11,7 @@ module Ddt
 
     ##### relationship
     include Ddt::CommentOwner
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
 
     belongs_to :shop, class_name: 'Ddt::Shop'
@@ -80,7 +80,7 @@ module Ddt
     scope :deliverymans, ->{ deliverymen }
     scope :of_shop_id, ->(shop_id) { where(:shop_id => shop_id)}
 
-    # 弥补 cancan 里面的权限定义
+    # 弥补权限定义中的账户查询条件
     scope :manage_by_worker, ->(worker){
       includes(:roles, :manage_branches).where("(ddt_roles.type in (:roles) or ddt_roles.builtin=0 or ddt_accounts.id = :account_id) and ddt_branches.id in (:branch_ids)",
         roles: %W[

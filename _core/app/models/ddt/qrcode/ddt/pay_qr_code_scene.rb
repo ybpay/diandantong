@@ -3,6 +3,7 @@ module Ddt
     extend FriendlyId
     friendly_id :slug, use: [:slugged, :finders]
 
+    include Ddt::CarrierWaveBridge
     mount_uploader :url, QrCodeUploader
     preference :pay_url, :text
     validates :preferred_pay_url, presence: true

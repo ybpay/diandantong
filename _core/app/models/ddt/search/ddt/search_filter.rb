@@ -1,6 +1,7 @@
 module Ddt
   class SearchFilter < Ddt::Base
     include Ddt::BelongsToShop
+    include AASM
 
     # shop_id
     # branch_id
@@ -23,15 +24,17 @@ module Ddt
 
     scope :by_type, ->(model_type){ where(model_type: model_type)}
 
-    state_machine :state, :initial => :init do
+    aasm column: :state do
+      state :init, :computing, :completed, initial: :init
+
       event :compute do
-        transition :init => :computing
+        transitions from: :init, to: :computing
       end
       event :recompute do
-        transition :completed => :computing
+        transitions from: :completed, to: :computing
       end
       event :complete do
-        transition :computing => :completed
+        transitions from: :computing, to: :completed
       end
     end
 

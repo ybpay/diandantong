@@ -1,7 +1,15 @@
 class Ckeditor::AttachmentFile < Ckeditor::Asset
-  mount_uploader :data, CkeditorAttachmentFileUploader, :mount_on => :data_file_name
+  has_one_attached :data_file
+
+  def url(*args)
+    data_file.attached? ? Rails.application.routes.url_helpers.rails_blob_path(data_file, only_path: true) : nil
+  end
 
   def url_thumb
-    @url_thumb ||= Ckeditor::Utils.filethumb(filename)
+    data_file_name&.end_with?('.pdf') ? 'filetype_pdf.png' : 'filetype_doc.png'
+  end
+
+  def filename
+    data_file_name
   end
 end

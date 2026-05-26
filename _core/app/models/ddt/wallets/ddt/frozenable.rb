@@ -3,13 +3,16 @@ module Ddt
   module Frozenable
     extend ActiveSupport::Concern
     included do
+      include AASM
       acts_as_type :state, [:pending, :completed, :canceled], %W(已冻结 已完成 已回滚)
-      state_machine :state, initial: :pending do
+      aasm column: :state do
+        state :pending, :completed, :canceled, initial: :pending
+
         event :complete do
-          transition from: :pending, to: :completed
+          transitions from: :pending, to: :completed
         end
         event :cancel do
-          transition from: :pending, to: :canceled
+          transitions from: :pending, to: :canceled
         end
         after_transition from: :pending, to: :completed, do: :after_complete
         after_transition from: :pending, to: :canceled, do: :after_cancel

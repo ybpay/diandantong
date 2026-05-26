@@ -1,5 +1,4 @@
 #encoding: utf-8
-require 'carrierwave/orm/activerecord'
 module Ddt
   class Shop < Ddt::Base
     include Ddt::TrackFrom
@@ -7,7 +6,7 @@ module Ddt
     is_impressionable
     ### relationships
     default_scope ->{ order(created_at: :desc) }
-    acts_as_paranoid
+    include Ddt::SoftDeletable
 
 
     has_one :credits_wallet, as: :owner, class_name: 'Ddt::ShopCreditsWallet'
@@ -157,6 +156,7 @@ module Ddt
     has_many :shipments, class_name: 'Ddt::Shipment'
     has_many :statistics_caches, class_name: 'Ddt::StatisticsCache', dependent: :destroy
 
+    include Ddt::CarrierWaveBridge
     mount_uploader :image, ShopImageUploader
     mount_uploader :rect_image, ShopRectImageUploader
     mount_uploader :vip_logo, ShopVipLogoUploader

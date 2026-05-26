@@ -9,9 +9,9 @@ module Ddt
   # 故重新结算在线支付项目需要在 15 秒后进行,以等待客人密码输入完成
 
   class Payment < Base
-    acts_as_paranoid
+    include Ddt::SoftDeletable
     include BelongsToBranch
-    include Workflow
+    include AASM
     belongs_to_order
     has_one_pay_item
     belongs_to :payment_method, class_name: '::Ddt::PaymentMethod'
@@ -45,39 +45,38 @@ module Ddt
     scope :refunded, -> { where(workflow_state: :refunded)}
     # scope :of_branch_present, -> { where(::Ddt::Branch.where('ddt_branches.id = ddt_payments.branch_id').limit(1).arel.exists)}
 
-    workflow do
-      state :checkout do
-        event :start_process, :transitions_to => :processing
-        event :do_close, :transitions_to => :closed
+    aasm column: :workflow_state, initial: :checkout, create_scopes: false do
+      state :checkout, :processing, :pending, :completed, :void, :failed, :closed, :refunded
+
+      event :start_process do
+        transitions from: :checkout, to: :processing
       end
-      state :processing do
-        event :do_process, :transitions_to => :pending
-        event :fail, :transitions_to => :failed
-        after_transition do |*args|
-          self.reload # confirm state changed
-          if self.state == 'pending' and self.payment_method.respond_to? :after_pending
-            result = self.payment_method.after_pending(*args)
-            self.query if result
-          end
-        end
-        event :do_close, :transitions_to => :closed
+      event :do_close do
+        transitions from: :checkout, to: :closed
+        transitions from: :processing, to: :closed
+        transitions from: :pending, to: :closed
       end
-      state :pending do
-        event :complete, :transitions_to => :completed
-        event :fail, :transitions_to => :failed
-        event :do_close, :transitions_to => :closed
+      event :do_process do
+        transitions from: :processing, to: :pending
+      end
+      event :fail do
+        transitions from: :processing, to: :failed
+        transitions from: :pending, to: :failed
+      end
+      event :complete do
+        transitions from: :pending, to: :completed
+      end
+      event :refund do
+        transitions from: :completed, to: :refunded
       end
 
-      state :completed do
-        event :refund, :transitions_to => :refunded do
-          halt unless self.payment_method.respond_to?(:refund)
+      after_transition to: :pending do |payment, transition|
+        payment.reload
+        if payment.payment_method.respond_to?(:after_pending)
+          result = payment.payment_method.after_pending(*transition.args)
+          payment.query if result
         end
       end
-
-      state :failed
-      state :void
-      state :closed
-      state :refunded
     end
 
     def self.notify_url(payment, request)
@@ -272,7 +271,7 @@ module Ddt
 
           Rails.logger.payments.info("[close_result] #{{payment_id:self.id, result: result}}")
           if result[:success]
-            if self.can_do_close?
+            if self.may_do_close?
               do_close!(result)
               PaymentLog.log(self, event: :close_success, extra: result[:data].try(:to_json))
             end
@@ -389,16 +388,17 @@ module Ddt
 
     def refund(options = {})
       # TODO: 退款操作必须人工进行。 (含反结、重新结算、取消订单)
-      if payment_method.respond_to? :refund
-        result = payment_method.refund(self, options)
-        if result[:success]
-          PaymentLog.log(self, event: :refund_success, extra: result[:data].try(:to_json))
-          self.order.payment_refunded(self)
-        else
-          PaymentLog.log(self, event: :refund_error, extra: result[:data].try(:to_json))
-          halt
-        end
+      return false unless payment_method.respond_to?(:refund)
+
+      result = payment_method.refund(self, options)
+      if result[:success]
+        refund! if may_refund?
+        PaymentLog.log(self, event: :refund_success, extra: result[:data].try(:to_json))
+        self.order.payment_refunded(self)
         result
+      else
+        PaymentLog.log(self, event: :refund_error, extra: result[:data].try(:to_json))
+        false
       end
     end
 

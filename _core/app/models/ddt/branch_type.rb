@@ -5,6 +5,7 @@ module Ddt
     belongs_to :shop, class_name: 'Ddt::Shop', touch: true
     has_many :branches, class_name: 'Ddt::Branch'
     validates :icon, icon: true, allow_blank: true
+    include Ddt::CarrierWaveBridge
     mount_uploader :image, BranchTypeImageUploader
     mount_uploader :reservation_img, ShopButtonImageUploader
     mount_uploader :order_in_seat_img, ShopButtonImageUploader

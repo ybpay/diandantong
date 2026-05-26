@@ -7,7 +7,7 @@ module Ddt
             self.table_name = "ddt_order_change_logs"
             self.inheritance_column = nil
             belongs_to :order, class_name: "Ddt::OrderService::Api::Mock::Model::Order"
-            acts_as_paranoid
+            include Ddt::SoftDeletable
           end
         end
       end
