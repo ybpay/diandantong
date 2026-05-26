@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.version     = version
   s.summary     = 'The backend for ddt.'
   s.description = 'The backend for ddt.'
-  s.required_ruby_version = '>= 3.0.0'
+  s.required_ruby_version = '>= 3.2.0'
   s.author      = 'ddt'
   s.email       = 'xie_s@diandantong.com'
   s.homepage    = 'http://www.diandantong.com'
@@ -33,7 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'jquery-turbolinks'               , '~> 2.1.0'
   s.add_dependency 'nprogress-rails'                 , '0.1.6.3'
   s.add_dependency 'rmagick'                         , '~> 2.16.0'
-  s.add_dependency 'rails-i18n'                      , '~> 6.0.0'
+  s.add_dependency 'rails-i18n'                      , '~> 8.0'
   s.add_dependency 'remotipart'                      , '~> 1.4.0'
   s.add_dependency 'jquery-fileupload-rails'         , '0.4.1'
   s.add_dependency 'china_city'                      , '0.0.4'

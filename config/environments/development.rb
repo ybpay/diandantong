@@ -1,4 +1,3 @@
-#encoding: utf-8
 Rails.application.configure do
   config.show_swagger_ui = true
 
@@ -14,7 +13,6 @@ Rails.application.configure do
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
 
-  config.assets.debug = false
   config.action_controller.default_url_options = { host: (ENV["DDB_HOST"] || "localhost:3000") }
   config.action_mailer.default_url_options = { host: (ENV["DDB_HOST"] || "localhost:3000") }
   config.action_mailer.delivery_method = :smtp
@@ -24,12 +22,14 @@ Rails.application.configure do
     port:                 25,
     domain:               'diandantong.com',
     user_name:            'noreply@diandantong.com',
-    password:             'ddt2013',
+    password:             ENV.fetch('SMTP_PASSWORD', 'ddt2013'),
     authentication:       :login,
     enable_starttls_auto: false
   }
   ActionMailer::Base.default :from => "点单通 <noreply@diandantong.com>"
 
-  # Rails 6.0: require master key for encrypted credentials
   config.require_master_key = false
+
+  # Raise error on unpermitted parameters
+  config.action_controller.action_on_unpermitted_parameters = :log
 end

@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.version     = version
   s.summary     = 'The agentsys for ddt.'
   s.description = 'The agentsys for ddt.'
-  s.required_ruby_version = '>= 3.0.0'
+  s.required_ruby_version = '>= 3.2.0'
   s.author      = 'ddt'
   s.email       = 'xie_s@diandantong.com'
   s.homepage    = 'http://www.diandantong.com'

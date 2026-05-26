@@ -17,7 +17,6 @@ module Ddt
     config.eager_load_paths += Dir["#{config.root}/app/models/**/"]
     config.eager_load_paths += Dir["#{config.root}/lib/**/"]
 
-    config.assets.precompile = [ /\A[^\/\\]+\.(css|scss|js)$/i ]
     config.generators do |g|
       g.template_engine :haml
       g.stylesheets     false
@@ -38,24 +37,12 @@ module Ddt
     config.log_formatter = ::Logger::Formatter.new
     config.log_formatter.datetime_format = '%F %T'
 
-    # Load defaults from 5.0 for backward compatibility, with targeted overrides
-    config.load_defaults 5.0
+    # Load Rails 8.1 defaults
+    config.load_defaults 8.1
 
-    # Rails 5.1+ defaults (override selectively)
+    # Backward compatibility overrides
     config.active_record.belongs_to_required_by_default = false
-
-    # Rails 5.2+ defaults
-    config.active_record.cache_versioning = true
-    config.active_record.collection_cache_versioning = true
-    config.active_support.hash_digest_class = OpenSSL::Digest::SHA1
-    config.active_support.use_authenticated_message_encryption = false
-
-    # Rails 6.0 defaults
-    config.autoloader = :zeitwerk
     config.action_controller.default_protect_from_forgery = false
-    config.action_dispatch.use_cookies_with_metadata = false
-    config.action_mailer.delivery_job = "ActionMailer::MailDeliveryJob"
-    config.active_record.sqlite3.represent_boolean_as_integer = true
   end
 end
 
