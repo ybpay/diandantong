@@ -8,7 +8,7 @@ module Ddt
       attr_accessor :order
       attr_accessor_with_dirty :updated_at, :state, :cook_id
       acts_as_type :state, [:pending, :confirmed, :completed, :canceled], %W[未烹饪 烹饪中 已烹饪 已取消]
-      aasm column: :state do
+      aasm column: :state, create_scopes: false do
         state :pending, :confirmed, :completed, :canceled, initial: :pending
 
         event :confirm do
@@ -30,6 +30,7 @@ module Ddt
         params.each do |key, value|
           self.send("#{key}=", value)
         end
+        self.state = 'pending' unless self.state.present?
         changes_applied
       end
 

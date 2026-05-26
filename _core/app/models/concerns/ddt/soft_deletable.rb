@@ -16,8 +16,11 @@ module Ddt::SoftDeletable
     # Discard defaults to `discarded_at`, but our DB uses `deleted_at`.
     self.discard_column = :deleted_at
 
+    # Paranoia-compatible: exclude discarded records by default
+    default_scope { kept }
+
     # Paranoia-compatible scopes
-    scope :with_deleted, -> { undiscarded.or(discarded) }
-    scope :only_deleted, -> { discarded }
+    scope :with_deleted, -> { unscope(where: :deleted_at) }
+    scope :only_deleted, -> { unscope(where: :deleted_at).where.not(deleted_at: nil) }
   end
 end

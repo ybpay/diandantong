@@ -16,21 +16,24 @@ module Ddt::CarrierWaveBridge
     def mount_uploader(column, uploader_class, **opts)
       has_one_attached column
 
+      # Store the ActiveStorage-generated method before overriding it
+      original_getter = instance_method(column)
+
       # Provide backward-compatible accessor that returns a URL proxy
       define_method column do
-        attachment = public_send("attachment_for_#{column}") if respond_to?("attachment_for_#{column}")
-        attachment = public_send(column.to_s) if attachment.nil?
+        attachment = original_getter.bind(self).call
 
         OpenStruct.new(
           url: attachment.attached? ? Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true) : nil,
           present?: attachment.attached?,
+          attached?: attachment.attached?,
           file: attachment
         )
       end
 
       # Provide URL method directly on the model for common pattern: model.image_url
       define_method :"#{column}_url" do
-        attachment = public_send(column.to_s)
+        attachment = original_getter.bind(self).call
         attachment.attached? ? Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true) : nil
       end
 

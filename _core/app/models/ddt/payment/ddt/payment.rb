@@ -67,7 +67,7 @@ module Ddt
         transitions from: :pending, to: :completed
       end
       event :refund do
-        transitions from: :completed, to: :refunded, if: -> { self.payment_method.respond_to?(:refund) }
+        transitions from: :completed, to: :refunded
       end
 
       after_transition to: :pending do |payment, transition|
@@ -388,16 +388,17 @@ module Ddt
 
     def refund(options = {})
       # TODO: 退款操作必须人工进行。 (含反结、重新结算、取消订单)
-      if payment_method.respond_to? :refund
-        result = payment_method.refund(self, options)
-        if result[:success]
-          PaymentLog.log(self, event: :refund_success, extra: result[:data].try(:to_json))
-          self.order.payment_refunded(self)
-        else
-          PaymentLog.log(self, event: :refund_error, extra: result[:data].try(:to_json))
-          false
-        end
+      return false unless payment_method.respond_to?(:refund)
+
+      result = payment_method.refund(self, options)
+      if result[:success]
+        refund! if may_refund?
+        PaymentLog.log(self, event: :refund_success, extra: result[:data].try(:to_json))
+        self.order.payment_refunded(self)
         result
+      else
+        PaymentLog.log(self, event: :refund_error, extra: result[:data].try(:to_json))
+        false
       end
     end
 

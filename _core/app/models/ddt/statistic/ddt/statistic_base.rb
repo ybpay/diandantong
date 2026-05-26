@@ -403,9 +403,21 @@ module Ddt
     def wrap_paginate(collection)
       current_page = (page||1).to_i
       total_size = (collection.size == 20 ? 20*current_page+1 : 20+20*(current_page-1))
-      Pagy.new(count: total_size, page: current_page, items: 20).tap do |pagy|
-        collection = pagy
-      end
+      pagy = Pagy.new(count: total_size, page: current_page, items: 20)
+      # Preserve the data collection and add pagination metadata on top,
+      # mimicking WillPaginate::Collection behavior
+      collection.define_singleton_method(:current_page) { current_page }
+      collection.define_singleton_method(:total_pages) { pagy.pages }
+      collection.define_singleton_method(:total_entries) { total_size }
+      collection.define_singleton_method(:total_count) { total_size }
+      collection.define_singleton_method(:offset) { pagy.offset }
+      collection.define_singleton_method(:per_page) { 20 }
+      collection.define_singleton_method(:num_pages) { pagy.pages }
+      collection.define_singleton_method(:previous_page) { pagy.prev }
+      collection.define_singleton_method(:next_page) { pagy.next }
+      collection.define_singleton_method(:out_of_bounds?) { current_page > pagy.pages }
+      collection.define_singleton_method(:paginate) { collection }
+      collection
     end
 
     def time_interval_clause
