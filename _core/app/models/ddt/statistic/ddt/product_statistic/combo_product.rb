@@ -135,8 +135,13 @@ module Ddt
         unless items.blank?
           package_ids = items.map(&:itemable_id)
           group = []
-          group << 'cpi.combo_id' if group_by_combo
-          group << (group_by.to_sym == :itemable_id ? :variant_id : :sku)
+          if group_by_combo
+            group << 'cpi.combo_id'
+            group << 'sku'
+            group << 'variant_id'
+          else
+            group << (group_by.to_sym == :itemable_id ? 'variant_id' : 'sku')
+          end
           query = {combo_package_id: package_ids}
 
 
@@ -173,7 +178,7 @@ module Ddt
           sql << ' FROM ddt_combo_package_items AS cpi'
           sql << ' INNER JOIN ddt_combo_packages AS cp ON cp.id = cpi.combo_package_id'
           sql << " WHERE cp.id IN (#{package_ids.join(',')}) #{(append_query.nil? ? '' : ' AND ' + append_query)}"
-          sql << " GROUP BY #{group.join(',')};"
+          sql << " GROUP BY #{group.join(',')}"
           cpitems = Ddt::ComboPackageItem.find_by_sql(sql)
 
           variants = get_variants(cpitems.map(&:variant_id))

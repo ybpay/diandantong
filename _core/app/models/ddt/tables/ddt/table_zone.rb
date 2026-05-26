@@ -2,7 +2,6 @@
 module Ddt
   class TableZone < Ddt::Base
   	### relationships
-    replicated_model
 
     include Ddt::BelongsToBranch
 

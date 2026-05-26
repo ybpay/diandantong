@@ -10,14 +10,14 @@ class AddItemableNameToLineItem < ActiveRecord::Migration
       if count % 5000 == 0
         puts "#{Time.now.strftime("%F %T")} total = #{total}, count = #{count}, #{(count * 100.0 / total).round(2)}%"
         sql = []
-        sql << "UPDATE `ddt_line_items`"
-        sql << "SET `ddt_line_items`.`itemable_name` = CASE `ddt_line_items`.`id`"
+        sql << "UPDATE ddt_line_items"
+        sql << "SET itemable_name = CASE id"
         line_items.each do |k, v|
-          v.gsub!(/\"/, "\'")
-          sql << "WHEN #{k} THEN \"#{v}\""
+          v.gsub!(/\\/, "\\\\'")
+          sql << "WHEN #{k} THEN '#{v}'"
         end
         sql << "END"
-        sql << "WHERE `ddt_line_items`.`id` IN (#{line_items.keys.join(',')});"
+        sql << "WHERE id IN (#{line_items.keys.join(',')});"
         ActiveRecord::Base.connection.execute(sql.join(" "))
         line_items = {}
       end
@@ -25,14 +25,14 @@ class AddItemableNameToLineItem < ActiveRecord::Migration
     if line_items.present?
       puts "#{Time.now.strftime("%F %T")} total = #{total}, count = #{count}, #{(count * 100.0 / total).round(2)}%"
       sql = []
-      sql << "UPDATE `ddt_line_items`"
-      sql << "SET `ddt_line_items`.`itemable_name` = CASE `ddt_line_items`.`id`"
+      sql << "UPDATE ddt_line_items"
+      sql << "SET itemable_name = CASE id"
       line_items.each do |k, v|
-        v.gsub!(/\"/, "\'")
-        sql << "WHEN #{k} THEN \"#{v}\""
+        v.gsub!(/\\/, "\\\\'")
+        sql << "WHEN #{k} THEN '#{v}'"
       end
       sql << "END"
-      sql << "WHERE `ddt_line_items`.`id` IN (#{line_items.keys.join(',')});"
+      sql << "WHERE id IN (#{line_items.keys.join(',')});"
       ActiveRecord::Base.connection.execute(sql.join(" "))
     end
   end

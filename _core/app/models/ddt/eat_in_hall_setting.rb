@@ -2,7 +2,6 @@
 module Ddt
   class EatInHallSetting < Ddt::Base
     include BelongsToBranchWithTouch
-    replicated_model
 
     # auto_clear_table
 

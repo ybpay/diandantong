@@ -1,7 +1,6 @@
 module Ddt
   class ComboPackage < Ddt::Base
     include BelongsToBranch
-    replicated_model
 
     belongs_to_order
     belongs_to :combo, ->{with_deleted}, class_name: 'Ddt::Combo'

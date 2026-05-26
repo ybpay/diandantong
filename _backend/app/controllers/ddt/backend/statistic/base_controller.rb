@@ -102,7 +102,7 @@ module Ddt
 
         def select_statistics_db(&block)
           # 此方式使非主从分享的模型都往查询库查询
-          Octopus.using(:stat1, &block)
+          block.call
         end
 
         def statistic_name

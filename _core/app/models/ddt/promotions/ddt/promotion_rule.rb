@@ -1,7 +1,6 @@
 module Ddt
   class PromotionRule < Ddt::Base
     include Ddt::BelongsToShop
-    replicated_model
 
     belongs_to :promotion, class_name: 'Ddt::Promotion', inverse_of: :promotion_rules
     scope :in_shop, -> { where(branch_id: nil)}

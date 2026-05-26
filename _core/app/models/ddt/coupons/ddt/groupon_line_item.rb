@@ -1,6 +1,5 @@
 module Ddt
   class GrouponLineItem < Ddt::Base
-    replicated_model
 
     # belongs_to :groupon_version, class_name: 'Ddt::GrouponVersion', inverse_of: :groupon_line_items
     belongs_to :variant,  ->{with_deleted}, class_name: 'Ddt::Variant'

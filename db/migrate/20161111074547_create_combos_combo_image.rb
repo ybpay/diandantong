@@ -6,8 +6,8 @@ class CreateCombosComboImage < ActiveRecord::Migration
       t.integer "position"
     end
 
-    add_index "ddt_combos_combo_images", ["combo_id"], name: "index_ddt_combos_combo_images_on_combo_id", using: :btree
-    add_index "ddt_combos_combo_images", ["combo_image_id"], name: "index_ddt_combos_combo_images_on_combo_image_id", using: :btree
+    add_index "ddt_combos_combo_images", ["combo_id"], name: "index_ddt_combos_combo_images_on_combo_id"
+    add_index "ddt_combos_combo_images", ["combo_image_id"], name: "index_ddt_combos_combo_images_on_combo_image_id"
 
   end
 end

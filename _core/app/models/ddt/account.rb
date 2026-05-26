@@ -12,7 +12,6 @@ module Ddt
     ##### relationship
     include Ddt::CommentOwner
     acts_as_paranoid
-    replicated_model
 
 
     belongs_to :shop, class_name: 'Ddt::Shop'

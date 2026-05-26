@@ -1,7 +1,6 @@
 #encoding: utf-8
 module Ddt
   class WechatShareRecord < Ddt::Base
-    replicated_model
 
     acts_as_paranoid
     include BelongsToShop

@@ -2,7 +2,6 @@
 module Ddt
   class ProductOptionType < Ddt::Base
     include Ddt::BelongsToBranch
-    replicated_model
 
     belongs_to :product, class_name: 'Ddt::Product'
     belongs_to :option_type, class_name: 'Ddt::OptionType'

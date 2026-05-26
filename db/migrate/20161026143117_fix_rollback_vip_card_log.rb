@@ -1,10 +1,8 @@
 class FixRollbackVipCardLog < ActiveRecord::Migration
   def change
-    Octopus.using(:master) do
-      query
-      date_msg = fix_wallet_log
-      update_shift(date_msg)
-    end
+    query
+    date_msg = fix_wallet_log
+    update_shift(date_msg)
   end
 
   def query

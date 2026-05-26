@@ -13,7 +13,7 @@ module Ddt
 
       def result
         return @result if @result.present?
-        @result = ::Ddt::VipInfo.group("DATE_FORMAT(become_vip_at, '%m-%d')").ransack({
+        @result = ::Ddt::VipInfo.group("TO_CHAR(become_vip_at, 'MM-DD')").ransack({
             shop_id_eq: shop.id,
             from_branch_id_eq: branch.try(:id),
             become_vip_at_gteq: start_time,

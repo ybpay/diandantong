@@ -1,7 +1,6 @@
 module Ddt
   class Tag < Ddt::Base
     include BelongsToBranch
-    replicated_model
 
     validates_presence_of :name
 

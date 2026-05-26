@@ -994,11 +994,11 @@ module Ddt
             type = time_type.to_s.split("_")[-1]
             case type.to_sym
             when :day
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%m-%d')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'MM-DD')"
             when :month
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%Y-%m')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'YYYY-MM')"
             when :year
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%Y')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'YYYY')"
             end
           end
 
@@ -1007,15 +1007,15 @@ module Ddt
             type = time_type.to_s.split("_")[-1]
             case type.to_sym
             when :hour
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%H')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'HH24')"
             when :day
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%d')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'DD')"
             when :week
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%w')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'D')"
             when :month
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%d')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'DD')"
             when :year
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%m')"
+              "TO_CHAR(#{table_name}.#{time_column}, 'MM')"
             end
           end
 
@@ -1024,15 +1024,15 @@ module Ddt
             type = time_type.to_s.split("_")[-1]
             case type.to_sym
             when :hour
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%H') as time"
+              "TO_CHAR(#{table_name}.#{time_column}, 'HH24') as time"
             when :day
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%d') as time"
+              "TO_CHAR(#{table_name}.#{time_column}, 'DD') as time"
             when :week
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%w') as time"
+              "TO_CHAR(#{table_name}.#{time_column}, 'D') as time"
             when :month
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%d') as time"
+              "TO_CHAR(#{table_name}.#{time_column}, 'DD') as time"
             when :year
-              "DATE_FORMAT(#{table_name}.#{time_column}, '%m') as time"
+              "TO_CHAR(#{table_name}.#{time_column}, 'MM') as time"
             end
           end
 

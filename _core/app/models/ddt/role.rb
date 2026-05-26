@@ -1,7 +1,6 @@
 module Ddt
   class Role < ActiveRecord::Base
     include ActsAsType
-    replicated_model
 
 
     has_and_belongs_to_many :accounts, :join_table => 'ddt_accounts_roles', class_name: 'Ddt::Account'

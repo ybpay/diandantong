@@ -3,7 +3,6 @@ module Ddt
   class HomeHotLink < Base
     include Ddt::BelongsToShop
     include Ddt::ListScope
-    replicated_model
 
 
     belongs_to :custom_weixin_info , class_name: 'Ddt::CustomWeixinInfo', touch: true

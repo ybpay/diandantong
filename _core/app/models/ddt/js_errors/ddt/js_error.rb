@@ -5,7 +5,6 @@ module Ddt
     DIGEST_ATTRIBUTES = [:url, :agent, :error_message, :stack_trace, :cause]
 
     validates_presence_of :url
-    replicated_model
 
 
     before_validation :generate_digest do

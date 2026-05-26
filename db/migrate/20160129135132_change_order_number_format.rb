@@ -4,7 +4,7 @@ class ChangeOrderNumberFormat < ActiveRecord::Migration
       add_column :ddt_orders, :old_number, :string
     end
     execute <<-SQL.strip_heredoc
-      update ddt_orders set old_number = number;
+      UPDATE ddt_orders SET old_number = number;
     SQL
     branch_ids = Ddt::Branch.all.pluck(:id)
     competition_resources = branch_ids.map do |branch_id|
@@ -15,11 +15,11 @@ class ChangeOrderNumberFormat < ActiveRecord::Migration
       remove_index :ddt_orders, :number
     end
     execute <<-SQL.strip_heredoc
-      update ddt_orders set number = CONCAT(CAST(branch_id as CHAR(10)), SUBSTRING(number, -12)) where number is not null;
+      UPDATE ddt_orders SET number = branch_id::text || RIGHT(number, 12) WHERE number IS NOT NULL;
     SQL
 
     unless index_exists? :ddt_orders, :number
-      add_index :ddt_orders, :number, :unique => true, :using => :btree, :length=>{:number => 191}
+      add_index :ddt_orders, :number, :unique => true
     end
   end
 

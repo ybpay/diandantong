@@ -2,7 +2,6 @@ module Ddt
   class RechargeProduct < Ddt::Base
     include BelongsToShop
     include ListScope
-    replicated_model
 
     acts_as_paranoid
 

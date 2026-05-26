@@ -1,6 +1,5 @@
 module Ddt
     class PushChannel < Ddt::Base
-        replicated_model
 
         belongs_to :account, class_name: 'Ddt::Account'
         default_scope -> {where('expired_at is null or expired_at > NOW()').order("created_at DESC")}

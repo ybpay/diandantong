@@ -1,7 +1,6 @@
 module Ddt
   class UniqueUser < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     has_many :users, class_name: 'Ddt::User'
     validates :gonghao_open_id, presence: true, gonghao: true

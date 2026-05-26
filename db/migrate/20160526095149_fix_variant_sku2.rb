@@ -1,26 +1,30 @@
 class FixVariantSku2 < ActiveRecord::Migration
   def change
     execute <<-SQL.strip_heredoc
-      UPDATE ddt_combo_package_items AS ci
-      LEFT JOIN ddt_variants AS v ON ci.variant_id = v.id
-      SET ci.sku = v.sku
-      WHERE ci.sku = CONCAT('', v.product_id)
+      UPDATE ddt_combo_package_items ci
+      SET sku = v.sku
+      FROM ddt_variants v
+      WHERE ci.variant_id = v.id
+        AND ci.sku = v.product_id::text
     SQL
 
     execute <<-SQL.strip_heredoc
-      UPDATE ddt_line_items AS l
-      LEFT JOIN ddt_variants AS v ON l.itemable_id = v.id
-      SET l.sku = v.sku
-      WHERE l.itemable_type='Ddt::Variant' AND l.sku = CONCAT('', v.product_id)
+      UPDATE ddt_line_items l
+      SET sku = v.sku
+      FROM ddt_variants v
+      WHERE l.itemable_id = v.id
+        AND l.itemable_type = 'Ddt::Variant'
+        AND l.sku = v.product_id::text
     SQL
 
-
     execute <<-SQL.strip_heredoc
-      UPDATE ddt_line_items AS l
-      LEFT JOIN ddt_variant_packages AS vp ON l.itemable_id = vp.id
-      LEFT JOIN ddt_variants AS v on vp.variant_id = v.id
-      SET l.sku = v.sku
-      WHERE l.itemable_type='Ddt::VariantPackage' AND l.sku = CONCAT('', v.product_id)
+      UPDATE ddt_line_items l
+      SET sku = v.sku
+      FROM ddt_variant_packages vp
+      JOIN ddt_variants v ON vp.variant_id = v.id
+      WHERE l.itemable_id = vp.id
+        AND l.itemable_type = 'Ddt::VariantPackage'
+        AND l.sku = v.product_id::text
     SQL
   end
 end

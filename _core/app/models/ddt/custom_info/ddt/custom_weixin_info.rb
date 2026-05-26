@@ -1,7 +1,6 @@
 #encoding: utf-8
 module Ddt
   class CustomWeixinInfo < Base
-    replicated_model
 
     belongs_to :shop, class_name: "Ddt::Shop", touch: true
     acts_as_type :layout_type, %W[classic classic2 fashion fashion2], %W[经典版01 经典版02 时尚版01 时尚版02]

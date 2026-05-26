@@ -1,7 +1,7 @@
 class AppendPrefixToNumber < ActiveRecord::Migration
   def change
   	execute <<-SQL.strip_heredoc
-      update ddt_orders set number = CONCAT('B', number) where number is not null;
+      UPDATE ddt_orders SET number = 'B' || number WHERE number IS NOT NULL;
     SQL
   end
 end

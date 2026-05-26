@@ -1,7 +1,6 @@
 module Ddt
   class WechatUser < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     ### relationships
     include Ddt::BelongsToShop

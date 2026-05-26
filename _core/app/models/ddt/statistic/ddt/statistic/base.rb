@@ -59,11 +59,11 @@ module Ddt
         type = time_type.to_s.split("_")[-1]
         case type.to_sym
         when :day
-          "DATE_FORMAT(#{table_name}.#{time_column}, '%m-%d')"
+          "TO_CHAR(#{table_name}.#{time_column}, 'MM-DD')"
         when :month
-          "DATE_FORMAT(#{table_name}.#{time_column}, '%Y-%m')"
+          "TO_CHAR(#{table_name}.#{time_column}, 'YYYY-MM')"
         when :year
-          "DATE_FORMAT(#{table_name}.#{time_column}, '%Y')"
+          "TO_CHAR(#{table_name}.#{time_column}, 'YYYY')"
         end
       end
 

@@ -1,7 +1,6 @@
 module Ddt
   class CombosComboImage < Ddt::Base
     include Ddt::ListScope
-    replicated_model
 
     belongs_to :combo, class_name: 'Ddt::Combo', touch: true
     belongs_to :combo_image, class_name: 'Ddt::ComboImage'

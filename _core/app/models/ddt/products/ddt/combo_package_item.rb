@@ -1,7 +1,6 @@
 module Ddt
   class ComboPackageItem < Ddt::Base
     include BelongsToBranch
-    replicated_model
 
     belongs_to :combo_package, class_name: 'Ddt::ComboPackage'
     belongs_to :combo_item, class_name: 'Ddt::ComboItem'

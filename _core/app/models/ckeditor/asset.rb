@@ -1,5 +1,4 @@
 class Ckeditor::Asset < ActiveRecord::Base
-  replicated_model
 
   include Ckeditor::Orm::ActiveRecord::AssetBase
 

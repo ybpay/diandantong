@@ -1,6 +1,5 @@
 module Ddt
   class DeliveryZone < Ddt::Base
-    replicated_model
 
     include Ddt::ListScope
     include Ddt::BelongsToBranchWithTouch

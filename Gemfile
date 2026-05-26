@@ -1,8 +1,8 @@
-source 'https://ruby.taobao.org'
+source 'https://rubygems.org'
 ruby '2.1.6'
 
 gem 'rails', '4.1.13'
-gem 'mysql2', '0.3.17'
+gem 'pg', '~> 0.21.0'
 gem 'exception_notification', git: 'https://github.com/smartinez87/exception_notification.git'
 gem 'jpush', "3.2.1"
 gem 'foreman', '0.63.0'
@@ -17,7 +17,6 @@ gem 'thin'
 gem 'sass-rails', '~> 5.0.6'
 gem 'sprockets', '2.11.0'
 gem 'rack-attack', '4.3.1'
-gem 'ar-octopus'
 
 gem 'activerecord-session_store', "0.1.2"
 gem 'alipay'                        , '~> 0.14.0', git: 'https://github.com/chloerei/alipay.git'
@@ -58,5 +57,4 @@ gem 'whenever', require: false
 gem 'unicorn'
 gem 'doorkeeper', '~> 3.1.0'
 # gem 'rbtrace'
-# gem 'marginalia' # log controller:action to mysql-slow.log
-gem 'sqlite3'
+# gem 'marginalia'

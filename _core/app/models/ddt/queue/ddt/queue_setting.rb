@@ -1,7 +1,6 @@
 module Ddt
   class QueueSetting < Ddt::Base
     include BelongsToBranch
-    replicated_model
 
     belongs_to :current_queue_head, class_name: 'Ddt::GuestQueue'
     has_many :guest_queues, dependent: :destroy, class_name: 'Ddt::GuestQueue'

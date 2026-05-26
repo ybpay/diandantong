@@ -2,7 +2,6 @@
 module Ddt
   class Wallet < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     ### relationships
     include ActiveSupport::NumberHelper

@@ -59,16 +59,14 @@ module Ddt
         end
 
         def self.query_bill(action_name, params)
-          Octopus.using(:stat1) do
-            cache_key = self.cache_key(action_name, params)
-            result = Ddt::BillCenterStatistic.new(params).send(action_name)
+          cache_key = self.cache_key(action_name, params)
+          result = Ddt::BillCenterStatistic.new(params).send(action_name)
 
-            filename = cache_key.gsub('-', '_')
-            uploader = BillCenterStatisticsCacheUploader.new
-            uploader.store!(StringIoUploadFile.new(filename, result.to_json, false))
-            self.delay_for(1.hours).delete_cache(filename)
-            result
-          end
+          filename = cache_key.gsub('-', '_')
+          uploader = BillCenterStatisticsCacheUploader.new
+          uploader.store!(StringIoUploadFile.new(filename, result.to_json, false))
+          self.delay_for(1.hours).delete_cache(filename)
+          result
         end
 
         def self.cache_key(action_name, params)

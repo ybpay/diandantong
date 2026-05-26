@@ -1,7 +1,6 @@
 #encoding: utf-8
 module Ddt
   class WechatSubscribeRelationship < Ddt::Base
-    replicated_model
 
     validates_presence_of :gonghao_open_id, :user_open_id
     validates :gonghao_open_id, gonghao: true

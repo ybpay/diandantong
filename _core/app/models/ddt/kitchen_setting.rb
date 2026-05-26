@@ -1,6 +1,5 @@
 module Ddt
   class KitchenSetting < Ddt::Base
-    replicated_model
 
     include BelongsToBranch
 

@@ -21,7 +21,7 @@ module Ddt
 
         define_method :cache_record do
           @cache_key ||= self.compute_cache_key
-          @cache_record ||= Ddt::StatisticsCache.using(:master).where(key: @cache_key).first
+          @cache_record ||= Ddt::StatisticsCache.where(key: @cache_key).first
         end
 
         define_method :cache_key do
@@ -38,7 +38,7 @@ module Ddt
           options[:shop_id] = @shop.id
           options[:accessible_branch_ids] = @accessible_branches.try(:map, &:id)
           Rails.logger.info("#{self.class.name}: #{options}")
-          cache = Ddt::StatisticsCache.using(:master).where(key: cache_key).first_or_initialize
+          cache = Ddt::StatisticsCache.where(key: cache_key).first_or_initialize
           cache.operator_id = options[:statistics_operator_id]
           cache.shop_id = @shop.id
           cache.name = @statistic_name
@@ -80,7 +80,7 @@ module Ddt
 
         def async_get_result(klass, cache_key, options)
           options = options || {}
-          cache = Ddt::StatisticsCache.using(:master).where(key: cache_key).first
+          cache = Ddt::StatisticsCache.where(key: cache_key).first
           if cache.present?
             begin
               Rails.logger.info("[sidekiq] #{klass}: #{options}")
@@ -90,28 +90,26 @@ module Ddt
               statistics.instance_variable_set(:'@cache_key', cache_key)
               statistics.instance_variable_set(:'@cache_record', cache)
               statistics.async_statistics_start_at = Time.now
-              Octopus.using(:stat1) do
-                basename = "#{cache.name}(#{statistics.start_time}_#{statistics.end_time})"
-                csv_file = Tempfile.new([basename, '.csv'], :encoding => 'utf-8')
-                xls_file = Tempfile.new([basename, '.xls'], :encoding => 'utf-8')
-                begin
-                  # TODO: 大于5000条数据就不用显示了
-                  if self.info[:render_view]
-                    cache.result = StringIoUploadFile.new(basename, statistics.result, true)
-                  else
-                    cache.result = StringIoUploadFile.new(basename, statistics.to_html, false)
-                  end
-                  cache.csv = statistics.to_csv(csv_file)
-                  cache.xls = statistics.to_xls(xls_file)
-                  cache.state = 'completed'
-                  cache.cost_time = Time.now - statistics.async_statistics_start_at
-                  cache.save!
-                ensure
-                  csv_file.close
-                  csv_file.unlink
-                  xls_file.close
-                  xls_file.unlink
+              basename = "#{cache.name}(#{statistics.start_time}_#{statistics.end_time})"
+              csv_file = Tempfile.new([basename, '.csv'], :encoding => 'utf-8')
+              xls_file = Tempfile.new([basename, '.xls'], :encoding => 'utf-8')
+              begin
+                # TODO: 大于5000条数据就不用显示了
+                if self.info[:render_view]
+                  cache.result = StringIoUploadFile.new(basename, statistics.result, true)
+                else
+                  cache.result = StringIoUploadFile.new(basename, statistics.to_html, false)
                 end
+                cache.csv = statistics.to_csv(csv_file)
+                cache.xls = statistics.to_xls(xls_file)
+                cache.state = 'completed'
+                cache.cost_time = Time.now - statistics.async_statistics_start_at
+                cache.save!
+              ensure
+                csv_file.close
+                csv_file.unlink
+                xls_file.close
+                xls_file.unlink
               end
               Rails.logger.info("finish get result job for #{cache_key}")
             rescue => e

@@ -3,7 +3,6 @@ module Ddt
   class VipLevel < Ddt::Base
     attr_accessor :skip_validate_level
     acts_as_paranoid
-    replicated_model
 
     belongs_to :shop, class_name: 'Ddt::Shop', touch: true
     has_many :vip_infos, class_name: 'Ddt::VipInfo'

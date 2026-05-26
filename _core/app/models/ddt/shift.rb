@@ -7,7 +7,6 @@ module Ddt
     has_many :base_shift_items, ->{ base }, class_name: "Ddt::ShiftItem"
     has_many :recharge_shift_items, ->{ recharge }, class_name: "Ddt::ShiftItem"
     acts_as_paranoid
-    replicated_model
 
     get_with_shop_time_zone :created_at, :closed_at
     after_create :open

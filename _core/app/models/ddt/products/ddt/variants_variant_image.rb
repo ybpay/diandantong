@@ -1,7 +1,6 @@
 module Ddt
   class VariantsVariantImage < Ddt::Base
     include Ddt::ListScope
-    replicated_model
 
     belongs_to :variant, class_name: 'Ddt::Variant'
     belongs_to :variant_image, class_name: 'Ddt::VariantImage'

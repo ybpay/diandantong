@@ -2,7 +2,6 @@
 module Ddt
   class OnePage < Ddt::Base
     include ListScope
-    replicated_model
 
     acts_as_list
     acts_as_type :alignment, %W[top bottom left right], %W[靠上 靠底 靠左 靠右]

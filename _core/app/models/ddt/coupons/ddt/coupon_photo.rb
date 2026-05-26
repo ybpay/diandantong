@@ -1,7 +1,6 @@
 module Ddt
   class CouponPhoto < Ddt::Base
     include Ddt::BelongsToShop
-    replicated_model
 
     #### relationships
     belongs_to :owner, polymorphic: true

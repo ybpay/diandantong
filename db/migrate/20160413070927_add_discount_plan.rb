@@ -22,23 +22,23 @@ class AddDiscountPlan < ActiveRecord::Migration
       t.integer :variant_id
     end
 
-    add_index :ddt_discount_plan_items_variants, :discount_plan_item_id, name: "index_dpiv_on_dpi_id", using: :btree
-    add_index :ddt_discount_plan_items_variants, :variant_id, name: "index_dpiv_on_v_id", using: :btree
+    add_index :ddt_discount_plan_items_variants, :discount_plan_item_id, name: "index_dpiv_on_dpi_id"
+    add_index :ddt_discount_plan_items_variants, :variant_id, name: "index_dpiv_on_v_id"
 
     create_table :ddt_discount_plan_items_categories, id: false, force: true do |t|
       t.integer :discount_plan_item_id
       t.integer :category_id
     end
 
-    add_index :ddt_discount_plan_items_categories, :discount_plan_item_id, name: "index_dpica_on_dpi_id", using: :btree
-    add_index :ddt_discount_plan_items_categories, :category_id, name: "index_dpica_on_ca_id", using: :btree
+    add_index :ddt_discount_plan_items_categories, :discount_plan_item_id, name: "index_dpica_on_dpi_id"
+    add_index :ddt_discount_plan_items_categories, :category_id, name: "index_dpica_on_ca_id"
 
     create_table :ddt_discount_plan_items_combos, id: false, force: true do |t|
       t.integer :discount_plan_item_id
       t.integer :combo_id
     end
 
-    add_index :ddt_discount_plan_items_combos, :discount_plan_item_id, name: "index_dpicombo_on_dpi_id", using: :btree
-    add_index :ddt_discount_plan_items_combos, :combo_id, name: "index_dpicombo_on_combo_id", using: :btree
+    add_index :ddt_discount_plan_items_combos, :discount_plan_item_id, name: "index_dpicombo_on_dpi_id"
+    add_index :ddt_discount_plan_items_combos, :combo_id, name: "index_dpicombo_on_combo_id"
   end
 end

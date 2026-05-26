@@ -1,7 +1,6 @@
 module Ddt
   class TempRechargeProduct < Ddt::Base
     include BelongsToShop
-    replicated_model
 
     acts_as_paranoid
 

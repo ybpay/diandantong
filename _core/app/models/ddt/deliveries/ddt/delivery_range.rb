@@ -2,7 +2,6 @@
 module Ddt
   class DeliveryRange < Ddt::Base
     include Ddt::BelongsToBranch
-    replicated_model
 
 
     before_validation :ensure_not_nil

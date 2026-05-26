@@ -1,6 +1,5 @@
 module Ddt
   class Joke < ActiveRecord::Base
-    replicated_model
 
     def self.random
       # self.order("RAND()").first.try(:content)

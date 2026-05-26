@@ -1,7 +1,7 @@
 class FixOrderNumberPrefix < ActiveRecord::Migration
   def up
     execute <<-SQL.strip_heredoc
-      update ddt_orders set number = IF(number REGEXP '^[1-9]', CONCAT('B', number), number) where number is not null;
+      UPDATE ddt_orders SET number = CASE WHEN number ~ '^[1-9]' THEN 'B' || number ELSE number END WHERE number IS NOT NULL;
     SQL
   end
 

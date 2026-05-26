@@ -2,7 +2,6 @@
 module Ddt
   class Category < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     include Ddt::ListScope
     include Ddt::BelongsToBranch

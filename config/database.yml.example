@@ -1,51 +1,40 @@
-# SQLite version 3.x
-#   gem install sqlite3
+# PostgreSQL 18 configuration
+# Requires: gem install pg
 #
-#   Ensure the SQLite 3 gem is defined in your Gemfile
-#   gem 'sqlite3'
-development:
-  adapter: mysql2
-  database: ddt_dev
-  charset: utf8mb4
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
-  username: root
-  password: root
+# Connection pooling:
+#   pool: number of connections per process (default: 5)
+#
+# For dual-write migration mode, set both primary and mysql_replica sections.
 
-# Warning: The database defined as "test" will be erased and
-# re-generated from your development database when you run "rake".
-# Do not set this db to the same as development or production.
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 25
+  host: localhost
+  port: 5432
+  # schema_search_path: public
+
+development:
+  <<: *default
+  database: ddt_dev
+  username: postgres
+  password: postgres
+  min_messages: warning
+
 test:
-  adapter: sqlite3
-  database: db/test.sqlite3
-  pool: 5
-  timeout: 5000
+  <<: *default
+  database: ddt_test
+  username: postgres
+  password: postgres
 
 production:
-  adapter: mysql2
-  database: ddt_dev
-  username: root
-  password: ''
-  charset: utf8mb4
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
+  <<: *default
+  database: ddt_prod
+  username: ddt_app
+  password: <%= ENV['DDT_DATABASE_PASSWORD'] %>
+  pool: 50
 
-impression_development:
-  adapter: mysql2
-  username: root
-  password: root
-  database: ddb_impression_dev
-  charset: utf8mb4
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
-
-
-impression_production:
-  adapter: mysql2
-  username: root
-  password: root
-  database: ddb_impression_prod
-  charset: utf8mb4
-  encoding: utf8mb4
-  collation: utf8mb4_unicode_ci
-
+# Impression data is now merged into the primary database.
+# The impression tables (impressions) are stored in the same database.
+# For migration from the old separate impression database, use the
+# migration script at tools/pg_migration/migrate_impressions.rb

@@ -1,8 +1,7 @@
-source 'https://ruby.taobao.org'
+source 'https://rubygems.org'
 
 gem 'rails', "4.1.13"
-gem 'mysql2'
-gem 'sqlite3'
+gem 'pg', '~> 0.21.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sass-rails', '>= 3.2'

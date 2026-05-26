@@ -1,7 +1,6 @@
 module Ddt
   class EssentialProduct < Ddt::Base
     include BelongsToBranch
-    replicated_model
 
     belongs_to :variant, class_name: 'Ddt::Variant'
     validates_presence_of :variant, :order_type

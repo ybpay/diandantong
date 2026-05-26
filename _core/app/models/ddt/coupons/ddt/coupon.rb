@@ -1,6 +1,5 @@
 module Ddt
   class Coupon < Ddt::BaseCoupon
-    replicated_model
 
     belongs_to :coupon_version,  ->{with_deleted}, class_name: 'Ddt::CouponVersion', foreign_key: :abstract_coupon_version_id
     delegate :coupon_min_usable_amount,

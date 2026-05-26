@@ -1,6 +1,5 @@
 module Ddt
   class WechatViewRecord < Ddt::Base
-    replicated_model
 
     belongs_to :viewed_user, class_name: "Ddt::BaseUser", foreign_key: :base_user_id
     belongs_to :wechat_share_record, class_name: 'Ddt::WechatShareRecord', counter_cache: :viewed_users_count

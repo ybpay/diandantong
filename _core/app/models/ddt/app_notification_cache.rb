@@ -1,6 +1,5 @@
 module Ddt
   class AppNotificationCache < Ddt::DdtEx
-    replicated_model
 
     belongs_to :notification, :class_name => 'Ddt::Notification'
     belongs_to :notification_event, :class_name => 'Ddt::NotificationEvent'

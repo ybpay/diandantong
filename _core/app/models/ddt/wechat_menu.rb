@@ -3,7 +3,6 @@ module Ddt
   class WechatMenu < Ddt::Base
     include ActsAsType
     include ListScope
-    replicated_model
 
     auto_strip_attributes :url
     filter_urls_for :url

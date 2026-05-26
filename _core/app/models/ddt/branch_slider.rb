@@ -2,7 +2,6 @@
 module Ddt
   class BranchSlider < Ddt::Base
     include Ddt::ListScope
-    replicated_model
 
     acts_as_list scope: :shop
 

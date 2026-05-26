@@ -2,7 +2,6 @@
 module Ddt
   class PayMethod < Ddt::Base
     acts_as_paranoid
-    replicated_model
 
     include ListScope
     include Ddt::BelongsToShopWithTouch

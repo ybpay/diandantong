@@ -4,7 +4,6 @@ module Ddt
     attr_accessor :price_strategy
     belongs_to :combo_item, touch: true
     belongs_to :variant
-    replicated_model
 
     # validations
     validates_presence_of :variant_id

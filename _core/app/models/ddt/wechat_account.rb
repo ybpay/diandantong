@@ -1,7 +1,6 @@
 # encoding: utf-8
 module Ddt
   class WechatAccount < Ddt::Base
-    replicated_model
 
     auto_strip_attributes :app_id, :app_secret, :gonghao_open_id, :access_token, :jsapi_ticket, :weixin_hao
 
