@@ -43,11 +43,11 @@ export const useH5AuthStore = defineStore('h5Auth', () => {
     localStorage.removeItem('h5_auth_token')
   }
 
-  function restore(): void {
+  async function restore(): Promise<void> {
     const savedToken = localStorage.getItem('h5_auth_token')
     if (savedToken) {
       token.value = savedToken
-      fetchUser()
+      await fetchUser()
     }
   }
 

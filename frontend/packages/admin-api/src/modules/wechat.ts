@@ -2,10 +2,13 @@ import client from '../client'
 
 export interface WeChatSettings {
   app_id: string
-  app_secret: string
   mch_id: string
-  mch_key: string
   notify_url: string
+}
+
+export interface WeChatSettingsUpdate extends WeChatSettings {
+  app_secret?: string
+  mch_key?: string
 }
 
 export interface WeChatMenu {
@@ -25,7 +28,7 @@ export const wechatApi = {
     return client.get<WeChatSettings>('/wechat/settings')
   },
 
-  updateSettings(data: Partial<WeChatSettings>) {
+  updateSettings(data: Partial<WeChatSettingsUpdate>) {
     return client.put<WeChatSettings>('/wechat/settings', data)
   },
 

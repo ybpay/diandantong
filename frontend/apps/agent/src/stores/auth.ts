@@ -41,11 +41,11 @@ export const useAgentAuthStore = defineStore('agentAuth', () => {
     localStorage.removeItem('agent_auth_token')
   }
 
-  function restore(): void {
+  async function restore(): Promise<void> {
     const savedToken = localStorage.getItem('agent_auth_token')
     if (savedToken) {
       token.value = savedToken
-      fetchUser()
+      await fetchUser()
     }
   }
 

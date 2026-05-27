@@ -73,7 +73,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { showToast } from 'vant'
 import { h5Client } from '@/api/client'
@@ -86,6 +86,9 @@ const orderAmount = ref(0)
 const paymentMethod = ref('wechat')
 const paying = ref(false)
 const showQRCode = ref(false)
+
+let pollTimer: ReturnType<typeof setInterval> | null = null
+let pollTimeout: ReturnType<typeof setTimeout> | null = null
 
 onMounted(async () => {
   try {
@@ -118,19 +121,37 @@ async function handlePay(): Promise<void> {
 }
 
 function pollPaymentStatus(): void {
-  const timer = setInterval(async () => {
+  pollTimer = setInterval(async () => {
     try {
       const { data } = await h5Client.get(`/orders/${orderId.value}`)
       if (data.status === 'completed' || data.status === 'confirmed') {
-        clearInterval(timer)
+        clearInterval(pollTimer!)
+        pollTimer = null
         showToast('支付成功')
         router.replace(`/order/success?order_no=${data.order_no}`)
       }
     } catch {
-      clearInterval(timer)
+      clearInterval(pollTimer!)
+      pollTimer = null
     }
   }, 3000)
 
-  setTimeout(() => clearInterval(timer), 300000)
+  pollTimeout = setTimeout(() => {
+    if (pollTimer) {
+      clearInterval(pollTimer)
+      pollTimer = null
+    }
+  }, 300000)
 }
+
+onUnmounted(() => {
+  if (pollTimer) {
+    clearInterval(pollTimer)
+    pollTimer = null
+  }
+  if (pollTimeout) {
+    clearTimeout(pollTimeout)
+    pollTimeout = null
+  }
+})
 </script>

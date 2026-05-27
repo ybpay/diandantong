@@ -8,7 +8,7 @@ import { useAgentAuthStore } from '@/stores/auth'
 
 const authStore = useAgentAuthStore()
 
-onMounted(() => {
-  authStore.restore()
+onMounted(async () => {
+  await authStore.restore()
 })
 </script>

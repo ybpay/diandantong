@@ -155,7 +155,6 @@ async function submitOrder(): Promise<void> {
         product_id: item.productId,
         quantity: item.quantity,
         variants: item.variants,
-        price: item.price,
       })),
     })
     cartStore.clear()
