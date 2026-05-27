@@ -32,12 +32,28 @@ export function useWebSocket(url: string) {
     ws.onmessage = (event) => {
       try {
         const msg = JSON.parse(event.data)
+
+        // ActionCable format: { type, identifier, message }
+        if (msg.identifier && msg.type === 'message') {
+          let channel: string | undefined
+          try {
+            channel = JSON.parse(msg.identifier).channel
+          } catch { /* ignore */ }
+          if (channel) {
+            const handlerSet = handlers.get(channel)
+            if (handlerSet) {
+              handlerSet.forEach((fn) => fn(msg.message))
+            }
+          }
+          return
+        }
+
+        // Generic format: { type, channel, data }
         const type = msg.type || msg.channel
         const handlerSet = handlers.get(type)
         if (handlerSet) {
           handlerSet.forEach((fn) => fn(msg.data || msg))
         }
-        // Also call wildcard handlers
         const wildcardSet = handlers.get('*')
         if (wildcardSet) {
           wildcardSet.forEach((fn) => fn(msg))
@@ -79,9 +95,12 @@ export function useWebSocket(url: string) {
 export function useActionCable() {
   const { connected, connect, disconnect, on, off, send } = useWebSocket('/cable')
 
-  function subscribe(channel: string) {
+  function subscribe(channel: string, handlers?: { received?: (payload: unknown) => void }) {
     connect()
     send({ command: 'subscribe', identifier: JSON.stringify({ channel }) })
+    if (handlers?.received) {
+      on(channel, handlers.received)
+    }
   }
 
   function unsubscribe(channel: string) {
