@@ -24,6 +24,10 @@ FactoryBot.define do
       end
     end
 
+    factory :shop_with_boss, class: 'Ddt::Shop', parent: :shop do
+      with_boss
+    end
+
     trait :multi_branch do
       max_branches_limit { 10 }
       shop_type { 'multiple' }

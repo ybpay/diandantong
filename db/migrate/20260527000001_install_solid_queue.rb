@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
-class CreateSolidQueueTables < ActiveRecord::Migration[8.1]
+# NOTE: This migration was generated via `rails generate solid_queue:install`.
+# If you need to re-generate (e.g. after a solid_queue gem upgrade), run:
+#   bin/rails generate solid_queue:install
+# and replace this file with the generated output.
+
+class InstallSolidQueue < ActiveRecord::Migration[8.1]
   def change
     create_table :solid_queue_jobs, id: :primary_key do |t|
       t.string   :queue_name, null: false

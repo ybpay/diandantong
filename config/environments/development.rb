@@ -23,7 +23,7 @@ Rails.application.configure do
     port: 25,
     domain: 'diandantong.com',
     user_name: 'noreply@diandantong.com',
-    password: Rails.application.credentials.dig(:smtp, :password) || 'ddt2013',
+    password: Rails.application.credentials.dig(:smtp, :password),
     authentication: :login,
     enable_starttls_auto: false
   }

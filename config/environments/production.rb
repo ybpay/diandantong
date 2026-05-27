@@ -16,9 +16,10 @@ Rails.application.configure do
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   config.log_tags = [:request_id]
 
-  config.action_cable.disable_request_forgery_protection = true
   config.action_cable.url = ENV.fetch("ACTION_CABLE_URL", "wss://#{ENV.fetch('HOST', 'cy.diandantong.com')}/cable")
-  config.action_cable.allowed_request_origins = [ENV.fetch("HOST", "cy.diandantong.com")]
+  config.action_cable.allowed_request_origins = [
+    /https?:\/\/#{Regexp.escape(ENV.fetch('HOST', 'cy.diandantong.com'))}/
+  ]
 
   config.action_mailer.perform_caching = false
   config.action_mailer.delivery_method = :smtp
@@ -29,7 +30,7 @@ Rails.application.configure do
     port: 25,
     domain: 'diandantong.com',
     user_name: 'noreply@diandantong.com',
-    password: Rails.application.credentials.dig(:smtp, :password) || 'ddt2013',
+    password: Rails.application.credentials.dig(:smtp, :password),
     authentication: :login,
     enable_starttls_auto: false
   }

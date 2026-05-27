@@ -7,8 +7,12 @@ until pg_isready -h "${DB_HOST:-localhost}" -p "${DB_PORT:-5432}" -U "${DB_USER:
   sleep 2
 done
 
-# Run migrations on startup (zero-downtime safe with migration transactions)
-bundle exec rails db:migrate
+# Run migrations only when explicitly requested (e.g. pre-deploy job)
+# For zero-downtime deploys, run migrations as a separate step:
+#   docker compose run --rm app bundle exec rails db:migrate
+if [ "${RUN_MIGRATIONS:-false}" = "true" ]; then
+  bundle exec rails db:migrate
+fi
 
 # Execute the CMD
 exec "$@"

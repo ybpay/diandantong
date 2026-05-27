@@ -62,7 +62,8 @@ module Ddt
           gateway = PaymentGateway.for(@payment)
           result = gateway.refund(@payment, @amount)
 
-          @payment.update!(state: :refunded) if @amount == @payment.amount
+          new_state = @amount == @payment.amount ? :refunded : :partially_refunded
+          @payment.update!(state: new_state)
           Ddt::PaymentLog.create!(
             payment: @payment,
             action: :refund,
@@ -160,10 +161,14 @@ module Ddt
     class MemberCardGateway
       def self.create_payment(payment)
         wallet = payment.order.user.vip_info.card_wallet
-        raise InsufficientBalanceError, "余额不足" if wallet.balance < payment.amount
 
         ApplicationRecord.transaction do
-          wallet.decrement!(:balance, payment.amount)
+          updated = wallet.class.where(id: wallet.id)
+                      .where('balance >= ?', payment.amount)
+                      .update_all('balance = balance - ?', payment.amount)
+          raise InsufficientBalanceError, "余额不足" if updated.zero?
+
+          wallet.reload
           Ddt::PaymentService::CompletePayment.call(
             payment,
             transaction_id: "MC-#{SecureRandom.hex(8)}"

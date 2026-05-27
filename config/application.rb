@@ -35,7 +35,7 @@ module Ddt
 
     # config.middleware.use Rack::Attack
 
-    config.active_record.strict_loading_by_default = true
+    config.active_record.strict_loading_by_default = false
 
     config.active_job.queue_adapter = :solid_queue
 

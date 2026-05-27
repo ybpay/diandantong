@@ -153,7 +153,7 @@ module Ddt
 
         vip_info = order.user.vip_info
         points = (order.total * vip_info.vip_level.points_rate).floor
-        vip_info.increment!(:points, points)
+        vip_info.class.update_counters(vip_info.id, points: points)
       end
     end
 

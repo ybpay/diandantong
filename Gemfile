@@ -76,7 +76,6 @@ gem 'exception_notification', '~> 4.5'
 
 gem 'settingslogic', '~> 2.0'
 
-gem 'kaminari', '~> 1.2'
 
 gem 'omniauth', '~> 2.1'
 gem 'omniauth-rails_csrf_protection', '~> 1.0'
