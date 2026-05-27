@@ -16,7 +16,11 @@
         </el-form-item>
 
         <el-form-item label="AppSecret">
-          <el-input v-model="wechatForm.officialAppSecret" type="password" show-password placeholder="公众号 AppSecret" />
+          <div class="w-full">
+            <el-input v-if="secretsLoaded" v-model="wechatForm.officialAppSecret" type="password" show-password placeholder="公众号 AppSecret" />
+            <el-input v-else :model-value="maskSecret(wechatForm.officialAppSecret)" disabled placeholder="点击显示" />
+            <el-button v-if="!secretsLoaded" link type="primary" class="mt-1" @click="revealSecrets">显示密钥</el-button>
+          </div>
         </el-form-item>
 
         <el-form-item label="消息推送 Token">
@@ -24,7 +28,10 @@
         </el-form-item>
 
         <el-form-item label="消息推送 EncodingAESKey">
-          <el-input v-model="wechatForm.officialAesKey" type="password" show-password placeholder="EncodingAESKey" />
+          <div class="w-full">
+            <el-input v-if="secretsLoaded" v-model="wechatForm.officialAesKey" type="password" show-password placeholder="EncodingAESKey" />
+            <el-input v-else :model-value="maskSecret(wechatForm.officialAesKey)" disabled placeholder="点击显示" />
+          </div>
         </el-form-item>
 
         <el-divider content-position="left">微信小程序</el-divider>
@@ -34,7 +41,10 @@
         </el-form-item>
 
         <el-form-item label="小程序 AppSecret">
-          <el-input v-model="wechatForm.miniAppSecret" type="password" show-password placeholder="小程序 AppSecret" />
+          <div class="w-full">
+            <el-input v-if="secretsLoaded" v-model="wechatForm.miniAppSecret" type="password" show-password placeholder="小程序 AppSecret" />
+            <el-input v-else :model-value="maskSecret(wechatForm.miniAppSecret)" disabled placeholder="点击显示" />
+          </div>
         </el-form-item>
 
         <el-form-item label="小程序名称">
@@ -48,7 +58,10 @@
         </el-form-item>
 
         <el-form-item label="API密钥">
-          <el-input v-model="wechatForm.apiKey" type="password" show-password placeholder="API密钥" />
+          <div class="w-full">
+            <el-input v-if="secretsLoaded" v-model="wechatForm.apiKey" type="password" show-password placeholder="API密钥" />
+            <el-input v-else :model-value="maskSecret(wechatForm.apiKey)" disabled placeholder="点击显示" />
+          </div>
         </el-form-item>
 
         <el-form-item label="证书上传">
@@ -62,12 +75,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, shallowRef } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const saving = ref(false)
 
-const wechatForm = reactive({
+const wechatForm = ref({
   officialAppId: '',
   officialAppSecret: '',
   officialToken: '',
@@ -78,6 +91,20 @@ const wechatForm = reactive({
   mchId: '',
   apiKey: '',
 })
+
+const secretsLoaded = shallowRef(false)
+
+function revealSecrets() {
+  if (!secretsLoaded.value) {
+    secretsLoaded.value = true
+  }
+}
+
+function maskSecret(value: string): string {
+  if (!value) return ''
+  if (value.length <= 8) return '********'
+  return value.slice(0, 4) + '****' + value.slice(-4)
+}
 
 const handleSave = () => {
   saving.value = true

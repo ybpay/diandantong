@@ -68,8 +68,11 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { useAuthStore } from '@diandantong/admin-stores'
+import type { AdminApiError } from '@diandantong/admin-types'
 
 const router = useRouter()
+const authStore = useAuthStore()
 const formRef = ref<FormInstance>()
 const loading = ref(false)
 
@@ -96,13 +99,12 @@ const handleLogin = async () => {
     if (!valid) return
     loading.value = true
     try {
-      // TODO: call auth API from @diandantong/admin-api
-      // const authStore = useAuthStore()
-      // await authStore.login(loginForm.username, loginForm.password)
+      await authStore.login({ username: loginForm.username, password: loginForm.password })
       ElMessage.success('登录成功')
       router.push('/')
-    } catch (error: any) {
-      ElMessage.error(error.message || '登录失败，请检查用户名和密码')
+    } catch (error: unknown) {
+      const apiError = error as AdminApiError
+      ElMessage.error(apiError?.message || '登录失败，请检查用户名和密码')
     } finally {
       loading.value = false
     }

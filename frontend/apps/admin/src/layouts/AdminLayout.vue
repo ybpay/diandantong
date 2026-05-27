@@ -13,7 +13,7 @@
           router
           class="flex-1 border-r-0"
         >
-          <el-menu-item index="/dashboard" @click="navigate('/')">
+          <el-menu-item index="/" @click="navigate('/')">
             <el-icon><DataBoard /></el-icon>
             <template #title>控制台</template>
           </el-menu-item>

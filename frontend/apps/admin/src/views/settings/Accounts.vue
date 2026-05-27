@@ -39,7 +39,7 @@
         <el-table-column prop="lastLoginAt" label="最后登录" width="160" />
         <el-table-column prop="status" label="状态" width="80">
           <template #default="{ row }">
-            <el-tag :type="row.status === 'active' ? 'success' : 'danger'" size="small">{{ row.status === 'active' ? '正常' : '禁用' }}</el-tag>
+            <el-tag :type="row.status === 'active' ? 'success' : 'danger'" size="small">{{ row.status === 'active' ? '正常' : '已停用' }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="200" fixed="right">
@@ -92,16 +92,28 @@
 import { ref, reactive } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import type { AdminUser, AdminRole } from '@diandantong/admin-types'
+
+interface AccountRow {
+  id: number
+  username: string
+  realName: string
+  phone: string
+  roleName: string
+  branchName: string
+  lastLoginAt: string
+  status: 'active' | 'inactive'
+}
 
 const loading = ref(false)
 const saving = ref(false)
 const dialogVisible = ref(false)
-const editingAccount = ref<any>(null)
+const editingAccount = ref<AccountRow | null>(null)
 const formRef = ref<FormInstance>()
 
 const searchForm = reactive({ keyword: '', roleId: '' })
 
-const accounts = ref([
+const accounts = ref<AccountRow[]>([
   { id: 1, username: 'admin', realName: '管理员', phone: '138****0000', roleName: '超级管理员', branchName: '全部门店', lastLoginAt: '2026-05-27 09:00', status: 'active' },
   { id: 2, username: 'manager1', realName: '张店长', phone: '138****1111', roleName: '店长', branchName: '总店', lastLoginAt: '2026-05-27 08:30', status: 'active' },
   { id: 3, username: 'cashier1', realName: '李收银', phone: '139****2222', roleName: '收银员', branchName: '总店', lastLoginAt: '2026-05-26 18:00', status: 'active' },
@@ -118,13 +130,13 @@ const rules: FormRules = {
 }
 
 const showAddDialog = () => { editingAccount.value = null; Object.assign(accountForm, { username: '', realName: '', phone: '', roleId: undefined, branchId: 1, password: '' }); dialogVisible.value = true }
-const handleEdit = (row: any) => { editingAccount.value = row; dialogVisible.value = true }
+const handleEdit = (row: AccountRow) => { editingAccount.value = row; dialogVisible.value = true }
 const handleSave = async () => {
   if (!formRef.value) return
   await formRef.value.validate((valid) => { if (!valid) return; saving.value = true; setTimeout(() => { saving.value = false; dialogVisible.value = false; ElMessage.success('保存成功') }, 300) })
 }
 const handleSearch = () => { /* TODO */ }
 const handleReset = () => { searchForm.keyword = ''; searchForm.roleId = ''; handleSearch() }
-const handleResetPassword = async (row: any) => { await ElMessageBox.confirm(`确定重置「${row.realName}」的密码？`, '提示'); ElMessage.success('密码已重置为默认密码') }
-const handleToggleStatus = (row: any) => { row.status = row.status === 'active' ? 'disabled' : 'active'; ElMessage.success(row.status === 'active' ? '已启用' : '已禁用') }
+const handleResetPassword = async (row: AccountRow) => { await ElMessageBox.confirm(`确定重置「${row.realName}」的密码？`, '提示'); ElMessage.success('密码已重置为默认密码') }
+const handleToggleStatus = (row: AccountRow) => { row.status = row.status === 'active' ? 'inactive' : 'active'; ElMessage.success(row.status === 'active' ? '已启用' : '已禁用') }
 </script>

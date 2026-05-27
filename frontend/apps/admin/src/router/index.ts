@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import AdminLayout from '../layouts/AdminLayout.vue'
+import { useAuthStore } from '@diandantong/admin-stores'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -282,11 +283,16 @@ const router = createRouter({
   routes,
 })
 
-router.beforeEach((to, _from, next) => {
-  const token = localStorage.getItem('admin_auth_token')
-  if (to.meta.requiresAuth && !token) {
+router.beforeEach(async (to, _from, next) => {
+  const authStore = useAuthStore()
+
+  if (!authStore.token) {
+    await authStore.restore()
+  }
+
+  if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     next({ name: 'login' })
-  } else if (to.name === 'login' && token) {
+  } else if (to.name === 'login' && authStore.isLoggedIn) {
     next({ name: 'dashboard' })
   } else {
     next()

@@ -104,7 +104,7 @@
             管理菜品
           </el-button>
           <el-button class="w-full" @click="$router.push('/orders')">查看订单</el-button>
-          <el-button class="w-full" @click="$router.push('/crm/vip')">VIP管理</el-button>
+          <el-button class="w-full" @click="$router.push('/vip')">VIP管理</el-button>
           <el-button class="w-full" @click="$router.push('/statistics')">数据统计</el-button>
           <el-button class="w-full" @click="$router.push('/settings')">系统设置</el-button>
         </div>
