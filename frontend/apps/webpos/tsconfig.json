@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"],
+      "@webpos/ui": ["../../packages/ui/src"],
+      "@webpos/composables": ["../../packages/composables/src"],
+      "@webpos/api": ["../../packages/api/src"],
+      "@webpos/stores": ["../../packages/stores/src"],
+      "@webpos/types": ["../../packages/types/src"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.vue"],
+  "references": [
+    { "path": "../../packages/types" },
+    { "path": "../../packages/api" },
+    { "path": "../../packages/stores" },
+    { "path": "../../packages/composables" },
+    { "path": "../../packages/ui" }
+  ]
+}

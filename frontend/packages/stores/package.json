@@ -1,0 +1,15 @@
+{
+  "name": "@webpos/stores",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "pinia": "^2.1.0",
+    "@webpos/types": "workspace:*",
+    "@webpos/api": "workspace:*"
+  }
+}

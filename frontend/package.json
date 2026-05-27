@@ -1,0 +1,23 @@
+{
+  "name": "diandantong-webpos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Diandantong WebPOS - Vue 3 + TypeScript Monorepo",
+  "scripts": {
+    "dev": "pnpm --filter @webpos/webpos dev",
+    "dev:queue": "pnpm --filter @webpos/queue dev",
+    "dev:bill": "pnpm --filter @webpos/bill dev",
+    "dev:kitchen": "pnpm --filter @webpos/kitchen dev",
+    "dev:users": "pnpm --filter @webpos/users dev",
+    "dev:estimate": "pnpm --filter @webpos/estimate dev",
+    "dev:extended-form": "pnpm --filter @webpos/extended-form dev",
+    "build": "pnpm -r build",
+    "build:webpos": "pnpm --filter @webpos/webpos build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "eslint . --ext .vue,.ts,.tsx"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

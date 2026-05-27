@@ -1,0 +1,14 @@
+{
+  "name": "@webpos/composables",
+  "version": "1.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "vue": "^3.4.0",
+    "@webpos/types": "workspace:*"
+  }
+}
