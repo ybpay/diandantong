@@ -16,7 +16,10 @@
       "@webpos/composables": ["./packages/composables/src"],
       "@webpos/api": ["./packages/api/src"],
       "@webpos/stores": ["./packages/stores/src"],
-      "@webpos/types": ["./packages/types/src"]
+      "@webpos/types": ["./packages/types/src"],
+      "@diandantong/admin-api": ["./packages/admin-api/src"],
+      "@diandantong/admin-stores": ["./packages/admin-stores/src"],
+      "@diandantong/admin-types": ["./packages/admin-types/src"]
     }
   },
   "references": [
@@ -24,7 +27,10 @@
     { "path": "./packages/api" },
     { "path": "./packages/stores" },
     { "path": "./packages/composables" },
-    { "path": "./packages/ui" }
+    { "path": "./packages/ui" },
+    { "path": "./packages/admin-types" },
+    { "path": "./packages/admin-api" },
+    { "path": "./packages/admin-stores" }
   ],
   "exclude": ["node_modules", "dist"]
 }
