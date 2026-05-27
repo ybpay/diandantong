@@ -150,11 +150,11 @@
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { Expand, Fold } from '@element-plus/icons-vue'
-import { useAdminAuthStore } from '@diandantong/admin-stores'
+import { useAuthStore } from '@diandantong/admin-stores'
 
 const router = useRouter()
 const route = useRoute()
-const authStore = useAdminAuthStore()
+const authStore = useAuthStore()
 
 const isCollapsed = ref(false)
 

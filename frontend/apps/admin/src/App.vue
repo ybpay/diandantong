@@ -4,9 +4,9 @@
 
 <script setup lang="ts">
 import { onMounted } from 'vue'
-import { useAdminAuthStore } from '@diandantong/admin-stores'
+import { useAuthStore } from '@diandantong/admin-stores'
 
-const authStore = useAdminAuthStore()
+const authStore = useAuthStore()
 
 onMounted(() => {
   authStore.restore()
