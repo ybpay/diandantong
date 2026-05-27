@@ -1,17 +1,27 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { LoginForm } from '@webpos/ui'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@webpos/stores'
 
 const router = useRouter()
+const authStore = useAuthStore()
+const loading = ref(false)
 
-function onLoginSuccess() {
-  router.push({ name: 'shop' })
+async function onLogin(username: string, password: string) {
+  loading.value = true
+  try {
+    await authStore.login({ username, password })
+    router.push({ name: 'shop' })
+  } finally {
+    loading.value = false
+  }
 }
 </script>
 
 <template>
   <div class="login-page">
-    <LoginForm @login-success="onLoginSuccess" />
+    <LoginForm :loading="loading" @login="onLogin" />
   </div>
 </template>
 

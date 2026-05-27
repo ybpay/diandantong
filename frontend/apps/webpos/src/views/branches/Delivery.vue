@@ -50,9 +50,13 @@ const cartStore = useCartStore()
 
 const branchId = computed(() => Number(route.params.branchId))
 const products = ref<Product[]>([])
-const cartItems = ref<CartItem[]>([])
 const deliveryAddress = ref<DeliveryAddress | null>(null)
 const showAddressDialog = ref(false)
+
+const cartItems = computed(() => {
+  const cart = cartStore.getCart(branchId.value, 'delivery')
+  return cart?.items || []
+})
 
 async function fetchProducts() {
   try {
@@ -63,8 +67,8 @@ async function fetchProducts() {
   }
 }
 
-function addToCart(product: Product) {
-  cartItems.value.push({
+async function addToCart(product: Product) {
+  const item: CartItem = {
     product_id: product.id,
     product_name: product.name,
     price: product.price,
@@ -72,30 +76,53 @@ function addToCart(product: Product) {
     quantity: 1,
     is_gift: false,
     is_separate: false,
-  })
+  }
+  try {
+    await cartStore.addItem(branchId.value, 'delivery', item)
+  } catch {
+    ElMessage.error('添加失败')
+  }
 }
 
-function removeCartItem(index: number) { cartItems.value.splice(index, 1) }
-function changeQuantity(index: number, quantity: number) {
-  if (quantity <= 0) cartItems.value.splice(index, 1)
-  else cartItems.value[index].quantity = quantity
+async function removeCartItem(itemId: number) {
+  try {
+    await cartStore.removeItem(branchId.value, 'delivery', itemId)
+  } catch {
+    ElMessage.error('删除失败')
+  }
+}
+
+async function changeQuantity(index: number, quantity: number) {
+  const cart = cartStore.getCart(branchId.value, 'delivery')
+  if (!cart) return
+  const item = cart.items[index]
+  if (!item) return
+  if (quantity <= 0) {
+    await cartStore.removeItem(branchId.value, 'delivery', item.id!)
+  } else {
+    await cartStore.updateItem(branchId.value, 'delivery', { ...item, quantity })
+  }
 }
 
 async function placeOrder() {
   try {
     await cartStore.placeCart(branchId.value, 'delivery', {
-      items: cartItems.value,
       delivery_address_id: deliveryAddress.value?.id,
     })
     ElMessage.success('下单成功')
-    cartItems.value = []
     deliveryAddress.value = null
   } catch (e: unknown) {
     ElMessage.error((e as { message?: string }).message || '下单失败')
   }
 }
 
-function clearCart() { cartItems.value = [] }
+async function clearCart() {
+  try {
+    await cartStore.clearCart(branchId.value, 'delivery')
+  } catch {
+    // ignore
+  }
+}
 
 function handleCommand(command: string) {
   if (command === 'logout') {

@@ -77,7 +77,11 @@ const zones = ref<TableZone[]>([])
 const tables = ref<Table[]>([])
 const products = ref<Product[]>([])
 const selectedTable = ref<Table | null>(null)
-const cartItems = ref<CartItem[]>([])
+
+const cartItems = computed(() => {
+  const cart = cartStore.getCart(branchId.value, 'eat_in_hall')
+  return cart?.items || []
+})
 
 function statusText(status: string) {
   return { idle: '空闲', occupied: '就餐中', reserved: '已预约', ordering: '点餐中' }[status] || status
@@ -108,16 +112,7 @@ async function fetchProducts() {
 function handleTableSelect(table: Table) {
   selectedTable.value = table
   if (table.status !== 'idle') {
-    fetchCartItems()
-  }
-}
-
-async function fetchCartItems() {
-  try {
-    const cart = await cartStore.fetchCart(branchId.value, 'eat_in_hall')
-    cartItems.value = cart?.items || []
-  } catch {
-    // Cart may not exist yet
+    cartStore.fetchCart(branchId.value, 'eat_in_hall')
   }
 }
 
@@ -128,7 +123,7 @@ function startOrder() {
   })
 }
 
-function addToCart(product: Product) {
+async function addToCart(product: Product) {
   const item: CartItem = {
     product_id: product.id,
     product_name: product.name,
@@ -138,18 +133,30 @@ function addToCart(product: Product) {
     is_gift: false,
     is_separate: false,
   }
-  cartItems.value.push(item)
+  try {
+    await cartStore.addItem(branchId.value, 'eat_in_hall', item)
+  } catch {
+    ElMessage.error('添加失败')
+  }
 }
 
-function removeCartItem(index: number) {
-  cartItems.value.splice(index, 1)
+async function removeCartItem(itemId: number) {
+  try {
+    await cartStore.removeItem(branchId.value, 'eat_in_hall', itemId)
+  } catch {
+    ElMessage.error('删除失败')
+  }
 }
 
-function changeQuantity(index: number, quantity: number) {
+async function changeQuantity(index: number, quantity: number) {
+  const cart = cartStore.getCart(branchId.value, 'eat_in_hall')
+  if (!cart) return
+  const item = cart.items[index]
+  if (!item) return
   if (quantity <= 0) {
-    cartItems.value.splice(index, 1)
+    await cartStore.removeItem(branchId.value, 'eat_in_hall', item.id!)
   } else {
-    cartItems.value[index].quantity = quantity
+    await cartStore.updateItem(branchId.value, 'eat_in_hall', { ...item, quantity })
   }
 }
 
@@ -157,10 +164,8 @@ async function placeOrder() {
   try {
     await cartStore.placeCart(branchId.value, 'eat_in_hall', {
       table_id: selectedTable.value?.id,
-      items: cartItems.value,
     })
     ElMessage.success('下单成功')
-    cartItems.value = []
     await fetchTables()
   } catch (e: unknown) {
     const err = e as { message?: string }
@@ -168,8 +173,12 @@ async function placeOrder() {
   }
 }
 
-function clearCart() {
-  cartItems.value = []
+async function clearCart() {
+  try {
+    await cartStore.clearCart(branchId.value, 'eat_in_hall')
+  } catch {
+    // ignore
+  }
 }
 
 function handleCommand(command: string) {

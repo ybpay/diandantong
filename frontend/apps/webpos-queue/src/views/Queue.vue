@@ -12,7 +12,7 @@
           <div class="text-sm text-gray-600">
             <span>当前等待: <strong class="text-orange-600">{{ waitingCount }}</strong> 组</span>
           </div>
-          <span class="text-sm text-gray-600">{{ authStore.username }}</span>
+          <span class="text-sm text-gray-600">{{ authStore.userName }}</span>
         </div>
       </div>
     </header>
@@ -101,7 +101,7 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 
-const branchId = computed(() => route.params.branchId as string)
+const branchId = computed(() => Number(route.params.branchId))
 
 // Queue entries
 const queueEntries = ref<QueueEntry[]>([])
@@ -139,7 +139,8 @@ let pollTimer: ReturnType<typeof setInterval> | null = null
 async function fetchQueue() {
   loadingQueue.value = true
   try {
-    queueEntries.value = await queueApi.list(branchId.value)
+    const { data } = await queueApi.list(branchId.value)
+    queueEntries.value = data.data
   } catch (error) {
     console.error('Failed to fetch queue:', error)
     ElMessage.error('获取排队列表失败')

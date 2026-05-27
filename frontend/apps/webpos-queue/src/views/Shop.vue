@@ -4,7 +4,7 @@
       <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
         <h1 class="text-xl font-semibold text-gray-800">点单通 - 排队管理</h1>
         <div class="flex items-center gap-4">
-          <span class="text-sm text-gray-600">{{ authStore.username }}</span>
+          <span class="text-sm text-gray-600">{{ authStore.userName }}</span>
           <el-button type="danger" size="small" @click="handleLogout">
             退出登录
           </el-button>

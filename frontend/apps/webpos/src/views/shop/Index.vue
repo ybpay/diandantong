@@ -6,11 +6,12 @@
 import { useRouter } from 'vue-router'
 import { BranchSelector } from '@webpos/ui'
 import { useAuthStore } from '@webpos/stores'
+import type { Branch } from '@webpos/types'
 
 const router = useRouter()
 const authStore = useAuthStore()
 
-function handleSelect(branch) {
+function handleSelect(branch: Branch) {
   authStore.selectBranch(branch)
   const modeRoutes = {
     support_eat_in_hall: { name: 'eatInHall', params: { branchId: branch.id } },

@@ -101,8 +101,10 @@ export interface Order {
   order_type: OrderType
   status: OrderStatus
   total_price: number
+  total_amount: number
   original_price: number
   discount_amount: number
+  hastened: boolean
   vip_info?: VipInfo
   line_items: LineItem[]
   table?: Table
@@ -128,6 +130,7 @@ export interface LineItem {
   is_separate: boolean
   combo_items?: ComboItem[]
   printed: boolean
+  status: 'pending' | 'cooking' | 'done'
 }
 
 export interface VipInfo {
@@ -197,6 +200,19 @@ export interface GuestQueue {
   id: number
   branch_id: number
   queue_no: string
+  name: string
+  phone?: string
+  guest_num: number
+  status: 'waiting' | 'called' | 'seated' | 'cancelled'
+  table_id?: number
+  created_at: string
+  called_at?: string
+}
+
+export interface QueueEntry {
+  id: number
+  branch_id: number
+  queue_number: string
   name: string
   phone?: string
   guest_num: number

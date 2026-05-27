@@ -9,7 +9,7 @@ import type { Order, LineItem } from '@webpos/types'
 const route = useRoute()
 const orderStore = useOrderStore()
 
-const branchId = computed(() => route.params.branchId as string)
+const branchId = computed(() => Number(route.params.branchId))
 const orders = computed(() => orderStore.activeOrders)
 
 // Real-time updates via WebSocket
@@ -64,11 +64,11 @@ onUnmounted(() => {
 })
 
 // Actions
-async function markItemDone(orderId: string, lineItemId: string) {
+async function markItemDone(orderId: number, lineItemId: number) {
   await orderStore.markLineItemDone(orderId, lineItemId)
 }
 
-async function hastenOrder(orderId: string) {
+async function hastenOrder(orderId: number) {
   await orderStore.hastenOrder(orderId)
 }
 

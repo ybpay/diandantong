@@ -76,15 +76,15 @@ export function useWebSocket(url: string) {
   return { connected, error, connect, disconnect, on, off, send }
 }
 
-export function useActionCable(channel: string) {
+export function useActionCable() {
   const { connected, connect, disconnect, on, off, send } = useWebSocket('/cable')
 
-  function subscribe() {
+  function subscribe(channel: string) {
     connect()
     send({ command: 'subscribe', identifier: JSON.stringify({ channel }) })
   }
 
-  function unsubscribe() {
+  function unsubscribe(channel: string) {
     send({ command: 'unsubscribe', identifier: JSON.stringify({ channel }) })
     disconnect()
   }
@@ -96,9 +96,7 @@ export function useNotifications(branchId: number) {
   const notifications = ref<Notification[]>([])
   const unreadCount = ref(0)
 
-  const { connected, subscribe, unsubscribe, on } = useActionCable(
-    `NotificationsChannel:${branchId}`
-  )
+  const { connected, subscribe, unsubscribe, on } = useActionCable()
 
   on('notification', (data: unknown) => {
     const notification = data as Notification
