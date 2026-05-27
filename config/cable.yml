@@ -1,0 +1,16 @@
+default: &default
+  adapter: solid_cable
+  polling_interval: 0.1.seconds
+  message_retention: 1.day
+
+development:
+  <<: *default
+  polling_interval: 0.1.seconds
+
+test:
+  adapter: test
+
+production:
+  <<: *default
+  polling_interval: 0.2.seconds
+  message_retention: 1.day

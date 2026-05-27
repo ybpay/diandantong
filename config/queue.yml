@@ -1,0 +1,12 @@
+default: &default
+  adapter: solid_queue
+
+development:
+  <<: *default
+
+test:
+  adapter: async
+
+production:
+  <<: *default
+  polling_interval: 0.2

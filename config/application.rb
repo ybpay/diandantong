@@ -1,10 +1,12 @@
-require File.expand_path('../boot', __FILE__)
+require_relative 'boot'
+
 require 'rails/all'
 
-Bundler.require(:default, Rails.env)
+Bundler.require(*Rails.groups)
 
 module Ddt
   class Application < Rails::Application
+    config.load_defaults 8.1
 
     config.i18n.enforce_available_locales = true
     config.i18n.default_locale = :"zh-CN"
@@ -13,9 +15,8 @@ module Ddt
     config.i18n.load_path += Dir["#{config.root}/_backend/config/locals/*.yml"]
 
     config.active_record.default_timezone = :local
-    config.autoload_paths += %W(#{config.root}/app/models)
-    config.eager_load_paths += Dir["#{config.root}/app/models/**/"]
-    config.eager_load_paths += Dir["#{config.root}/lib/**/"]
+
+    config.autoload_lib(ignore: %w[assets tasks])
 
     config.generators do |g|
       g.template_engine :haml
@@ -23,16 +24,24 @@ module Ddt
       g.javascripts     false
       g.jbuilder        false
       g.helper          false
-      g.test_framework    nil
+      g.test_framework :rspec, {
+        view_specs: false,
+        helper_specs: false,
+        routing_specs: false
+      }
     end
+
     config.exceptions_app = self.routes
-    config.dev_mail_group = 'dev@diandantong.com'
-    config.supervisor_mail = 'xie_s@diandantong.com'
-    config.salers_mail = 'sales@diandantong.com'
-    config.customer_service_group = 'cs@diandantong.com'
-    config.worker_mail = 'cb@diandantong.com'
 
     # config.middleware.use Rack::Attack
+
+    config.active_record.strict_loading_by_default = false
+
+    config.active_job.queue_adapter = :solid_queue
+
+    config.active_storage.service = :local
+
+    config.action_controller.default_protect_from_forgery = true
 
     config.log_formatter = ::Logger::Formatter.new
     config.log_formatter.datetime_format = '%F %T'
@@ -47,6 +56,7 @@ module Ddt
 end
 
 Pagy::DEFAULT[:items] = 20
+
 Date::DATE_FORMATS[:default] = "%Y-%m-%d"
 Time::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M"
 DateTime::DATE_FORMATS[:default] = "%Y-%m-%d %H:%M"

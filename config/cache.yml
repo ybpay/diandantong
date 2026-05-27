@@ -1,0 +1,15 @@
+default: &default
+  store: solid_cache_store
+  namespace: ddt
+
+development:
+  <<: *default
+  store: memory_store
+
+test:
+  <<: *default
+  store: null_store
+
+production:
+  <<: *default
+  store: solid_cache_store

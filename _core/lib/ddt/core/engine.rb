@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Ddt
   module Core
     class Engine < ::Rails::Engine
@@ -8,45 +10,17 @@ module Ddt
       config.eager_load_paths += %W(#{config.root}/lib/ddt/core/validators)
       config.eager_load_paths += %W(#{config.root}/app/workers/)
       [
-        :search,
-        :adjustments,
-        :agentsys,
-        :assets,
-        :coupons,
-        :deliveries,
-        :ddb_modules,
-        :products,
-        :tags,
-        :statistic,
-        :orders,
-        :old_orders,
-        :users,
-        :promotions,
-        :notifications,
-        :payment,
-        :payment2,
-        :message,
-        :qrcode,
-        :custom_info,
-        :js_errors,
-        :form_element,
-        :wallets,
-        :pay_method_settings,
-        :queue,
-        :tables,
-        :config,
-        :service_products,
-        :bill,
-        :reservation,
-        :shake_around,
-        :features,
-        :ddb_cs
+        :search, :adjustments, :agentsys, :assets, :coupons, :deliveries,
+        :ddb_modules, :products, :tags, :statistic, :orders, :old_orders,
+        :users, :promotions, :notifications, :payment, :payment2, :message,
+        :qrcode, :custom_info, :js_errors, :form_element, :wallets,
+        :pay_method_settings, :queue, :tables, :config, :service_products,
+        :bill, :reservation, :shake_around, :features, :ddb_cs
       ].each do |dir|
         config.eager_load_paths += %W(#{config.root}/app/models/ddt/#{dir})
       end
 
-
-      initializer "ddt.environment", :before => :load_config_initializers do |app|
+      initializer 'ddt.environment', before: :load_config_initializers do |app|
         app.config.ddt = Ddt::Core::Environment.new
       end
 
@@ -142,7 +116,6 @@ module Ddt
         app.config.ddt.shop.event_promotions.actions = [
           Ddt::Promotion::Actions::Event::GetCoupon,
           Ddt::Promotion::Actions::Event::GetVoucher,
-          # Ddt::Promotion::Actions::Event::GetSharableCoupon,
           Ddt::Promotion::Actions::Event::GetCredits,
           Ddt::Promotion::Actions::Event::GetCreditsPercent,
         ]
@@ -152,19 +125,14 @@ module Ddt
         ]
       end
 
-      # filter sensitive information during logging
-      initializer "ddt.params.filter" do |app|
-        app.config.filter_parameters += [
-            :password,
-          :password_confirmation,
-          :pay_password]
+      initializer 'ddt.params.filter' do |app|
+        app.config.filter_parameters += [:password, :password_confirmation, :pay_password]
       end
-
 
       initializer :append_migrations do |app|
         unless app.root.to_s.match root.to_s
-          config.paths["db/migrate"].expanded.each do |expanded_path|
-            app.config.paths["db/migrate"] << expanded_path
+          config.paths['db/migrate'].expanded.each do |expanded_path|
+            app.config.paths['db/migrate'] << expanded_path
           end
         end
       end
