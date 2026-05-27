@@ -6,27 +6,11 @@ local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-development:
+amazon:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-  region: cn-shanghai
-  bucket: shh-p
-  endpoint: https://oss-cn-shanghai.aliyuncs.com
-
-production:
-  service: S3
-  access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
-  secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
-  region: cn-shanghai
-  bucket: shh-p
-  endpoint: https://oss-cn-shanghai.aliyuncs.com
-
-minio:
-  service: S3
-  access_key_id: <%= Rails.application.credentials.dig(:minio, :access_key_id) || 'minioadmin' %>
-  secret_access_key: <%= Rails.application.credentials.dig(:minio, :secret_access_key) || 'minioadmin' %>
-  region: us-east-1
-  bucket: diandantong
-  endpoint: http://localhost:9000
-  force_path_style: true
+  region: <%= Rails.application.credentials.dig(:aws, :region) || 'cn-east-1' %>
+  bucket: <%= Rails.application.credentials.dig(:aws, :bucket) || 'diandantong-production' %>
+  upload:
+    cache_control: "public, max-age=#{1.year.to_i}"

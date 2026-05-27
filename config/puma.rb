@@ -1,20 +1,28 @@
-# Puma configuration for Docker
-workers Integer(ENV.fetch("WEB_CONCURRENCY", 2))
-threads_count = Integer(ENV.fetch("RAILS_MAX_THREADS", 5))
-threads threads_count, threads_count
+# Puma config for Rails 8.1
+max_threads_count = ENV.fetch("RAILS_MAX_THREADS", 5)
+min_threads_count = ENV.fetch("RAILS_MIN_THREADS") { max_threads_count }
+threads min_threads_count, max_threads_count
 
-port ENV.fetch("PORT", 9000)
-environment ENV.fetch("RAILS_ENV", "production")
+worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"
 
-pidfile ENV.fetch("PIDFILE", "tmp/pids/puma.pid")
-state_path "tmp/pids/puma.state"
+port ENV.fetch("PORT", 3000)
+
+environment ENV.fetch("RAILS_ENV", "development")
+
+pidfile ENV.fetch("PIDFILE", "tmp/pids/server.pid")
+
+workers ENV.fetch("WEB_CONCURRENCY", 2)
 
 preload_app!
 
+plugin :solid_queue if ENV["SOLID_QUEUE_IN_PUMA"]
+
 on_worker_boot do
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord::Base)
+  ActiveSupport.on_load(:active_record) do
+    ActiveRecord::Base.establish_connection
+  end
 end
 
-on_worker_shutdown do
-  ActiveRecord::Base.connection.disconnect! if defined?(ActiveRecord::Base)
+before_fork do
+  ActiveRecord::Base.connection_pool.disconnect!
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ar-octopus has been removed in the PostgreSQL migration.
 # This file is intentionally left empty to prevent load errors
 # if any code references Octopus constants.

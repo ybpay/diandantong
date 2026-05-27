@@ -1,0 +1,14 @@
+#!/bin/bash -e
+# Docker entrypoint for Rails app
+
+# Wait for PostgreSQL
+until pg_isready -h "${DB_HOST:-localhost}" -p "${DB_PORT:-5432}" -U "${DB_USER:-postgres}"; do
+  echo "Waiting for PostgreSQL..."
+  sleep 2
+done
+
+# Run migrations on startup (zero-downtime safe with migration transactions)
+bundle exec rails db:migrate
+
+# Execute the CMD
+exec "$@"
