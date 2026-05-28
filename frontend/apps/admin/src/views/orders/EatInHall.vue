@@ -21,7 +21,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="fetchOrders">搜索</el-button>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -82,31 +82,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { orderApi } from '@diandantong/admin-api'
 import type { AdminOrder } from '@diandantong/admin-types'
+import { statusTagType, statusText, formatTime, formatLineItems } from '@/composables/useOrderHelpers'
 
 const loading = ref(false)
 const orders = ref<AdminOrder[]>([])
 const searchForm = reactive({ order_no: '', table_name: '', status: '' })
 const pagination = reactive({ page: 1, per_page: 10, total: 0 })
-
-const statusTagType = (s: string) => {
-  const map: Record<string, string> = { pending: 'info', confirmed: 'warning', completed: 'success', cancelled: 'danger' }
-  return map[s] ?? ''
-}
-
-const statusText = (s: string) => {
-  const map: Record<string, string> = { pending: '待确认', confirmed: '已确认', completed: '已完成', cancelled: '已取消' }
-  return map[s] ?? s
-}
-
-const formatLineItems = (items: { product_name: string; quantity: number }[]) => {
-  if (!items?.length) return ''
-  return items.map(i => `${i.product_name} x${i.quantity}`).join(', ')
-}
-
-const formatTime = (t: string) => {
-  if (!t) return ''
-  return new Date(t).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
-}
 
 async function fetchOrders() {
   loading.value = true
@@ -124,6 +105,11 @@ async function fetchOrders() {
   } finally {
     loading.value = false
   }
+}
+
+const handleSearch = () => {
+  pagination.page = 1
+  fetchOrders()
 }
 
 const handleReset = () => {

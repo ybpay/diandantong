@@ -30,7 +30,7 @@
           <el-date-picker v-model="searchForm.dateRange" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="YYYY-MM-DD" />
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="fetchOrders">搜索</el-button>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -88,6 +88,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { orderApi } from '@diandantong/admin-api'
 import type { AdminOrder, OrderType } from '@diandantong/admin-types'
+import { statusTagType, statusText, formatTime } from '@/composables/useOrderHelpers'
 
 const loading = ref(false)
 const activeTab = ref('all')
@@ -107,16 +108,6 @@ const orderTypeLabel = (t: OrderType) => {
   return map[t] ?? t
 }
 
-const statusTagType = (s: string) => {
-  const map: Record<string, string> = { pending: 'info', confirmed: 'warning', completed: 'success', cancelled: 'danger' }
-  return map[s] ?? ''
-}
-
-const statusText = (s: string) => {
-  const map: Record<string, string> = { pending: '待确认', confirmed: '已确认', completed: '已完成', cancelled: '已取消' }
-  return map[s] ?? s
-}
-
 const payMethodLabel = (row: AdminOrder) => {
   if (row.pay_items?.length) {
     const methods = row.pay_items.map(p => {
@@ -126,11 +117,6 @@ const payMethodLabel = (row: AdminOrder) => {
     return methods.join(', ')
   }
   return '-'
-}
-
-const formatTime = (t: string) => {
-  if (!t) return ''
-  return new Date(t).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
 }
 
 async function fetchOrders() {
@@ -153,6 +139,11 @@ async function fetchOrders() {
   } finally {
     loading.value = false
   }
+}
+
+const handleSearch = () => {
+  pagination.page = 1
+  fetchOrders()
 }
 
 const handleTabChange = () => {

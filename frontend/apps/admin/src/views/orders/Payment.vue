@@ -17,7 +17,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="fetchOrders">搜索</el-button>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -75,30 +75,16 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { orderApi } from '@diandantong/admin-api'
 import type { AdminOrder, PaymentMethod } from '@diandantong/admin-types'
+import { statusTagType, statusText, formatTime } from '@/composables/useOrderHelpers'
 
 const loading = ref(false)
 const orders = ref<AdminOrder[]>([])
 const searchForm = reactive({ order_no: '', status: '' })
 const pagination = reactive({ page: 1, per_page: 10, total: 0 })
 
-const statusTagType = (s: string) => {
-  const map: Record<string, string> = { pending: 'warning', completed: 'success', cancelled: 'info' }
-  return map[s] ?? ''
-}
-
-const statusText = (s: string) => {
-  const map: Record<string, string> = { pending: '待收款', completed: '已收款', cancelled: '已取消' }
-  return map[s] ?? s
-}
-
 const payMethodText = (m?: PaymentMethod | string) => {
   const map: Record<string, string> = { cash: '现金', wechat: '微信', alipay: '支付宝', card: '银行卡', vip_balance: '会员余额', mixed: '混合' }
   return map[m ?? ''] ?? m ?? '-'
-}
-
-const formatTime = (t: string) => {
-  if (!t) return ''
-  return new Date(t).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
 }
 
 async function fetchOrders() {
@@ -116,6 +102,11 @@ async function fetchOrders() {
   } finally {
     loading.value = false
   }
+}
+
+const handleSearch = () => {
+  pagination.page = 1
+  fetchOrders()
 }
 
 const handleReset = () => {

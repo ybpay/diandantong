@@ -19,18 +19,30 @@ module Ddt
 
           def assign
             raise ActionController::ParameterMissing, "delivery_man_id" if params[:delivery_man_id].blank?
-            @order.assign_delivery_man(params[:delivery_man_id])
-            render_resource(@order, serializer: ->(o) { o.as_json(include: [:line_items, :pay_items]) })
+            if @order.assign_delivery_man?
+              @order.assign_delivery_man(params[:delivery_man_id])
+              render_resource(@order, serializer: ->(o) { o.as_json(include: [:line_items, :pay_items]) })
+            else
+              render_errors({ state: "当前状态不允许分配骑手" }, :bad_request)
+            end
           end
 
           def start
-            @order.start_shipment
-            render_resource(@order, serializer: ->(o) { o.as_json(include: [:line_items, :pay_items]) })
+            if @order.shipment&.may_start?
+              @order.start_shipment
+              render_resource(@order, serializer: ->(o) { o.as_json(include: [:line_items, :pay_items]) })
+            else
+              render_errors({ state: "当前状态不允许开始配送" }, :bad_request)
+            end
           end
 
           def ship
-            @order.ship_shipment
-            render_resource(@order, serializer: ->(o) { o.as_json(include: [:line_items, :pay_items]) })
+            if @order.shipment&.may_ship?
+              @order.ship_shipment
+              render_resource(@order, serializer: ->(o) { o.as_json(include: [:line_items, :pay_items]) })
+            else
+              render_errors({ state: "当前状态不允许确认送达" }, :bad_request)
+            end
           end
 
           private

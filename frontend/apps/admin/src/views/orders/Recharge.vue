@@ -20,7 +20,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="fetchOrders">搜索</el-button>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -79,26 +79,12 @@ import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
 import { orderApi } from '@diandantong/admin-api'
 import type { AdminOrder } from '@diandantong/admin-types'
+import { statusTagType, statusText, formatTime } from '@/composables/useOrderHelpers'
 
 const loading = ref(false)
 const orders = ref<AdminOrder[]>([])
 const searchForm = reactive({ order_no: '', member_keyword: '', status: '' })
 const pagination = reactive({ page: 1, per_page: 10, total: 0 })
-
-const statusTagType = (s: string) => {
-  const map: Record<string, string> = { pending: 'info', completed: 'success', cancelled: 'danger' }
-  return map[s] ?? ''
-}
-
-const statusText = (s: string) => {
-  const map: Record<string, string> = { pending: '待确认', completed: '已完成', cancelled: '已取消' }
-  return map[s] ?? s
-}
-
-const formatTime = (t: string) => {
-  if (!t) return ''
-  return new Date(t).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
-}
 
 async function fetchOrders() {
   loading.value = true
@@ -106,6 +92,7 @@ async function fetchOrders() {
     const q: Record<string, unknown> = { order_type_eq: 'recharge' }
     if (searchForm.status) q.status_eq = searchForm.status
     if (searchForm.order_no) q.order_no_cont = searchForm.order_no
+    if (searchForm.member_keyword) q.vip_name_or_vip_phone_cont = searchForm.member_keyword
 
     const { data } = await orderApi.list({ page: pagination.page, per_page: pagination.per_page, q })
     orders.value = data.data
@@ -115,6 +102,11 @@ async function fetchOrders() {
   } finally {
     loading.value = false
   }
+}
+
+const handleSearch = () => {
+  pagination.page = 1
+  fetchOrders()
 }
 
 const handleReset = () => {

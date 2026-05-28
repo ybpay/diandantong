@@ -19,7 +19,7 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="fetchOrders">搜索</el-button>
+          <el-button type="primary" @click="handleSearch">搜索</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
@@ -89,9 +89,10 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessage } from 'element-plus'
 import { orderApi } from '@diandantong/admin-api'
 import type { AdminOrder } from '@diandantong/admin-types'
+import { statusTagType, statusText, formatTime } from '@/composables/useOrderHelpers'
 
 const loading = ref(false)
 const orders = ref<AdminOrder[]>([])
@@ -102,21 +103,6 @@ const assignDialogVisible = ref(false)
 const assigning = ref(false)
 const currentOrderId = ref<number>(0)
 const assignForm = reactive({ deliveryManId: 0 })
-
-const statusTagType = (s: string) => {
-  const map: Record<string, string> = { pending: 'info', confirmed: 'warning', delivering: '', completed: 'success', cancelled: 'danger' }
-  return map[s] ?? ''
-}
-
-const statusText = (s: string) => {
-  const map: Record<string, string> = { pending: '待接单', confirmed: '备餐中', delivering: '配送中', completed: '已送达', cancelled: '已取消' }
-  return map[s] ?? s
-}
-
-const formatTime = (t: string) => {
-  if (!t) return ''
-  return new Date(t).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
-}
 
 async function fetchOrders() {
   loading.value = true
@@ -133,6 +119,11 @@ async function fetchOrders() {
   } finally {
     loading.value = false
   }
+}
+
+const handleSearch = () => {
+  pagination.page = 1
+  fetchOrders()
 }
 
 const handleReset = () => {
@@ -184,15 +175,6 @@ async function handleStart(row: AdminOrder) {
   } catch (e: any) {
     ElMessage.error(e.message || '操作失败')
   }
-}
-
-async function handleCancel(row: AdminOrder) {
-  try {
-    await ElMessageBox.confirm('确认取消该订单？', '警告', { type: 'warning' })
-    await orderApi.cancel(row.id)
-    ElMessage.warning('订单已取消')
-    fetchOrders()
-  } catch { /* cancelled */ }
 }
 
 onMounted(fetchOrders)
