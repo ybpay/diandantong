@@ -68,40 +68,67 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { tableApi } from '@diandantong/admin-api'
 
 const activeZone = ref('1')
 const zoneDialogVisible = ref(false)
 const tableDialogVisible = ref(false)
 const editingTable = ref<any>(null)
+const loading = ref(false)
 
-const zones = ref([
-  {
-    id: 1, name: '大厅',
-    tables: [
-      { id: 1, name: 'A1', capacity: 4, status: 'available', statusText: '空闲', minSpend: 0 },
-      { id: 2, name: 'A2', capacity: 4, status: 'occupied', statusText: '占用', minSpend: 0 },
-      { id: 3, name: 'A3', capacity: 2, status: 'available', statusText: '空闲', minSpend: 0 },
-      { id: 4, name: 'A4', capacity: 6, status: 'reserved', statusText: '预定', minSpend: 200 },
-    ],
-  },
-  {
-    id: 2, name: '包间',
-    tables: [
-      { id: 5, name: 'B1', capacity: 8, status: 'available', statusText: '空闲', minSpend: 500 },
-      { id: 6, name: 'B2', capacity: 10, status: 'occupied', statusText: '占用', minSpend: 800 },
-    ],
-  },
-])
+const zones = ref<any[]>([])
 
 const zoneForm = reactive({ name: '' })
 const tableForm = reactive({ name: '', capacity: 4, zoneId: 1, minSpend: 0 })
 
+const fetchData = async () => {
+  loading.value = true
+  try {
+    const { data } = await tableApi.listZones()
+    const rawZones = (data as any)?.data || data || []
+    zones.value = Array.isArray(rawZones) ? rawZones : []
+    if (zones.value.length > 0) {
+      activeZone.value = String(zones.value[0].id)
+      for (const zone of zones.value) {
+        try {
+          const { data: tableData } = await tableApi.listTables({ zone_id: zone.id })
+          zone.tables = (tableData as any)?.data || tableData || []
+        } catch { zone.tables = [] }
+      }
+    }
+  } catch { ElMessage.error('获取桌台数据失败') }
+  finally { loading.value = false }
+}
+
 const showAddZoneDialog = () => { zoneForm.name = ''; zoneDialogVisible.value = true }
 const showAddTableDialog = () => { editingTable.value = null; tableForm.name = ''; tableForm.capacity = 4; tableForm.zoneId = Number(activeZone.value); tableDialogVisible.value = true }
 const handleEditTable = (table: any) => { editingTable.value = table; tableForm.name = table.name; tableForm.capacity = table.capacity; tableForm.minSpend = table.minSpend; tableDialogVisible.value = true }
-const handleSaveZone = () => { zoneDialogVisible.value = false; ElMessage.success('区域已添加') }
-const handleSaveTable = () => { tableDialogVisible.value = false; ElMessage.success(editingTable.value ? '桌台已更新' : '桌台已添加') }
-const handleDeleteZone = async (zone: any) => { await ElMessageBox.confirm(`确定删除区域「${zone.name}」？`, '提示', { type: 'warning' }); ElMessage.success('区域已删除') }
+const handleSaveZone = async () => {
+  try {
+    await tableApi.createZone({ name: zoneForm.name })
+    zoneDialogVisible.value = false
+    ElMessage.success('区域已添加')
+    fetchData()
+  } catch { ElMessage.error('添加区域失败') }
+}
+const handleSaveTable = async () => {
+  try {
+    if (editingTable.value) {
+      await tableApi.updateTable(editingTable.value.id, { name: tableForm.name, capacity: tableForm.capacity, table_zone_id: tableForm.zoneId })
+    } else {
+      await tableApi.createTable({ name: tableForm.name, capacity: tableForm.capacity, table_zone_id: tableForm.zoneId })
+    }
+    tableDialogVisible.value = false
+    ElMessage.success(editingTable.value ? '桌台已更新' : '桌台已添加')
+    fetchData()
+  } catch { ElMessage.error('保存桌台失败') }
+}
+const handleDeleteZone = async (zone: any) => {
+  await ElMessageBox.confirm(`确定删除区域「${zone.name}」？`, '提示', { type: 'warning' })
+  ElMessage.success('区域已删除')
+}
+
+onMounted(fetchData)
 </script>

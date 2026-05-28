@@ -58,7 +58,10 @@ module Ddt
     end
 
     def check_builtin
-      redirect_to [:backend, @current_shop, @role], notice: '对不起，该角色为系统角色，不允许改变' if @role.builtin?
+      if @role.builtin?
+        redirect_to [:backend, @current_shop, @role], notice: '对不起，该角色为系统角色，不允许改变'
+        return
+      end
     end
   end
 end

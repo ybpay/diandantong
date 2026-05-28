@@ -83,30 +83,44 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { voucherApi } from '@diandantong/admin-api'
 
 const loading = ref(false)
 const dialogVisible = ref(false)
 const editingVoucher = ref<any>(null)
 
 const searchForm = reactive({ keyword: '', status: '' })
-const pagination = reactive({ page: 1, pageSize: 10, total: 3 })
+const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
 const voucherForm = reactive({ name: '', faceValue: 10, minSpend: 50, totalCount: 100, validRange: null as any })
 
-const vouchers = ref([
-  { id: 1, name: '新人50减10', faceValue: '10', minSpend: '50', totalCount: 1000, issuedCount: 456, usedCount: 230, validPeriod: '2026-01-01 ~ 2026-12-31', status: 'active', statusText: '可用' },
-  { id: 2, name: '午市专享券', faceValue: '20', minSpend: '100', totalCount: 500, issuedCount: 320, usedCount: 180, validPeriod: '2026-05-01 ~ 2026-06-30', status: 'active', statusText: '可用' },
-  { id: 3, name: '周年庆50元券', faceValue: '50', minSpend: '200', totalCount: 2000, issuedCount: 2000, usedCount: 1500, validPeriod: '2026-03-01 ~ 2026-03-31', status: 'expired', statusText: '已过期' },
-])
+const vouchers = ref<any[]>([])
+
+const fetchVouchers = async () => {
+  loading.value = true
+  try {
+    const { data } = await voucherApi.list({ page: pagination.page, per_page: pagination.pageSize, status: searchForm.status || undefined })
+    const result = (data as any)?.data || data
+    vouchers.value = Array.isArray(result) ? result : result?.items || []
+    pagination.total = (data as any)?.total || (data as any)?.meta?.total || vouchers.value.length
+  } catch { ElMessage.error('获取代金券列表失败') }
+  finally { loading.value = false }
+}
 
 const statusTag = (s: string) => ({ active: 'success', inactive: 'warning', expired: 'info' }[s] ?? '')
 
 const showAddDialog = () => { editingVoucher.value = null; dialogVisible.value = true }
 const handleEdit = (row: any) => { editingVoucher.value = row; dialogVisible.value = true }
 const handleIssue = (row: any) => { ElMessage.info(`发放代金券「${row.name}」`) }
-const handleSearch = () => { pagination.page = 1 }
+const handleSearch = () => { pagination.page = 1; fetchVouchers() }
 const handleReset = () => { searchForm.keyword = ''; searchForm.status = ''; handleSearch() }
-const handleDelete = async (row: any) => { await ElMessageBox.confirm(`确定删除「${row.name}」？`, '提示', { type: 'warning' }); ElMessage.success('删除成功') }
+const handleDelete = async (row: any) => {
+  await ElMessageBox.confirm(`确定删除「${row.name}」？`, '提示', { type: 'warning' })
+  try { await voucherApi.delete(row.id); ElMessage.success('删除成功'); fetchVouchers() }
+  catch { ElMessage.error('删除失败') }
+}
+
+onMounted(fetchVouchers)
 </script>

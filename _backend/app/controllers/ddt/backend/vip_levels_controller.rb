@@ -51,7 +51,7 @@ module Ddt
       end
 
       def vip_level_params
-        params.require(:vip_level).permit(:shop_id, :name, :discount, :vip_infos_count, :auto_upgrade,
+        params.require(:vip_level).permit(:name, :discount, :vip_infos_count, :auto_upgrade,
           :upgrade_recharge_money, :upgrade_total_amount, :upgrade_get_credits, :level)
       end
   end

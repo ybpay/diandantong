@@ -80,25 +80,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { grouponApi } from '@diandantong/admin-api'
 
 const loading = ref(false)
 const dialogVisible = ref(false)
 
 const searchForm = reactive({ keyword: '', platform: '' })
-const pagination = reactive({ page: 1, pageSize: 10, total: 3 })
+const pagination = reactive({ page: 1, pageSize: 10, total: 0 })
 
 const grouponForm = reactive({ title: '', originalPrice: 0, grouponPrice: 0 })
 
-const groupons = ref([
-  { id: 1, title: '双人超值套餐', platform: '美团', originalPrice: '168', grouponPrice: '99', soldCount: 520, usedCount: 380, pendingCount: 140, status: 'active', statusText: '上架' },
-  { id: 2, title: '四人欢聚套餐', platform: '大众点评', originalPrice: '288', grouponPrice: '168', soldCount: 320, usedCount: 260, pendingCount: 60, status: 'active', statusText: '上架' },
-  { id: 3, title: '单人简餐', platform: '抖音', originalPrice: '45', grouponPrice: '29.9', soldCount: 890, usedCount: 720, pendingCount: 170, status: 'active', statusText: '上架' },
-])
+const groupons = ref<any[]>([])
 
-const handleSearch = () => { pagination.page = 1 }
+const fetchGroupons = async () => {
+  loading.value = true
+  try {
+    const { data } = await grouponApi.list({ page: pagination.page, per_page: pagination.pageSize })
+    const result = (data as any)?.data || data
+    groupons.value = Array.isArray(result) ? result : result?.items || []
+    pagination.total = (data as any)?.total || (data as any)?.meta?.total || groupons.value.length
+  } catch { ElMessage.error('获取团购券列表失败') }
+  finally { loading.value = false }
+}
+
+const handleSearch = () => { pagination.page = 1; fetchGroupons() }
 const handleReset = () => { searchForm.keyword = ''; searchForm.platform = ''; handleSearch() }
 const handleEdit = (row: any) => { grouponForm.title = row.title; dialogVisible.value = true }
-const handleDelete = async (row: any) => { await ElMessageBox.confirm(`确定删除「${row.title}」？`, '提示', { type: 'warning' }); ElMessage.success('删除成功') }
+const handleDelete = async (row: any) => {
+  await ElMessageBox.confirm(`确定删除「${row.title}」？`, '提示', { type: 'warning' })
+  try { await grouponApi.delete(row.id); ElMessage.success('删除成功'); fetchGroupons() }
+  catch { ElMessage.error('删除失败') }
+}
+
+onMounted(fetchGroupons)
 </script>
