@@ -35,22 +35,6 @@
           <el-switch v-model="paymentForm.card_enabled" active-text="开启" inactive-text="关闭" />
         </el-form-item>
 
-        <el-divider content-position="left">其他设置</el-divider>
-
-        <el-form-item label="自动确认收款">
-          <el-switch v-model="paymentForm.auto_confirm" />
-          <span class="ml-2 text-gray-400">线上支付成功后自动确认</span>
-        </el-form-item>
-
-        <el-form-item label="支付超时时间">
-          <el-input-number v-model="paymentForm.payment_timeout" :min="5" :max="60" />
-          <span class="ml-2 text-gray-400">分钟</span>
-        </el-form-item>
-
-        <el-form-item label="小票打印">
-          <el-switch v-model="paymentForm.auto_print_on_pay" />
-          <span class="ml-2 text-gray-400">支付成功后自动打印小票</span>
-        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -70,9 +54,6 @@ const paymentForm = reactive({
   alipay_enabled: true,
   alipay_app_id: '',
   card_enabled: false,
-  auto_confirm: true,
-  payment_timeout: 15,
-  auto_print_on_pay: true,
 })
 
 const fetchSettings = async () => {

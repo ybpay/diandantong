@@ -16,29 +16,6 @@
           <span class="ml-2 text-gray-400">分钟（订单等待超过此时长将预警提示）</span>
         </el-form-item>
 
-        <el-divider content-position="left">打印设置</el-divider>
-
-        <el-form-item label="自动打印厨单">
-          <el-switch v-model="form.autoPrintKitchen" active-text="开启" inactive-text="关闭" />
-          <span class="ml-2 text-gray-400">新订单下单后自动发送到厨房打印机</span>
-        </el-form-item>
-
-        <el-form-item label="厨单打印份数">
-          <el-input-number v-model="form.kitchenPrintCopies" :min="1" :max="5" />
-          <span class="ml-2 text-gray-400">每笔订单打印厨单数量</span>
-        </el-form-item>
-
-        <el-divider content-position="left">显示设置</el-divider>
-
-        <el-form-item label="显示已完成订单">
-          <el-switch v-model="form.showCompleted" active-text="显示" inactive-text="隐藏" />
-          <span class="ml-2 text-gray-400">厨房显示屏是否展示已完成订单</span>
-        </el-form-item>
-
-        <el-form-item label="自动刷新间隔">
-          <el-input-number v-model="form.refreshInterval" :min="5" :max="60" />
-          <span class="ml-2 text-gray-400">秒（厨房显示屏数据刷新频率）</span>
-        </el-form-item>
       </el-form>
     </el-card>
   </div>
@@ -54,10 +31,6 @@ const saving = ref(false)
 
 const form = reactive({
   warning_wait_minitue: 30,
-  autoPrintKitchen: true,
-  kitchenPrintCopies: 1,
-  showCompleted: false,
-  refreshInterval: 10,
 })
 
 const fetchSettings = async () => {

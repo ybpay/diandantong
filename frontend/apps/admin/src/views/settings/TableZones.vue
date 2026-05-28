@@ -123,7 +123,7 @@ const handleSubmit = async () => {
   submitting.value = true
   try {
     if (editing.value) {
-      await tableApi.updateZone?.(editing.value.id, form)
+      await tableApi.updateZone(editing.value.id, form)
     } else {
       await tableApi.createZone(form)
     }
@@ -140,7 +140,7 @@ const handleSubmit = async () => {
 const handleDelete = async (zone: AdminTableZone) => {
   await ElMessageBox.confirm(`确定删除区域「${zone.name}」？该操作不可撤销。`, '提示', { type: 'warning' })
   try {
-    await tableApi.deleteZone?.(zone.id)
+    await tableApi.deleteZone(zone.id)
     ElMessage.success('区域已删除')
     fetchData()
   } catch {
