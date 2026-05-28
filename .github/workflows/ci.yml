@@ -83,8 +83,7 @@ jobs:
           bundler: '2'
 
       - name: Install dependencies
-        run: |
-          bundle install --jobs 4 --retry 3 || echo "Bundle install had issues"
+        run: bundle install --jobs 4 --retry 3
 
       - name: Configure database
         run: |
@@ -118,11 +117,123 @@ jobs:
           EOF
 
       - name: Set up database
-        run: |
-          bundle exec rake db:create db:migrate || echo "DB setup completed with warnings"
+        run: bundle exec rake db:create db:migrate
 
       - name: Run tests
-        run: bundle exec rake test || echo "Tests completed with some failures"
+        run: bundle exec rake test
+
+  e2e:
+    name: E2E Tests (Playwright)
+    runs-on: ubuntu-latest
+    needs: lint
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: ddt_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=10
+      redis:
+        image: redis:8-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby 4.0
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '4.0'
+          bundler: '2'
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Install Ruby dependencies
+        run: bundle install --jobs 4 --retry 3
+
+      - name: Configure database
+        run: |
+          cat > config/database.yml <<EOF
+          test:
+            adapter: postgresql
+            encoding: unicode
+            database: ddt_test
+            username: postgres
+            password: postgres
+            host: 127.0.0.1
+            port: 5432
+          EOF
+
+      - name: Configure Redis
+        run: |
+          cat > config/redis_client.yml <<EOF
+          defaults: &defaults
+            host: 127.0.0.1
+            port: 6379
+            db: 11
+          test:
+            <<: *defaults
+          EOF
+
+      - name: Configure secrets
+        run: |
+          cat > config/secrets.yml <<EOF
+          test:
+            secret_key_base: b1aefa762c9bbe97f0bcd0636a44cdaadd03d3ed162df80c80e93e42db181b80bfc718cc7ee54f579b543efd3969bab64594289f35916ba89dc9edf799334305
+          EOF
+
+      - name: Set up database
+        run: bundle exec rake db:create db:migrate
+
+      - name: Seed test data
+        run: bundle exec rake db:seed RAILS_ENV=test
+
+      - name: Start Rails server
+        run: |
+          bundle exec rails server -p 9000 -e test -d
+          sleep 5
+          curl --retry 10 --retry-delay 2 --retry-connrefused http://localhost:9000/
+
+      - name: Run E2E tests
+        run: npx playwright test
+        env:
+          BASE_URL: http://localhost:9000
+          RAILS_ENV: test
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 14
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: test-results/
+          retention-days: 7
 
   build-docker:
     name: Build Docker Image
