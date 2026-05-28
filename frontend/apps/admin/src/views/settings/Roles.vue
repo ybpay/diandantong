@@ -52,19 +52,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+import { roleApi } from '@diandantong/admin-api'
 
 const loading = ref(false)
 const permissionDialogVisible = ref(false)
 const editingRole = ref<any>(null)
 
-const roles = ref([
-  { id: 1, name: '超级管理员', description: '拥有所有权限', memberCount: 2, permissions: 45, createdAt: '2024-01-01', isSystem: true },
-  { id: 2, name: '店长', description: '门店管理权限', memberCount: 5, permissions: 35, createdAt: '2024-01-01', isSystem: false },
-  { id: 3, name: '收银员', description: '收银、订单管理', memberCount: 12, permissions: 15, createdAt: '2024-03-15', isSystem: false },
-  { id: 4, name: '服务员', description: '点单、排队管理', memberCount: 20, permissions: 10, createdAt: '2024-03-15', isSystem: false },
-])
+const roles = ref<any[]>([])
 
 const roleForm = reactive({ name: '', description: '', checkedKeys: [] as number[] })
 
@@ -76,9 +72,36 @@ const permissionTree = [
   { id: 500, label: '系统设置', children: [{ id: 501, label: '店铺设置' }, { id: 502, label: '账号管理' }, { id: 503, label: '角色权限' }] },
 ]
 
+const fetchRoles = async () => {
+  loading.value = true
+  try {
+    const { data } = await roleApi.list()
+    const result = (data as any)?.data || data
+    roles.value = Array.isArray(result) ? result : result?.items || []
+  } catch { ElMessage.error('获取角色列表失败') }
+  finally { loading.value = false }
+}
+
 const showAddDialog = () => { editingRole.value = null; roleForm.name = ''; roleForm.description = ''; roleForm.checkedKeys = []; permissionDialogVisible.value = true }
-const handleEdit = (row: any) => { editingRole.value = row; roleForm.name = row.name; roleForm.description = row.description; roleForm.checkedKeys = []; permissionDialogVisible.value = true }
+const handleEdit = (row: any) => { editingRole.value = row; roleForm.name = row.display_name || row.name; roleForm.description = row.description; roleForm.checkedKeys = []; permissionDialogVisible.value = true }
 const handlePermissions = (row: any) => { handleEdit(row) }
-const handleSavePermissions = () => { permissionDialogVisible.value = false; ElMessage.success('权限已保存') }
-const handleDelete = async (row: any) => { await ElMessageBox.confirm(`确定删除角色「${row.name}」？`, '提示', { type: 'warning' }); ElMessage.success('删除成功') }
+const handleSavePermissions = async () => {
+  try {
+    if (editingRole.value) {
+      await roleApi.update(editingRole.value.id, { display_name: roleForm.name, description: roleForm.description })
+    } else {
+      await roleApi.create({ display_name: roleForm.name, description: roleForm.description })
+    }
+    permissionDialogVisible.value = false
+    ElMessage.success('保存成功')
+    fetchRoles()
+  } catch { ElMessage.error('保存失败') }
+}
+const handleDelete = async (row: any) => {
+  await ElMessageBox.confirm(`确定删除角色「${row.display_name || row.name}」？`, '提示', { type: 'warning' })
+  try { await roleApi.delete(row.id); ElMessage.success('删除成功'); fetchRoles() }
+  catch { ElMessage.error('删除失败') }
+}
+
+onMounted(fetchRoles)
 </script>

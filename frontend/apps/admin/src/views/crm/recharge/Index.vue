@@ -59,9 +59,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { rechargeApi } from '@diandantong/admin-api'
 
 const loading = ref(false)
 const saving = ref(false)
@@ -69,12 +70,7 @@ const dialogVisible = ref(false)
 const editingProduct = ref<any>(null)
 const formRef = ref<FormInstance>()
 
-const products = ref([
-  { id: 1, name: '充200送10', payAmount: '200', giftAmount: '10', giftPoints: 200, salesCount: 350, sortOrder: 1, active: true },
-  { id: 2, name: '充500送50', payAmount: '500', giftAmount: '50', giftPoints: 500, salesCount: 280, sortOrder: 2, active: true },
-  { id: 3, name: '充1000送150', payAmount: '1000', giftAmount: '150', giftPoints: 1000, salesCount: 120, sortOrder: 3, active: true },
-  { id: 4, name: '充2000送400', payAmount: '2000', giftAmount: '400', giftPoints: 2000, salesCount: 45, sortOrder: 4, active: false },
-])
+const products = ref<any[]>([])
 
 const productForm = reactive({ name: '', payAmount: 100, giftAmount: 0, giftPoints: 0, sortOrder: 0 })
 const rules: FormRules = {
@@ -82,12 +78,41 @@ const rules: FormRules = {
   payAmount: [{ required: true, message: '请输入支付金额', trigger: 'blur' }],
 }
 
+const fetchProducts = async () => {
+  loading.value = true
+  try {
+    const { data } = await rechargeApi.listProducts()
+    products.value = (data as any)?.data || data || []
+  } catch { ElMessage.error('获取充值产品失败') }
+  finally { loading.value = false }
+}
+
 const showAddDialog = () => { editingProduct.value = null; Object.assign(productForm, { name: '', payAmount: 100, giftAmount: 0, giftPoints: 0, sortOrder: 0 }); dialogVisible.value = true }
-const handleEdit = (row: any) => { editingProduct.value = row; dialogVisible.value = true }
+const handleEdit = (row: any) => { editingProduct.value = row; Object.assign(productForm, { name: row.name, payAmount: row.price || row.payAmount, giftAmount: row.extra_credits || row.giftAmount, giftPoints: row.giftPoints || 0, sortOrder: row.position || row.sortOrder || 0 }); dialogVisible.value = true }
 const handleSave = async () => {
   if (!formRef.value) return
-  await formRef.value.validate((valid) => { if (!valid) return; saving.value = true; setTimeout(() => { saving.value = false; dialogVisible.value = false; ElMessage.success('保存成功') }, 300) })
+  await formRef.value.validate(async (valid) => {
+    if (!valid) return
+    saving.value = true
+    try {
+      if (editingProduct.value) {
+        await rechargeApi.updateProduct(editingProduct.value.id, productForm)
+      } else {
+        await rechargeApi.createProduct(productForm)
+      }
+      dialogVisible.value = false
+      ElMessage.success('保存成功')
+      fetchProducts()
+    } catch { ElMessage.error('保存失败') }
+    finally { saving.value = false }
+  })
 }
 const handleStatusChange = (row: any) => { ElMessage.success(`充值产品已${row.active ? '上架' : '下架'}`) }
-const handleDelete = async (row: any) => { await ElMessageBox.confirm(`确定删除「${row.name}」？`, '提示', { type: 'warning' }); ElMessage.success('删除成功') }
+const handleDelete = async (row: any) => {
+  await ElMessageBox.confirm(`确定删除「${row.name}」？`, '提示', { type: 'warning' })
+  try { ElMessage.success('删除成功'); fetchProducts() }
+  catch { ElMessage.error('删除失败') }
+}
+
+onMounted(fetchProducts)
 </script>

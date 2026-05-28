@@ -71,10 +71,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { creditsApi } from '@diandantong/admin-api'
 
 const saving = ref(false)
+const loading = ref(false)
 
 const settingsForm = reactive({
   enabled: true,
@@ -87,10 +89,29 @@ const settingsForm = reactive({
   expiryType: 'permanent',
   shopEnabled: false,
   exchangeOperator: 'self',
+  exchange_radio: 1,
 })
 
-const handleSave = () => {
-  saving.value = true
-  setTimeout(() => { saving.value = false; ElMessage.success('积分设置已保存') }, 500)
+const fetchSettings = async () => {
+  loading.value = true
+  try {
+    const { data } = await creditsApi.getSettings()
+    const settings = (data as any)?.data || data
+    if (settings?.exchange_radio) {
+      settingsForm.exchange_radio = settings.exchange_radio
+    }
+  } catch { /* use defaults */ }
+  finally { loading.value = false }
 }
+
+const handleSave = async () => {
+  saving.value = true
+  try {
+    await creditsApi.updateSettings({ exchange_radio: settingsForm.exchange_radio })
+    ElMessage.success('积分设置已保存')
+  } catch { ElMessage.error('保存失败') }
+  finally { saving.value = false }
+}
+
+onMounted(fetchSettings)
 </script>

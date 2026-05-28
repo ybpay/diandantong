@@ -71,9 +71,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import type { FormInstance, FormRules } from 'element-plus'
+import { vipLevelApi } from '@diandantong/admin-api'
 
 const loading = ref(false)
 const saving = ref(false)
@@ -81,12 +82,7 @@ const dialogVisible = ref(false)
 const editingLevel = ref<any>(null)
 const formRef = ref<FormInstance>()
 
-const levels = ref([
-  { id: 1, name: '银卡', tagType: 'info', minSpent: '0', discount: 9.8, pointsRate: 1.0, freeDelivery: false, birthdayGift: false, memberCount: 520 },
-  { id: 2, name: '金卡', tagType: 'warning', minSpent: '5,000', discount: 9.0, pointsRate: 1.5, freeDelivery: true, birthdayGift: true, memberCount: 320 },
-  { id: 3, name: '铂金', tagType: '', minSpent: '10,000', discount: 8.5, pointsRate: 2.0, freeDelivery: true, birthdayGift: true, memberCount: 150 },
-  { id: 4, name: '钻石', tagType: 'success', minSpent: '50,000', discount: 8.0, pointsRate: 3.0, freeDelivery: true, birthdayGift: true, memberCount: 30 },
-])
+const levels = ref<any[]>([])
 
 const levelForm = reactive({ name: '', minSpent: 0, discount: 9.5, pointsRate: 1.0, freeDelivery: false, birthdayGift: false })
 const rules: FormRules = {
@@ -95,11 +91,40 @@ const rules: FormRules = {
   discount: [{ required: true, message: '请输入折扣', trigger: 'blur' }],
 }
 
+const fetchLevels = async () => {
+  loading.value = true
+  try {
+    const { data } = await vipLevelApi.list()
+    levels.value = (data as any)?.data || data || []
+  } catch { ElMessage.error('获取VIP等级失败') }
+  finally { loading.value = false }
+}
+
 const showAddDialog = () => { editingLevel.value = null; Object.assign(levelForm, { name: '', minSpent: 0, discount: 9.5, pointsRate: 1, freeDelivery: false, birthdayGift: false }); dialogVisible.value = true }
-const handleEdit = (row: any) => { editingLevel.value = row; dialogVisible.value = true }
+const handleEdit = (row: any) => { editingLevel.value = row; Object.assign(levelForm, { name: row.name, minSpent: row.upgrade_total_amount || row.minSpent, discount: row.discount, pointsRate: row.upgrade_get_credits || row.pointsRate, freeDelivery: row.freeDelivery, birthdayGift: row.birthdayGift }); dialogVisible.value = true }
 const handleSave = async () => {
   if (!formRef.value) return
-  await formRef.value.validate((valid) => { if (!valid) return; saving.value = true; setTimeout(() => { saving.value = false; dialogVisible.value = false; ElMessage.success('保存成功') }, 300) })
+  await formRef.value.validate(async (valid) => {
+    if (!valid) return
+    saving.value = true
+    try {
+      if (editingLevel.value) {
+        await vipLevelApi.update(editingLevel.value.id, levelForm)
+      } else {
+        await vipLevelApi.create(levelForm)
+      }
+      dialogVisible.value = false
+      ElMessage.success('保存成功')
+      fetchLevels()
+    } catch { ElMessage.error('保存失败') }
+    finally { saving.value = false }
+  })
 }
-const handleDelete = async (row: any) => { await ElMessageBox.confirm(`确定删除等级「${row.name}」？`, '提示', { type: 'warning' }); ElMessage.success('删除成功') }
+const handleDelete = async (row: any) => {
+  await ElMessageBox.confirm(`确定删除等级「${row.name}」？`, '提示', { type: 'warning' })
+  try { await vipLevelApi.delete(row.id); ElMessage.success('删除成功'); fetchLevels() }
+  catch { ElMessage.error('删除失败') }
+}
+
+onMounted(fetchLevels)
 </script>

@@ -70,6 +70,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted } from 'vue'
 import { ElMessage } from 'element-plus'
+import { statisticApi } from '@diandantong/admin-api'
 
 const revenueTrendRef = ref<HTMLElement>()
 const orderTrendRef = ref<HTMLElement>()
@@ -77,16 +78,33 @@ const orderTrendRef = ref<HTMLElement>()
 const filterForm = reactive({ dateRange: null as any, branchId: undefined as number | undefined })
 
 const summary = ref({
-  totalRevenue: '186,200.00',
-  totalOrders: '2,850',
-  customerCount: '3,120',
-  turnoverRate: '2.8',
+  totalRevenue: '0.00',
+  totalOrders: '0',
+  customerCount: '0',
+  turnoverRate: '0',
 })
 
-const handleQuery = () => { ElMessage.info('查询数据...') }
+const fetchData = async () => {
+  try {
+    const startDate = filterForm.dateRange?.[0] ? new Date(filterForm.dateRange[0]).toISOString().split('T')[0] : new Date(new Date().setDate(1)).toISOString().split('T')[0]
+    const endDate = filterForm.dateRange?.[1] ? new Date(filterForm.dateRange[1]).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]
+    const { data } = await statisticApi.business({ branch_id: filterForm.branchId, start_date: startDate, end_date: endDate })
+    const stats = (data as any)?.data || data
+    if (stats) {
+      summary.value = {
+        totalRevenue: Number(stats.total_revenue || stats.totalRevenue || 0).toLocaleString('en-US', { minimumFractionDigits: 2 }),
+        totalOrders: String(stats.total_orders || stats.totalOrders || 0),
+        customerCount: String(stats.customer_count || stats.customerCount || stats.total_orders || 0),
+        turnoverRate: String(stats.turnover_rate || stats.turnoverRate || 0),
+      }
+    }
+  } catch { /* keep defaults */ }
+}
+
+const handleQuery = () => { fetchData() }
 const handleExport = () => { ElMessage.success('导出报表中...') }
 
 onMounted(() => {
-  // TODO: Initialize ECharts
+  fetchData()
 })
 </script>
