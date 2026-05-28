@@ -8,6 +8,15 @@ module Ddt
         include Ddt::Api::Rendering
         include CheckFeature
         include CheckPermission
+        include ActionPolicy::Controller
+
+        authorize :account, through: :current_account
+        authorize :shop, through: :current_shop
+        authorize :branch, through: :current_branch
+
+        rescue_from ActionPolicy::Unauthorized do |exception|
+          raise Error::NoPermissionError, exception.message
+        end
 
         protect_from_forgery with: :null_session
         skip_before_action :verify_authenticity_token

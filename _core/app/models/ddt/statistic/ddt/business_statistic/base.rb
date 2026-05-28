@@ -2,7 +2,7 @@
 module Ddt
   module BusinessStatistic
     class Base < Ddt::StatisticBase
-      attr_accessor :branch, :branch_id, :start_time, :end_time, :sort, :current_ability
+      attr_accessor :branch, :branch_id, :start_time, :end_time, :sort
       hash_attrs({
           门店: :branch_id,
           开始时间: :start_time,
