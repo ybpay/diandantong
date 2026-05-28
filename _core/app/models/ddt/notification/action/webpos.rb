@@ -6,22 +6,19 @@ module Ddt
         def perform
           view = Ddt::Notification::View::Webpos.new(event, target)
           message = view.render
-          channel = Ddt::WebposNotify.channel(account.id)
           if message.is_a? Array
-            message.each {|msg| publish_msg(channel, msg)}
+            message.each { |msg| publish_msg(account, msg) }
           else
-            publish_msg(channel, message)
+            publish_msg(account, message)
           end
-
         end
 
         private
 
-        def publish_msg(channel, msg)
+        def publish_msg(account, msg)
           return if msg.blank?
-          PrivatePub.publish_to(channel, msg: msg)
+          WebposChannel.broadcast_to(account, msg)
         end
-
       end
     end
   end

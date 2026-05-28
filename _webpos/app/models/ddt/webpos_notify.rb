@@ -2,10 +2,6 @@ module Ddt
   module WebposNotify
 
     # msg_type: COOK_NOTIFICATION, CUSTOM_MESSAGE, VERIFY_VIPINFO
-    def self.channel(account_id)
-      "/webpos/messages/accounts/#{account_id}"
-    end
-
     def self.verify_vip_info(qr_code_scene, vip_info)
       owner = qr_code_scene.owner
       terminal_id = qr_code_scene.preferred_terminal_id
@@ -32,12 +28,11 @@ module Ddt
     private
 
     def self.publish_msg(account_id, msg)
-      channel = self.channel(account_id)
-      begin
-        PrivatePub.publish_to(channel, msg: msg)
-      rescue => e
-        raise "WebsocketRails not start!: #{e}"
-      end
+      account = Ddt::Account.find_by(id: account_id)
+      return unless account
+      WebposChannel.broadcast_to(account, msg)
+    rescue => e
+      Rails.logger.error("ActionCable broadcast failed for account #{account_id}: #{e.message}")
     end
 
     def self.to_json(vip_info)

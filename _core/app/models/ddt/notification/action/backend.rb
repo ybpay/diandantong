@@ -6,8 +6,7 @@ module Ddt
         def perform
           view = Ddt::Notification::View::Backend.new(event, target)
           msg = view.render
-          channel = "/messages/accounts/#{account.id}"
-          PrivatePub.publish_to(channel, msg: msg)
+          BackendChannel.broadcast_to(account, msg)
         end
       end
     end

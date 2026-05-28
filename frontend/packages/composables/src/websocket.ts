@@ -1,14 +1,30 @@
 import { ref, onUnmounted } from 'vue'
 import type { Notification } from '@webpos/types'
 
+interface ActionCableMessage {
+  identifier?: string
+  type?: string
+  message?: unknown
+}
+
+interface Subscription {
+  channel: string
+  [key: string]: unknown
+}
+
+interface SubscriptionOptions {
+  received?: (data: unknown) => void
+}
+
 export function useWebSocket(url: string) {
   const connected = ref(false)
   const error = ref<string | null>(null)
   let ws: WebSocket | null = null
-  const handlers = new Map<string, Set<(data: unknown) => void>>()
+  const subscriptions = new Map<string, Set<(data: unknown) => void>>()
+  let reconnectTimer: ReturnType<typeof setTimeout> | null = null
 
   function connect() {
-    if (ws) ws.close()
+    if (ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return
 
     const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:'
     const wsUrl = url.startsWith('ws') ? url : `${protocol}//${window.location.host}${url}`
@@ -18,11 +34,20 @@ export function useWebSocket(url: string) {
     ws.onopen = () => {
       connected.value = true
       error.value = null
+      // Re-subscribe all active subscriptions
+      subscriptions.forEach((_, identifier) => {
+        ws!.send(JSON.stringify({
+          command: 'subscribe',
+          identifier
+        }))
+      })
     }
 
     ws.onclose = () => {
       connected.value = false
-      setTimeout(connect, 3000)
+      ws = null
+      // Auto-reconnect after 3 seconds
+      reconnectTimer = setTimeout(connect, 3000)
     }
 
     ws.onerror = () => {
@@ -31,32 +56,27 @@ export function useWebSocket(url: string) {
 
     ws.onmessage = (event) => {
       try {
-        const msg = JSON.parse(event.data)
+        const msg: ActionCableMessage = JSON.parse(event.data)
 
-        // ActionCable format: { type, identifier, message }
-        if (msg.identifier && msg.type === 'message') {
-          let channel: string | undefined
-          try {
-            channel = JSON.parse(msg.identifier).channel
-          } catch { /* ignore */ }
-          if (channel) {
-            const handlerSet = handlers.get(channel)
-            if (handlerSet) {
-              handlerSet.forEach((fn) => fn(msg.message))
-            }
+        // Welcome and ping messages - ignore
+        if (msg.type === 'welcome' || msg.type === 'ping') return
+
+        // ActionCable broadcast: { identifier, type: "message", message }
+        if (msg.identifier && msg.type === 'message' && msg.message !== undefined) {
+          const handlerSet = subscriptions.get(msg.identifier)
+          if (handlerSet) {
+            handlerSet.forEach((fn) => fn(msg.message))
           }
-          return
         }
 
-        // Generic format: { type, channel, data }
-        const type = msg.type || msg.channel
-        const handlerSet = handlers.get(type)
-        if (handlerSet) {
-          handlerSet.forEach((fn) => fn(msg.data || msg))
+        // Subscription confirmations
+        if (msg.type === 'confirm_subscription') {
+          // Subscription confirmed
         }
-        const wildcardSet = handlers.get('*')
-        if (wildcardSet) {
-          wildcardSet.forEach((fn) => fn(msg))
+
+        // Rejection
+        if (msg.type === 'reject_subscription') {
+          error.value = 'WebSocket 订阅被拒绝'
         }
       } catch {
         // ignore non-JSON messages
@@ -64,65 +84,85 @@ export function useWebSocket(url: string) {
     }
   }
 
-  function on(type: string, handler: (data: unknown) => void) {
-    if (!handlers.has(type)) handlers.set(type, new Set())
-    handlers.get(type)!.add(handler)
-    return () => handlers.get(type)?.delete(handler)
-  }
+  function subscribe(channel: string, params?: Record<string, unknown>, handlers?: SubscriptionOptions) {
+    connect()
 
-  function off(type: string, handler: (data: unknown) => void) {
-    handlers.get(type)?.delete(handler)
-  }
+    const sub: Subscription = { channel, ...params }
+    const identifier = JSON.stringify(sub)
 
-  function send(data: unknown) {
+    if (!subscriptions.has(identifier)) {
+      subscriptions.set(identifier, new Set())
+    }
+
+    if (handlers?.received) {
+      subscriptions.get(identifier)!.add(handlers.received)
+    }
+
     if (ws && ws.readyState === WebSocket.OPEN) {
-      ws.send(JSON.stringify(data))
+      ws.send(JSON.stringify({ command: 'subscribe', identifier }))
     }
   }
 
+  function unsubscribe(channel: string, params?: Record<string, unknown>) {
+    const sub: Subscription = { channel, ...params }
+    const identifier = JSON.stringify(sub)
+
+    if (ws && ws.readyState === WebSocket.OPEN) {
+      ws.send(JSON.stringify({ command: 'unsubscribe', identifier }))
+    }
+    subscriptions.delete(identifier)
+  }
+
   function disconnect() {
+    if (reconnectTimer) {
+      clearTimeout(reconnectTimer)
+      reconnectTimer = null
+    }
     if (ws) {
       ws.close()
       ws = null
     }
+    subscriptions.clear()
   }
 
   onUnmounted(disconnect)
 
-  return { connected, error, connect, disconnect, on, off, send }
+  return { connected, error, connect, disconnect, subscribe, unsubscribe }
 }
 
 export function useActionCable() {
-  const { connected, connect, disconnect, on, off, send } = useWebSocket('/cable')
+  const { connected, error, connect, disconnect, subscribe, unsubscribe } = useWebSocket('/cable')
 
-  function subscribe(channel: string, handlers?: { received?: (payload: unknown) => void }) {
-    connect()
-    send({ command: 'subscribe', identifier: JSON.stringify({ channel }) })
-    if (handlers?.received) {
-      on(channel, handlers.received)
-    }
+  function subscribeTo(channel: string, params?: Record<string, unknown>, handlers?: SubscriptionOptions) {
+    subscribe(channel, params, handlers)
   }
 
-  function unsubscribe(channel: string) {
-    send({ command: 'unsubscribe', identifier: JSON.stringify({ channel }) })
-    disconnect()
+  function unsubscribeFrom(channel: string, params?: Record<string, unknown>) {
+    unsubscribe(channel, params)
   }
 
-  return { connected, subscribe, unsubscribe, on, off }
+  return {
+    connected,
+    error,
+    connect,
+    disconnect,
+    subscribe: subscribeTo,
+    unsubscribe: unsubscribeFrom,
+  }
 }
 
 export function useNotifications(branchId: number) {
   const notifications = ref<Notification[]>([])
   const unreadCount = ref(0)
 
-  const { connected, subscribe, unsubscribe, on } = useActionCable()
+  const { connected, subscribe, unsubscribe } = useActionCable()
 
-  on('notification', (data: unknown) => {
+  function handleNotification(data: unknown) {
     const notification = data as Notification
     notifications.value.unshift(notification)
     if (!notification.read) unreadCount.value++
     playNotificationSound()
-  })
+  }
 
   function playNotificationSound() {
     try {
@@ -134,5 +174,21 @@ export function useNotifications(branchId: number) {
     }
   }
 
-  return { notifications, unreadCount, connected, subscribe, unsubscribe }
+  function start() {
+    subscribe('NotificationChannel', { branch_id: branchId }, {
+      received: handleNotification
+    })
+  }
+
+  function stop() {
+    unsubscribe('NotificationChannel', { branch_id: branchId })
+  }
+
+  return {
+    notifications,
+    unreadCount,
+    connected,
+    start,
+    stop,
+  }
 }

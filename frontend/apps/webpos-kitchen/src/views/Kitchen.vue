@@ -29,7 +29,7 @@ function handleOrderHastened(data: { order_id: string }) {
   orderStore.markHastened(data.order_id)
 }
 
-cable.subscribe('KitchenChannel', {
+cable.subscribe('KitchenChannel', undefined, {
   received(payload: { action: string; data: unknown }) {
     switch (payload.action) {
       case 'order_created':
