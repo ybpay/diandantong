@@ -2,10 +2,6 @@ module Ddt
   module WebposNotify
 
     # msg_type: COOK_NOTIFICATION, CUSTOM_MESSAGE, VERIFY_VIPINFO
-    def self.channel(account_id)
-      "webpos:account:#{account_id}"
-    end
-
     def self.verify_vip_info(qr_code_scene, vip_info)
       owner = qr_code_scene.owner
       terminal_id = qr_code_scene.preferred_terminal_id

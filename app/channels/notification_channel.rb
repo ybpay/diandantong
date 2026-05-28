@@ -1,9 +1,9 @@
-class TablesChannel < ApplicationCable::Channel
+class NotificationChannel < ApplicationCable::Channel
   def subscribed
     if params[:branch_id].to_s != current_account.branch_id.to_s
       reject
     else
-      stream_from "tables:branch:#{current_account.branch_id}"
+      stream_from "notifications:branch:#{current_account.branch_id}"
     end
   end
 

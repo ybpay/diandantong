@@ -74,5 +74,5 @@ require 'ddt/core/cncity'
 require 'ddt/core/url_util'
 require 'ddt/core/cloud_server'
 require 'ddt/core/redis_client'
-require 'ddt/core/cable_broadcast'
+
 require 'ddt/api/errors'
