@@ -11,8 +11,8 @@ json.cache! [@branch], expires_in: 1.day do
   json.can_place_when_zero @branch.eat_in_hall_setting.can_place_when_zero
   json.disable_service @branch.disable_service
   json.comments_count @branch.branch_comments.of_published.count
-  json.image @branch.image.medium.url
-  json.rect_image @branch.rect_image.medium.url
+  json.image @branch.image_variant(:medium)
+  json.rect_image @branch.rect_image_variant(:medium)
   json.has_combo @branch.combos.of_wechat.available.on_shelf.sale_on_now.by_support_type(params[:order_type]).count > 0
 
   json.has_essential_product @branch.essential_products.count > 0
@@ -42,7 +42,7 @@ json.cache! [@branch], expires_in: 1.day do
   if @current_shop.has_feature?(:base_groupon)
     json.tuans @branch.tuans.tuans_on_sale.each do |tuan|
      json.extract! tuan, :id, :name, :type, :base_coupons_count, :description, :groupon_price
-     json.image tuan.coupon_photos.first.image.thumb.url if tuan.coupon_photos.any?
+     json.image tuan.coupon_photos.first.image_variant(:thumb) if tuan.coupon_photos.any?
     end
   else
     json.tuans []

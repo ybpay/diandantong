@@ -6,5 +6,5 @@ json.extract! version, :name, :description, :branch_id
 json.branch_names version.branch_names rescue nil
 json.coupon_usage_instructions version.coupon_usage_instructions.map(&:content)
 json.coupon_photos version.coupon_photos do |photo|
-  json.img photo.image.medium.url rescue nil
+  json.img photo.image_variant(:medium) rescue nil
 end

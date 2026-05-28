@@ -23,7 +23,7 @@ json.array! branches do |branch|
       json.extract! delivery_time, :fstart_time, :fend_time
     end
     json.top_sales branch.top_sales.map(&:name)
-    json.image branch.image.thumb.url
+    json.image branch.image_variant(:thumb)
     if has_feature?(:base_groupon)
       json.tuans branch.tuans.tuans_on_sale.limit(2).each do |tuan|
         json.extract! tuan, :id, :name, :type

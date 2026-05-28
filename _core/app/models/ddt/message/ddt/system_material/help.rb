@@ -9,7 +9,7 @@ module Ddt
           description = "#{wechat_account.default_branch.introduction_decoder} 欢迎您使用微信下单"
           url = branch_url(wechat_account.default_branch)
         end
-        items = [{title: welcome_msg, description: description, pic_url: shop.rect_image.medium.url,url: url}]
+        items = [{title: welcome_msg, description: description, pic_url: shop.rect_image_variant(:medium),url: url}]
         response_news_msg(items)
       end
     end

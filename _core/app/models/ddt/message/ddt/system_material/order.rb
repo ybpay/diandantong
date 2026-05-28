@@ -8,9 +8,9 @@ module Ddt
           orders = user.orders.by_type(["Ddt::DeliveryOrder", "Ddt::EatInHallOrder", "Ddt::ReservationOrder"]).limit(5)
           orders.each_with_index do |order, index|
             if index == 0
-              pic_url = order.branch.rect_image.medium.url
+              pic_url = order.branch.rect_image_variant(:medium)
             else
-              pic_url = order.branch.rect_image.thumb.url
+              pic_url = order.branch.rect_image_variant(:thumb)
             end
             items << {title: "#{order.number} 金额:#{order.total} 时间：#{order.created_at.strftime('%Y-%m-%d')}", pic_url: pic_url, url: order_url(order)}
           end

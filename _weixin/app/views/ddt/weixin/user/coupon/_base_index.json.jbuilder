@@ -3,5 +3,5 @@ json.extract! coupon, :id, :expires_at, :applied_at, :refund_at, :usable_starts_
 json.expired coupon.expired?
 json.branch_names version.branch_names rescue nil
 json.extract! version, :name, :description
-json.photo version.coupon_photos.first.image.thumb_square.url rescue nil
+json.photo version.coupon_photos.first&.image_variant(:thumb_square) rescue nil
 json.exchange_code coupon.exchange_code.try(:code)
