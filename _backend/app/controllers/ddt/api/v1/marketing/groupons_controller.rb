@@ -16,8 +16,14 @@ module Ddt
           end
 
           def refund
-            @groupon.refund_coupon
-            render_empty_success(message: "团购券已退款")
+            result = @groupon.refund_coupon
+            if result
+              render_empty_success(message: "团购券已退款")
+            else
+              render json: { errors: [{ status: 422, detail: "团购券退款失败" }] }, status: :unprocessable_content
+            end
+          rescue StandardError => e
+            render json: { errors: [{ status: 422, detail: e.message }] }, status: :unprocessable_content
           end
 
           private
