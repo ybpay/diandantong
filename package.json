@@ -1,0 +1,20 @@
+{
+  "name": "diandantong-e2e",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Diandantong E2E tests with Playwright",
+  "scripts": {
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:backend": "playwright test --project=backend",
+    "test:e2e:webpos": "playwright test --project=webpos",
+    "test:e2e:weixin": "playwright test --project=weixin",
+    "test:e2e:agentsys": "playwright test --project=agentsys",
+    "test:e2e:report": "playwright show-report"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.60.0"
+  }
+}
