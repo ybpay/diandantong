@@ -2,6 +2,49 @@
 
 require 'rails_helper'
 
+RSpec.describe Ddt::User, type: :model do
+  let(:shop) { create(:shop_with_boss) }
+
+  describe 'associations' do
+    it { should have_many(:wechat_users).dependent(:destroy) }
+    it { should have_many(:wechat_share_records) }
+    it { should have_many(:accounts) }
+    it { should have_one(:merchant_apply) }
+  end
+
+  describe 'inherited from Ddt::BaseUser' do
+    it 'is a BaseUser subclass' do
+      expect(described_class.ancestors).to include(Ddt::BaseUser)
+    end
+
+    it 'includes Discard::Model via BaseUser' do
+      expect(described_class.ancestors).to include(Discard::Model)
+    end
+  end
+
+  describe 'type column' do
+    it 'sets type to Ddt::User' do
+      user = create(:user, shop: shop)
+      expect(user.type).to eq('Ddt::User')
+    end
+  end
+
+  describe '#to_label' do
+    it 'returns a display name' do
+      user = create(:user, shop: shop, phone: '15000001234')
+      expect(user.to_label).to be_present
+    end
+  end
+
+  describe 'factory' do
+    it 'creates a valid user' do
+      user = create(:user, shop: shop)
+      expect(user).to be_persisted
+      expect(user.phone).to be_present
+    end
+  end
+end
+
 RSpec.describe Ddt::Account, type: :model do
   let(:shop) { create(:shop_with_boss) }
 
@@ -35,6 +78,7 @@ RSpec.describe Ddt::Account, type: :model do
   end
 
   describe '#managed_branches' do
+    let(:shop) { create(:shop_with_boss) }
     let(:account) { shop.accounts.first }
 
     it 'returns all branches for boss accounts' do
@@ -85,6 +129,11 @@ RSpec.describe Ddt::Account, type: :model do
       account = create(:account, shop: shop)
       expect(account).to be_persisted
       expect(account.login_id).to include(':')
+    end
+
+    it 'requires a shop' do
+      account = build(:account)
+      expect(account.shop).to be_present
     end
   end
 end
