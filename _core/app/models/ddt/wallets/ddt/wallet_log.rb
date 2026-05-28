@@ -7,7 +7,7 @@ module Ddt
     include Ddt::CacheModel
 
 
-    cache_model 'Ddt::Branch', with_deleted: true
+    cache_model 'Ddt::Branch', with_discarded: true
     belongs_to :branch,    class_name: 'Ddt::Branch'
     delegate :name, to: :branch, prefix: true, allow_nil: true
     belongs_to :wallet,    class_name: 'Ddt::Wallet'

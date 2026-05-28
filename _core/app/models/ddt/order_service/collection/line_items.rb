@@ -18,7 +18,7 @@ module Ddt
           variant_ids = active.select(&:is_variant?).map(&:itemable_id).uniq
           variant_package_ids = active.select(&:is_variant_package?).map(&:itemable_id).uniq
           combo_package_ids = active.select(&:is_combo_package?).map(&:itemable_id).uniq
-          variants = Variant.with_deleted.includes(variant).find(variant_ids)
+          variants = Variant.with_discarded.includes(variant).find(variant_ids)
           variant_packages = VariantPackage.includes(variant_package).find(variant_package_ids)
           combo_packages = ComboPackage.includes(combo_package).find(combo_package_ids)
           active.map do |item|

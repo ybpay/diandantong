@@ -19,7 +19,7 @@ module Ddt
 
     # 释放代理资源
     def release
-      agent = Ddt::Agent.with_deleted.find(self.agent_id)
+      agent = Ddt::Agent.with_discarded.find(self.agent_id)
       if agent.blank?
         self.destroy
         return

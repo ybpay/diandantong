@@ -6,7 +6,8 @@ require 'barby/barcode/code_128'
 require 'barby/outputter/html_outputter'
 module Ddt
   class VipInfo < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     include Ddt::BelongsToShopWithTouch
     include Ddt::VipInfoImportExport

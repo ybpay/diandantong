@@ -1,6 +1,7 @@
 module Ddt
   class UniqueUser < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     has_many :users, class_name: 'Ddt::User'
     validates :gonghao_open_id, presence: true, gonghao: true

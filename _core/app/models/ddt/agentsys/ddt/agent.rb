@@ -6,7 +6,8 @@ module Ddt
     devise :database_authenticatable, :registerable,
            :recoverable, :rememberable, :trackable, :validatable, :authentication_keys => [:email]
 
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     auto_strip_attributes :domain
     ### relationships
     has_many :agent_rels

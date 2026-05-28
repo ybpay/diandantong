@@ -49,7 +49,7 @@ module Ddt
 
       def body
         items = result.map(&:to_obj)
-        accounts = Ddt::Account.with_deleted.where(shop_id: shop.id, id: items.map(&:waiter_id).compact)
+        accounts = Ddt::Account.with_discarded.where(shop_id: shop.id, id: items.map(&:waiter_id).compact)
         content = []
         items.each do |item|
           if item.waiter_id.blank?

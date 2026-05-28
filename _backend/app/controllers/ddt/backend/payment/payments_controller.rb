@@ -11,7 +11,7 @@ module Ddt
         if current_account.is_boss?
           branch_ids.append(current_shop.abstract_branch.id)
         end
-        @q = @current_shop.payments.with_deleted.where(branch_id: branch_ids).order(created_at: :desc).ransack(params[:q])
+        @q = @current_shop.payments.with_discarded.where(branch_id: branch_ids).order(created_at: :desc).ransack(params[:q])
         @branches = managed_branches
         @payments = @q.result.paginate(page: params[:page])
       end

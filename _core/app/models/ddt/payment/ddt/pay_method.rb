@@ -1,7 +1,8 @@
 # encoding:utf-8
 module Ddt
   class PayMethod < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     include ListScope
     include Ddt::BelongsToShopWithTouch
@@ -15,10 +16,10 @@ module Ddt
     scope :appendable, ->{
       where("name_sym NOT IN ('vip_card_pay', 'alipay', 'wechatpay', 'baidupay', 'alipay_offline', 'wechatpay_offline') OR name_sym IS NULL")
     }
-    validates :name, presence: true , uniqueness: { scope: [:deleted_at, :shop_id]}
-    validates :code, uniqueness: { scope: [:deleted_at, :shop_id]}, allow_blank: true
+    validates :name, presence: true , uniqueness: { scope: [:discarded_at, :shop_id]}
+    validates :code, uniqueness: { scope: [:discarded_at, :shop_id]}, allow_blank: true
     validates :percent_of_actual, numericality: {integer: true, greater_than: -1, less_than: 101}
-    acts_as_list scope: [:shop_id, :deleted_at]
+    acts_as_list scope: [:shop_id, :discarded_at]
     default_scope ->{list_order}
 
 

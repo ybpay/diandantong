@@ -2,7 +2,8 @@ module Ddt
   class TempRechargeProduct < Ddt::Base
     include BelongsToShop
 
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     validates_presence_of :price, :recharge_amount
     validates_numericality_of :price, :recharge_amount, :greater_than => 0

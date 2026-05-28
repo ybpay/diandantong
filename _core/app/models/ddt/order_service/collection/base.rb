@@ -38,7 +38,7 @@ module Ddt
           items.select(&:destroyed?)
         end
 
-        def with_deleted
+        def with_discarded
           items
         end
 

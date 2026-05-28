@@ -14,7 +14,7 @@ module Ddt
       end
 
       def tables
-        @tables ||= Ddt::Table.with_deleted.includes(:table_zone).where(branch_id: branch_id)
+        @tables ||= Ddt::Table.with_discarded.includes(:table_zone).where(branch_id: branch_id)
       end
 
       def result

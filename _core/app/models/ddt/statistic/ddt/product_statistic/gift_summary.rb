@@ -2,7 +2,7 @@ module Ddt
   module ProductStatistic
     class GiftSummary < ::Ddt::ProductStatistic::Base
       include Ddt::CacheModel
-      cache_model 'Ddt::Account', with_deleted: true
+      cache_model 'Ddt::Account', with_discarded: true
 
       def self.class_info
         {

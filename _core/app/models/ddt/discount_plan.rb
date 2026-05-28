@@ -1,6 +1,7 @@
 module Ddt
   class DiscountPlan < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     include BelongsToBranch
     has_many :discount_plan_items, inverse_of: :discount_plan
     alias_method :items, :discount_plan_items

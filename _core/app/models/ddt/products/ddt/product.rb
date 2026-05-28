@@ -1,7 +1,8 @@
 # encoding:utf-8
 module Ddt
   class Product < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     include Ddt::BelongsToBranch
     include Ddt::Productable
@@ -65,7 +66,7 @@ module Ddt
     # which would make AR's default finder return nil.
     # This is a stopgap for that little problem.
     def master
-      super || variants_including_master.with_deleted.where(is_master: true).first
+      super || variants_including_master.with_discarded.where(is_master: true).first
     end
 
     def variants_and_option_values

@@ -3,7 +3,7 @@ module Ddt
     extend ActiveSupport::Concern
     included do
       belongs_to :shop, class_name: 'Ddt::Shop'
-      belongs_to :branch, -> { with_deleted }, class_name: 'Ddt::Branch', touch: true
+      belongs_to :branch, -> { with_discarded }, class_name: 'Ddt::Branch', touch: true
 
       # def shop
       #   TCC.fetch("shop.#{self.shop_id}") {super}

@@ -1,7 +1,8 @@
 # encoding:utf-8
 module Ddt
   class Variant < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     include Ddt::ListScope
     include Ddt::BelongsToBranch
@@ -9,7 +10,7 @@ module Ddt
     MAX_STOCK_QUANTITY = 999999
 
     # relationships
-    belongs_to :product, ->{with_deleted}, touch: true, inverse_of: :variants, class_name: 'Ddt::Product', foreign_key: :product_id
+    belongs_to :product, ->{with_discarded}, touch: true, inverse_of: :variants, class_name: 'Ddt::Product', foreign_key: :product_id
     delegate_belongs_to :product, :name, :description, :availabled_at, :unit_name, :min_quantity_for_order, :show_note_in_weixin, :enable_change_price
     delegate :tags, :tag_ids, :categories, :category_ids, :enable_discount, :enable_discount?, to: :product, allow_nil: true
     has_many :variants_variant_images, class_name: 'Ddt::VariantsVariantImage', dependent: :destroy
@@ -32,10 +33,10 @@ module Ddt
     validates :sale_quantity, numericality: { greater_than_or_equal_to: 0, less_than: MAX_INTEGER }
     validates :default_weight, numericality: {greater_than: 0}
     validates_inclusion_of :estimate_clear_reciprocal , in: [true,false]
-    validates :nfc_code, uniqueness: { :scope => [:branch_id, :deleted_at]}, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_SP_ID}, allow_blank: true
+    validates :nfc_code, uniqueness: { :scope => [:branch_id, :discarded_at]}, numericality: { only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_SP_ID}, allow_blank: true
 
     # scopes
-    acts_as_list scope: [:product_id, :deleted_at]
+    acts_as_list scope: [:product_id, :discarded_at]
 
     # callbacks
     set_shop_and_branch_from :product
@@ -293,7 +294,7 @@ module Ddt
           if self.categories.nil?
             ''
           else
-            self.categories.with_deleted.map(&:name).join(',')
+            self.categories.with_discarded.map(&:name).join(',')
           end
         end
       end

@@ -10,7 +10,7 @@ module Ddt
     include AASM
 
     belongs_to :shop, class_name: 'Ddt::Shop'
-    belongs_to :branch, -> { with_deleted }, class_name: 'Ddt::Branch'
+    belongs_to :branch, -> { with_discarded }, class_name: 'Ddt::Branch'
     validates_presence_of :shop
 
     skip_callback :create, :after, :create_qr_code

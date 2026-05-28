@@ -4,7 +4,7 @@ module Ddt
     class RechargeRecord < ::Ddt::UserStatistic::Base
       include Ddt::CacheModel
       attr_accessor :records, :vip_no, :vip_phone
-      cache_model 'Ddt::VipInfo', with_deleted: true
+      cache_model 'Ddt::VipInfo', with_discarded: true
       hash_attrs({
          会员号: :vip_no,
          会员电话: :vip_phone

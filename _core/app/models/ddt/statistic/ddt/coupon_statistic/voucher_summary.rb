@@ -19,7 +19,7 @@ module Ddt
 
       def filters
         [
-          { name: 'version_id', type: 'collection', collection: shop.voucher_versions.with_deleted, prompt: '选择代金券'},
+          { name: 'version_id', type: 'collection', collection: shop.voucher_versions.with_discarded, prompt: '选择代金券'},
           filter_start_time,
           filter_end_time
         ]

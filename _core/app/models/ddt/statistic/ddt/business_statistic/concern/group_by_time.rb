@@ -5,7 +5,7 @@ module Ddt
         extend ActiveSupport::Concern
 
         def all_pay_methods
-          shop.pay_methods.with_deleted.inject({}) do |h, m|
+          shop.pay_methods.with_discarded.inject({}) do |h, m|
             h[m.id] ={
               pay_method_id: m.id,
               pay_method_code: m.code,

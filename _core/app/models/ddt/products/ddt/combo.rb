@@ -1,7 +1,8 @@
 #encoding:utf-8
 module Ddt
   class Combo < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     include Ddt::ListScope
     include Ddt::Productable
@@ -15,13 +16,13 @@ module Ddt
     has_many :images, class_name: 'Ddt::ComboImage', through: :combos_combo_images, source: :combo_image
 
     # validations
-    validates_uniqueness_of :sku, allow_blank: true, scope: [:branch_id], conditions: -> { where(deleted_at: nil) }
+    validates_uniqueness_of :sku, allow_blank: true, scope: [:branch_id], conditions: -> { where(discarded_at: nil) }
     validates :stock_quantity, numericality: { greater_than_or_equal_to: 0, less_than: MAX_INTEGER }
     validates :availabled_at, presence: true
 
     # scope
     scope :available, ->(){ where("ddt_combos.availabled_at < ? && (ddt_combos.end_at is null or ddt_combos.end_at > ?)", Time.now, Time.now)}
-    acts_as_list scope: [:branch, :deleted_at]
+    acts_as_list scope: [:branch, :discarded_at]
     scope :on_shelf, ->() { where(on_shelf: true) }
     default_scope ->{ list_order }
 

@@ -33,7 +33,7 @@ module Ddt
           else
             order_quantity = OrderService::Api::Statistic.order_quantity(query: base_query, group_by: :waiter_id)
             order_sale_amount = OrderService::Api::Statistic.order_sale_amount(query: base_query, group_by: :waiter_id)
-            accounts = @branch.managers.with_deleted.where(id: order_quantity.keys.map(&:to_i)).to_a
+            accounts = @branch.managers.with_discarded.where(id: order_quantity.keys.map(&:to_i)).to_a
             @items = order_quantity.map do |waiter_id, quantity|
               WaiterList::Item.new({
                 waiter_id: waiter_id,

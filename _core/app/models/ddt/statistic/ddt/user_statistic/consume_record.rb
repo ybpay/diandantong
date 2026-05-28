@@ -3,7 +3,7 @@ module Ddt
     class ConsumeRecord < ::Ddt::UserStatistic::Base
       attr_accessor :records, :vip_no, :vip_phone
       include Ddt::CacheModel
-      cache_model 'Ddt::VipInfo', with_deleted: true
+      cache_model 'Ddt::VipInfo', with_discarded: true
 
 
       def self.class_info

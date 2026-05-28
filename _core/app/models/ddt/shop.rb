@@ -6,7 +6,8 @@ module Ddt
     is_impressionable
     ### relationships
     default_scope ->{ order(created_at: :desc) }
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
 
     has_one :credits_wallet, as: :owner, class_name: 'Ddt::ShopCreditsWallet'
@@ -359,7 +360,7 @@ module Ddt
 
     def agent
         if self.agent_no.present?
-            @agent ||= (Ddt::Agent.with_deleted.find_by(:agent_no => self.agent_no) rescue nil)
+            @agent ||= (Ddt::Agent.with_discarded.find_by(:agent_no => self.agent_no) rescue nil)
         else
             nil
         end

@@ -1,7 +1,8 @@
 # encoding: utf-8
 module Ddt
   class Wallet < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     ### relationships
     include ActiveSupport::NumberHelper
@@ -16,9 +17,9 @@ module Ddt
     ### callbacks
     set_shop_from :owner
 
-    def owner_with_deleted
+    def owner_with_discarded
       if self.owner_type && self.owner_id
-        self.owner_type.constantize.with_deleted.find(self.owner_id)
+        self.owner_type.constantize.with_discarded.find(self.owner_id)
       end
     end
     alias_method :owner_without_deleted, :owner

@@ -3,7 +3,7 @@ module Ddt
     class LineItem
       include OrderService::Concern::Base
       include OrderService::Concern::BelongsToOrder
-      belongs_to :itemable, polymorphic: true, with_deleted: true
+      belongs_to :itemable, polymorphic: true, with_discarded: true
       delegate :enable_change_price, to: :itemable
       attr_accessor_with_dirty :id, :quantity, :note, :enjoy_vip_price, :enjoy_custom_price, :gift, :gift_reason,
                     :price, :vip_price, :original_price, :adjustment_total, :adjust_reason, :apportion_adjustment_total, :apportion_adjust_reason,

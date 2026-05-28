@@ -203,7 +203,7 @@ module Ddt
       end
 
       def get_variants(variant_ids)
-        @variants ||= Ddt::Variant.with_deleted.where(id: variant_ids.uniq)
+        @variants ||= Ddt::Variant.with_discarded.where(id: variant_ids.uniq)
       end
 
       def get_combo_name(items, combo_id)

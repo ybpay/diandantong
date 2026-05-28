@@ -3,7 +3,7 @@ module Ddt
     include BelongsToBranch
 
     belongs_to_order
-    belongs_to :combo, ->{with_deleted}, class_name: 'Ddt::Combo'
+    belongs_to :combo, ->{with_discarded}, class_name: 'Ddt::Combo'
     has_many :combo_package_items, class_name: 'Ddt::ComboPackageItem', dependent: :destroy, inverse_of: :combo_package, autosave: true
 
     validates_presence_of :combo
@@ -12,7 +12,7 @@ module Ddt
 
     set_shop_and_branch_from :combo
 
-    scope :with_deleted, ->{ }
+    scope :with_discarded, ->{ }
 
     def each_item
       self.combo_package_items.each do |item|

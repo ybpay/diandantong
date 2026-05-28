@@ -5,7 +5,8 @@ module Ddt
   #
   class AbstractCouponVersion < Ddt::Base
     include Ddt::BelongsToShop
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     has_many :base_coupons, class_name: 'Ddt::BaseCoupon'
     has_many :coupon_usage_instructions, dependent: :destroy, class_name: 'Ddt::CouponUsageInstruction'
     has_many :coupon_photos, as: :owner, class_name: 'Ddt::CouponPhoto', inverse_of: :owner

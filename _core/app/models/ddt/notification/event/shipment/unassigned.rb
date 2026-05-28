@@ -25,7 +25,7 @@ module Ddt
 
           private
             def pre_delivery_man
-              shop.accounts.with_deleted.find(delivery_man_id)
+              shop.accounts.with_discarded.find(delivery_man_id)
             end
         end
       end

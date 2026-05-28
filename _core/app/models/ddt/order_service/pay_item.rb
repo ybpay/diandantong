@@ -3,8 +3,8 @@ module Ddt
     class PayItem
       include OrderService::Concern::Base
       include OrderService::Concern::BelongsToOrder
-      belongs_to :pay_method, with_deleted: true
-      belongs_to :tick_account, with_deleted: true
+      belongs_to :pay_method, with_discarded: true
+      belongs_to :tick_account, with_discarded: true
       belongs_to :payment
       attr_accessor_with_dirty :id, :state, :amount, :change, :paid_amount, :not_actual_amount, :note,
                     :created_at, :updated_at, :paid_at, :deleted_at, :delete_by_admin, :is_append, :sync_at, :tick_account_id, :tick_account_name

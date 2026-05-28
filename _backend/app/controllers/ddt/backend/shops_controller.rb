@@ -74,7 +74,7 @@ module Ddt
       @variants = []
 
       unless @current_account.is_admin?
-        sql = "select branch_id, sku as counter_of_id from ddt_variants where branch_id in (#{current_account.managed_branches.map(&:id).join(',')}) and is_master = 0 and deleted_at is NULL group by sku, branch_id having count(id) > 1"
+        sql = "select branch_id, sku as counter_of_id from ddt_variants where branch_id in (#{current_account.managed_branches.map(&:id).join(',')}) and is_master = 0 and discarded_at is NULL group by sku, branch_id having count(id) > 1"
         @result = ActiveRecord::Migration.connection.execute(sql).to_a
         condition = @result[0..9].map{|branch_id_with_sku| "(branch_id = #{branch_id_with_sku[0]} and sku = '#{branch_id_with_sku[1]}')"}.join(" or ")
         @variants = Ddt::Variant.where(condition) if condition.present?

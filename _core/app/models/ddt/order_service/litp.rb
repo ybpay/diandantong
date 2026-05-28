@@ -3,7 +3,7 @@ module Ddt
     class Litp
       include OrderService::Concern::Base
       include AASM
-      belongs_to :itemable, polymorphic: true, with_deleted: true
+      belongs_to :itemable, polymorphic: true, with_discarded: true
       attr_accessor :id, :shop_id, :branch_id, :order_id, :line_item_id, :order_change_log_id, :note, :created_at, :name
       attr_accessor :order
       attr_accessor_with_dirty :updated_at, :state, :cook_id

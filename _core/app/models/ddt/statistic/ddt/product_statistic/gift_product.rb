@@ -3,7 +3,7 @@ module Ddt
   module ProductStatistic
     class GiftProduct < ::Ddt::ProductStatistic::Base
       include Ddt::CacheModel
-      cache_model 'Ddt::Account', with_deleted: true
+      cache_model 'Ddt::Account', with_discarded: true
 
       attr_accessor :order_number, :gift_reason, :records
       hash_attrs({

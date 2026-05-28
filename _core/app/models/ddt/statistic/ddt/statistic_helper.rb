@@ -144,7 +144,7 @@ module Ddt
 
     def get_branch_name(branch_id, blank_label: '未知门店', noexist_label: '未知门店')
       return blank_label if branch_id.blank?
-      @branches ||= shop.branches.with_deleted.with_abstract
+      @branches ||= shop.branches.with_discarded.with_abstract
       b = @branches.detect{|branch| branch.id == branch_id}
       return blank_label if b.is_abstract?
       b.present? ? b.name : (noexist_label+branch_id.to_s)

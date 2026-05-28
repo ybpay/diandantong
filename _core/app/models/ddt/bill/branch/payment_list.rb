@@ -31,7 +31,7 @@ module Ddt
         end
 
         def items
-          @items ||= @branch.payments.with_deleted.includes(:payment_method).references(:ddt_payment_methods)
+          @items ||= @branch.payments.with_discarded.includes(:payment_method).references(:ddt_payment_methods)
                               .where(ddt_payments: { created_at: @start_time..@end_time}).order('ddt_payments.created_at desc')
         end
 

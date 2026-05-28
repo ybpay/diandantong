@@ -2,7 +2,7 @@ module Ddt
   class GrouponLineItem < Ddt::Base
 
     # belongs_to :groupon_version, class_name: 'Ddt::GrouponVersion', inverse_of: :groupon_line_items
-    belongs_to :variant,  ->{with_deleted}, class_name: 'Ddt::Variant'
+    belongs_to :variant,  ->{with_discarded}, class_name: 'Ddt::Variant'
     validates :variant, :price, :groupon_price, :quantity, :unit_name, presence: true
     delegate :shop, to: :groupon_version, allow_nil: true
 

@@ -3,7 +3,8 @@ module Ddt
     include BelongsToShop
     include ListScope
 
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     acts_as_list scope: [:shop_id, :deleted_at]
 

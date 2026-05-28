@@ -1,7 +1,8 @@
 # encoding:utf-8
 module Ddt
   class Category < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     include Ddt::ListScope
     include Ddt::BelongsToBranch

@@ -1,7 +1,7 @@
 module Ddt
   class CsBranchBinding < Ddt::Base
     belongs_to :shop, class_name: 'Ddt::Shop'
-    belongs_to :branch, -> { with_deleted }, class_name: 'Ddt::Branch'
+    belongs_to :branch, -> { with_discarded }, class_name: 'Ddt::Branch'
 
     validates_format_of :http_proxy_url, :with => /\A(http|https):\/\/.*\z/i, allow_blank: true
     before_create :initialize_token

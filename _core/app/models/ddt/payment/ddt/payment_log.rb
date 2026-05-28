@@ -7,7 +7,7 @@ module Ddt
     include ActsAsType
 
     def payment
-      Ddt::Payment.with_deleted.find_by(id: payment_id)
+      Ddt::Payment.with_discarded.find_by(id: payment_id)
     end
 
     belongs_to :order

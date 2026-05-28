@@ -56,7 +56,7 @@ module Ddt
           shift_groups = shifts.group_by(&:account_id)
           @result = shift_groups.map do |account_id, shifts|
             if account_id.present?
-              account_name = Account.with_deleted.find_by(id: account_id).name
+              account_name = Account.with_discarded.find_by(id: account_id).name
               base_shift_items = ShiftItem.select('pay_method_id, pay_method_name, pay_method_code, sum(amount) as amount, sum(cash_amount) as cash_amount, sum(extra_amount) as extra_amount, sum(actual_amount) as actual_amount, sum(amount - actual_amount) as not_actual_amount').where(shift_id: shifts.map(&:id), item_type: :base).group(:pay_method_id)
               shift_recharge_items = ShiftItem.select('pay_method_id, pay_method_name, pay_method_code, sum(amount) as amount, sum(cash_amount) as cash_amount, sum(extra_amount) as extra_amount, sum(actual_amount) as actual_amount, sum(amount - actual_amount) as not_actual_amount').where(shift_id: shifts.map(&:id), item_type: :recharge).group(:pay_method_id)
               ShiftGroup.new(account_name, base_shift_items, shift_recharge_items, shifts)

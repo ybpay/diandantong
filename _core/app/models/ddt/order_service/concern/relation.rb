@@ -26,7 +26,7 @@ module Ddt
               type: :belongs_to,
               scope: scope,
               polymorphic: options[:polymorphic],
-              with_deleted: options[:with_deleted],
+              with_discarded: options[:with_discarded],
               id_column: options.fetch(:foreign_key, "#{name}_id"),
             }
             if options[:polymorphic]
@@ -46,7 +46,7 @@ module Ddt
                 _class = relation[:class_name].try(:constantize)
               end
               if _class.present?
-                _class = _class.with_deleted if options[:with_deleted]
+                _class = _class.with_discarded if options[:with_discarded]
                 if instance_variable_defined?(vname)
                   instance_variable_get(vname)
                 else
@@ -73,7 +73,7 @@ module Ddt
               type: :has_one,
               scope: scope,
               as: options[:as],
-              with_deleted: options[:with_deleted],
+              with_discarded: options[:with_discarded],
               class_name: options.fetch(:class_name, "Ddt::#{name.to_s.classify}"),
               foreign_key: options[:foreign_key] || self.foreign_key || "#{self.name.demodulize.underscore}_id",
             }
@@ -81,7 +81,7 @@ module Ddt
 
             vname = "@#{name}"
             _class = relation[:class_name].constantize
-            _class = _class.with_deleted if options[:with_deleted]
+            _class = _class.with_discarded if options[:with_discarded]
             relation_proc = ->(instance){
               if options[:as].present?
                 _foreign_type_key = "#{options[:as]}_type"

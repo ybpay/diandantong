@@ -123,7 +123,7 @@ module Ddt
                     created_at: litp.created_at.strftime("%Y-%m-%d %H:%M:%S"),
                     name: "#{litp.name}#{note_str}",
                     count: 1,
-                    price: litp.itemable_with_deleted.price,  # 如果是套餐，这个价格只有参考意义
+                    price: litp.itemable_with_discarded.price,  # 如果是套餐，这个价格只有参考意义
                     # note: litp.note,
                     reason: litp.order_change_log.description,
                     operator_name: litp.order_change_log.operator.try(:name),

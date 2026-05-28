@@ -114,7 +114,7 @@ module Ddt
     def handle_subscribe_with_key
       scene_id = message.event_key.split("_")[1]
       scan_qr_code(scene_id) if scene_id.present?
-      wechat_qr_code_scene = shop.wechat_qr_code_scenes.with_deleted.find_by_scene_id(scene_id)
+      wechat_qr_code_scene = shop.wechat_qr_code_scenes.with_discarded.find_by_scene_id(scene_id)
       if wechat_user.user.present?
         Ddt::Promotion::Events::UserFollow.create!(user: wechat_user.user)
         if wechat_qr_code_scene.present? && wechat_qr_code_scene.is_limit? && wechat_qr_code_scene.is_branch_message? && wechat_user.user.from_branch_id.blank?

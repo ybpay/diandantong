@@ -4,7 +4,7 @@ module Ddt
       class EatInHall < Order::Base
         include OrderService::Order::Concern::Hastenable
         include OrderService::Order::Concern::CallWaiter
-        belongs_to :table, with_deleted: true
+        belongs_to :table, with_discarded: true
         belongs_to_order name: :related_order
 
         def after_place_action

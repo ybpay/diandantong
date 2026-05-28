@@ -29,7 +29,7 @@ module Ddt
             when :belongs_to
               ids = orders.map{|order| order.send(relation[:id_column])}.compact.uniq
               _class = relation[:class_name].constantize
-              _class = _class.with_deleted if relation[:width_deleted]
+              _class = _class.with_discarded if relation[:with_discarded]
               relation_models = _class.where(id: ids)
               relation_models = relation[:scope] ? relation_models.instance_exec(&relation[:scope]) : relation_models
               orders.each do |order|
@@ -38,7 +38,7 @@ module Ddt
               end
             when :has_one
               _class = relation[:class_name].constantize
-              _class = _class.with_deleted if relation[:width_deleted]
+              _class = _class.with_discarded if relation[:with_discarded]
               relation_models = _class.where(relation[:foreign_key] => orders.map(&:id))
               relation_models = relation[:scope] ? relation_models.instance_exec(&relation[:scope]) : relation_models
               orders.each do |order|

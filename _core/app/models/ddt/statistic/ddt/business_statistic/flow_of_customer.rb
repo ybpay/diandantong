@@ -84,9 +84,9 @@ module Ddt
       def table_nums
         return @table_nums if @table_nums.present?
         if branch_id != 0
-          @table_nums = Ddt::Table.with_deleted.where(shop_id: shop.id, branch_id: branch_id).count
+          @table_nums = Ddt::Table.with_discarded.where(shop_id: shop.id, branch_id: branch_id).count
         else
-          @table_nums = Ddt::Table.with_deleted.where(shop_id: shop.id).count
+          @table_nums = Ddt::Table.with_discarded.where(shop_id: shop.id).count
         end
       end
 

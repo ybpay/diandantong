@@ -1,7 +1,7 @@
 module Ddt
   class Coupon < Ddt::BaseCoupon
 
-    belongs_to :coupon_version,  ->{with_deleted}, class_name: 'Ddt::CouponVersion', foreign_key: :abstract_coupon_version_id
+    belongs_to :coupon_version,  ->{with_discarded}, class_name: 'Ddt::CouponVersion', foreign_key: :abstract_coupon_version_id
     delegate :coupon_min_usable_amount,
              :product_sku, :product_skus,
              :coupon_type, :coupon_type_name, :is_amount_match?, :is_product_match?, :is_product_low_price_match?, :value_desc,

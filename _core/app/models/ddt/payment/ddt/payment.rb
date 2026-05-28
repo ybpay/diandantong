@@ -9,7 +9,8 @@ module Ddt
   # 故重新结算在线支付项目需要在 15 秒后进行,以等待客人密码输入完成
 
   class Payment < Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     include BelongsToBranch
     include AASM
     belongs_to_order
