@@ -80,6 +80,23 @@ module Ddt
       end
     end
 
+    def as_api_json
+      {
+        id: id,
+        amount: amount,
+        workflow_state: workflow_state,
+        workflow_state_name: workflow_state_name,
+        payment_method_id: payment_method_id,
+        order_id: order_id,
+        branch_id: branch_id,
+        out_trade_no: out_trade_no,
+        partner_id: partner_id,
+        created_at: created_at,
+        updated_at: updated_at,
+        payment_logs: payment_logs.map { |log| { id: log.id, event: log.event, created_at: log.created_at } }
+      }
+    end
+
     def self.notify_url(payment, request)
       "http://#{request.host}:#{request.port}/oapi/v1/payments/#{payment.id}/notify"
     end

@@ -112,6 +112,21 @@ module Ddt
       { id: self.id, name: self.name_with_parent }
     end
 
+    def as_api_json
+      {
+        id: id,
+        name: name,
+        name_with_parent: name_with_parent,
+        parent_id: parent_id,
+        position: position,
+        is_active: is_active?,
+        branch_id: branch_id,
+        products_count: products.count,
+        created_at: created_at,
+        updated_at: updated_at
+      }
+    end
+
     def empty?
       self_empty = self.products.count == 0
       if self.subs.length > 0

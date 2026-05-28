@@ -112,6 +112,23 @@ module Ddt
       { id: self.id, name: name }
     end
 
+    def as_api_json
+      {
+        id: id,
+        name: name,
+        description: description,
+        price: master&.price,
+        cost_price: master&.cost_price,
+        is_available: is_available?,
+        position: position,
+        branch_id: branch_id,
+        category_ids: category_ids,
+        created_at: created_at,
+        updated_at: updated_at,
+        variants: variants.map { |v| { id: v.id, sku: v.sku, price: v.price, is_master: v.is_master?, is_available: v.is_available? } }
+      }
+    end
+
     # 产品的总销量，如果有子类型则为子类型销量之和，如果没有子类型则是主类型销量
     def total_sale_quantity
       if self.variants.present?

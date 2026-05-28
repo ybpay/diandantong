@@ -685,6 +685,51 @@ module Ddt
           pay_items.with_pay_method.detect{|p| p.tick_for_account? }.try(:tick_account)
         end
 
+        def as_api_json
+          {
+            id: id,
+            number: number,
+            type: type,
+            type_name: type_name,
+            state: state,
+            state_name: state_name,
+            item_count: item_count,
+            item_total: item_total,
+            adjustment_total: adjustment_total,
+            total: total,
+            pay_item_total: pay_item_total,
+            tax_total: tax_total,
+            amount_for_pay: amount_for_pay,
+            pay_item_state: pay_item_state,
+            pay_item_state_name: pay_item_state_name,
+            pay_method: pay_method,
+            pay_method_name: pay_method_name,
+            anti_settlement: anti_settlement,
+            vip_discount: vip_discount,
+            cancel_reason: cancel_reason,
+            placed_at: placed_at,
+            confirmed_at: confirmed_at,
+            completed_at: completed_at,
+            canceled_at: canceled_at,
+            paid_at: paid_at,
+            created_at: created_at,
+            updated_at: updated_at,
+            branch_id: branch_id,
+            shop_id: shop_id,
+            base_user_id: base_user_id,
+            delivery_name: delivery_name,
+            delivery_phone: delivery_phone,
+            delivery_address: delivery_address,
+            table_name: table_name,
+            table_zone_name: table_zone_name,
+            guest_num: guest_num,
+            food_number: food_number,
+            line_items: line_items.map(&:as_api_json),
+            pay_items: pay_items.map(&:as_api_json),
+            adjustments: adjustments.map(&:as_api_json)
+          }.compact
+        end
+
       end
     end
   end
