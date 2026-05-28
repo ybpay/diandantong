@@ -17,6 +17,9 @@
     "@element-plus/icons-vue": "^2.3.0",
     "echarts": "^5.5.0",
     "vue-echarts": "^6.6.0",
+    "vee-validate": "^4.13.0",
+    "@vee-validate/zod": "^4.13.0",
+    "zod": "^3.23.0",
     "@diandantong/admin-api": "workspace:*",
     "@diandantong/admin-stores": "workspace:*",
     "@diandantong/admin-types": "workspace:*"
