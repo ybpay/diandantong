@@ -15,8 +15,14 @@ module Ddt
           end
 
           def refund
-            @voucher.refund_coupon
-            render_empty_success(message: "代金券已退款")
+            result = @voucher.refund_coupon
+            if result
+              render_empty_success(message: "代金券已退款")
+            else
+              render json: { errors: [{ status: 422, detail: "代金券退款失败" }] }, status: :unprocessable_content
+            end
+          rescue StandardError => e
+            render json: { errors: [{ status: 422, detail: e.message }] }, status: :unprocessable_content
           end
 
           private

@@ -1065,7 +1065,7 @@ Ddt::Core::Engine.add_routes do
         resources :vouchers, only: [:index, :show] do
           member { post :refund }
         end
-        resources :groups, controller: 'groupons', only: [:index, :show] do
+        resources :groupons, only: [:index, :show] do
           member { post :refund }
         end
         resources :coupon_versions, only: [:index, :show, :create, :update, :destroy]

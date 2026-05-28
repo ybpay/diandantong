@@ -46,6 +46,7 @@ module Ddt
           def check_builtin
             if @role.builtin?
               render json: { errors: [{ status: 403, detail: "系统角色不允许修改" }] }, status: :forbidden
+              return
             end
           end
 
