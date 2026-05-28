@@ -885,7 +885,11 @@ Ddt::Core::Engine.add_routes do
   namespace :api do
     namespace :v1 do
       namespace :backend do
-        resources :shops, only: [:show], param: :shop_slug do
+        resources :shops, only: [:show, :update], param: :shop_slug do
+          member do
+            get :feature_modules
+            get :branches_summary
+          end
           resources :branches, only: [:index, :show, :create, :update] do
             resources :products, only: [:index, :show, :create, :update, :destroy] do
               collection do
@@ -896,7 +900,74 @@ Ddt::Core::Engine.add_routes do
               end
             end
             resources :categories, only: [:index, :show, :create, :update, :destroy]
-            resources :orders, only: [:index, :show, :update]
+            resources :orders, only: [:index, :show, :update] do
+              collection do
+                post :batch_change_state
+              end
+              member do
+                put :confirm
+                put :cancel
+                put :complete
+                put :refund
+              end
+            end
+            namespace :order do
+              resources :delivery_orders, only: [:index, :show] do
+                collection do
+                  get :assigned
+                end
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                  put :assign
+                  put :start
+                  put :ship
+                end
+              end
+              resources :eat_in_hall_orders, only: [:index, :show] do
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                end
+              end
+              resources :fastfood_orders, only: [:index, :show] do
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                end
+              end
+              resources :groupon_orders, only: [:index, :show] do
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                end
+              end
+              resources :reservation_orders, only: [:index, :show] do
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                end
+              end
+              resources :recharge_orders, only: [:index, :show] do
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                end
+              end
+              resources :payment_orders, only: [:index, :show] do
+                member do
+                  put :confirm
+                  put :cancel
+                  put :complete
+                end
+              end
+            end
             resources :printers, only: [:index, :show, :create, :update, :destroy]
             namespace :crm do
               resources :vip_infos, only: [:index, :show, :create, :update]
@@ -906,6 +977,28 @@ Ddt::Core::Engine.add_routes do
               get :orders
               get :products
               get :finance
+            end
+          end
+          namespace :payment do
+            resources :payments, only: [:index, :show] do
+              member do
+                post :refund
+              end
+              collection do
+                get :statistics
+              end
+            end
+          end
+          namespace :user do
+            resources :base_users, only: [:index, :show, :update] do
+              collection do
+                get :normal_users
+                get :vip_users
+              end
+              member do
+                get :wallet_logs
+                get :recharge_orders
+              end
             end
           end
           resources :coupons, only: [:index, :show, :create, :update, :destroy]

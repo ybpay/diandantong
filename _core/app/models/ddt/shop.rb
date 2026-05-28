@@ -502,6 +502,31 @@ module Ddt
       { id: self.id, name: "#{self.slug}-#{self.name}" }
     end
 
+    def as_api_json
+      {
+        id: id,
+        name: name,
+        slug: slug,
+        telephone: telephone,
+        service_email: service_email,
+        introduction: introduction,
+        is_open: is_open?,
+        shop_type: shop_type,
+        shop_type_name: shop_type_name,
+        enable_foreign: enable_foreign?,
+        foreign_currency_symbol: foreign_currency_symbol,
+        expiration_time: expiration_time,
+        max_branches_limit: max_branches_limit,
+        single_branch: single_branch?,
+        address: address,
+        city_code: city_code,
+        custom_domain: custom_domain,
+        feature_module_names: feature_module_names,
+        created_at: created_at,
+        updated_at: updated_at
+      }
+    end
+
     def introduction_decoder
       ::HTMLEntities.new.decode(ActionView::Base.full_sanitizer.sanitize(self.introduction))
     end

@@ -114,6 +114,28 @@ module Ddt
       {id: id, name: to_label}
     end
 
+    def as_api_json
+      {
+        id: id,
+        name: name,
+        phone: phone,
+        vip_no: vip_no,
+        vip_level_id: vip_level_id,
+        vip_level_name: vip_level&.name,
+        sex: sex,
+        birthday: birthday,
+        card_wallet_balance: card_wallet&.balance || 0,
+        credits_wallet_balance: credits_wallet&.balance || 0,
+        total_amount: total_amount,
+        placed_orders_count: placed_orders_count,
+        is_apply_vip: is_apply_vip?,
+        is_verified: is_verified?,
+        shop_id: shop_id,
+        created_at: created_at,
+        updated_at: updated_at
+      }
+    end
+
     def to_label
       [self.name, self.vip_no].join(" ")
     end

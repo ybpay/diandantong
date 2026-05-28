@@ -300,6 +300,31 @@ module Ddt
       { id: self.id, name: self.name, text: self.name }
     end
 
+    def as_api_json
+      {
+        id: id,
+        name: name,
+        phone: phone,
+        address: address,
+        description: description,
+        contact_name: contact_name,
+        province: province,
+        city: city,
+        district: district,
+        is_in_service: is_in_service?,
+        is_abstract: is_abstract?,
+        longitude: longitude,
+        latitude: latitude,
+        position: position,
+        branch_category: branch_category,
+        shop_id: shop_id,
+        branch_type_id: branch_type_id,
+        business_hours: business_hours,
+        created_at: created_at,
+        updated_at: updated_at
+      }
+    end
+
     def queue_states_json
       self.queue_settings.map do |q|
         {

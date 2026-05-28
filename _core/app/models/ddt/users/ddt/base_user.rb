@@ -82,6 +82,29 @@ module Ddt
       { id: self.id, name: self.to_label}
     end
 
+    def as_api_json
+      {
+        id: id,
+        name: to_label,
+        phone: phone,
+        email: email,
+        type: type,
+        type_name: type_name,
+        shop_id: shop_id,
+        vip_info_id: vip_info_id,
+        orders_count: orders_count,
+        total_amount: total_amount,
+        is_blocked: is_blocked?,
+        last_latitude: last_latitude,
+        last_longitude: last_longitude,
+        last_location_label: last_location_label,
+        last_location_time: last_location_time,
+        created_at: created_at,
+        updated_at: updated_at,
+        vip_info: vip_info&.as_api_json
+      }
+    end
+
     def to_label
       [self.name, self.phone, self.email, self.id].compact.join(" - ")
     end
