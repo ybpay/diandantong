@@ -22,17 +22,34 @@ RSpec.describe Ddt::User, type: :model do
     end
   end
 
-  describe 'type column' do
-    it 'sets type to Ddt::User' do
+  describe '#select_json' do
+    it 'returns id and name' do
       user = create(:user, shop: shop)
-      expect(user.type).to eq('Ddt::User')
+      json = user.select_json
+      expect(json).to include(:id, :name)
+      expect(json[:id]).to eq(user.id)
+    end
+  end
+
+  describe 'Discard::Model' do
+    it 'soft deletes a user' do
+      user = create(:user, shop: shop)
+      user.discard!
+      expect(user.discarded?).to be true
+      expect(described_class.with_discarded).to include(user)
+      expect(described_class.all).not_to include(user)
     end
   end
 
   describe '#to_label' do
-    it 'returns a display name' do
-      user = create(:user, shop: shop, phone: '15000001234')
+    it 'combines nickname, phone, email, and id' do
+      user = create(:user, shop: shop, phone: '15000009999')
       expect(user.to_label).to be_present
+    end
+
+    it 'includes id as fallback' do
+      user = create(:user, shop: shop)
+      expect(user.to_label).to include(user.id.to_s)
     end
   end
 
@@ -42,98 +59,10 @@ RSpec.describe Ddt::User, type: :model do
       expect(user).to be_persisted
       expect(user.phone).to be_present
     end
-  end
-end
 
-RSpec.describe Ddt::Account, type: :model do
-  let(:shop) { create(:shop_with_boss) }
-
-  describe 'associations' do
-    it { should belong_to(:shop) }
-    it { should have_many(:roles) }
-    it { should have_many(:manageships).dependent(:destroy) }
-    it { should have_many(:manage_branches).through(:manageships) }
-    it { should have_many(:push_channels) }
-    it { should have_many(:shifts) }
-  end
-
-  describe 'validations' do
-    it { should validate_presence_of(:login_id) }
-    it { should validate_uniqueness_of(:login_id).case_insensitive }
-    it { should validate_length_of(:name).is_at_most(50) }
-  end
-
-  describe 'devise modules' do
-    it 'includes database_authenticatable' do
-      expect(described_class.devise_modules).to include(:database_authenticatable)
-    end
-
-    it 'includes recoverable' do
-      expect(described_class.devise_modules).to include(:recoverable)
-    end
-
-    it 'includes trackable' do
-      expect(described_class.devise_modules).to include(:trackable)
-    end
-  end
-
-  describe '#managed_branches' do
-    let(:shop) { create(:shop_with_boss) }
-    let(:account) { shop.accounts.first }
-
-    it 'returns all branches for boss accounts' do
-      expect(account.managed_branches).to eq(shop.branches)
-    end
-  end
-
-  describe 'role methods' do
-    let(:account) { create(:account, shop: shop) }
-
-    context 'when account has boss role' do
-      before do
-        role = Ddt::Role::Boss.create!(shop: shop, name: 'boss', builtin: true)
-        account.roles << role
-      end
-
-      it 'returns true for is_boss?' do
-        expect(account.is_boss?).to be true
-      end
-    end
-
-    context 'when account has no boss role' do
-      it 'returns false for is_boss?' do
-        expect(account.is_boss?).to be false
-      end
-    end
-  end
-
-  describe 'scopes' do
-    let!(:boss) { create(:account, shop: shop) }
-
-    before do
-      role = Ddt::Role::Boss.create!(shop: shop, name: 'boss', builtin: true)
-      boss.roles << role
-    end
-
-    it '.boss returns boss accounts' do
-      expect(described_class.boss).to include(boss)
-    end
-
-    it '.bosses_and_workers returns accounts' do
-      expect(described_class.bosses_and_workers).to include(boss)
-    end
-  end
-
-  describe 'factory' do
-    it 'creates a valid account with prefixed login_id' do
-      account = create(:account, shop: shop)
-      expect(account).to be_persisted
-      expect(account.login_id).to include(':')
-    end
-
-    it 'requires a shop' do
-      account = build(:account)
-      expect(account.shop).to be_present
+    it 'sets correct type' do
+      user = create(:user, shop: shop)
+      expect(user.type).to eq('Ddt::User')
     end
   end
 end

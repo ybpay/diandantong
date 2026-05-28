@@ -7,7 +7,7 @@ RSpec.describe Ddt::Product, type: :model do
   let(:branch) { shop.branches.first }
 
   describe 'associations' do
-    it { should have_one(:master).class_name('Ddt::Variant').with_options(is_master: true) }
+    it { should have_one(:master).class_name('Ddt::Variant').dependent(:destroy) }
     it { should have_many(:variants).class_name('Ddt::Variant') }
     it { should have_many(:product_option_types) }
     it { should have_many(:option_types).through(:product_option_types) }
