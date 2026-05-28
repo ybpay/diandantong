@@ -5,9 +5,15 @@ module Ddt
         class FastfoodOrdersController < Ddt::Api::V1::BaseController
           before_action :set_branch
           before_action :set_order, only: [:show, :confirm, :cancel, :complete]
+          check_permission :branch, :order, {
+            [:index, :show] => :show,
+            :confirm => :confirm,
+            :cancel => :cancel,
+            :complete => :complete
+          }
 
           def index
-            orders = @branch.fastfood_orders.includes(:pay_items, :line_items)
+            orders = @branch.fastfood_orders.includes(:pay_items, :line_items, :adjustments)
                         .order(placed_at: :desc)
                         .ransack(params[:q]).result
             render_paginated(orders)
@@ -18,18 +24,30 @@ module Ddt
           end
 
           def confirm
-            @order.confirm! if @order.may_confirm?
-            render_resource(@order)
+            if @order.may_confirm?
+              @order.confirm!
+              render_resource(@order)
+            else
+              render_errors({ state: "当前状态不允许确认" }, :bad_request)
+            end
           end
 
           def cancel
-            @order.cancel!(params[:reason]) if @order.may_cancel?
-            render_resource(@order)
+            if @order.may_cancel?
+              @order.cancel!(params[:reason])
+              render_resource(@order)
+            else
+              render_errors({ state: "当前状态不允许取消" }, :bad_request)
+            end
           end
 
           def complete
-            @order.complete! if @order.may_complete?
-            render_resource(@order)
+            if @order.may_complete?
+              @order.complete!
+              render_resource(@order)
+            else
+              render_errors({ state: "当前状态不允许完成" }, :bad_request)
+            end
           end
 
           private

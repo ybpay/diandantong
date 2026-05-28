@@ -5,6 +5,12 @@ module Ddt
         class BaseUsersController < Ddt::Api::V1::BaseController
           before_action :set_shop
           before_action :set_base_user, only: [:show, :update]
+          check_permission :shop, :base_user, {
+            [:index, :normal_users, :vip_users, :show] => :show,
+            :update => :update,
+            :wallet_logs => :show,
+            :recharge_orders => :show
+          }
 
           def index
             base_users = @shop.base_users.includes(:unique_user, vip_info: :vip_level)
@@ -36,8 +42,15 @@ module Ddt
             end
           end
 
+          ALLOWED_WALLET_TYPES = %w[card credits branch user].freeze
+
           def wallet_logs
-            wallet = @base_user.send("#{params[:wallet_type]}_wallet")
+            wallet_type = params[:wallet_type]
+            unless wallet_type.in?(ALLOWED_WALLET_TYPES)
+              raise ActionController::BadRequest, "Invalid wallet_type"
+            end
+
+            wallet = @base_user.send("#{wallet_type}_wallet")
             raise ActionController::ParameterMissing, "wallet_type" unless wallet
             logs = wallet.wallet_logs.ransack(params[:q]).result.order(created_at: :desc)
             render_paginated(logs)

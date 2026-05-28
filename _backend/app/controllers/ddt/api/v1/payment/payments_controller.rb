@@ -5,12 +5,17 @@ module Ddt
         class PaymentsController < Ddt::Api::V1::BaseController
           before_action :set_shop
           before_action :set_payment, only: [:show, :refund]
+          check_permission :shop, :payment, {
+            [:index, :show, :statistics] => :show,
+            :refund => :refund
+          }
 
           def index
             branch_ids = current_account.managed_branch_ids
             branch_ids << current_shop.abstract_branch.id if current_account.is_boss?
             payments = current_shop.payments.with_discarded
                         .where(branch_id: branch_ids)
+                        .includes(:payment_logs)
                         .order(created_at: :desc)
             payments = apply_order_search(payments)
             render_paginated(payments)

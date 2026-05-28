@@ -8,7 +8,7 @@ module Ddt
           check_permission :branch, :order, base_permission_actions
 
           def index
-            orders = @branch.orders.includes(:pay_items, :line_items)
+            orders = @branch.orders.includes(:pay_items, :line_items, :adjustments)
                         .order(placed_at: :desc)
                         .ransack(params[:q]).result
             render_paginated(orders)
@@ -82,7 +82,7 @@ module Ddt
             end
 
             if errors.any?
-              render json: { data: { success: true, errors: errors } }
+              render json: { data: { success: false, errors: errors } }, status: :multi_status
             else
               render_empty_success(message: "批量操作成功")
             end
