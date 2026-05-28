@@ -50,7 +50,7 @@ class Ddt::MessageReception < Ddt::DdtEx
     elsif material.is_news?
       message_response = self.create_message_response!(msg_type: :news)
       material.articles.each_with_index do |article, index|
-        pic_url = (index == 0 ? article.image.medium.url : article.image.thumb.url)
+        pic_url = (index == 0 ? article.image_variant(:medium) : article.image_variant(:thumb))
         message_response.message_response_items.create!(
           title: article.title,
           pic_url: pic_url,

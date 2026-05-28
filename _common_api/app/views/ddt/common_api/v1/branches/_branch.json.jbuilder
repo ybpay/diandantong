@@ -3,7 +3,7 @@ json.extract! branch, :id, :name, :notice, :note_placeholder, :moling_auto, :pho
   if branch.cs_branch_binding.present?
     json.http_proxy_url branch.cs_branch_binding.http_proxy_url
   end
-  json.image_url branch.image.thumb.url
+  json.image_url branch.image_variant(:thumb)
   json.on_shift branch.current_shift.present?
   json.shift_account_id branch.current_shift.try(:account_id)
   json.shift_account_name branch.current_shift.try(:account_name)

@@ -22,7 +22,7 @@ module Ddt
             title: "以下是您的会员信息",
             description: content,
             url: Ddt::LinkResource.new(shop: shop).user_center_url,
-            pic_url: shop.vip_logo.thumb.url
+            pic_url: shop.vip_logo_variant(:thumb)
           }
         else
           items << {title: "对不起，您尚未绑定用户身份，请点击本连接进行自动绑定", description: '猛戳这里 >> '}

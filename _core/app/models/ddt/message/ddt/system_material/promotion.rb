@@ -6,9 +6,9 @@ module Ddt
         items = []
         promotions =  shop.promotions_including_branch.active.limit(5)
         if promotions.present?
-          items << {title: "全部促销活动", pic_url: shop.rect_image.medium.url, url: promotions_url}
+          items << {title: "全部促销活动", pic_url: shop.rect_image_variant(:medium), url: promotions_url}
           promotions.each do |promotion|
-            items << {title: "#{promotion.name}", pic_url: promotion.image.thumb.url, url: promotion_url(promotion)}
+            items << {title: "#{promotion.name}", pic_url: promotion.image_variant(:thumb), url: promotion_url(promotion)}
           end
 
         else

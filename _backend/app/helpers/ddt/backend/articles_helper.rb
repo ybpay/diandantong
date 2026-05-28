@@ -19,9 +19,9 @@ module Ddt
           article.pic_url
         elsif not article.image.nil?
           if index == 0
-            article.image.medium.url
+            article.image_variant(:medium)
           else
-            article.image.thumb.url
+            article.image_variant(:thumb)
           end
         else
           ""

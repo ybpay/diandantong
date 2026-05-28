@@ -15,7 +15,7 @@ module Ddt
 
           def bind_qr_code_image
             self.create_bind_qr_code_scene(name: "#{self.class.name.demodulize} #{self.number}") if self.bind_qr_code_scene.nil?
-            self.bind_qr_code_scene.url.medium.url
+            self.bind_qr_code_scene.url_variant(:medium)
           end
         end
       end

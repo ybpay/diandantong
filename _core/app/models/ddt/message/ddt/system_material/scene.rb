@@ -32,7 +32,7 @@ module Ddt
                 response_news_msg([{
                   title: "欢迎关注#{branch.name}，点击进入",
                   description: branch.introduction_decoder,
-                  pic_url: branch.rect_image.medium.url,
+                  pic_url: branch.rect_image_variant(:medium),
                   url: branch_url(branch)
                 }])
               end
@@ -43,7 +43,7 @@ module Ddt
                 response_news_msg([{
                   title: "#{branch.name}，点击进入排号",
                   description: branch.introduction_decoder,
-                  pic_url: branch.rect_image.medium.url,
+                  pic_url: branch.rect_image_variant(:medium),
                   url: Ddt::LinkResource.new(shop: shop, branch: branch).branch_queue_url
                 }])
               end
@@ -58,7 +58,7 @@ module Ddt
                 response_news_msg([{
                   title: "#{branch.name}，点击进入快餐",
                   description: branch.introduction_decoder,
-                  pic_url: branch.rect_image.medium.url,
+                  pic_url: branch.rect_image_variant(:medium),
                   url: Ddt::LinkResource.new(shop: shop, branch: branch).branch_fastfood_url
                 }])
               end

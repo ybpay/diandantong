@@ -28,9 +28,9 @@ module Ddt
       # 默认封面图
       def cover_img_url
         if wechat_account.present? && wechat_account.default_branch.present?
-          pic_url = wechat_account.default_branch.rect_image.medium.url
+          pic_url = wechat_account.default_branch.rect_image_variant(:medium)
         end
-        pic_url.present? ? pic_url : shop.rect_image.medium.url
+        pic_url.present? ? pic_url : shop.rect_image_variant(:medium)
       end
 
       def welcome_msg

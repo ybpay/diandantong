@@ -4,7 +4,7 @@ json.cache! [@current_shop], expires_in: 1.day do
   :introduction, :enable_vip_info_phone_validation
   json.use_validation_sms  @current_shop.can_use_validation_sms?
   json.use_sms @current_shop.use_sms?
-  json.vip_logo @current_shop.vip_logo.thumb.url
+  json.vip_logo @current_shop.vip_logo_variant(:thumb)
   json.is_support_alipay    @current_shop.current_alipay_method.present?
   json.is_support_wechatpay @current_shop.current_wechatpay_method.present?
   json.is_support_baidupay @current_shop.current_baidupay_method.present?
@@ -30,32 +30,32 @@ json.cache! [@current_shop], expires_in: 1.day do
         :show_pay_online_img, :pay_online_img_text,
         :show_wifi, :show_parking
 
-      json.reservation_img branch_type.reservation_img.mini.url
-      json.order_in_seat_img branch_type.order_in_seat_img.mini.url
-      json.delivery_img branch_type.delivery_img.mini.url
-      json.fastfood_img branch_type.fastfood_img.mini.url
-      json.queue_img branch_type.queue_img.mini.url
-      json.pay_online_img branch_type.pay_online_img.mini.url
-    json.image branch_type.image.thumb.url if branch_type.image
+      json.reservation_img branch_type.reservation_img_variant(:mini)
+      json.order_in_seat_img branch_type.order_in_seat_img_variant(:mini)
+      json.delivery_img branch_type.delivery_img_variant(:mini)
+      json.fastfood_img branch_type.fastfood_img_variant(:mini)
+      json.queue_img branch_type.queue_img_variant(:mini)
+      json.pay_online_img branch_type.pay_online_img_variant(:mini)
+    json.image branch_type.image_variant(:thumb) if branch_type.image
   end
 
 
   json.branch_sliders @current_shop.branch_sliders do |branch_slider|
     json.extract! branch_slider, :id, :url
-    json.img branch_slider.img.medium.url
+    json.img branch_slider.img_variant(:medium)
   end
 
   json.cache! [@current_shop.custom_weixin_info], expires_in: 1.day do
     json.custom_weixin_info do
       json.extract! @current_shop.custom_weixin_info, :layout_type, :branch_index_layout
-      json.background_image @current_shop.custom_weixin_info.background_image.medium.url
+      json.background_image @current_shop.custom_weixin_info.background_image_variant(:medium)
       json.home_hot_links @current_shop.custom_weixin_info.home_hot_links.where(is_multiple: @current_shop.is_multi_branches?) do |home_hot_link|
         json.extract! home_hot_link, :icon, :icon_background_color, :link, :label
-        json.image home_hot_link.image.thumb.url if home_hot_link.image.url.present?
+        json.image home_hot_link.image_variant(:thumb) if home_hot_link.image.attached?
       end
       json.home_usable_links @current_shop.custom_weixin_info.home_usable_links do |home_usable_link|
         json.extract! home_usable_link, :title, :keywords, :link
-        json.image home_usable_link.image.thumb.url if home_usable_link.image.url.present?
+        json.image home_usable_link.image_variant(:thumb) if home_usable_link.image.attached?
       end
     end
   end
@@ -74,7 +74,7 @@ json.cache! [@current_shop], expires_in: 1.day do
           json.icon_color '#fff'
           json.icon_background_color '#fb5855'
           json.link Ddt::LinkResource.new(shop: @current_shop, branch: default_branch).branch_reservation_url
-          json.image default_branch_type.reservation_img.mini.url
+          json.image default_branch_type.reservation_img_variant(:mini)
         }
       end
       if default_branch.use_eat_in_hall_setting
@@ -84,7 +84,7 @@ json.cache! [@current_shop], expires_in: 1.day do
           json.icon_color '#fff'
           json.icon_background_color '#ffa321'
           json.link "#/branches/#{default_branch.id}/eat_in_hall"
-          json.image default_branch_type.order_in_seat_img.mini.url
+          json.image default_branch_type.order_in_seat_img_variant(:mini)
         }
       end
       if default_branch.use_delivery_setting
@@ -94,7 +94,7 @@ json.cache! [@current_shop], expires_in: 1.day do
           json.icon_color '#fff'
           json.icon_background_color '#28a267'
           json.link Ddt::LinkResource.new(shop: @current_shop, branch: default_branch).branch_delivery_url
-          json.image default_branch_type.delivery_img.mini.url
+          json.image default_branch_type.delivery_img_variant(:mini)
         }
       end
       if default_branch.use_queue_setting
@@ -104,7 +104,7 @@ json.cache! [@current_shop], expires_in: 1.day do
           json.icon_color '#fff'
           json.icon_background_color '#ff7994'
           json.link Ddt::LinkResource.new(shop: @current_shop, branch: default_branch).branch_queue_url
-          json.image default_branch_type.queue_img.mini.url
+          json.image default_branch_type.queue_img_variant(:mini)
         }
       end
       if default_branch.use_pay_online_setting
@@ -115,7 +115,7 @@ json.cache! [@current_shop], expires_in: 1.day do
           json.icon_background_color '#34afbe'
           json.link Ddt::LinkResource.new(shop: @current_shop, branch: default_branch).branch_payment_url
           "#/branches/#{default_branch.id}/pay_online"
-          json.image default_branch_type.pay_online_img.mini.url
+          json.image default_branch_type.pay_online_img_variant(:mini)
         }
       end
     end
@@ -125,7 +125,7 @@ json.cache! [@current_shop], expires_in: 1.day do
   if @current_shop.has_feature?(:base_event_promotion)
     json.promotions_show_on_index @current_shop.promotions_including_branch.of_show_on_index.active do |promotion|
       json.extract! promotion, :id, :name, :keywords, :starts_at, :expires_at, :description
-      json.image promotion.image.thumb.url
+      json.image promotion.image_variant(:thumb)
     end
   else
     json.promotions_show_on_index []
@@ -134,7 +134,7 @@ json.cache! [@current_shop], expires_in: 1.day do
   if @current_shop.has_feature?(:base_groupon)
     json.tuans_show_on_index @current_shop.abstract_coupon_versions.tuans_on_sale.show_on_index do |tuan|
       json.extract! tuan, :id, :name, :name_with_items, :usable_starts_at, :usable_expires_at, :description, :groupon_price
-      json.image tuan.coupon_photos.first.try(:image).try(:thumb_square).try(:url)
+      json.image tuan.coupon_photos.first&.image_variant(:thumb_square)
     end
   else
     json.tuans_show_on_index []

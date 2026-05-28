@@ -4,5 +4,5 @@ json.max_count_each_user (@coupon_version.max_count_each_user || 1000)
 json.branch_name @coupon_version.brannch.name rescue nil
 json.coupon_usage_instructions @coupon_version.coupon_usage_instructions.map(&:content)
 json.coupon_photos @coupon_version.coupon_photos do |photo|
-  json.img photo.image.medium.url rescue nil
+  json.img photo.image_variant(:medium) rescue nil
 end

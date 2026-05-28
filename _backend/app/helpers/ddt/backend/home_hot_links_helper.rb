@@ -10,8 +10,8 @@ module Ddt
       end
 
       def home_hot_link_image(home_hot_link)
-        if home_hot_link.image.url.present?
-          image_tag(home_hot_link.image.thumb.url, class: 'backend-home-hot-link-icon')
+        if home_hot_link.image.attached?
+          image_tag(home_hot_link.image_variant(:thumb), class: 'backend-home-hot-link-icon')
         end
       end
     end
