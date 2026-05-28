@@ -7,8 +7,8 @@ module Ddt
             OrderService::Api::Statistic.adjustment_amount(query: query_params, group_by: group_by)
           end
         end
-        alias_method_chain :query, :cache
-
+        alias_method :query_without_cache, :query
+        alias_method :query, :query_with_cache
         def query_params
           q.merge({
             shop_id_eq: shop.try(:id),

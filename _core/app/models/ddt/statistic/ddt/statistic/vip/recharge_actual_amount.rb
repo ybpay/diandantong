@@ -7,8 +7,8 @@ module Ddt
             WalletLog.group(group_by).ransack(query_params).result.sum(:cash_amount)
           end
         end
-        alias_method_chain :query, :cache
-
+        alias_method :query_without_cache, :query
+        alias_method :query, :query_with_cache
         def query_params
           if branch.present?
             wallet_ids = [branch.card_wallet.id]

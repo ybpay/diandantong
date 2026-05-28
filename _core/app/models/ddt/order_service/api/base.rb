@@ -24,7 +24,8 @@ module Ddt
                 end
                 eigenclass = class << self; self; end
                 eigenclass.class_eval do
-                  alias_method_chain method_name, :mock
+                  alias_method "#{method_name}_without_mock", method_name
+                  alias_method method_name, "#{method_name}_with_mock"
                 end
               end
             end

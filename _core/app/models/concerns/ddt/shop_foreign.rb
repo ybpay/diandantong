@@ -38,7 +38,8 @@ module Ddt
           define_method "#{attribute}_with_time_zone=" do |value|
             self.send("#{attribute}_without_time_zone=", ActiveSupport::TimeZone[shop_time_zone].parse(value.to_s).try(:in_time_zone))
           end
-          alias_method_chain "#{attribute}=", :time_zone
+          alias_method "#{attribute}_without_time_zone=", "#{attribute}="
+          alias_method "#{attribute}=", "#{attribute}_with_time_zone="
         end
       end
 
@@ -52,7 +53,8 @@ module Ddt
           define_method "#{attribute}_with_time_zone" do
             self.send("#{attribute}_without_time_zone").try(:in_time_zone, shop_time_zone)
           end
-          alias_method_chain attribute.to_sym, :time_zone
+          alias_method "#{attribute}_without_time_zone", attribute.to_sym
+          alias_method attribute.to_sym, "#{attribute}_with_time_zone"
         end
       end
 
