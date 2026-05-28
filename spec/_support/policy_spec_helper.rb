@@ -3,6 +3,7 @@
 # Shared context for testing policies that inherit from ApplicationPolicy.
 # Include via: it_behaves_like 'an ApplicationPolicy permission', :target, :action
 RSpec.shared_examples 'an ApplicationPolicy permission' do |target, action|
+  let(:user) { nil }
   let(:account) { instance_double(Ddt::Account) }
   let(:shop) { instance_double(Ddt::Shop) }
   let(:branch) { nil }

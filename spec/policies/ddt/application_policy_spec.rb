@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe Ddt::ApplicationPolicy do
   subject { described_class }
 
+  let(:user) { nil }
   let(:account) { instance_double(Ddt::Account) }
   let(:shop) { instance_double(Ddt::Shop) }
   let(:branch) { nil }
