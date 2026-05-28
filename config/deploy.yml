@@ -28,7 +28,11 @@ env:
     RAILS_ENV: production
     RAILS_LOG_TO_STDOUT: true
     RAILS_SERVE_STATIC_FILES: true
+    RAILS_LOG_FORMAT: json
     SOLID_QUEUE_IN_PUMA: true
+    PROMETHEUS_EXPORTER_ENABLED: true
+    PROMETHEUS_EXPORTER_HOST: 0.0.0.0
+    PROMETHEUS_EXPORTER_PORT: 9394
 
 volumes:
   - "storage:/rails/storage"
@@ -68,9 +72,57 @@ accessories:
     host: 1.2.3.4
     volumes:
       - "redis:/data"
-    cmd: "redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru"
+    cmd: "redis-server --appendonly yes --appendfsync everysec --maxmemory 512mb --maxmemory-policy allkeys-lru --save 900 1 --save 300 10 --save 60 10000"
     options:
       health-cmd: "redis-cli ping"
       health-interval: 10s
       health-timeout: 5s
       health-retries: 5
+
+  prometheus:
+    image: prom/prometheus:v3.1.0
+    host: 1.2.3.4
+    volumes:
+      - "prometheus:/prometheus"
+    files:
+      - tools/monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - tools/monitoring/alerts.yml:/etc/prometheus/alerts.yml
+    options:
+      network: "private"
+
+  grafana:
+    image: grafana/grafana:11.5.0
+    host: 1.2.3.4
+    env:
+      clear:
+        GF_SECURITY_ADMIN_USER: admin
+        GF_USERS_ALLOW_SIGN_UP: "false"
+      secret:
+        - GF_SECURITY_ADMIN_PASSWORD
+    volumes:
+      - "grafana:/var/lib/grafana"
+    files:
+      - tools/monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - tools/monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    options:
+      network: "private"
+
+  loki:
+    image: grafana/loki:3.3.2
+    host: 1.2.3.4
+    volumes:
+      - "loki:/loki"
+    files:
+      - tools/monitoring/loki.yml:/etc/loki/local-config.yaml
+    options:
+      network: "private"
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    host: 1.2.3.4
+    volumes:
+      - "alertmanager:/alertmanager"
+    files:
+      - tools/monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    options:
+      network: "private"
