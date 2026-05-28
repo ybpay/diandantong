@@ -1,6 +1,7 @@
 module Ddt
   class BaseQrCodeScene < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     ### plugins
     extend FriendlyId
     friendly_id :slug, use: [:slugged, :finders]

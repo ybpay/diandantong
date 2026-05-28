@@ -5,7 +5,7 @@ module Ddt
 
 
     belongs_to_order
-    belongs_to :variant, ->{with_deleted}
+    belongs_to :variant, ->{with_discarded}
 
     validates_presence_of :variant
     validates :weight, numericality: { greater_than: 0}
@@ -13,7 +13,7 @@ module Ddt
     delegate :name, :sku, :product_name, :product_id, :stock_quantity, :stock_enough?, :unit_name, :avatar_url, :update_stock_quantity, :update_sale_quantity, :rollback_stock_quantity, :enable_discount, :enable_discount?, :category_ids, :category_names, :enable_change_price, to: :variant
     set_shop_and_branch_from :variant
 
-    scope :with_deleted, ->{}
+    scope :with_discarded, ->{}
 
     before_save :set_itemable_name
 

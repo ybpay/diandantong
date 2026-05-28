@@ -1,7 +1,8 @@
 module Ddt
   class PromotionAction < Ddt::Base
 
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     include Ddt::BelongsToShop
     belongs_to :promotion, class_name: 'Ddt::Promotion', inverse_of: :promotion_actions
 

@@ -1,6 +1,7 @@
 module Ddt
   class WechatUser < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     ### relationships
     include Ddt::BelongsToShop
@@ -9,7 +10,7 @@ module Ddt
 
     ### validations
     validates :gonghao_open_id, :presence => true, gonghao: true
-    validates :user_open_id, presence: true, :uniqueness => { scope: [:gonghao_open_id, :deleted_at, :shop_id] }
+    validates :user_open_id, presence: true, :uniqueness => { scope: [:gonghao_open_id, :discarded_at, :shop_id] }
     validates :user_id, :unchangable_after_save => true
 
     delegate :headimgurl, :nickname, :sex, :sex_name, :unique_user, :to_label, to: :user, allow_nil: true

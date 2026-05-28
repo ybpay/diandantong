@@ -39,7 +39,7 @@ module Ddt
           filter_branch(support_all: false),
           {name: 'order_number', type: 'string', placeholder: '订单号'},
           {name: 'subtract_reason', type: 'collection', collection: shop.subtract_reasons.map(&:name), prompt: '退菜原因', include_blank: true},
-          {name: 'operator_id', type: 'ddselect2', data: {useas: "local_select", "local-datas" => shop.accounts.with_deleted.map{|a| {id: a.id, name: a.name}}, single: true, placeholder: "选择退菜人"}},
+          {name: 'operator_id', type: 'ddselect2', data: {useas: "local_select", "local-datas" => shop.accounts.with_discarded.map{|a| {id: a.id, name: a.name}}, single: true, placeholder: "选择退菜人"}},
           filter_start_time,
           filter_end_time
         ]

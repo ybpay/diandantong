@@ -3,8 +3,8 @@ module Ddt
   module ProductStatistic
     class Base < ::Ddt::StatisticBase
       include Ddt::CacheModel
-      cache_model 'Ddt::Variant', with_deleted: true
-      cache_model 'Ddt::VariantPackage', with_deleted: true
+      cache_model 'Ddt::Variant', with_discarded: true
+      cache_model 'Ddt::VariantPackage', with_discarded: true
       attr_accessor :branch, :branch_id, :start_time, :end_time, :table_id, :sort
       hash_attrs({
           门店: :branch_id,

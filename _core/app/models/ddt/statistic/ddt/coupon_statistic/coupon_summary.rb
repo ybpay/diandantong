@@ -18,7 +18,7 @@ module Ddt
 
       def filters
         [
-          { name: 'version_id', type: 'collection', collection: shop.coupon_versions.with_deleted, prompt: '选择优惠券'},
+          { name: 'version_id', type: 'collection', collection: shop.coupon_versions.with_discarded, prompt: '选择优惠券'},
           filter_start_time,
           filter_end_time
         ]

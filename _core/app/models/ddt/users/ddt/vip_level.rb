@@ -2,14 +2,15 @@
 module Ddt
   class VipLevel < Ddt::Base
     attr_accessor :skip_validate_level
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     belongs_to :shop, class_name: 'Ddt::Shop', touch: true
     has_many :vip_infos, class_name: 'Ddt::VipInfo'
 
     validates :level, numericality: { integer: true, greater_than: 0 }, presence: true, unless: :skip_validate_level
     validates :discount, numericality: { greater_than: 0, less_than_or_equal_to: 1.0 }, presence: true
-    validates :name, presence: true, uniqueness: { scope: [:shop_id, :deleted_at] }
+    validates :name, presence: true, uniqueness: { scope: [:shop_id, :discarded_at] }
     validates :upgrade_recharge_money  , numericality: { greater_than_or_equal_to: 0 } , allow_blank: true
     validates :upgrade_total_amount    , numericality: { greater_than_or_equal_to: 0 } , allow_blank: true
     validates :upgrade_get_credits     , numericality: { greater_than_or_equal_to: 0 } , allow_blank: true

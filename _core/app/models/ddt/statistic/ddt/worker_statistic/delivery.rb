@@ -53,7 +53,7 @@ module Ddt
         items = result
         return [] if branch_id.blank?
         content = []
-        accounts = Ddt::Account.with_deleted.where(shop: shop.id, id: items.keys.compact)
+        accounts = Ddt::Account.with_discarded.where(shop: shop.id, id: items.keys.compact)
         items.each do |account_id, count|
           if account_id.blank?
             account_name = '未记录'

@@ -4,8 +4,8 @@ module Ddt
     class Detail < ::Ddt::CouponStatistic::Base
       attr_accessor :records
       include Ddt::CacheModel
-      cache_model 'Ddt::Branch', with_deleted: true
-      cache_model 'Ddt::AbstractCouponVersion', with_deleted: true
+      cache_model 'Ddt::Branch', with_discarded: true
+      cache_model 'Ddt::AbstractCouponVersion', with_discarded: true
 
       def result
         @records ||= shop.base_coupons.where(applied_at: start_time..end_time, type: coupon_type).includes(:exchange_code).order(applied_at: :desc).paginate(page: page)
@@ -26,7 +26,7 @@ module Ddt
         items = result
         content = []
         account_operator_ids = items.select{|i| i.operator_type == 'Ddt::Account'}.map(&:operator_id)
-        accounts = Ddt::Account.with_deleted.find(account_operator_ids)
+        accounts = Ddt::Account.with_discarded.find(account_operator_ids)
         items.each do |item|
           version = get_abstract_coupon_version(item.abstract_coupon_version_id)
           branch = get_branch(item.applied_in_branch_id)

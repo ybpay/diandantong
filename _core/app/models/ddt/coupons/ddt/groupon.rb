@@ -1,7 +1,7 @@
 module Ddt
   class Groupon < Ddt::BaseCoupon
     include BaseCouponConcern::SellableCoupon
-    belongs_to :groupon_version,  ->{with_deleted}, class_name: 'Ddt::GrouponVersion', foreign_key: :abstract_coupon_version_id
+    belongs_to :groupon_version,  ->{with_discarded}, class_name: 'Ddt::GrouponVersion', foreign_key: :abstract_coupon_version_id
     delegate :branches, :branch_names, :value_desc,  to: :groupon_version
 
     def exchange_detail

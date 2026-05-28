@@ -17,7 +17,7 @@ module Ddt
 
           def test_save_with_nested_destroy
             order.line_items.first.destroy
-            assert_change "order.line_items.with_deleted.count" do
+            assert_change "order.line_items.with_discarded.count" do
               order.save
             end
           end

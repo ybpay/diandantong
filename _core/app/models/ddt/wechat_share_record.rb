@@ -2,7 +2,8 @@
 module Ddt
   class WechatShareRecord < Ddt::Base
 
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     include BelongsToShop
     belongs_to :user
     acts_as_type :share_type, %W[appmessage timeline weibo], %W[分享给朋友 分享到朋友圈 分享到微博]

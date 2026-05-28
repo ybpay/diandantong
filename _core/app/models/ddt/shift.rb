@@ -6,7 +6,8 @@ module Ddt
     has_many :shift_items, class_name: "Ddt::ShiftItem", dependent: :destroy
     has_many :base_shift_items, ->{ base }, class_name: "Ddt::ShiftItem"
     has_many :recharge_shift_items, ->{ recharge }, class_name: "Ddt::ShiftItem"
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     get_with_shop_time_zone :created_at, :closed_at
     after_create :open

@@ -15,7 +15,7 @@ module Ddt
 
     included do
       belongs_to :shop, class_name: 'Ddt::Shop'
-      belongs_to :branch, -> { with_deleted }, class_name: 'Ddt::Branch'
+      belongs_to :branch, -> { with_discarded }, class_name: 'Ddt::Branch'
       delegate :name, to: :branch, prefix: true
 
       def shop

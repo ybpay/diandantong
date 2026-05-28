@@ -3,8 +3,8 @@ module Ddt
   module CouponStatistic
     class Summary < ::Ddt::CouponStatistic::Base
       include Ddt::CacheModel
-      cache_model 'Ddt::Branch', with_deleted: true
-      cache_model 'Ddt::AbstractCouponVersion', with_deleted: true
+      cache_model 'Ddt::Branch', with_discarded: true
+      cache_model 'Ddt::AbstractCouponVersion', with_discarded: true
       attr_accessor :version_id
       hash_attrs({
           版本: :version_id

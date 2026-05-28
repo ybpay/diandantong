@@ -73,7 +73,7 @@ module Ddt
       end
 
       params.require(type).permit(:type, :statement, :need, :placeholder,
-       :shop_id, :sequence, :form_element_id, :branch_id, :deleted_at, :support_delivery, :support_eat_in_hall, :support_reservation, :support_fastfood,
+       :shop_id, :sequence, :form_element_id, :branch_id, :discarded_at, :support_delivery, :support_eat_in_hall, :support_reservation, :support_fastfood,
        form_elements_attributes: [:id, :need, :placeholder, :form_element_id, :_destroy, :type,
         :statement, :sequence, :shop_id, :branch_id])
     end

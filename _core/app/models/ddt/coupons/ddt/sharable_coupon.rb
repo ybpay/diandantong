@@ -3,7 +3,7 @@ module Ddt
   class SharableCoupon < Ddt::Base
     include BelongsToShop
     belongs_to :base_user, class_name: 'Ddt::BaseUser'
-    belongs_to :coupon_version, ->{with_deleted}, class_name: 'Ddt::CouponVersion', foreign_key: :abstract_coupon_version_id
+    belongs_to :coupon_version, ->{with_discarded}, class_name: 'Ddt::CouponVersion', foreign_key: :abstract_coupon_version_id
     has_many :coupons, as: :source
     set_shop_from :base_user
 

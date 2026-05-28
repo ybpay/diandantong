@@ -81,7 +81,7 @@ module Ddt
           type: :belongs_to,
           scope: scope,
           polymorphic: options[:polymorphic],
-          with_deleted: options[:with_deleted],
+          with_discarded: options[:with_discarded],
           id_column: options.fetch(:foreign_key, "#{name}_id"),
         }
         if options[:polymorphic]
@@ -101,7 +101,7 @@ module Ddt
             _class = relation[:class_name].try(:constantize)
           end
           if _class.present?
-            _class = _class.with_deleted if options[:with_deleted]
+            _class = _class.with_discarded if options[:with_discarded]
             if instance_variable_defined?(vname)
               instance_variable_get(vname)
             else

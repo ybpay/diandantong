@@ -20,7 +20,8 @@ module Ddt
                    :lat_column_name => :latitude,
                    :lng_column_name => :longitude
 
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     acts_as_type :product_list_style, [:thumb, :txt], %W[缩略图风格 文本风格]
     acts_as_type :moling_type, [:moling_erase, :moling_round], %W[直接抹除 四舍五入]

@@ -4,7 +4,7 @@ module Ddt
 
     belongs_to :combo_package, class_name: 'Ddt::ComboPackage'
     belongs_to :combo_item, class_name: 'Ddt::ComboItem'
-    belongs_to :variant, ->{ with_deleted }, class_name: 'Ddt::Variant'
+    belongs_to :variant, ->{ with_discarded }, class_name: 'Ddt::Variant'
 
     validates :quantity, presence: true, numericality: { only_integer: true, greater_than: 0 }
 
@@ -27,7 +27,7 @@ module Ddt
       # 注: 为了解决除不尽问题， 这里的价格字段(price, vip_price, original_price), 实际上是已经乘上数量的小计.
       combo_items = Ddt::ComboItem.where(id: combo_package_items.map(&:combo_item_id).uniq)
       combo_item_variants = Ddt::ComboItemsVariant.where(combi_id: combo_package_items.map(&:combi_id))
-      variants = Ddt::Variant.with_deleted.where(id: combo_package_items.map(&:variant_id))
+      variants = Ddt::Variant.with_discarded.where(id: combo_package_items.map(&:variant_id))
       combo_package_items = set_prices_with(combo_package_items, combo_items, combo_item_variants, variants)
 
       ids = combo_package_items.map(&:id)

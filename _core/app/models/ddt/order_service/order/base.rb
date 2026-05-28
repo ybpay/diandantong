@@ -40,7 +40,7 @@ module Ddt
         attr_accessor :ignore_notification
 
         belongs_to :shop
-        belongs_to :branch, with_deleted: true
+        belongs_to :branch, with_discarded: true
         belongs_to :user, class_name: "Ddt::BaseUser", foreign_key: :base_user_id
         belongs_to :vip_info
         belongs_to :waiter, class_name: "Ddt::Account"

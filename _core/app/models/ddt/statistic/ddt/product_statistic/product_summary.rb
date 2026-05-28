@@ -199,7 +199,7 @@ module Ddt
       def get_categorie_name(category_names)
         return '' if category_names.blank?
         category_names = category_names.split(',')
-        @categories ||= (branch || shop).categories.with_deleted
+        @categories ||= (branch || shop).categories.with_discarded
         sub_category = @categories.detect{|c| category_names.include?(c.name) && c.parent_id.present?}
         if sub_category.present?
           par_category = @categories.detect{|c| c.id == sub_category.parent_id}

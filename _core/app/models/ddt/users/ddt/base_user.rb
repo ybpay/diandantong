@@ -1,6 +1,7 @@
 module Ddt
   class BaseUser < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     acts_as_type :type, ['Ddt::User', 'Ddt::PhoneUser', 'Ddt::WebUser', 'Ddt::WifiUser'], %W[微信用户 电话用户 网站用户 wifi用户]
     ##### relationship

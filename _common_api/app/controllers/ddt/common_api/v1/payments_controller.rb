@@ -15,7 +15,7 @@ module Ddt
                 request.params.merge! JSON.parse(body).deep_symbolize_keys
             end
             ::Ddt::Payment.transaction do
-              payment = Ddt::Payment.with_deleted.where(id: params[:id]).lock(true).first
+              payment = Ddt::Payment.with_discarded.where(id: params[:id]).lock(true).first
               Ddt::PaymentLog.log(payment, event: 'notify', extra: params.to_json)
               begin
                 result = payment.notify(request)

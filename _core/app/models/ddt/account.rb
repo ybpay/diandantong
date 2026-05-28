@@ -11,7 +11,8 @@ module Ddt
 
     ##### relationship
     include Ddt::CommentOwner
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
 
     belongs_to :shop, class_name: 'Ddt::Shop'
@@ -39,16 +40,16 @@ module Ddt
     validates :name, length: {maximum:50}
 
     validates_presence_of   :email
-    validates_uniqueness_of :email, :allow_blank => true, scope: :deleted_at, :if => :email_changed?
+    validates_uniqueness_of :email, :allow_blank => true, scope: :discarded_at, :if => :email_changed?
     validates_format_of     :email,    :with  => Devise.email_regexp, :allow_blank => true, :if => :email_changed?
 
     validates_presence_of     :password, :on=>:create
     validates_confirmation_of :password, :on=>:create
     validates_length_of       :password, :within => Devise.password_length, :allow_blank => true
 
-    validates :login_id, presence: true, uniqueness: { case_sensitive: false, scope: :deleted_at}, login_id: true
+    validates :login_id, presence: true, uniqueness: { case_sensitive: false, scope: :discarded_at}, login_id: true
     validates :shop_id, presence: true, unless: :is_admin?
-    validates :phone, presence: true , uniqueness: {:scope=>[:deleted_at, :built_in]}, if: :built_in?
+    validates :phone, presence: true , uniqueness: {:scope=>[:discarded_at, :built_in]}, if: :built_in?
     validates :phone, length: 3..20, unless: "is_admin? or (shop && shop.enable_foreign)"
     validate :check_captcha_valid, on: :create
     validate :allow_to_change_password, on: :update

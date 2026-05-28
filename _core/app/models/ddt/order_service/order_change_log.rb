@@ -4,8 +4,8 @@ module Ddt
       include OrderService::Concern::Base
       include OrderService::Concern::BelongsToOrder
       belongs_to :operator, polymorphic: true
-      belongs_to :from_table, ->{with_deleted}, class_name: "Ddt::Table"
-      belongs_to :to_table, ->{with_deleted}, class_name: "Ddt::Table"
+      belongs_to :from_table, ->{with_discarded}, class_name: "Ddt::Table"
+      belongs_to :to_table, ->{with_discarded}, class_name: "Ddt::Table"
       belongs_to_order name: :from_order
       belongs_to_order name: :to_order
       attr_accessor_with_dirty :id, :type, :description, :created_at, :updated_at, :from_order_id, :to_order_id, :operator_name, :deleted_at, :delete_by_admin, :sync_at

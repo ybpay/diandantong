@@ -1,6 +1,7 @@
 module Ddt
   class TickAccount < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     include BelongsToBranch
     has_many :tick_account_items
     alias_method :items, :tick_account_items

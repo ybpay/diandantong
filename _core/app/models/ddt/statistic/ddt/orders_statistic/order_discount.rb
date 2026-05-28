@@ -3,7 +3,7 @@ module Ddt
   module OrdersStatistic
     class OrderDiscount < OrdersStatistic::Base
       include Ddt::CacheModel
-      cache_model 'Ddt::Account', with_deleted: true
+      cache_model 'Ddt::Account', with_discarded: true
       attr_accessor :orders, :order_number, :discount_reason, :records
       hash_attrs({
           订单号: :order_number,

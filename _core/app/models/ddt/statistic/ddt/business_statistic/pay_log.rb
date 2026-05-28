@@ -4,7 +4,7 @@ module Ddt
     class PayLog < ::Ddt::BusinessStatistic::Base
       attr_accessor :pay_methods, :order_number, :date, :settle_account_id
       include Ddt::CacheModel
-      cache_model 'Ddt::Account', with_deleted: true
+      cache_model 'Ddt::Account', with_discarded: true
       hash_attrs({
         日期: :date,
         订单号: :order_number,

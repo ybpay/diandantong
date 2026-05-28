@@ -1,7 +1,8 @@
 # encoding:utf-8
 module Ddt
   class OptionType < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
     include Ddt::BelongsToBranch
     include Ddt::ListScope
 

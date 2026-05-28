@@ -3,8 +3,9 @@ module Ddt
     include BelongsToBranch
 
     belongs_to :shift
-    belongs_to :pay_method, ->{ with_deleted }
-    include Ddt::SoftDeletable
+    belongs_to :pay_method, ->{ with_discarded }
+    include Discard::Model
+    default_scope { kept }
     set_from :shift
     before_create :set_pay_method_info
     acts_as_type :item_type, [:base, :recharge]

@@ -10,7 +10,7 @@ module Ddt
     # after_create :send_notify_to_user
     belongs_to :base_user, class_name: 'Ddt::BaseUser'
     alias_method :user, :base_user
-    belongs_to :abstract_coupon_version, ->{with_deleted}, class_name: 'Ddt::AbstractCouponVersion', foreign_key: :abstract_coupon_version_id,  counter_cache: true
+    belongs_to :abstract_coupon_version, ->{with_discarded}, class_name: 'Ddt::AbstractCouponVersion', foreign_key: :abstract_coupon_version_id,  counter_cache: true
     belongs_to_order name: :bought_from_order
     belongs_to_order name: :applied_to_order
     belongs_to :source, polymorphic: true # sharable_coupon

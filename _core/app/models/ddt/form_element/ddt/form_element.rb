@@ -1,7 +1,8 @@
 # encoding: utf-8
 module Ddt
   class FormElement < Ddt::Base
-    include Ddt::SoftDeletable
+    include Discard::Model
+    default_scope { kept }
 
     serialize :support_order_types
     ### relationships

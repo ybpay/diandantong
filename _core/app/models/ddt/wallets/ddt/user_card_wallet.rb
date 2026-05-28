@@ -78,7 +78,7 @@ module Ddt
           order: order
         }
         if pay_method_names.present?
-          pay_methods = self.shop.pay_methods.with_deleted.where(name: pay_method_names.split(" "))
+          pay_methods = self.shop.pay_methods.with_discarded.where(name: pay_method_names.split(" "))
           wallet_log_attrs[:pay_method_name] = pay_method_names
           wallet_log_attrs[:pay_method] = pay_methods.first if pay_methods.present? && pay_methods.count == 1
         end

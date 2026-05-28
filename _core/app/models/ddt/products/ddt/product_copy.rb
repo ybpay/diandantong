@@ -62,7 +62,7 @@ module Ddt
           if new_product.blank?
 
             # category
-            category_ids_string = product.categories.with_deleted.map do |category|
+            category_ids_string = product.categories.with_discarded.map do |category|
               branch.categories.find_or_create_by(name: category.name)
             end.map(&:id).join(",")
 
