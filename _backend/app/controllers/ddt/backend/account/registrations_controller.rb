@@ -4,7 +4,7 @@ class Ddt::Backend::Account::RegistrationsController < Devise::RegistrationsCont
   include Ddt::Backend::SetAgentBrand
   helper_method :can?
   delegate :can?, :authorize!, to: :current_account
-  layout 'ddt/layouts/backend'
+  layout false
 
   # GET /resource/sign_up
   def new

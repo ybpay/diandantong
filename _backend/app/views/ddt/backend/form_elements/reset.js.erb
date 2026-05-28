@@ -1,4 +1,0 @@
-<%- @form_elements = @current_branch.form_elements.order("sequence") %>
-bootbox.hideAll();
-$("#remote_sortable_list").replaceWith("<%= j render partial: 'list', locals: { form_elements: @form_elements }%>")
-$(document).trigger('ajax:replace:form_elements')

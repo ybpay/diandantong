@@ -1,7 +1,0 @@
-<div ng-tip ng-title="{{shop.wechat_account.account_name}}" ng-show="!shop.wechat_account.is_followed && shop.wechat_account.account_name">
-    <div class="center">微信号: {{shop.wechat_account.weixin_hao}}</div>
-    <div class="center" ng-if="!already_subscribe">长按下方二维码识别关注餐厅公众账号，获得实时订单进展信息。</div>
-    <div class="center" ng-if="!already_subscribe">
-        <img ng-src="{{shop.wechat_account.qrcode}}" style="width: 180px; display: block; margin: auto"/>
-    </div>
-</div>

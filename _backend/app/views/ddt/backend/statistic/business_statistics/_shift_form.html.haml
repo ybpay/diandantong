@@ -1,8 +1,0 @@
-.order-query-form
-  = form_for :business_statistic, url: [:shift, :backend, @current_shop, :business_statistics], method: :get, html: { class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
-    = f.input_field :branch_id, data: {"local-datas" => current_account.is_boss? ? @current_shop.branches : current_account.manage_branches, useas: "local_select", single: true,placeholder: "选择门店"},class: 'ddb-select2 col-lg-2', value: @statistic.branch_id
-    = f.input_field :start_time, as: :datetime, placeholder: "开始时间", class: 'input-medium', value: @statistic.start_time
-    %label{style: 'font-size:20px;'} ~
-    = f.input_field :end_time, as: :datetime, placeholder: "结束时间", class: 'input-medium', value: @statistic.end_time
-    = f.submit "搜索", class: 'btn btn-sm btn-success', onClick: "$(this).closest('form').attr('action', '#{ shift_backend_shop_business_statistics_path(@current_shop, format: :html) }')"
-    = f.submit "导出csv表格", class: 'btn btn-sm btn-info', onClick: "$(this).closest('form').attr('action', '#{ shift_backend_shop_business_statistics_path(@current_shop, format: :csv) }')"

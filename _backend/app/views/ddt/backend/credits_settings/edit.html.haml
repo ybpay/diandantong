@@ -1,8 +1,0 @@
-.header
-  %h3= "编辑 #{t('activerecord.models.ddt/credits_setting')}"
-
-= simple_form_for([:backend, @current_shop, @credits_setting], html: { :class =>"form-horizontal"}) do |f|
-  .form-inputs
-    = f.input :exchange_radio, hint: "例如: 100 表示100积分可抵1元"
-  .form-actions.col-xs-offset-2
-    = f.button :submit, :class => "btn btn-primary btn-sm"

@@ -1,5 +1,0 @@
-$(".ddb-promotion-action[data-id=<%= params[:id]%>]").remove();
-$('#promotion_action_type').html('<%= j options_for_promotion_action_types(@promotion) %>');
-<%- if @promotion.actions.blank? %>
-  $('#actions .no-objects-found').show();
-<%- end%>

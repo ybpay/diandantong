@@ -7,7 +7,7 @@ module Ddt
       before_action :set_terminal_id
       before_action :set_track_from
       before_action :authenticate_webpos_webpos_account!
-      layout 'ddt/layouts/webpos/webpos'
+      layout false
       before_action :set_current_shop
       before_action :set_current_branch
       before_action :authorize_shop_account

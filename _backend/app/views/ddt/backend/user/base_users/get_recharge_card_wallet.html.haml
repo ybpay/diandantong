@@ -1,7 +1,0 @@
-= render 'display_amount'
-= simple_form_for @recharge, :url => recharge_card_wallet_backend_shop_base_user_path(@current_shop, @base_user), method: :put, html: { class: 'form-horizontal'} do |f|
-  = f.input :cash_amount, as: :decimal, label: '充值金额', hint: '如充100送20, 这里填写100， 实际到帐那一项填写120'
-  = f.input :amount, as: :decimal, label: '实际到帐', hint: '实际到帐数额会同时在用户余额和平台总余额中增加'
-  = f.input :note, as: :text, label: '备注'
-  .form-actions.col-xs-offset-2
-    = f.submit '充值', :class => "btn btn-primary btn-sm", :data => {:confirm => t('Are you sure?')}

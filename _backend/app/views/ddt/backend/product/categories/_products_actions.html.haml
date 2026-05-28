@@ -1,3 +1,0 @@
-- uppath = lambda{|p| update_products_backend_shop_branch_category_path(@current_shop, @current_branch, @category, p)}
-= link_to "参与折扣", uppath.call(enable_discount: 1), class: 'btn btn-primary', data: { method: :put, remote: true }
-= link_to "不参与折扣", uppath.call(enable_discount: 0), class: 'btn btn-primary', data: { method: :put, remote: true }

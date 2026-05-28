@@ -1,4 +1,0 @@
-= text_field_tag "#{param_prefix}[combo_ids_string]", promotion_rule.combo_ids_string, :class => "ddb-select2",  data: { url: backend_shop_branch_combos_path(@current_shop, @current_branch), saved: promotion_rule.combos.map(&:select_json) }, placeholder: "请选择套餐"
-%br/
-= label_tag :preferred_match_policy, '匹配规则'
-= select_tag "#{param_prefix}[preferred_match_policy]", options_for_select(Ddt::Promotion::Rules::Order::Combo.preferred_match_policy_collection, promotion_rule.preferred_match_policy)

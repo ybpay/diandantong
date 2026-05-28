@@ -1,7 +1,0 @@
-.ibox
-  .ibox-title
-    .block
-      %h2= "#{t('activerecord.models.ddt/pay_method')} 列表"
-    = new_btn(:pay_method)
-  .ibox-content
-    = render partial: "table", locals: { pay_methods: @pay_methods }

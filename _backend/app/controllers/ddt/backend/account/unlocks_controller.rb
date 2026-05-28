@@ -1,7 +1,7 @@
 class Ddt::Backend::Account::UnlocksController < Devise::UnlocksController
   include Ddt::Backend::DeviseUrlHelper
   include Ddt::Backend::SetAgentBrand
-  layout 'ddt/layouts/backend_empty'
+  layout false
 
   protected
 

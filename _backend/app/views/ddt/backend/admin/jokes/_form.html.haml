@@ -1,8 +1,0 @@
-= simple_form_for([:backend, @joke], html: { class: 'form-horizontal'}) do |f|
-  = f.error_notification :message => error_message_in_html(@joke)
-
-  .form-inputs
-    = f.input :content
-
-  .form-actions.col-xs-offset-2
-    = f.button :submit, :class => "btn btn-primary btn-sm"

@@ -1,1 +1,0 @@
-json.(@vip_info_setting, *Ddt::VipInfoSetting.config_columns)

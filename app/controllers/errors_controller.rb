@@ -3,7 +3,7 @@ class ErrorsController < ApplicationController
   helper Ddt::Core::Engine.helpers
   helper Ddt::Backend::Engine.helpers
   helper Ddt::Core::Engine.routes.url_helpers
-  layout 'ddt/layouts/backend_empty'
+  layout false
 
   before_action :set_brand
 

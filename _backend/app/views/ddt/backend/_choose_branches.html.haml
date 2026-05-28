@@ -1,6 +1,0 @@
--if @current_account.present? && @current_shop.present?
-  .managed-branches-data.hide{data: managed_branches.map{|b| {id: b.id, name: b.name}}.to_json}
-  #branch_template{style: 'display:none'}
-    %a{href: "@link", class: 'btn btn-sm btn-primary', style: 'display: inline-block; margin: 10px 5px;'}
-      %span
-        @name

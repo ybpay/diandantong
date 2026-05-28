@@ -1,1 +1,0 @@
-json.(@coupon_setting, :enable_expired_notify, :expired_notify_in_advance_days)

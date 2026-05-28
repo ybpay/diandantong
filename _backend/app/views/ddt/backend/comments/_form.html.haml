@@ -1,7 +1,0 @@
-= simple_form_for([:backend, @current_shop, @current_branch, @reply_comment], html: { class: 'form-horizontal', remote: true}) do |f|
-  .form-inputs
-    = f.error_notification :message => error_message_in_html(@reply_comment)
-    = f.input :commentable_type, as: :hidden
-    = f.input :commentable_id, as: :hidden
-    = f.input :content, as: :text
-    = f.button :submit

@@ -1,9 +1,0 @@
-bootbox.hideAll()
-var item = $("<%= j render partial: 'item', locals: { category: @category }%>")
-<% if @category.parent_id %>
-  var parent_item = $(".category[data-id='<%= @category.parent_id%>']")
-  item.hide().appendTo($("> ol", parent_item)).fadeIn()
-<% else %>
-  item.hide().appendTo($(".categories > ol")).fadeIn()
-<% end %>
-$(document).trigger('ajax:replace')

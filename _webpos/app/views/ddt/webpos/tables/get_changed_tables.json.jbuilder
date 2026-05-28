@@ -1,7 +1,0 @@
-json.array! @tables do |table|
-  json.extract! table, :id, :name, :workflow_state, :workflow_state_name, :table_zone_id, :name_with_zone, :guest_num, :guest_num_label, :updated_at, :last_opened_at, :updated_at, :current_order_id
-  if table.current_order_id.present?
-    json.order_amount table.item_total
-    json.is_from_wechat table.is_FromWechat?
-  end
-end

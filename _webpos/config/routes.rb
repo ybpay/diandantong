@@ -3,12 +3,6 @@ Ddt::Core::Engine.add_routes do
     devise_for :webpos_accounts, class_name: 'Ddt::Account', skip: [:password, :registration, :unlock], skip_helpers: true, controllers: {
       sessions: 'ddt/webpos/webpos_accounts/sessions'
     }
-    get '/' => "home#index"
-    get '/kitchen' => "home#kitchen"
-    get '/users' => "home#users"
-    get '/queue' => "home#queue"
-    get '/bill' => "home#bill"
-    get '/estimate' => "home#estimate"
 
     resource :account, only: [:show] do
       get :bosses_and_workers

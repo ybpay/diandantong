@@ -1,7 +1,0 @@
-- content_for(:content) do
-  .tab-content
-    .tab-pane.in.active
-      = content_for(:branch_body) ? yield(:branch_body) : yield
-      .space
-
-= render template: "ddt/layouts/backend"

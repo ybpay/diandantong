@@ -1,6 +1,0 @@
-.form-group
-  = form_tag url, class: 'form-horizontal', method: 'GET', id: 'branch-selection-form', remote: !!(remote rescue true) do
-    .form-group
-      = label_tag :branch_id, '请先选择门店', class: 'control-label col-sm-2'
-      .col-sm-2
-        = select_tag :branch_id, options_for_select(@current_shop.branches.map{|branch| [branch.name, branch.id]}), class: 'form-control', onchange: ("$('#branch-selection-form').submit()"),prompt: '选择要设置的门店'

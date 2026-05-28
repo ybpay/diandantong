@@ -1,7 +1,0 @@
-<%- time_filter = params[:time_filter].try(:to_sym)%>
-<%- if params[:shop_filter_id].present?%>
-  <%- shop = @sale_employee.all_shops.find(params[:shop_filter_id])%>
-  $('.shop-orders-count-chart-wrapper').replaceWith("<%= j render partial: '/ddt/backend/admin/sale_employees/statistic_chart', locals: {time_filter: time_filter, shop: shop, query_date: params[:query_date] }%>")
-<%- else %>
-  $('.shop-orders-count-chart-wrapper').replaceWith("<%= j render partial: '/ddt/backend/admin/sale_employees/statistic_chart', locals: {time_filter: time_filter, shop: nil, query_date: params[:query_date] }%>")
-<%- end%>

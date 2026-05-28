@@ -1,5 +1,0 @@
-<div ng-include src="partial('header')" include-replace></div>
-<div wp-footbar branch-id='{{branch.id}}' ng-if="branch"></div>
-
-<div class="table-order-page main-view">
-</div>

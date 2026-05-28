@@ -1,7 +1,0 @@
-.header
-  %h3= "#{t('activerecord.models.ddt/recharge_product')} 列表"
-
-.form-group
-  = new_btn(:recharge_product, remote: true)
-
-= render partial: 'table', locals: { recharge_products: @recharge_products }

@@ -1,8 +1,0 @@
-%tr{id: "_#{cook.id}"}
-  %td= cook.name
-  %td
-    = labels(cook.products.map(&:name))
-    %br/
-    = labels(cook.categories.map(&:name), color: 'warning')
-  %td
-    = link_to '编辑', edit_backend_shop_branch_cook_path(@current_shop, @current_branch, cook), :remote => true

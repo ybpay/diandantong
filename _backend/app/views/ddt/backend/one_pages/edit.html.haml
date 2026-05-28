@@ -1,8 +1,0 @@
-.header
-  %h3= "编辑#{t('activerecord.models.ddt/one_page')}"
-
-= render 'form'
-
-= link_to t('Show'), [:backend, @current_shop, @one_page], :class => "btn btn-default btn-sm"
-\
-= link_to t('Back'), backend_shop_one_pages_path(@current_shop), :class => "btn btn-default btn-sm"

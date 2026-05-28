@@ -1,7 +1,0 @@
-= simple_form_for([:backend, @current_shop, @email_setting], html: { class: 'form-horizontal'}) do |f|
-  .form-inputs
-    = f.input :address,  disabled: true
-    = f.input :user_name, hint: '例如：10000@qq.com，注意：只支持QQ邮箱'
-    = f.input :password, hint: '必须为QQ邮箱独立密码'
-  .form-actions.col-xs-offset-2
-    = f.button :submit, :class => "btn btn-primary btn-sm"

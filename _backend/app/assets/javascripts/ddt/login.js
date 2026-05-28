@@ -1,1 +1,0 @@
-//= require validate/jquery.validate.min.js

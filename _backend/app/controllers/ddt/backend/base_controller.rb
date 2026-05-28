@@ -15,7 +15,7 @@ module Ddt
       before_action :check_shop_ban
       before_action :set_current_branch
       before_action :authorize_shop_account
-      layout 'ddt/layouts/backend'
+      layout false
       helper_method :filted_params
       helper_method :has_feature?
       helper_method :has_module?
