@@ -3,7 +3,7 @@
     <div class="flex items-center justify-between">
       <h2 class="text-lg font-semibold">桌台管理</h2>
       <div class="flex gap-2">
-        <el-button @click="showAddZoneDialog">新增区域</el-button>
+        <el-button @click="$router.push('/settings/table-zones')">管理区域</el-button>
         <el-button type="primary" @click="showAddTableDialog">新增桌台</el-button>
       </div>
     </div>

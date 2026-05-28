@@ -274,6 +274,16 @@ const routes: RouteRecordRaw[] = [
         name: 'printSettings',
         component: () => import('../views/settings/Print.vue'),
       },
+      {
+        path: 'settings/kitchen',
+        name: 'kitchenSettings',
+        component: () => import('../views/settings/KitchenSetting.vue'),
+      },
+      {
+        path: 'settings/table-zones',
+        name: 'tableZoneSettings',
+        component: () => import('../views/settings/TableZones.vue'),
+      },
     ],
   },
 ]
