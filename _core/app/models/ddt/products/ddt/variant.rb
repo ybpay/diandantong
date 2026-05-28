@@ -73,8 +73,8 @@ module Ddt
     def name_with_options_text_with_cache
       self.cache_name
     end
-    alias_method_chain :name_with_options_text, :cache
-
+    alias_method :name_with_options_text_without_cache, :name_with_options_text
+    alias_method :name_with_options_text, :name_with_options_text_with_cache
     def select_json
       { id: self.id, name: self.name_with_options_text }
     end

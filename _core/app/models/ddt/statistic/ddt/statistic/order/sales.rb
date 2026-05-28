@@ -7,8 +7,8 @@ module Ddt
             OrderService::Api::Statistic.order_sale_amount(query: order_query_params, group_by: group_by)
           end
         end
-        alias_method_chain :query, :cache
-
+        alias_method :query_without_cache, :query
+        alias_method :query, :query_with_cache
         private
         def order_query_params
           base_order_query_params.merge(paid_at_gteq: start_date.beginning_of_day, paid_at_lteq: end_date.end_of_day)

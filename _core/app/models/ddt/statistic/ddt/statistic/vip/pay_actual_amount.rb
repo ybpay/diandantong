@@ -7,8 +7,8 @@ module Ddt
             WalletLog.group(group_by).ransack(query_params).result.sum(:cash_amount)
           end
         end
-        alias_method_chain :query, :cache
-
+        alias_method :query_without_cache, :query
+        alias_method :query, :query_with_cache
         def query_params
           q.merge({
             shop_id_eq: shop.try(:id),

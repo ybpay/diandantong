@@ -21,8 +21,8 @@ module Ddt
         self.owner_type.constantize.with_deleted.find(self.owner_id)
       end
     end
-    alias_method_chain :owner, :deleted
-
+    alias_method :owner_without_deleted, :owner
+    alias_method :owner, :owner_with_deleted
     def of_credits?
       %W[Ddt::BranchCreditsWallet Ddt::UserCreditsWallet Ddt::ShopCreditsWallet].include? self.type
     end

@@ -15,8 +15,8 @@ module Ddt
           output = replace_p_tag(output)
           output
         end
-        alias_method_chain :render, :error_catch
-
+        alias_method :render_without_error_catch, :render
+        alias_method :render, :render_with_error_catch
         def self.default_template
           <<-TMP.strip_heredoc
             <CM>交班汇总</CM>
