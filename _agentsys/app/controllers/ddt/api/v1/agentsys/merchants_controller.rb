@@ -6,7 +6,7 @@ module Ddt
           before_action :set_shop, only: [:show, :update, :renew, :suspend, :activate, :reset_password]
 
           def index
-            shops = current_agent.shops
+            shops = current_agent.shops.includes(:accounts)
             shops = filter_shops(shops)
             shops = shops.ransack(params[:q]).result(distinct: true) if params[:q].present?
             items = paginate_collection(shops.order(created_at: :desc))
@@ -17,10 +17,12 @@ module Ddt
           end
 
           def show
+            authorize! @shop, with: Ddt::Agentsys::ShopPolicy
             render json: { data: merchant_detail_json(@shop) }
           end
 
           def create
+            authorize! Ddt::Shop, to: :create?, with: Ddt::Agentsys::ShopPolicy
             unless current_agent.can_create_account?
               render json: { errors: [{ status: 403, title: "不允许创建账户", code: "FORBIDDEN" }] }, status: :forbidden
               return
@@ -40,6 +42,7 @@ module Ddt
           end
 
           def update
+            authorize! @shop, with: Ddt::Agentsys::ShopPolicy
             if @shop.update(shop_params)
               render json: { data: { message: "修改成功" } }
             else
@@ -48,16 +51,31 @@ module Ddt
           end
 
           def renew
+            authorize! @shop, to: :renew?, with: Ddt::Agentsys::ShopPolicy
             days = params[:days].to_i
             shop = @shop
+            recharge_type = params[:recharge_type]&.to_sym || shop.shop_type.to_sym
+
+            if recharge_type == :base && !current_agent.is_hardware_level?
+              render json: { errors: [{ status: 403, title: "不允许的续费类型，仅硬件渠道商可为base类型充值", code: "FORBIDDEN" }] }, status: :forbidden
+              return
+            end
+
             record = shop.shop_recharge_records.build(
               increment_days: days,
-              recharge_type: shop.shop_type,
+              recharge_type: recharge_type,
               branch_num: shop.max_branches_limit,
               beginning_time: [Time.current, shop.expiration_time].max,
               agent: current_agent
             )
             record.ending_time = record.beginning_time + days.days
+
+            max_agent_to = current_agent.agent_rels.maximum(:agent_to)
+            if record.increment_days > 0 && shop.expiration_time > max_agent_to
+              render json: { errors: [{ status: 403, title: "您的代理期限到#{max_agent_to.to_date}截止，不能为超出代理期限的客户充值", code: "AGENT_EXPIRATION_EXCEEDED" }] }, status: :forbidden
+              return
+            end
+
             record.original_price = Ddt::FeatureModuleGroup.price_of_charge_version(shop, record.ending_time, record.branch_num, record.recharge_type)
             record.price = (record.original_price * current_agent.discount).round(2)
 
@@ -69,21 +87,24 @@ module Ddt
           end
 
           def suspend
+            authorize! @shop, to: :suspend?, with: Ddt::Agentsys::ShopPolicy
             @shop.update_column(:is_give_up, true)
             render json: { data: { message: "已停用" } }
           end
 
           def activate
+            authorize! @shop, to: :activate?, with: Ddt::Agentsys::ShopPolicy
             @shop.update_column(:is_give_up, false)
             render json: { data: { message: "已启用" } }
           end
 
           def reset_password
+            authorize! @shop, to: :reset_password?, with: Ddt::Agentsys::ShopPolicy
             account = @shop.accounts.first
             if account
               new_password = SecureRandom.hex(8)
               account.update(password: new_password, password_confirmation: new_password)
-              render json: { data: { message: "密码已重置" } }
+              render json: { data: { message: "密码已重置", new_password: new_password } }
             else
               render json: { errors: [{ status: 404, title: "账户不存在", code: "NOT_FOUND" }] }, status: :not_found
             end
@@ -116,10 +137,11 @@ module Ddt
           end
 
           def merchant_json(shop)
+            account = shop.accounts.first
             {
               id: shop.id,
               name: shop.name,
-              contact_name: shop.accounts.first&.name.to_s,
+              contact_name: account&.name.to_s,
               phone: shop.phone.to_s,
               plan_name: shop.shop_type.to_s,
               status: merchant_status(shop),

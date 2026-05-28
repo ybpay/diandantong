@@ -4,7 +4,7 @@ module Ddt
       module Agentsys
         class ExpirationsController < BaseController
           def index
-            shops = current_agent.shops.where(is_give_up: false)
+            shops = current_agent.shops.includes(:accounts).where(is_give_up: false)
             shops = apply_filters(shops)
             all_shops = shops.order(expiration_time: :asc)
 
@@ -45,11 +45,12 @@ module Ddt
           end
 
           def expiration_json(shop)
+            account = shop.accounts.first
             days_left = shop.expiration_time ? ((shop.expiration_time - Time.current) / 1.day).to_i : 0
             {
               id: shop.id,
               name: shop.name,
-              contact_name: shop.accounts.first&.name.to_s,
+              contact_name: account&.name.to_s,
               phone: shop.phone.to_s,
               plan_name: shop.shop_type.to_s,
               expires_at: shop.expiration_time&.to_s,

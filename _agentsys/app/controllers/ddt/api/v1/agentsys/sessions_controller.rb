@@ -13,7 +13,8 @@ module Ddt
           def create
             agent = Ddt::Agent.find_by(email: params[:email]&.downcase)
             if agent&.valid_password?(params[:password])
-              if agent.expiration_time < Time.current
+              exp = agent.expiration_time
+              if exp.nil? || exp < Time.current
                 render json: { errors: [{ status: 403, title: "账号已过期，请联系管理员", code: "AGENT_EXPIRED" }] }, status: :forbidden
                 return
               end
@@ -28,10 +29,21 @@ module Ddt
           end
 
           def destroy
+            jti = extract_jti
+            Ddt::AgentJwtDenylist.create!(jti: jti) if jti
             render json: { data: { message: "已退出登录" } }
           end
 
           private
+
+          def extract_jti
+            token = request.headers["Authorization"]&.sub(/^Bearer\s+/i, "")
+            return nil unless token
+            payload = Warden::JWTAuth::TokenDecoder.new.call(token)
+            payload["jti"]
+          rescue JWT::DecodeError
+            nil
+          end
 
           def agent_serialized(agent)
             {

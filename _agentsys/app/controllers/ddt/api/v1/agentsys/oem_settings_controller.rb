@@ -6,6 +6,7 @@ module Ddt
           before_action :require_oem_agent
 
           def show
+            authorize! current_agent, to: :show?, with: Ddt::Agentsys::OemSettingPolicy
             agent = current_agent
             render json: {
               system_name: agent.support_brand_name,
@@ -19,6 +20,7 @@ module Ddt
           end
 
           def update
+            authorize! current_agent, to: :update?, with: Ddt::Agentsys::OemSettingPolicy
             agent = current_agent
             attrs = oem_update_params
             if agent.update(attrs)

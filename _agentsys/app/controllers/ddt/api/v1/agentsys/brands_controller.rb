@@ -7,18 +7,17 @@ module Ddt
 
           def index
             brands = current_agent.is_oem? ? Ddt::Brand.where(agent: current_agent) : Ddt::Brand.none
+            authorize! brands, to: :index?, with: Ddt::Agentsys::BrandPolicy
             render json: brands.map { |b| brand_json(b) }
           end
 
           def show
+            authorize! @brand, to: :show?
             render json: brand_detail_json(@brand)
           end
 
           def create
-            unless current_agent.is_oem?
-              render json: { errors: [{ status: 403, title: "仅OEM代理商可创建品牌", code: "FORBIDDEN" }] }, status: :forbidden
-              return
-            end
+            authorize! Ddt::Brand, to: :create?, with: Ddt::Agentsys::BrandPolicy
             brand = Ddt::Brand.new(brand_params.merge(agent: current_agent))
             if brand.save
               render json: brand_detail_json(brand), status: :created
@@ -28,6 +27,7 @@ module Ddt
           end
 
           def update
+            authorize! @brand, to: :update?
             if @brand.update(brand_params)
               render json: brand_detail_json(@brand)
             else
@@ -38,7 +38,7 @@ module Ddt
           private
 
           def set_brand
-            @brand = Ddt::Brand.find(params[:id])
+            @brand = Ddt::Brand.where(agent: current_agent).find(params[:id])
           end
 
           def brand_json(brand)
@@ -53,10 +53,11 @@ module Ddt
           end
 
           def brand_detail_json(brand)
+            shops = brand.shops.limit(50).select(:id, :name, :is_give_up, :expiration_time)
             brand_json(brand).merge(
               description: brand.description.to_s,
               config: brand_config(brand),
-              merchants: brand.shops.limit(50).map { |s| { name: s.name, status: s.is_give_up? ? "inactive" : "active", expires_at: s.expiration_time&.to_s } }
+              merchants: shops.map { |s| { name: s.name, status: s.is_give_up? ? "inactive" : "active", expires_at: s.expiration_time&.to_s } }
             )
           end
 

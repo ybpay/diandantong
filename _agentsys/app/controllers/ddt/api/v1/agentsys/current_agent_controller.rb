@@ -4,6 +4,7 @@ module Ddt
       module Agentsys
         class CurrentAgentController < BaseController
           def show
+            authorize! current_agent, to: :show?, with: Ddt::Agentsys::AgentPolicy
             render json: { data: agent_serialized(current_agent) }
           end
 

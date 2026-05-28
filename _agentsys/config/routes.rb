@@ -48,7 +48,11 @@ Ddt::Core::Engine.add_routes do
         get "plans", to: "agentsys/plans#index"
 
         # Recharge records
-        resources :recharge_records, controller: "agentsys/recharge_records", only: [:index, :show, :create]
+        resources :recharge_records, controller: "agentsys/recharge_records", only: [:index, :show, :create] do
+          collection do
+            post :create_free
+          end
+        end
 
         # Feature modules configs
         get "feature_modules_configs", to: "agentsys/feature_modules_configs#index"

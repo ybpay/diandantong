@@ -36,7 +36,9 @@ module Ddt
           private
 
           def set_shop
-            @shop = current_agent.shops.find { |s| s.id == params[:shop_id].to_i } if params[:shop_id].present?
+            @shop = current_agent.shops.find(params[:shop_id]) if params[:shop_id].present?
+          rescue ActiveRecord::RecordNotFound
+            @shop = nil
           end
 
           def config_json(config)
