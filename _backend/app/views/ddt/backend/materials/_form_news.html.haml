@@ -17,7 +17,7 @@
       = f.input :link_type, collection: Ddt::Article.link_type_collection, include_blank: false
       = f.input :url, as: :string, hint: raw("#{render '/ddt/backend/branch_sliders/auto_insert_url', {input_field_id: 'article_url', version: 'path_and_ng'}}"), placeholder: '例如：http://mp.weixin.qq.com'
       = f.label :description
-      = f.input :description, as: :ckeditor, input_html: { ckeditor: { toolbar: 'mini'} }, label: false, wrapper: :vertical_form
+      = f.input :description, as: :text, input_html: { rows: 5 }, label: false, wrapper: :vertical_form
     .form-actions
       = f.button :submit, class: "btn btn-primary"
   :javascript

@@ -19,8 +19,8 @@ module Ddt
  #   validates :title, presence: true
  #   validates :image, :file_size => { :maximum => 0.5.megabytes.to_i }
 
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, ArticleImageUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { thumb: [400, 400], medium: [900, 500] }
 
     scope :real, ->{ where(link_type: ARTICLE_SHOW_LINK)}
  #   validates :url, uri: true, if: :is_other_web_link?

@@ -16,7 +16,7 @@ module Ddt
 
     filter_urls_for :url
 
-    include Ddt::CarrierWaveBridge
-    mount_uploader :img, BranchSliderImageUploader
+    include Ddt::Attachable
+    attachable_one :img, variants: { medium: [720, 270], thumb: [180, 67] }
   end
 end

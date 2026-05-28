@@ -157,17 +157,17 @@ module Ddt
     has_many :shipments, class_name: 'Ddt::Shipment'
     has_many :statistics_caches, class_name: 'Ddt::StatisticsCache', dependent: :destroy
 
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, ShopImageUploader
-    mount_uploader :rect_image, ShopRectImageUploader
-    mount_uploader :vip_logo, ShopVipLogoUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { medium: [400, 400], thumb: [140, 140] }
+    attachable_one :rect_image, variants: { medium: [900, 500], thumb: [180, 100] }
+    attachable_one :vip_logo, variants: { thumb: { size: [360, 200], mode: :fit } }
 
-    mount_uploader :reservation_img, ShopButtonImageUploader
-    mount_uploader :order_in_seat_img, ShopButtonImageUploader
-    mount_uploader :delivery_img, ShopButtonImageUploader
-    mount_uploader :queue_img, ShopButtonImageUploader
-    mount_uploader :pay_online_img, ShopButtonImageUploader
-    mount_uploader :last_import_vip_info_error, ShopLastImportVipInfoErrorUploader
+    attachable_one :reservation_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :order_in_seat_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :delivery_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :queue_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :pay_online_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :last_import_vip_info_error
 
 
     ### validations

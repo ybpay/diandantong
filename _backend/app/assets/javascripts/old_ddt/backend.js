@@ -15,7 +15,7 @@
 //= require js/flot/jquery.flot.pie.min
 //= require js/flot/jquery.flot.resize.min
 //= require js/jquery.easy-pie-chart.min
-//= require ckeditor/init
+// ckeditor/init removed — replaced by ActionText + TipTap
 //= require turbolinks
 //= require nprogress
 //= require nprogress-turbolinks
@@ -238,11 +238,6 @@ function open_all_menu(){
 
 $(document).on('page:update', function(){
   open_all_menu();
-  $('textarea.ckeditor').each(function(){
-    try{
-      CKEDITOR.replace($(this).attr('id'));
-    }catch(e){}
-  })
   $(".sortable-table").each(function(){
     $(this).tablesorter();
   })

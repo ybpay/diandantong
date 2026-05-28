@@ -9,8 +9,8 @@ module Ddt
 
     has_many :home_hot_links, class_name: 'Ddt::HomeHotLink'
     has_many :home_usable_links, class_name: 'Ddt::HomeUsableLink'
-    include Ddt::CarrierWaveBridge
-    mount_uploader :background_image, OnePageImageUploader
+    include Ddt::Attachable
+    attachable_one :background_image, variants: { medium: [640, 1010], thumb: [64, 101] }
     validates :background_image, file_size: {
         maximum: 0.5.megabytes.to_i
       }

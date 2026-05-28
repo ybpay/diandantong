@@ -104,7 +104,7 @@
     .hr-line-dashed
     .col-sm-6= f.input :image, as: :image_preview, hint: '推荐图片尺寸为400×400'
     .col-sm-6= f.input :rect_image, as: :image_preview, hint: '推荐图片尺寸为900x500'
-    .col-sm-6= f.input :introduction, :as => :ckeditor, :input_html => { :ckeditor => {:toolbar => 'mini'} }
+    .col-sm-6= f.input :introduction, :as => :text, :input_html => { rows: 5 }
     = advanced_options do
       .col-sm-6
         = f.input :check_stock

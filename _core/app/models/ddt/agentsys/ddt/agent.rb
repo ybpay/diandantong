@@ -33,9 +33,9 @@ module Ddt
 
 
     ### uploader
-    include Ddt::CarrierWaveBridge
-    mount_uploader :logo, AgentLogoUploader
-    mount_uploader :rect_logo, AgentRectLogoUploader
+    include Ddt::Attachable
+    attachable_one :logo, variants: { medium: [400, 400], thumb: [140, 140] }
+    attachable_one :rect_logo, variants: { medium: [800, 300], thumb: [267, 100] }
 
     ### callbacks
     before_validation :set_plocy_version

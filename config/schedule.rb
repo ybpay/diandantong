@@ -29,7 +29,7 @@ end
 every 2.days, :at => '04:00', roles: [:slaver, :master] do
   # job "Ddt::Schedule::ClearCacheWorker"
   runner "Rails.cache.clear"
-  runner "CarrierWave.clean_cached_files!"
+  runner "ActiveStorage::Blob.unfledged.where(created_at: ..2.days.ago).find_each(&:purge)"
 end
 
 every 7.days, :at => '01:00', roles: [:master] do

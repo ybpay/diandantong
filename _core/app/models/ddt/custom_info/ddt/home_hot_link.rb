@@ -7,8 +7,8 @@ module Ddt
 
     belongs_to :custom_weixin_info , class_name: 'Ddt::CustomWeixinInfo', touch: true
     acts_as_list scope: [:custom_weixin_info]
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, HotLinkImageUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { medium: [400, 400], thumb: [140, 140] }
 
     validates_presence_of :label, :link
     validates :image, file_size: { maximum: 0.5.megabytes.to_i } , if: :image?

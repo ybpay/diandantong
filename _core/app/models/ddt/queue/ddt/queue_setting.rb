@@ -11,9 +11,9 @@ module Ddt
     ### callbacks
     before_save :assign_qr_code
 
-    ### mount uploader
-    include Ddt::CarrierWaveBridge
-    mount_uploader :queue_qr_code, QrCodeUploader
+    ### attachable
+    include Ddt::Attachable
+    attachable_one :queue_qr_code, variants: { medium: [400, 400], thumb: [100, 100] }
 
     ### validations
     validates :name, :start_at, :end_at, presence: true

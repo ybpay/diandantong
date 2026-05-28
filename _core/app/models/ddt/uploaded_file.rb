@@ -1,7 +1,7 @@
 module Ddt
   class UploadedFile < Base
     include BelongsToShop
-    include Ddt::CarrierWaveBridge
-    mount_uploader :file, TempfileUploader
+    include Ddt::Attachable
+    attachable_one :file
   end
 end

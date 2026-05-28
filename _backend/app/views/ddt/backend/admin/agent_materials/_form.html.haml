@@ -13,7 +13,7 @@
   .field.form-group
     = f.label :content, :class=>"col-xs-3 control-label"
     .col-xs-9
-      = f.cktext_area :content, :ckeditor => {:language => "zh-cn"}, :class=>"form-control"
+      = f.text_area :content, :class=>"form-control", rows: 10
   .field.form-group
     = f.label :d_files, class: "col-xs-3 control-label"
     .col-xs-9

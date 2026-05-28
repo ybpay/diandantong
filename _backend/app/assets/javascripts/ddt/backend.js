@@ -6,7 +6,7 @@
 //= require slimscroll/jquery.slimscroll.min.js
 //= require ./inspinia.js
 
-//= require ckeditor/init
+// ckeditor/init removed — replaced by ActionText + TipTap
 //= require moment
 //= require bootstrap-datetimepicker
 //= require locales/bootstrap-datetimepicker.zh-CN
@@ -220,11 +220,6 @@ function animation_hover(){
 
 $(document).on('page:update', function(){
   animation_hover();
-  $('textarea.ckeditor').each(function(){
-    try{
-      CKEDITOR.replace($(this).attr('id'));
-    }catch(e){}
-  })
   $(".sortable-table").each(function(){
     $(this).tablesorter();
   })

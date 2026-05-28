@@ -4,7 +4,7 @@
   .form-inputs
     = f.input :title
     = f.input :image, as: :image_preview, hint: '推荐图片尺寸为900×500'
-    = f.input :description, as: :ckeditor, input_html: { ckeditor: { toolbar: 'mini'} }
+    = f.input :description, as: :text, input_html: { rows: 5 }
 
   .form-actions.col-xs-offset-4
     = f.button :submit, class: "btn btn-primary"
