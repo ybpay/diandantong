@@ -7,7 +7,7 @@ module Ddt
             self.table_name = "ddt_pay_items"
             belongs_to :order, class_name: "Ddt::OrderService::Api::Mock::Model::Order"
             include Discard::Model
-    default_scope { kept }
+            default_scope { kept }
           end
         end
       end

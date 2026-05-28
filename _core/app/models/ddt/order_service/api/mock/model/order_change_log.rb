@@ -8,7 +8,7 @@ module Ddt
             self.inheritance_column = nil
             belongs_to :order, class_name: "Ddt::OrderService::Api::Mock::Model::Order"
             include Discard::Model
-    default_scope { kept }
+            default_scope { kept }
           end
         end
       end

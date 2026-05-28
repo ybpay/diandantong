@@ -7,7 +7,7 @@ module Ddt
             self.table_name = "ddt_adjustments"
             belongs_to :order, class_name: "Ddt::OrderService::Api::Mock::Model::Order"
             include Discard::Model
-    default_scope { kept }
+            default_scope { kept }
             scope :root, ->{ where(parent_id: nil)}
             has_many :subs, class_name: '::Ddt::OrderService::Api::Mock::Model::Adjustment', foreign_key: :parent_id
             belongs_to :parent, class_name: '::Ddt::OrderService::Api::Mock::Model::Adjustment', foreign_key: :parent_id

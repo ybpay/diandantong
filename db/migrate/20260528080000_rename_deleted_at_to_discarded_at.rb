@@ -82,13 +82,12 @@ class RenameDeletedAtToDiscardedAt < ActiveRecord::Migration[8.1]
   end
 
   def swap_index(table, old_name, from_cols, to_cols)
-    return unless index_exists?(table, old_name)
-    columns = connection.indexes(table).find { |i| i.name == old_name }&.columns
-    return unless columns
+    idx = connection.indexes(table).find { |i| i.name == old_name }
+    return unless idx
 
-    new_columns = columns.map { |c| from_cols.include?(c.to_sym) ? to_cols[from_cols.index(c.to_sym)] : c }
+    new_columns = idx.columns.map { |c| from_cols.include?(c.to_sym) ? to_cols[from_cols.index(c.to_sym)] : c }
     remove_index table, name: old_name
-    add_index table, new_columns, name: old_name.gsub(/deleted_at/, to.to_s), unique: true
+    add_index table, new_columns, name: old_name.gsub(/deleted_at/, to.to_s), unique: idx.unique
   rescue => e
     warn "Index migration skipped for #{table}.#{old_name}: #{e.message}"
   end
