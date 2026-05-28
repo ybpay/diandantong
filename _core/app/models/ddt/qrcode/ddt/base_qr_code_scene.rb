@@ -9,6 +9,10 @@ module Ddt
     include BelongsToShop
     belongs_to :owner, polymorphic: true
     has_many :qrcode_scan_relations, dependent: :destroy, class_name: "Ddt::QrcodeScanRelation"
+
+    include Ddt::Attachable
+    attachable_one :url
+
     scope :of_builtin, ->{where(:builtin => true)}
     scope :of_custom, ->{where(:builtin => false)}
 
@@ -68,10 +72,11 @@ module Ddt
     def generate_qr_code(qr_url, options={})
       tmp_path = Rails.root.join('tmp', "#{'snap_' if options[:snap]}qr_code_scene_#{DateTime.now.to_i}#{Random.new_seed}.png")
       Ddt::QrcodeTool.generate_qrcode_image(qr_url, width=250).save(tmp_path)
-      File.open(tmp_path) do |file|
-        self.update_attribute(:url, file)
+      File.open(tmp_path, "rb") do |f|
+        self.url.attach(io: f, filename: File.basename(tmp_path), content_type: "image/png")
       end
-      File.delete(tmp_path) if File.exist?(tmp_path)
+    ensure
+      File.delete(tmp_path) if tmp_path && File.exist?(tmp_path)
     end
 
   end
