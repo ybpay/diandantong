@@ -13,6 +13,9 @@ RSpec.describe Ddt::Shop, type: :model do
     it { should have_many(:promotions) }
     it { should have_one(:credits_wallet) }
     it { should have_one(:card_wallet) }
+    it { should have_one(:short_message_setting) }
+    it { should have_many(:vip_levels) }
+    it { should have_many(:wechat_accounts).dependent(:destroy) }
   end
 
   describe 'validations' do
@@ -20,6 +23,14 @@ RSpec.describe Ddt::Shop, type: :model do
     it { should validate_uniqueness_of(:telephone) }
     it { should validate_presence_of(:slug) }
     it { should validate_uniqueness_of(:slug) }
+  end
+
+  describe 'default scope' do
+    it 'orders by created_at desc' do
+      shop_old = create(:shop)
+      shop_new = create(:shop)
+      expect(Ddt::Shop.all.to_a).to eq([shop_new, shop_old])
+    end
   end
 
   describe '#expired?' do
@@ -82,6 +93,44 @@ RSpec.describe Ddt::Shop, type: :model do
 
     it 'returns false for unconfigured modules' do
       expect(shop.has_module?(:nonexistent)).to be false
+    end
+  end
+
+  describe 'factory' do
+    it 'creates a valid shop' do
+      shop = create(:shop)
+      expect(shop).to be_persisted
+      expect(shop.name).to be_present
+      expect(shop.slug).to be_present
+    end
+
+    it 'creates a shop with boss account' do
+      shop = create(:shop_with_boss)
+      expect(shop.accounts.count).to be >= 1
+      boss = shop.accounts.first
+      expect(boss.is_boss?).to be true
+    end
+
+    it 'creates an expired shop with trait' do
+      shop = create(:shop, :expired)
+      expect(shop.expired?).to be true
+    end
+
+    it 'creates a multi-branch shop with trait' do
+      shop = create(:shop, :multi_branch)
+      expect(shop.is_multi_branches?).to be true
+    end
+  end
+
+  describe 'after_create callbacks' do
+    it 'automatically creates a branch' do
+      shop = create(:shop)
+      expect(shop.branches.real.count).to be >= 1
+    end
+
+    it 'automatically creates a short_message_setting' do
+      shop = create(:shop)
+      expect(shop.short_message_setting).to be_present
     end
   end
 end
