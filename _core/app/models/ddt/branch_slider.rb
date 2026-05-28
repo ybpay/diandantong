@@ -12,7 +12,7 @@ module Ddt
     validates :url, presence: true, uri: true, length: { maximum: 255 }
     validates :img, presence: true, file_size: {
         maximum: 0.5.megabytes.to_i
-      }, if: :img_changed?
+      }, if: -> { img.attached? }
 
     filter_urls_for :url
 

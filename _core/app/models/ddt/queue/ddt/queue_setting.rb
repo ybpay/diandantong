@@ -80,11 +80,11 @@ module Ddt
     def assign_qr_code
       if self.queue_url_changed? && self.queue_url.present?
         tmp_path = Rails.root.join('tmp', "qrcode_queue_setting_#{DateTime.now.to_i}.png")
-        png = QrcodeTool.generate_qrcode_image(queue_url, width=250).save(tmp_path)
-        File.open(tmp_path) do |file|
+        QrcodeTool.generate_qrcode_image(queue_url, width=250).save(tmp_path)
+        File.open(tmp_path, "rb") do |file|
           self.queue_qr_code = file
         end
-        File.delete(tmp_path)
+        File.delete(tmp_path) if File.exist?(tmp_path)
       end
     end
 
