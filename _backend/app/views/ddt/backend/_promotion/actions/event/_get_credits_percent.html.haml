@@ -1,7 +1,0 @@
-- key = :percent
-- field_name = "#{param_prefix}[preferred_#{key}]"
-.col-sm-3
-  = label_tag field_name, I18n.t("promotion.actions.events.#{key}")
-.input-group.col-sm-3
-  = text_field_tag(field_name, promotion_action.get_preference(key), type: promotion_action.preference_type(key), class: 'form-control')
-  .input-group-addon %

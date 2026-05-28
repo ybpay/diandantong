@@ -1,7 +1,0 @@
-.form-group
-  =search_form_for @q, url: @search_form_path, html:{class: 'form-inline', role: 'form'}, builder: SimpleForm::FormBuilder do |f|
-    = f.input_field :type_eq, collection: Ddt::BaseUser.type_collection, prompt: Ddt::BaseUser.human_attribute_name(:type)
-    = f.input_field :id_eq, placeholder: Ddt::BaseUser.human_attribute_name(:id), class: 'input-medium'
-    = f.input_field :phone_cont, placeholder: Ddt::BaseUser.human_attribute_name(:phone), class: 'input-medium'
-
-    = f.submit "搜索", class: 'btn btn-sm btn-success'

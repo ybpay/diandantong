@@ -1,4 +1,0 @@
-bootbox.hideAll();
-<%- @combo_images.each do |combo_image|%>
-$(".combo-image-tr[data-id='<%= combo_image.id%>']").replaceWith("<%= j render partial: 'combo_image', locals:{ combo_image: combo_image }%>")
-<%- end%>

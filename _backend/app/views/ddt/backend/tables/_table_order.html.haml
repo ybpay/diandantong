@@ -1,7 +1,0 @@
-.table-order
-  - if @order.present?
-    = raw @order.order_detail_in_html
-    = info_btn(@current_branch.present? ? [@order] : [@order.branch, @order], btn_size: '', show_label: true)
-    = order_actions(@order, remote: false, size: :normal)
-
-= render partial: '/ddt/backend/order/cancel_reason'

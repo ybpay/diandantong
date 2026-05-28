@@ -1,8 +1,0 @@
-#preferences-fields
-  - preferences.each do |key, value|
-    .form-group
-      %label.col-sm-2.col-sm-offset-2.control-label{for: preference_id(key)}
-        %abbr{title: "必填"} *
-        = key
-      .col-sm-4
-        = preference_input(key, value)

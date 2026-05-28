@@ -1,5 +1,5 @@
 module Ddt
   class CommonApplicationController < Ddt::BaseWeixinController
-    layout 'ddt/layouts/empty'
+    layout false
   end
 end

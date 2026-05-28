@@ -1,8 +1,0 @@
-.order-query-form
-  = simple_form_for :query, url: url, method: :get, html: { class: 'form-inline', role: 'form'} do |f|
-    = f.input_field :start_date, as: :date, placeholder: '开始日期', class: 'input-medium', value: params[:query][:start_date]
-    %label{style: 'font-size:20px;'} ~
-    = f.input_field :end_date, as: :date, placeholder: '结束日期', class: 'input-medium', value: params[:query][:end_date]
-    = f.input_field :interval, collection: [['天', :day], ['月', :month], ['年', :year]], class: 'input-mini', selected: params[:query][:interval]
-    = f.submit "查询", class: 'btn btn-sm btn-success'
-%br/

@@ -1,4 +1,0 @@
-bootbox.hideAll()
-var item = $("<%= j render partial: 'item', locals: { gift_reason: @gift_reason }%>")
-item.hide().appendTo($(".reasons > ol")).fadeIn()
-$(document).trigger('ajax:replace')

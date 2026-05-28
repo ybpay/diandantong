@@ -1,6 +1,0 @@
-$('#actions').append('<%= j render(partial: "ddt/backend/_promotion/promotion_action", object: @promotion_action, locals: { promotion: @promotion }) %>');
-$('#actions .no-objects-found').hide();
-$('#promotion_action_type').html('<%= j options_for_promotion_action_types(@promotion) %>');
-setTimeout(function(){
-  $(document).trigger('page:load')
-}, 100)

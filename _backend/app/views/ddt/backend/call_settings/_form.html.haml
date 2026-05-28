@@ -1,9 +1,0 @@
-.ibox-content
-  = simple_form_for([:backend, @current_shop, @call_setting], html: { :class =>"form-horizontal"}) do |f|
-    .form-inputs
-      .col-sm-6
-        = f.input :enable_order_call, hint: "启用后,若新订单超过15分钟仍未处理,系统将自动呼叫提醒"
-        = f.input :amount, disabled: !current_account.is_admin?
-        .form-actions.col-xs-offset-2
-          = f.button :submit, :class => "btn btn-primary btn-sm"
-      .clearfix   

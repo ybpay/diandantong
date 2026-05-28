@@ -1,5 +1,0 @@
-<%- if @result%>
-  bootbox.alert("同步成功.");
-<%- else%>
-  bootbox.alert("同步失败，请确认您的公众账号是服务号或微信认证的订阅号。 (错误信息：<%= @error%> )");
-<%- end%>

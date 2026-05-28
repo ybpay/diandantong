@@ -1,9 +1,0 @@
-.ibox
-  .ibox-title
-    %h2= "编辑#{t('activerecord.models.ddt/reservation_time_point')}"
-  .ibox-content
-    = render 'form'
-
-    = link_to t('Show'), [:backend, @current_shop, @current_branch, @reservation_time_point], :class => "btn btn-default btn-sm"
-    \
-    = link_to t('Back'), backend_shop_branch_reservation_time_points_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

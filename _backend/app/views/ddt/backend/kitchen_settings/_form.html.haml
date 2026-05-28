@@ -1,7 +1,0 @@
-= simple_nested_form_for([:backend, @current_shop, @current_branch, @kitchen_setting], html: { class: 'form-horizontal'}) do |f|
-  = f.error_notification :message => error_message_in_html(@kitchen_setting)
-  .form-inputs
-    = f.input :warning_wait_minitue
-
-  .form-actions.col-xs-offset-2
-    = f.button :submit, :class => "btn btn-primary btn-sm"

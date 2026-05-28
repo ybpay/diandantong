@@ -1,6 +1,0 @@
-<%- if @destroy_success %>
-  var item = $(".category[data-id='<%= params[:id]%>']")
-  item.fadeOut(500, function(){ item.remove() })
-<% else %>
-  bootbox.alert("<%= @category.errors.full_messages.join('<br />') %>");
-<% end %>

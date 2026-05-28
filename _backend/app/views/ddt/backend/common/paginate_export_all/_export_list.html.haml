@@ -1,9 +1,0 @@
-.alert.alert-info
-  %p
-    根据当前搜索结果有
-    = @record_num
-    条记录， 系统自动切分下载任务，请依次点击下方链接进行下载
-
-- @page_num.times.each do |i|
-  = link_to "点击下载第#{i+1}部分", "#{export_all_path}&page=#{i+1}"
-  %br

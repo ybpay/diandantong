@@ -1,9 +1,0 @@
-.ibox
-  .ibox-title
-    %h2= "编辑#{t('activerecord.models.ddt/table_zone')}"
-  .ibox-content
-    = render 'form'
-
-    = link_to t('Show'), [:backend, @current_shop, @current_branch, @table_zone], :class => "btn btn-default btn-sm"
-    \
-    = link_to t('Back'), backend_shop_branch_table_zones_path(@current_shop, @current_branch), :class => "btn btn-default btn-sm"

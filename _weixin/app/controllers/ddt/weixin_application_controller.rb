@@ -1,6 +1,6 @@
 module Ddt
   class WeixinApplicationController < Ddt::BaseWeixinController
-    layout 'ddt/layouts/weixin'
+    layout false
     before_action :record_viewed_user
     check_feature :weixin
 

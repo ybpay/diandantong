@@ -1,7 +1,0 @@
-%tr{id: "_#{delivery_range.id}"}
-  %td= "#{delivery_range.start_at} km"
-  %td= "#{delivery_range.end_at} km"
-  %td= number_to_currency(delivery_range.cost, unit: @current_shop.currency)
-  %td
-    = edit_btn(delivery_range, remote: true)
-    = delete_btn(delivery_range, remote: true)

@@ -1,9 +1,0 @@
-%tr{id: "_#{time_interval.id}"}
-  %td= time_interval.id
-  %td= time_interval.name
-  %td= time_interval.start.strftime('%T')
-  %td= (time_interval.start + time_interval.interval).strftime('%T')
-  %td= time_interval.interval_in_hour
-  %td
-    = base_edit_btn(url: edit_backend_shop_time_interval_path(@current_shop, time_interval), remote: true)
-    = base_delete_btn(url: backend_shop_time_interval_path(@current_shop, time_interval), remote: true)

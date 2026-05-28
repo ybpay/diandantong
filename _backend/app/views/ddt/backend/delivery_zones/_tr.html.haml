@@ -1,6 +1,0 @@
-%tr{id: "_#{delivery_zone.id}"}
-  %td= delivery_zone.zone_name
-  %td= number_to_currency(delivery_zone.cost, unit: @current_shop.currency)
-  %td
-    = edit_btn(delivery_zone, remote: true)
-    = delete_btn(delivery_zone, remote: true)

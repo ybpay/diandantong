@@ -1,1 +1,0 @@
-$(".tick-account-item[data-id='<%= @tick_account_item.id%>']").replaceWith("<%= j render partial: 'item', locals: { item: @tick_account_item }%>")

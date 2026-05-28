@@ -1,5 +1,0 @@
-
-.buttons
-  = link_to tag(:icon, :class=>"fa fa-fw fa-reply") + ' 自动回复', new_backend_shop_wechat_account_wechat_menu_path(@current_shop, @wechat_account, event_type: 'click', parent_id: params[:parent_id]), :class => "btn btn-block btn-default", :method => :get, :remote => true, title: "自动回复"
-  = link_to tag(:icon, :class=>"fa fa-fw fa-link") + ' 链接', new_backend_shop_wechat_account_wechat_menu_path(@current_shop, @wechat_account, event_type: 'view', parent_id: params[:parent_id]), :class => "btn btn-block btn-default", :method => :get, :remote => true, title: "链接"
-  = link_to tag(:icon, :class=>"fa fa-fw fa-qrcode") + ' 扫码', new_backend_shop_wechat_account_wechat_menu_path(@current_shop, @wechat_account, event_type: 'scancode_push', parent_id: params[:parent_id]), :class => "btn btn-block btn-default", :method => :get, :remote => true, title: "扫码"

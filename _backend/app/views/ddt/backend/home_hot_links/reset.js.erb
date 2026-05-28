@@ -1,1 +1,0 @@
-$('.home-hot-links-table').replaceWith("<%= j render partial: 'ddt/backend/home_hot_links/table', locals: { home_hot_links: @custom_weixin_info.home_hot_links.where(is_multiple: @current_shop.is_multi_branches?)}%>")

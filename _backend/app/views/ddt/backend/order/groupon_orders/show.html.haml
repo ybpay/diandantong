@@ -1,8 +1,0 @@
-- cache(@order, expires_in: 2.hours) do
-  = render partial: '/ddt/backend/order/base_order', locals: { order: @order }
-  .model-show
-    .ibox
-      = render partial: '/ddt/backend/order/base_order_show', locals: { order: @order }
-      .ibox
-        = render partial: '/ddt/backend/order/base_order_total', locals: { order: @order }
-        = render partial: '/ddt/backend/order/base_action', locals: { order: @order }

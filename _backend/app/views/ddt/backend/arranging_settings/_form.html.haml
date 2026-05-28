@@ -1,9 +1,0 @@
-= simple_nested_form_for([:backend, @current_shop, @current_branch, @arranging_setting], html: { class: 'form-horizontal'}) do |f|
-  = f.error_notification :message => error_message_in_html(@arranging_setting)
-
-  .form-inputs
-    .col-sm-12.col-md-9.col-lg-6
-      = f.input :mode, collection: Ddt::ArrangingSetting.mode_collection, hint: "系统自动分配: 根据用户输入的人数自动分配队列. 队列可在队列设置中设置;用户自主选择: 用户可以自由选择不同的队列. "
-
-    .form-actions.col-sm-4
-      = f.button :submit, :class => "btn btn-primary"

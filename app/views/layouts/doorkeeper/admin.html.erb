@@ -5,33 +5,28 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doorkeeper</title>
-  <%= stylesheet_link_tag "doorkeeper/admin/application" %>
   <%= csrf_meta_tags %>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 20px; }
+    nav { background: #333; padding: 10px 20px; margin: -20px -20px 20px; }
+    nav a { color: #fff; text-decoration: none; margin-right: 15px; }
+    .container { max-width: 960px; margin: 0 auto; }
+    .alert { padding: 10px; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 4px; margin-bottom: 15px; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+  </style>
 </head>
 <body>
-<div class="navbar navbar-inverse navbar-static-top" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <%= link_to t('doorkeeper.layouts.admin.nav.oauth2_provider'), oauth_applications_path, class: 'navbar-brand' %>
-    </div>
-    <ul class="nav navbar-nav">
-      <%= content_tag :li, class: "#{'active' if request.path == oauth_applications_path}" do %>
-        <%= link_to t('doorkeeper.layouts.admin.nav.applications'), oauth_applications_path %>
-      <% end %>
-      <%= content_tag :li do %>
-        <%= link_to 'Home', root_path %>
-      <% end %>
-    </ul>
+  <nav>
+    <%= link_to 'OAuth2 Provider', oauth_applications_path %>
+    <%= link_to 'Applications', oauth_applications_path %>
+    <%= link_to 'Home', root_path %>
+  </nav>
+  <div class="container">
+    <% if flash[:notice].present? %>
+      <div class="alert"><%= flash[:notice] %></div>
+    <% end %>
+    <%= yield %>
   </div>
-</div>
-<div class="container">
-  <%- if flash[:notice].present? %>
-    <div class="alert alert-info">
-      <%= flash[:notice] %>
-    </div>
-  <% end -%>
-
-  <%= yield %>
-</div>
 </body>
 </html>

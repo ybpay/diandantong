@@ -1,8 +1,0 @@
-
-<% if ['subscribe','unmatch'].include? @event.event_type %>
-  $('.event_form').remove();
-  $('.config_once_event_form').html("<%= j render 'form' %>");
-<% elsif @event.event_type=="keyword_autoreply" %>
-  $('.event_form').remove();
-  $('.keyword_autoreply_config_form').html("<%= j render 'form' %>");
-<% end %>
