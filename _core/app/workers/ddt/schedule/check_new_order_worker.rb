@@ -14,8 +14,7 @@ module Ddt
           }
           accounts = order.all_managers
           accounts.each do |account|
-            channel = WebposNotify.channel(account.id)
-            PrivatePub.publish_to(channel, msg: msg)
+            WebposChannel.broadcast_to(account, msg)
           end
         end
         OrderService::Orders.where(state: :pending, placed_at: 25.minutes.ago..15.minutes.ago).each do |order|

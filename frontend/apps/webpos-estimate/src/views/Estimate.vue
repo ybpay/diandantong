@@ -124,10 +124,8 @@ const loading = ref(false)
 const selectedZoneId = ref<number | null>(null)
 const clearingTableId = ref<number | null>(null)
 
-// WebSocket for real-time updates
-const { connected, subscribe, unsubscribe, on } = useActionCable(
-  `TablesChannel:${branchId.value}`
-)
+// WebSocket for real-time updates via ActionCable
+const { connected, subscribe, unsubscribe } = useActionCable()
 
 // Computed
 const displayTables = computed(() => {
@@ -277,12 +275,15 @@ function handleTableUpdate(data: unknown) {
 // Lifecycle
 onMounted(() => {
   fetchTables()
-  subscribe()
-  on('table_update', handleTableUpdate)
-  on('estimate_clear', handleTableUpdate)
+  subscribe('TablesChannel', { branch_id: branchId.value }, {
+    received: (data: unknown) => {
+      // Refresh tables on any table status change
+      fetchTables()
+    }
+  })
 })
 
 onUnmounted(() => {
-  unsubscribe()
+  unsubscribe('TablesChannel', { branch_id: branchId.value })
 })
 </script>

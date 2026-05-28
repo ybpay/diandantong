@@ -49,7 +49,7 @@ Ddt::Core::Engine.add_routes do
         end
       end
 
-      resource :private_pub, only: [] do
+      resource :cable, only: [], controller: :cable do
         get :load_config
       end
 
