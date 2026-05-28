@@ -1,55 +1,58 @@
 Ddt::Core::Engine.add_routes do
-  namespace :agentsys do
-
-    devise_for :agents, class_name: 'Ddt::Agent', controllers: {
-      sessions: "ddt/agentsys/agents/sessions",
-      registrations: 'ddt/agentsys/agents/registrations',
-      passwords: 'ddt/agentsys/agents/passwords'
-    }
-
-    root to: 'shops#index'
-    resources :shops do
-      member do
-        post 'follow'
-        post 'give_up'
-      end
-    end
-
-    resources :feature_modules_configs, only: [:index] do 
-      collection do 
-        get :index_group
-        get :price_of_charge_version
-      end
-    end
-    resources :agent_printers do
-      collection do
-        get :get_purchase
-        post :post_purchase
-      end
-    end
-    resources :accounts
-    resources :agent_materials
-    resources :users, only: [:index]
-
-    resources :shop_recharge_records do 
-      collection do 
-        get :new_free
-        post :create_free
-      end
-    end
-
-    get 'profile', to: 'agents#profile'
-    get :edit_profile, to: 'agents#edit_profile'
-    match 'update_profile', to: 'agents#update_profile', via: [:put, :patch]
-  end
-
-  # API v1 Routes
+  # API v1 Agent Routes — Vue 3 Agent SPA
   namespace :api do
     namespace :v1 do
-      namespace :agentsys do
-        resources :shops, only: [:index, :show] do
-          resources :recharge_records, only: [:index, :create]
+      namespace :agent do
+        # Authentication
+        post "auth/login", to: "agentsys/sessions#create"
+        delete "auth/logout", to: "agentsys/sessions#destroy"
+
+        # Current agent info
+        get "user", to: "agentsys/current_agent#show"
+
+        # Dashboard
+        get "dashboard", to: "agentsys/dashboard#index"
+
+        # Merchants (shops)
+        resources :merchants, controller: "agentsys/merchants" do
+          member do
+            post :renew
+            put :suspend
+            put :activate
+            post :reset_password
+          end
+          collection do
+            get :expirations, to: "agentsys/expirations#index"
+          end
         end
+
+        # Brands
+        resources :brands, controller: "agentsys/brands"
+
+        # OEM Settings
+        resource :oem_settings, controller: "agentsys/oem_settings", only: [:show, :update]
+
+        # Sub-agents
+        resources :agents, controller: "agentsys/sub_agents"
+
+        # Statistics
+        get "statistics", to: "agentsys/statistics#index"
+
+        # Settings
+        get "settings", to: "agentsys/settings#show"
+        put "settings/profile", to: "agentsys/settings#update_profile"
+        put "settings/password", to: "agentsys/settings#update_password"
+        put "settings/notifications", to: "agentsys/settings#update_notifications"
+
+        # Plans
+        get "plans", to: "agentsys/plans#index"
+
+        # Recharge records
+        resources :recharge_records, controller: "agentsys/recharge_records", only: [:index, :show, :create]
+
+        # Feature modules configs
+        get "feature_modules_configs", to: "agentsys/feature_modules_configs#index"
+        get "feature_modules_configs/price", to: "agentsys/feature_modules_configs#price"
       end
     end
   end
