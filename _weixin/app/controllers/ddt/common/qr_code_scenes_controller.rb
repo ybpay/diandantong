@@ -63,13 +63,13 @@ module Ddt
           access_token = Ddt::AccessToken.get(token)
           if access_token.present?
             account = access_token.account
-            ability = Ddt::AbilityApi.new(account)
-            owner = @qr_code_scene.owner
-            if ability.authorize! :show, owner
-              entity_class = "Ddt::OAPI::Entities::#{result[:owner_type].camelize}".constantize
-              entity = entity_class.represent(owner)
-              result[:owner] = entity.serializable_hash
+            unless account.can?(:branch, result[:owner_type].to_sym, :show)
+              raise Ddt::Error::NoPermissionError, "没有权限"
             end
+            owner = @qr_code_scene.owner
+            entity_class = "Ddt::OAPI::Entities::#{result[:owner_type].camelize}".constantize
+            entity = entity_class.represent(owner)
+            result[:owner] = entity.serializable_hash
           end
         end
 

@@ -23,6 +23,15 @@ module Ddt
 
   class BaseController < ActionController::Base
     include Pagy::Backend
+    include ActionPolicy::Controller
+
+    authorize :account, through: :current_account
+    authorize :shop, through: :current_shop
+    authorize :branch, through: :current_branch
+
+    rescue_from ActionPolicy::Unauthorized do |exception|
+      raise Error::NoPermissionError, exception.message
+    end
 
     # Prevent CSRF attacks by raising an exception.
     # For APIs, you may want to use :null_session instead.
@@ -81,6 +90,10 @@ module Ddt
 
     def ddt_app?
       request.user_agent =~ /ddtapp/i
+    end
+
+    def current_branch
+      @current_branch
     end
 
     def check_shop_ban
