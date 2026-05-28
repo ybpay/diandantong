@@ -32,8 +32,8 @@ export const test = base.extend<AuthFixture>({
   adminPage: async ({ page }, use) => {
     await loginViaAPI(
       page,
-      process.env.E2E_ADMIN_LOGIN || 'system:admin',
-      process.env.E2E_ADMIN_PASSWORD || 'admin123',
+      process.env.E2E_ADMIN_LOGIN || 'demo-shop:boss',
+      process.env.E2E_ADMIN_PASSWORD || 'password123',
     )
     await use(page)
   },

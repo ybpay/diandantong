@@ -1,6 +1,6 @@
 import { test, expect } from '../helpers/auth'
 import { BackendAPI } from '../helpers/api'
-import { TEST_PRODUCT, TEST_BRANCH } from '../fixtures/seed'
+import { TEST_PRODUCT, TEST_BRANCH, TEST_SHOP } from '../fixtures/seed'
 
 test.describe('Product CRUD', () => {
   test('creates a new product', async ({ authenticatedPage }) => {
@@ -73,7 +73,7 @@ test.describe('Product CRUD', () => {
     const res = await authenticatedPage.request.get(
       `/api/v1/backend/branches/${branchId}/products/${created.id}`,
     )
-    expect([404, 410, 200]).toContain(res.status())
+    expect([404, 410]).toContain(res.status())
   })
 
   test('searches products', async ({ authenticatedPage }) => {
