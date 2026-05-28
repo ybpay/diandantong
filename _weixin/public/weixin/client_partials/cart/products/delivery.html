@@ -1,9 +1,0 @@
-<div id="products-page">
-  <div ng-include src="partial('cart/products/common-footer')"></div>
-  <div class="product-notice-section" ng-if="branch.notice && notice_switch">
-    <i class="close fa fa-close right" ng-click="toggle_notice_switch()"></i>
-    <i class="fa fa-volume-up red left"></i>
-    <marquee class="notice-content" behavior="alternate" scrollamount="1" scrolldelay="1"> &nbsp; {{::branch.notice}} &nbsp;</marquee>
-  </div>
-  <div ng-include src="partial('cart/products/common-main-view')" class="main-view"></div>
-</div>

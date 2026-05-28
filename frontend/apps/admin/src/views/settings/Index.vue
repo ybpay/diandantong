@@ -46,7 +46,19 @@
           </div>
           <div>
             <p class="font-semibold">桌台管理</p>
-            <p class="text-sm text-gray-400">桌号、区域、容量设置</p>
+            <p class="text-sm text-gray-400">桌号、容量、状态设置</p>
+          </div>
+        </div>
+      </el-card>
+
+      <el-card shadow="hover" class="cursor-pointer hover:border-indigo-300 transition-colors" @click="$router.push('/settings/table-zones')">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
+            <el-icon :size="24" class="text-indigo-500"><OfficeBuilding /></el-icon>
+          </div>
+          <div>
+            <p class="font-semibold">区域管理</p>
+            <p class="text-sm text-gray-400">餐区、预订规则设置</p>
           </div>
         </div>
       </el-card>
@@ -98,10 +110,22 @@
           </div>
         </div>
       </el-card>
+
+      <el-card shadow="hover" class="cursor-pointer hover:border-teal-300 transition-colors" @click="$router.push('/settings/kitchen')">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
+            <el-icon :size="24" class="text-teal-500"><Bowl /></el-icon>
+          </div>
+          <div>
+            <p class="font-semibold">厨房设置</p>
+            <p class="text-sm text-gray-400">出餐预警、厨单打印</p>
+          </div>
+        </div>
+      </el-card>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { Shop, User, UserFilled, Grid, ChatDotRound, CreditCard, Van, Printer } from '@element-plus/icons-vue'
+import { Shop, User, UserFilled, Grid, ChatDotRound, CreditCard, Van, Printer, OfficeBuilding, Bowl } from '@element-plus/icons-vue'
 </script>

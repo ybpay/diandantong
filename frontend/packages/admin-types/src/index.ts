@@ -356,7 +356,20 @@ export interface AdminTableZone {
   id: number
   name: string
   branch_id: number
+  min_reservation_price: number
+  reservation_price_percent: number
+  tables_count_for_reservation: number
+  reservation_price: number
+  ban_selfpay: boolean
   tables: AdminTable[]
+}
+
+export interface AdminKitchenSetting {
+  id: number
+  warning_wait_minitue: number
+  branch_id: number
+  created_at: string
+  updated_at: string
 }
 
 export interface AdminQueue {
