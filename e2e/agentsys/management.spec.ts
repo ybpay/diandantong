@@ -1,7 +1,19 @@
-import { test, expect } from '@playwright/test'
+import { test, expect, type APIRequestContext } from '@playwright/test'
 import { TEST_AGENT } from '../fixtures/seed'
 
 const AGENT_API = '/api/v1/agent'
+
+async function getAgentToken(request: APIRequestContext): Promise<string | null> {
+  const loginRes = await request.post(`${AGENT_API}/auth/login`, {
+    data: {
+      login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
+      password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
+    },
+  })
+  if (!loginRes.ok()) return null
+  const { token } = await loginRes.json()
+  return token
+}
 
 test.describe('Agent System Authentication', () => {
   test('login with valid credentials returns token', async ({ request }) => {
@@ -32,18 +44,9 @@ test.describe('Agent System Authentication', () => {
   })
 
   test('authenticated user can get profile', async ({ request }) => {
-    // Login first
-    const loginRes = await request.post(`${AGENT_API}/auth/login`, {
-      data: {
-        login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
-        password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
-      },
-    })
-    test.skip(!loginRes.ok(), 'Agent login failed — skipping authenticated tests')
+    const token = await getAgentToken(request)
+    test.skip(!token, 'Agent login failed — skipping authenticated tests')
 
-    const { token } = await loginRes.json()
-
-    // Get current user
     const userRes = await request.get(`${AGENT_API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -54,24 +57,14 @@ test.describe('Agent System Authentication', () => {
   })
 
   test('logout destroys session', async ({ request }) => {
-    // Login first
-    const loginRes = await request.post(`${AGENT_API}/auth/login`, {
-      data: {
-        login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
-        password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
-      },
-    })
-    test.skip(!loginRes.ok(), 'Agent login failed')
+    const token = await getAgentToken(request)
+    test.skip(!token, 'Agent login failed')
 
-    const { token } = await loginRes.json()
-
-    // Logout
     const logoutRes = await request.delete(`${AGENT_API}/auth/logout`, {
       headers: { Authorization: `Bearer ${token}` },
     })
     expect([200, 204]).toContain(logoutRes.status())
 
-    // Token should be invalidated
     const userRes = await request.get(`${AGENT_API}/user`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -80,18 +73,6 @@ test.describe('Agent System Authentication', () => {
 })
 
 test.describe('Agent Dashboard', () => {
-  async function getAgentToken(request: import('@playwright/test').APIRequestContext) {
-    const loginRes = await request.post(`${AGENT_API}/auth/login`, {
-      data: {
-        login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
-        password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
-      },
-    })
-    if (!loginRes.ok()) return null
-    const { token } = await loginRes.json()
-    return token
-  }
-
   test('can access dashboard', async ({ request }) => {
     const token = await getAgentToken(request)
     test.skip(!token, 'Cannot get agent token')
@@ -107,18 +88,6 @@ test.describe('Agent Dashboard', () => {
 })
 
 test.describe('Merchant Management', () => {
-  async function getAgentToken(request: import('@playwright/test').APIRequestContext) {
-    const loginRes = await request.post(`${AGENT_API}/auth/login`, {
-      data: {
-        login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
-        password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
-      },
-    })
-    if (!loginRes.ok()) return null
-    const { token } = await loginRes.json()
-    return token
-  }
-
   test('lists merchants', async ({ request }) => {
     const token = await getAgentToken(request)
     test.skip(!token, 'Cannot get agent token')
@@ -137,7 +106,6 @@ test.describe('Merchant Management', () => {
     const token = await getAgentToken(request)
     test.skip(!token, 'Cannot get agent token')
 
-    // Get merchants list
     const listRes = await request.get(`${AGENT_API}/merchants`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -171,18 +139,6 @@ test.describe('Merchant Management', () => {
 })
 
 test.describe('Brand Management', () => {
-  async function getAgentToken(request: import('@playwright/test').APIRequestContext) {
-    const loginRes = await request.post(`${AGENT_API}/auth/login`, {
-      data: {
-        login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
-        password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
-      },
-    })
-    if (!loginRes.ok()) return null
-    const { token } = await loginRes.json()
-    return token
-  }
-
   test('lists brands', async ({ request }) => {
     const token = await getAgentToken(request)
     test.skip(!token, 'Cannot get agent token')
@@ -199,18 +155,6 @@ test.describe('Brand Management', () => {
 })
 
 test.describe('Statistics and Settings', () => {
-  async function getAgentToken(request: import('@playwright/test').APIRequestContext) {
-    const loginRes = await request.post(`${AGENT_API}/auth/login`, {
-      data: {
-        login: process.env.E2E_AGENT_LOGIN || TEST_AGENT.login,
-        password: process.env.E2E_AGENT_PASSWORD || TEST_AGENT.password,
-      },
-    })
-    if (!loginRes.ok()) return null
-    const { token } = await loginRes.json()
-    return token
-  }
-
   test('views statistics', async ({ request }) => {
     const token = await getAgentToken(request)
     test.skip(!token, 'Cannot get agent token')

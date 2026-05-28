@@ -29,8 +29,7 @@ test.describe('Permission Management', () => {
   test('staff account cannot access admin-only endpoints', async ({ authenticatedPage }) => {
     // Try to access admin-level system settings with a staff account
     const res = await authenticatedPage.request.get('/api/v1/backend/system/roles')
-    // Staff should either be forbidden or redirected
-    expect([200, 403, 401]).toContain(res.status())
+    expect([403, 401]).toContain(res.status())
   })
 
   test('role permissions are enforced on API endpoints', async ({ adminPage }) => {

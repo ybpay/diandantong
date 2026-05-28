@@ -3,28 +3,6 @@ import { BackendAPI } from '../helpers/api'
 import { TEST_PRODUCT, TEST_BRANCH } from '../fixtures/seed'
 
 test.describe('Product CRUD', () => {
-  let api: BackendAPI
-  let branchId: string | number
-
-  test.beforeAll(async ({ browser }) => {
-    const context = await browser.newContext()
-    const page = await context.newPage()
-
-    // Authenticate
-    const loginRes = await page.request.post('/api/v1/backend/sessions', {
-      data: {
-        login_id: process.env.E2E_USER_LOGIN || TEST_SHOP.admin_login,
-        password: process.env.E2E_USER_PASSWORD || TEST_SHOP.admin_password,
-      },
-    })
-    test.skip(!loginRes.ok(), 'Login failed — test user may not exist')
-
-    api = new BackendAPI(page.request)
-    branchId = process.env.E2E_BRANCH_ID || TEST_BRANCH.id
-
-    await context.close()
-  })
-
   test('creates a new product', async ({ authenticatedPage }) => {
     const api = new BackendAPI(authenticatedPage.request)
     const branchId = process.env.E2E_BRANCH_ID || TEST_BRANCH.id
@@ -135,9 +113,3 @@ test.describe('Product CRUD', () => {
     }
   })
 })
-
-// Need TEST_SHOP import for the test.beforeAll
-const TEST_SHOP = {
-  admin_login: process.env.E2E_USER_LOGIN || 'demo-shop:admin',
-  admin_password: process.env.E2E_USER_PASSWORD || 'password123',
-}

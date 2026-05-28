@@ -83,8 +83,7 @@ jobs:
           bundler: '2'
 
       - name: Install dependencies
-        run: |
-          bundle install --jobs 4 --retry 3 || echo "Bundle install had issues"
+        run: bundle install --jobs 4 --retry 3
 
       - name: Configure database
         run: |
@@ -118,11 +117,10 @@ jobs:
           EOF
 
       - name: Set up database
-        run: |
-          bundle exec rake db:create db:migrate || echo "DB setup completed with warnings"
+        run: bundle exec rake db:create db:migrate
 
       - name: Run tests
-        run: bundle exec rake test || echo "Tests completed with some failures"
+        run: bundle exec rake test
 
   e2e:
     name: E2E Tests (Playwright)
@@ -170,7 +168,7 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: Install Ruby dependencies
-        run: bundle install --jobs 4 --retry 3 || echo "Bundle install had issues"
+        run: bundle install --jobs 4 --retry 3
 
       - name: Configure database
         run: |
@@ -204,17 +202,16 @@ jobs:
           EOF
 
       - name: Set up database
-        run: |
-          bundle exec rake db:create db:migrate || echo "DB setup completed with warnings"
+        run: bundle exec rake db:create db:migrate
 
       - name: Seed test data
-        run: bundle exec rake db:seed RAILS_ENV=test || echo "Seed completed with warnings"
+        run: bundle exec rake db:seed RAILS_ENV=test
 
       - name: Start Rails server
         run: |
           bundle exec rails server -p 9000 -e test -d
           sleep 5
-          curl --retry 10 --retry-delay 2 --retry-connrefused http://localhost:9000/ || true
+          curl --retry 10 --retry-delay 2 --retry-connrefused http://localhost:9000/
 
       - name: Run E2E tests
         run: npx playwright test

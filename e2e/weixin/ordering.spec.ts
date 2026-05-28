@@ -83,6 +83,16 @@ test.describe('WeChat Ordering Flow', () => {
     const shopSlug = process.env.E2E_SHOP_SLUG || TEST_SHOP.slug
     const branchId = process.env.E2E_BRANCH_ID || TEST_BRANCH.id
 
+    // Query available products first
+    const productsRes = await request.get(
+      `${WEIXIN_API}/shops/${shopSlug}/branches/${branchId}/products`,
+    )
+    test.skip(!productsRes.ok(), 'Cannot fetch products for order')
+
+    const productsBody = await productsRes.json()
+    const products = Array.isArray(productsBody) ? productsBody : productsBody.products || productsBody.data || []
+    test.skip(products.length === 0, 'No products available for order creation')
+
     const orderRes = await request.post(
       `${WEIXIN_API}/shops/${shopSlug}/branches/${branchId}/orders`,
       {
@@ -90,7 +100,7 @@ test.describe('WeChat Ordering Flow', () => {
           order: {
             order_type: 'fastfood',
             line_items_attributes: [
-              { product_id: 1, quantity: 1 },
+              { product_id: products[0].id, quantity: 1 },
             ],
             customer_phone: TEST_USER.phone,
             customer_name: TEST_USER.nickname,

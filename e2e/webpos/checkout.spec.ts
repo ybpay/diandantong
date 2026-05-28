@@ -80,6 +80,16 @@ test.describe('POS Checkout Flow', () => {
     const shopId = process.env.E2E_SHOP_ID || TEST_SHOP.slug
     const branchId = process.env.E2E_BRANCH_ID || TEST_BRANCH.id
 
+    // Query available products first
+    const productsRes = await page.request.get(
+      `/webpos/shops/${shopId}/branches/${branchId}/products`,
+    )
+    test.skip(!productsRes.ok(), 'Cannot fetch products for order')
+
+    const productsBody = await productsRes.json()
+    const products = Array.isArray(productsBody) ? productsBody : productsBody.data || []
+    test.skip(products.length === 0, 'No products available for order creation')
+
     const orderRes = await page.request.post(
       `/webpos/shops/${shopId}/branches/${branchId}/fastfood_orders`,
       {
@@ -87,9 +97,9 @@ test.describe('POS Checkout Flow', () => {
           fastfood_order: {
             line_items_attributes: [
               {
-                product_id: 1,
+                product_id: products[0].id,
                 quantity: 1,
-                price: 19.9,
+                price: products[0].price,
               },
             ],
           },
@@ -149,12 +159,21 @@ test.describe('POS Checkout Flow', () => {
     if (orders && orders.length > 0) {
       const orderId = orders[0].id
 
+      // Query available payment methods
+      const methodsRes = await page.request.get(
+        `/webpos/shops/${shopId}/branches/${branchId}/payment_methods`,
+      )
+      if (!methodsRes.ok()) return
+      const methodsBody = await methodsRes.json()
+      const methods = Array.isArray(methodsBody) ? methodsBody : methodsBody.data || methodsBody.payment_methods || []
+      if (methods.length === 0) return
+
       // Create pay items
       const payRes = await page.request.post(
         `/webpos/shops/${shopId}/branches/${branchId}/orders/${orderId}/create_pay_items`,
         {
           data: {
-            pay_items: [{ payment_method_id: 1, amount: orders[0].total_amount || 19.9 }],
+            pay_items: [{ payment_method_id: methods[0].id, amount: orders[0].total_amount || 19.9 }],
           },
         },
       )
