@@ -6,48 +6,60 @@
 
     <el-card shadow="never">
       <el-form :inline="true" :model="searchForm">
+        <el-form-item label="订单号">
+          <el-input v-model="searchForm.order_no" placeholder="搜索订单号" clearable />
+        </el-form-item>
         <el-form-item label="预约日期">
-          <el-date-picker v-model="searchForm.date" placeholder="选择日期" clearable />
+          <el-date-picker v-model="searchForm.date_range" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" value-format="YYYY-MM-DD" />
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="searchForm.status" placeholder="全部" clearable>
             <el-option label="待确认" value="pending" />
             <el-option label="已确认" value="confirmed" />
-            <el-option label="已到店" value="arrived" />
+            <el-option label="已完成" value="completed" />
             <el-option label="已取消" value="cancelled" />
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="handleSearch">搜索</el-button>
+          <el-button type="primary" @click="fetchOrders">搜索</el-button>
           <el-button @click="handleReset">重置</el-button>
         </el-form-item>
       </el-form>
     </el-card>
 
     <el-card shadow="never">
-      <el-table :data="reservations" stripe v-loading="loading" style="width: 100%">
-        <el-table-column prop="orderNo" label="预约单号" width="170" />
-        <el-table-column prop="customerName" label="客户" width="100" />
-        <el-table-column prop="phone" label="电话" width="120" />
-        <el-table-column prop="reserveDate" label="预约日期" width="120" />
-        <el-table-column prop="reserveTime" label="预约时间" width="100" />
-        <el-table-column prop="personCount" label="人数" width="80" />
-        <el-table-column prop="tableNo" label="桌号" width="80">
+      <el-table :data="orders" stripe v-loading="loading" style="width: 100%">
+        <el-table-column prop="order_no" label="预约单号" width="170" />
+        <el-table-column label="客户" width="100">
+          <template #default="{ row }">{{ row.customer_name || '-' }}</template>
+        </el-table-column>
+        <el-table-column label="电话" width="120">
+          <template #default="{ row }">{{ row.customer_phone || '-' }}</template>
+        </el-table-column>
+        <el-table-column label="预约时间" width="160">
+          <template #default="{ row }">{{ formatTime(row.reserved_at) }}</template>
+        </el-table-column>
+        <el-table-column label="人数" width="80">
+          <template #default="{ row }">{{ row.person_count || '-' }}</template>
+        </el-table-column>
+        <el-table-column label="桌号" width="80">
           <template #default="{ row }">
-            <span v-if="row.tableNo">{{ row.tableNo }}号</span>
+            <span v-if="row.table_name">{{ row.table_name }}</span>
             <el-tag v-else size="small" type="info">未排桌</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="status" label="状态" width="100">
+        <el-table-column label="状态" width="100">
           <template #default="{ row }">
-            <el-tag :type="statusTag(row.status)" size="small">{{ row.statusText }}</el-tag>
+            <el-tag :type="statusTagType(row.status)" size="small">{{ statusText(row.status) }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" min-width="150" show-overflow-tooltip />
-        <el-table-column label="操作" width="180" fixed="right">
+        <el-table-column prop="note" label="备注" min-width="150" show-overflow-tooltip />
+        <el-table-column label="操作" width="200" fixed="right">
           <template #default="{ row }">
-            <el-button text type="primary" size="small" @click="handleConfirm(row)" v-if="row.status === 'pending'">确认</el-button>
-            <el-button text type="danger" size="small" @click="handleCancel(row)" v-if="row.status !== 'cancelled'">取消</el-button>
+            <el-button text type="primary" size="small" @click="$router.push(`/orders/${row.id}`)">详情</el-button>
+            <el-button v-if="row.status === 'pending'" text type="success" size="small" @click="handleConfirm(row)">确认</el-button>
+            <el-button v-if="row.status === 'confirmed'" text type="warning" size="small" @click="handleComplete(row)">完成</el-button>
+            <el-button v-if="row.status !== 'cancelled' && row.status !== 'completed'" text type="danger" size="small" @click="handleCancel(row)">取消</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -55,9 +67,12 @@
       <div class="flex justify-end mt-4">
         <el-pagination
           v-model:current-page="pagination.page"
-          v-model:page-size="pagination.pageSize"
+          v-model:page-size="pagination.per_page"
           :total="pagination.total"
+          :page-sizes="[10, 20, 50]"
           layout="total, sizes, prev, pager, next"
+          @current-change="fetchOrders"
+          @size-change="fetchOrders"
         />
       </div>
     </el-card>
@@ -65,24 +80,87 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
-import { ElMessage } from 'element-plus'
+import { ref, reactive, onMounted } from 'vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { orderApi } from '@diandantong/admin-api'
+import type { AdminOrder } from '@diandantong/admin-types'
 
 const loading = ref(false)
+const orders = ref<AdminOrder[]>([])
+const searchForm = reactive<{ order_no: string; status: string; date_range: string[] | null }>({ order_no: '', status: '', date_range: null })
+const pagination = reactive({ page: 1, per_page: 10, total: 0 })
 
-const searchForm = reactive({ date: '', status: '' })
-const pagination = reactive({ page: 1, pageSize: 10, total: 3 })
+const statusTagType = (s: string) => {
+  const map: Record<string, string> = { pending: 'info', confirmed: '', completed: 'success', cancelled: 'danger' }
+  return map[s] ?? ''
+}
 
-const reservations = ref([
-  { id: 1, orderNo: 'YY20260527001', customerName: '周九', phone: '136****1111', reserveDate: '2026-05-28', reserveTime: '18:00', personCount: 8, tableNo: '', status: 'pending', statusText: '待确认', remark: '生日聚餐' },
-  { id: 2, orderNo: 'YY20260527002', customerName: '吴十', phone: '135****2222', reserveDate: '2026-05-28', reserveTime: '12:00', personCount: 4, tableNo: 'A5', status: 'confirmed', statusText: '已确认', remark: '' },
-  { id: 3, orderNo: 'YY20260527003', customerName: '郑十一', phone: '137****3333', reserveDate: '2026-05-27', reserveTime: '18:30', personCount: 6, tableNo: 'B2', status: 'arrived', statusText: '已到店', remark: '靠窗' },
-])
+const statusText = (s: string) => {
+  const map: Record<string, string> = { pending: '待确认', confirmed: '已确认', completed: '已完成', cancelled: '已取消' }
+  return map[s] ?? s
+}
 
-const statusTag = (s: string) => ({ pending: 'info', confirmed: '', arrived: 'success', cancelled: 'danger' }[s] ?? '')
+const formatTime = (t: string) => {
+  if (!t) return ''
+  return new Date(t).toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+}
 
-const handleSearch = () => { pagination.page = 1 }
-const handleReset = () => { searchForm.date = ''; searchForm.status = ''; handleSearch() }
-const handleConfirm = (row: any) => { ElMessage.success(`已确认预约：${row.orderNo}`) }
-const handleCancel = (row: any) => { ElMessage.warning(`已取消预约：${row.orderNo}`) }
+async function fetchOrders() {
+  loading.value = true
+  try {
+    const q: Record<string, unknown> = { order_type_eq: 'reservation' }
+    if (searchForm.status) q.status_eq = searchForm.status
+    if (searchForm.order_no) q.order_no_cont = searchForm.order_no
+    if (searchForm.date_range?.length === 2) {
+      q.reserved_at_gteq = searchForm.date_range[0]
+      q.reserved_at_lteq = searchForm.date_range[1]
+    }
+
+    const { data } = await orderApi.list({ page: pagination.page, per_page: pagination.per_page, q })
+    orders.value = data.data
+    pagination.total = data.total
+  } catch (e: any) {
+    ElMessage.error(e.message || '获取订单失败')
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleReset = () => {
+  searchForm.order_no = ''
+  searchForm.status = ''
+  searchForm.date_range = null
+  pagination.page = 1
+  fetchOrders()
+}
+
+async function handleConfirm(row: AdminOrder) {
+  try {
+    await orderApi.confirm(row.id)
+    ElMessage.success('已确认预约')
+    fetchOrders()
+  } catch (e: any) {
+    ElMessage.error(e.message || '操作失败')
+  }
+}
+
+async function handleComplete(row: AdminOrder) {
+  try {
+    await ElMessageBox.confirm('确认完成该预约？', '提示')
+    await orderApi.complete(row.id)
+    ElMessage.success('预约已完成')
+    fetchOrders()
+  } catch { /* cancelled */ }
+}
+
+async function handleCancel(row: AdminOrder) {
+  try {
+    await ElMessageBox.confirm('确认取消该预约？', '警告', { type: 'warning' })
+    await orderApi.cancel(row.id)
+    ElMessage.warning('预约已取消')
+    fetchOrders()
+  } catch { /* cancelled */ }
+}
+
+onMounted(fetchOrders)
 </script>
