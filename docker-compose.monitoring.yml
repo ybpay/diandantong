@@ -135,4 +135,3 @@ volumes:
 networks:
   ddt-network:
     external: true
-    name: ddt_ddt-network

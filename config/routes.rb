@@ -1,4 +1,10 @@
 Rails.application.routes.draw do
+  namespace :webhooks do
+    post "alerts", to: "alerts#create"
+    post "alerts/critical", to: "alerts#critical"
+    post "alerts/warning", to: "alerts#warning"
+  end
+
   namespace :ddt do
   get 'branch/index'
   end

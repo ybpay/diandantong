@@ -59,12 +59,3 @@ scrape_configs:
         labels:
           service: "nginx"
     scrape_interval: 30s
-
-  - job_name: "puma"
-    metrics_path: "/metrics"
-    scheme: http
-    static_configs:
-      - targets: ["app:9394"]
-        labels:
-          service: "puma"
-    scrape_interval: 15s

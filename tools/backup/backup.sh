@@ -71,7 +71,7 @@ if [ -n "${S3_BUCKET}" ]; then
   aws s3 ${S3_ARGS} ls "s3://${S3_BUCKET}/backups/postgres/" | \
     awk "{print \$4}" | \
     while read -r fname; do
-      FILE_DATE=$(echo "${fname}" | grep -oP '\d{8}' | head -1)
+      FILE_DATE=$(echo "${fname}" | sed 's/[^0-9]//g' | cut -c1-8)
       if [ -n "${FILE_DATE}" ] && [ "${FILE_DATE}" -lt "${CUT_DATE}" ]; then
         aws s3 ${S3_ARGS} rm "s3://${S3_BUCKET}/backups/postgres/${fname}"
         echo "  Deleted old S3 backup: ${fname}"

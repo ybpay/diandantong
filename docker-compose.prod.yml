@@ -1,3 +1,6 @@
+networks:
+  ddt-network:
+
 services:
   app:
     build:
@@ -35,6 +38,8 @@ services:
           memory: 2G
         reservations:
           memory: 512M
+    networks:
+      - ddt-network
 
   sidekiq:
     build:
@@ -65,6 +70,8 @@ services:
       resources:
         limits:
           memory: 1G
+    networks:
+      - ddt-network
 
   postgres:
     image: postgres:18-alpine
@@ -84,6 +91,8 @@ services:
       resources:
         limits:
           memory: 4G
+    networks:
+      - ddt-network
 
   redis:
     image: redis:8.6-alpine
@@ -104,6 +113,8 @@ services:
       timeout: 5s
       retries: 5
     restart: unless-stopped
+    networks:
+      - ddt-network
 
   nginx:
     image: nginx:alpine
@@ -120,6 +131,8 @@ services:
     depends_on:
       - app
     restart: unless-stopped
+    networks:
+      - ddt-network
 
   backup:
     build:
@@ -155,11 +168,14 @@ services:
       resources:
         limits:
           memory: 256M
+    networks:
+      - ddt-network
 
 volumes:
   postgres_data:
   redis_data:
   certbot_data:
   nginx_log:
+  app_log:
   postgres_backup:
   app_uploads:

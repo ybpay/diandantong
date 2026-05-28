@@ -116,3 +116,13 @@ accessories:
       - tools/monitoring/loki.yml:/etc/loki/local-config.yaml
     options:
       network: "private"
+
+  alertmanager:
+    image: prom/alertmanager:v0.28.1
+    host: 1.2.3.4
+    volumes:
+      - "alertmanager:/alertmanager"
+    files:
+      - tools/monitoring/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    options:
+      network: "private"

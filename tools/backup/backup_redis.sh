@@ -17,23 +17,22 @@ mkdir -p "${BACKUP_DIR}"
 echo "[$(date)] Starting Redis backup..."
 
 # Trigger BGSAVE and wait for it to complete
-AUTH_ARGS=""
 if [ -n "${REDIS_PASSWORD}" ]; then
-  AUTH_ARGS="-a ${REDIS_PASSWORD}"
+  export REDISCLI_AUTH="${REDIS_PASSWORD}"
 fi
 
-redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" ${AUTH_ARGS} BGSAVE
+redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" BGSAVE
 
 # Wait for BGSAVE to finish (timeout 120s)
 TIMEOUT=120
 ELAPSED=0
 while [ $ELAPSED -lt $TIMEOUT ]; do
-  BGSAVE_STATUS=$(redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" ${AUTH_ARGS} LASTSAVE)
+  BGSAVE_STATUS=$(redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" LASTSAVE)
   sleep 1
   ELAPSED=$((ELAPSED + 1))
 
   # Check if BGSAVE is done by comparing lastsave before/after
-  NEW_LASTSAVE=$(redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" ${AUTH_ARGS} LASTSAVE)
+  NEW_LASTSAVE=$(redis-cli -h "${REDIS_HOST}" -p "${REDIS_PORT}" LASTSAVE)
   if [ "${BGSAVE_STATUS}" != "${NEW_LASTSAVE}" ] || [ $ELAPSED -gt 5 ]; then
     break
   fi
