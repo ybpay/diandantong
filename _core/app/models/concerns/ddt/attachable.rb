@@ -6,7 +6,11 @@
 # Usage:
 #   include Ddt::Attachable
 #   attachable_one :image, variants: { thumb: [140, 140], medium: [400, 400] }
+#   attachable_one :logo, variants: { thumb: { size: [360, 200], mode: :fit } }
 #   attachable_one :document  # no variants
+#
+# Variant format: [width, height] (defaults to resize_to_fill) or
+#   { size: [width, height], mode: :fit | :fill } (explicit resize mode)
 #
 module Ddt::Attachable
   extend ActiveSupport::Concern
@@ -49,19 +53,37 @@ module Ddt::Attachable
   end
 
   # Proxy for a specific variant size.
+  # Supports both resize_to_fill (crop) and resize_to_fit (preserve ratio).
   class VariantProxy
-    def initialize(raw_attachment_fn, resize_to_fill)
+    def initialize(raw_attachment_fn, variant_config)
       @raw_fn = raw_attachment_fn
-      @resize = resize_to_fill
+      @dimensions, @resize_mode = self.class.parse_variant_config(variant_config)
     end
+
+    def attached?
+      attachment = @raw_fn.call
+      attachment.attached?
+    end
+    alias_method :present?, :attached?
 
     def url
       attachment = @raw_fn.call
       return nil unless attachment.attached?
       return Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true) unless attachment.variable?
 
-      variant = attachment.variant(resize_to_fill: @resize)
+      variant = attachment.variant(@resize_mode => @dimensions)
       Rails.application.routes.url_helpers.rails_representation_path(variant, only_path: true)
+    end
+
+    def self.parse_variant_config(config)
+      case config
+      when Array
+        [config, :resize_to_fill]
+      when Hash
+        [config[:size], config[:mode] || :resize_to_fill]
+      else
+        [config, :resize_to_fill]
+      end
     end
   end
 
@@ -93,14 +115,16 @@ module Ddt::Attachable
 
       define_method :"#{column}_variant" do |variant_name|
         variants_config = self.class.attachable_variants_for(column)
-        dimensions = variants_config[variant_name]
-        return nil unless dimensions
+        config = variants_config[variant_name]
+        return nil unless config
+
+        dimensions, resize_mode = VariantProxy.parse_variant_config(config)
 
         attachment = raw_fn.call(self)
         return nil unless attachment.attached?
         return Rails.application.routes.url_helpers.rails_blob_path(attachment, only_path: true) unless attachment.variable?
 
-        variant = attachment.variant(resize_to_fill: dimensions)
+        variant = attachment.variant(resize_mode => dimensions)
         Rails.application.routes.url_helpers.rails_representation_path(variant, only_path: true)
       end
 

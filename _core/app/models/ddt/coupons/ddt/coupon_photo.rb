@@ -17,8 +17,9 @@ module Ddt
     ### callbacks
     set_from :owner
     before_validation do
-      if image.attached?
-        self.size = image.file.byte_size
+      if attachment_changes[:image].present?
+        blob = attachment_changes[:image].attachable
+        self.size = blob.is_a?(ActiveStorage::Blob) ? blob.byte_size : File.size(blob)
       end
     end
 

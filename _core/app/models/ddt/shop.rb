@@ -160,7 +160,7 @@ module Ddt
     include Ddt::Attachable
     attachable_one :image, variants: { medium: [400, 400], thumb: [140, 140] }
     attachable_one :rect_image, variants: { medium: [900, 500], thumb: [180, 100] }
-    attachable_one :vip_logo, variants: { thumb: [360, 200] }
+    attachable_one :vip_logo, variants: { thumb: { size: [360, 200], mode: :fit } }
 
     attachable_one :reservation_img, variants: { thumb: [180, 180], mini: [60, 60] }
     attachable_one :order_in_seat_img, variants: { thumb: [180, 180], mini: [60, 60] }

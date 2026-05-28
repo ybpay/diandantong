@@ -8,7 +8,10 @@ module Ddt
     belongs_to :shop, class_name: "Ddt::Shop", touch: true
 
     include Ddt::Attachable
-    attachable_one :image, variants: { medium: [640, 1010], thumb: [64, 101] }
+    attachable_one :image, variants: {
+      medium: { size: [640, 1010], mode: :fit },
+      thumb:  { size: [64, 101],   mode: :fit }
+    }
     validates :image, presence: true, file_size: {
         maximum: 0.5.megabytes.to_i
       }
