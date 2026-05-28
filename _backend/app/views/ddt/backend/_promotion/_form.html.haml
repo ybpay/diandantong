@@ -39,7 +39,7 @@
               = f.input :usage_limit, hint: '不填写则没有名额数量限制'
               = f.input :image, as: :image_preview, hint: '推荐图片尺寸为720×270'
               = f.input :hide_header_in_weixin
-            = f.input :description, :as => :ckeditor, :label_html => {class: 'col-sm-2'}, :input_html => { :ckeditor => {:toolbar => 'mini'} }
+            = f.input :description, :as => :text, :label_html => {class: 'col-sm-2'}, :input_html => { rows: 5 }
         .clearfix
         .col-sm-6
           .form-actions

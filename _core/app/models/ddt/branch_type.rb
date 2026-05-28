@@ -5,14 +5,14 @@ module Ddt
     belongs_to :shop, class_name: 'Ddt::Shop', touch: true
     has_many :branches, class_name: 'Ddt::Branch'
     validates :icon, icon: true, allow_blank: true
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, BranchTypeImageUploader
-    mount_uploader :reservation_img, ShopButtonImageUploader
-    mount_uploader :order_in_seat_img, ShopButtonImageUploader
-    mount_uploader :delivery_img, ShopButtonImageUploader
-    mount_uploader :fastfood_img, ShopButtonImageUploader
-    mount_uploader :queue_img, ShopButtonImageUploader
-    mount_uploader :pay_online_img, ShopButtonImageUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { thumb: [100, 100] }
+    attachable_one :reservation_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :order_in_seat_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :delivery_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :fastfood_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :queue_img, variants: { thumb: [180, 180], mini: [60, 60] }
+    attachable_one :pay_online_img, variants: { thumb: [180, 180], mini: [60, 60] }
 
 
 

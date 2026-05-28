@@ -71,9 +71,9 @@ module Ddt
     has_many :tick_accounts
 
     # for directly access underlay attribute
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, BranchImageUploader
-    mount_uploader :rect_image, BranchRectImageUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { medium: [400, 400], thumb: [140, 140] }
+    attachable_one :rect_image, variants: { medium: [900, 500], thumb: [180, 100] }
     has_many :products, class_name: 'Ddt::Product'
     has_many :variants, class_name: 'Ddt::Variant'
     has_many :option_types, class_name: 'Ddt::OptionType'

@@ -5,8 +5,8 @@ module Ddt
 
     belongs_to :custom_weixin_info , class_name: 'Ddt::CustomWeixinInfo', touch: true
     acts_as_list scope: [:custom_weixin_info]
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, HomeUsableImageUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { medium: [720, 400], thumb: [164, 80] }
 
     validates_presence_of :title, :keywords
     validates :link, uri: true, presence: true, length: { maximum: 255 }

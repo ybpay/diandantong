@@ -189,10 +189,11 @@ module Ddt
       end
 
       def get_rows_from_csv_uploaded_file(uploaded_file)
+        data = uploaded_file.file.download
         begin
-          csv = CSV.parse(open(uploaded_file.file.url, "r:gb18030:utf-8") {|f| f.read }, col_sep: ",")
+          csv = CSV.parse(data.force_encoding("gb18030").encode("utf-8"), col_sep: ",")
         rescue => e
-          csv = CSV.parse(open(uploaded_file.file.url, "r:utf-8") {|f| f.read }, col_sep: ",")
+          csv = CSV.parse(data.force_encoding("utf-8"), col_sep: ",")
         end
         validate_header(csv.first)
         # 去掉第一行
@@ -208,7 +209,12 @@ module Ddt
 
       def get_rows_from_xls_uploaded_file(uploaded_file)
         Spreadsheet.client_encoding = 'UTF-8'
-        book = Spreadsheet.open(open(uploaded_file.file.url, "r:utf-8"))
+        data = uploaded_file.file.download
+        tmp = Tempfile.new(['import', '.xls'])
+        tmp.binmode
+        tmp.write(data)
+        tmp.rewind
+        book = Spreadsheet.open(tmp.path)
         sheet = book.worksheet 0
         validate_header(sheet.row(0))
         unless block_given?

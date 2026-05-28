@@ -3,8 +3,8 @@ module Ddt
 
     extend FriendlyId
     friendly_id :slug, use: [:slugged, :finders]
-    include Ddt::CarrierWaveBridge
-    mount_uploader :url, QrCodeUploader
+    include Ddt::Attachable
+    attachable_one :url, variants: { medium: [400, 400], thumb: [100, 100] }
     preference :redirect_url, :text
     validates :preferred_redirect_url, presence: true, unless: :builtin? #系统生成的二维码允许跳转链接为空
     belongs_to :qr_code_assign_log, class_name: 'QrCodeAssignLog'

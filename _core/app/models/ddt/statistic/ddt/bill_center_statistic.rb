@@ -22,19 +22,17 @@ module Ddt
 
     concerning :Async do
       included do
+        CACHE_TTL = 1.hour
+
         def self.async_query_bill(action_name, params)
           refresh = params.delete(:refresh)
           cache_key = self.cache_key(action_name, params)
 
-          filename = cache_key.gsub('-', '_')
-          uploader = BillCenterStatisticsCacheUploader.new
-          uploader.retrieve_from_store!(filename)
-
           if refresh == 'true'
-            uploader.file.delete
+            Rails.cache.delete(cache_key)
             value = nil
           else
-            value = open(uploader.file.url).read rescue nil
+            value = Rails.cache.read(cache_key)
           end
 
           if value.present?
@@ -48,7 +46,7 @@ module Ddt
               result.merge!(:'$state' => 'success', :'$status' => 200, from_cache: true)
             end
           else
-            uploader.store!(StringIoUploadFile.new(filename, '::commit::', false))
+            Rails.cache.write(cache_key, '::commit::', expires_in: CACHE_TTL)
             self.delay_for(5.seconds, :queue => 'statistics').query_bill(action_name, params)
             result = {
                 :'$state' => 'loading',
@@ -62,10 +60,7 @@ module Ddt
           cache_key = self.cache_key(action_name, params)
           result = Ddt::BillCenterStatistic.new(params).send(action_name)
 
-          filename = cache_key.gsub('-', '_')
-          uploader = BillCenterStatisticsCacheUploader.new
-          uploader.store!(StringIoUploadFile.new(filename, result.to_json, false))
-          self.delay_for(1.hours).delete_cache(filename)
+          Rails.cache.write(cache_key, result.to_json, expires_in: CACHE_TTL)
           result
         end
 
@@ -74,9 +69,7 @@ module Ddt
         end
 
         def self.delete_cache(filename)
-          uploader = BillCenterStatisticsCacheUploader.new
-          uploader.retrieve_from_store!(filename)
-          uploader.file.delete
+          Rails.cache.delete(filename)
         end
       end
     end

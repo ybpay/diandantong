@@ -4,7 +4,7 @@ Ddt::Core::Engine.add_routes do
 
 
   mount ChinaCity::Engine => '/china_city'
-  mount Ckeditor::Engine => '/ckeditor'
+  # CKEditor engine removed — replaced by ActionText + TipTap
   get '/account/sign_up' => 'backend/register_forms#new'
   devise_for :account, class_name: 'Ddt::Account', controllers: {
     sessions:      'ddt/backend/account/sessions' ,

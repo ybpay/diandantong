@@ -4,10 +4,10 @@ module Ddt
     BUSY_QUERY_INTERVAL = Rails.env.production? ? 7500 : 3000
 
     acts_as_type :state, [:commit, :completed, :exception], %w[提交 完成 出错]
-    include Ddt::CarrierWaveBridge
-    mount_uploader :result, StatisticsCacheUploader
-    mount_uploader :csv, StatisticsCacheUploader
-    mount_uploader :xls, StatisticsCacheUploader
+    include Ddt::Attachable
+    attachable_one :result
+    attachable_one :csv
+    attachable_one :xls
 
     def progress_text
       if self.state.present?

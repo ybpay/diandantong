@@ -3,7 +3,6 @@ module Ddt
     class Engine < ::Rails::Engine
 
       config.eager_load_paths += %W(#{config.root}/lib/ddt/backend/inputs)
-      config.eager_load_paths += %W(#{config.root}/app/models/ckeditor)
       config.assets.paths << config.root.join("vendor/assets/ace/")
       config.assets.paths << config.root.join("vendor/assets/javascripts/")
       config.assets.paths << config.root.join("vendor/assets/stylesheets/")
@@ -19,11 +18,10 @@ module Ddt
       # sets the manifests / assets to be precompiled, even when initialize_on_precompile is false
       initializer "ddt.assets.precompile", :group => :all do |app|
         app.config.assets.precompile += %w[
-          *.eof *.eot *.ttf *.svg *.swf *.woff *.woff2 *.gif ddt/images/* ddt/weui-1.0.2.css ddt/basic.css ddt/backend.css ddt/backend_weixin.css ddt/backend.js ddt/backend_weixin.js ddt/login.css ddt/backend_crm.js ddt/backend_crm.css ddt/basic.css ddt/login.js ddt/basic.js ckeditor/*
+          *.eof *.eot *.ttf *.svg *.swf *.woff *.woff2 *.gif ddt/images/* ddt/weui-1.0.2.css ddt/basic.css ddt/backend.css ddt/backend_weixin.css ddt/backend.js ddt/backend_weixin.js ddt/login.css ddt/backend_crm.js ddt/backend_crm.css ddt/basic.css ddt/login.js ddt/basic.js
         ]
         # vendor assets
         app.config.assets.precompile += %W[avatars/*  images/* img/*]
-        app.config.assets.precompile += Ckeditor.assets
       end
       initializer "static assets" do |app|
         app.middleware.use ::ActionDispatch::Static, "#{root}/public", 'max-age=604800'

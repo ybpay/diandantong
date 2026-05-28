@@ -5,7 +5,7 @@ module Ddt
       sidekiq_options :retry => 0, :queue => :hardly
       def perform
         Rails.cache.clear
-        CarrierWave.clean_cached_files!
+        # ActiveStorage handles its own cache cleanup
       end
     end
   end

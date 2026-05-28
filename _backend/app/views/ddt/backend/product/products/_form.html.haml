@@ -62,7 +62,7 @@
       .col-sm-6
         = f.input :item_note_ids_string, input_html: { data: { url: backend_shop_branch_item_notes_path(@current_shop, @current_branch), single: false, saved: @product.item_notes.as_json(only: [:id, :name]), placeholder: "请选择支持的品注"}, class: 'ddb-select2'}, hint: raw("输入名称搜索更多<br />#{link_to '管理品注', backend_shop_branch_item_notes_path(@current_shop, @current_branch), target: 'blank', class: 'btn btn-xs btn-info'}")
       .col-sm-6
-        = f.input :description, :as => :ckeditor, :input_html => { :ckeditor => {:toolbar => 'mini'} }
+        = f.input :description, :as => :text, :input_html => { rows: 5 }
 
       = advanced_options do
         .col-sm-6

@@ -5,8 +5,8 @@ module Ddt
     #### relationships
     belongs_to :owner, polymorphic: true
 
-    include Ddt::CarrierWaveBridge
-    mount_uploader :image, CouponImageUploader
+    include Ddt::Attachable
+    attachable_one :image, variants: { medium: [720, 360], thumb: [240, 120], thumb_square: [120, 120] }
 
     ####validations
     validates :image, presence: true, on: :create
@@ -17,8 +17,8 @@ module Ddt
     ### callbacks
     set_from :owner
     before_validation do
-      if image && image_changed?
-        self.size = image.file.size
+      if image.attached?
+        self.size = image.file.byte_size
       end
     end
 

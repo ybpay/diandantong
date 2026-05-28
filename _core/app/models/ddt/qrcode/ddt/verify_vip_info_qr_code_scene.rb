@@ -3,8 +3,8 @@ module Ddt
     extend FriendlyId
     friendly_id :slug, use: [:slugged, :finders]
 
-    include Ddt::CarrierWaveBridge
-    mount_uploader :url, QrCodeUploader
+    include Ddt::Attachable
+    attachable_one :url, variants: { medium: [400, 400], thumb: [100, 100] }
     preference :terminal_id, :string
     preference :account_id, :string
     preference :vip_only, :boolean

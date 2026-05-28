@@ -63,14 +63,15 @@ module Ddt
         end
 
         define_method :fetch_statistics_result do
-          data_url = self.cache_record.result.url
-          if data_url.present?
+          result_attachment = self.cache_record.result
+          if result_attachment.attached?
             Rails.logger.info("return cached by mysql for #{@cache_key}")
+            data = result_attachment.file.download
             if self.info[:render_view]
-              @result ||= Marshal::load(open(data_url))
+              @result ||= Marshal::load(data)
               return block_given? ? instance_exec(@result, &block) : @result
             else
-              @html ||= open(data_url).read.force_encoding('utf-8').html_safe
+              @html ||= data.force_encoding('utf-8').html_safe
             end
           else
             Rails.logger.info("return cached by mysql but empty for #{@cache_key}")
@@ -94,14 +95,19 @@ module Ddt
               csv_file = Tempfile.new([basename, '.csv'], :encoding => 'utf-8')
               xls_file = Tempfile.new([basename, '.xls'], :encoding => 'utf-8')
               begin
-                # TODO: 大于5000条数据就不用显示了
                 if self.info[:render_view]
-                  cache.result = StringIoUploadFile.new(basename, statistics.result, true)
+                  io = StringIoUploadFile.new(basename, statistics.result, true)
+                  cache.result.attach(io: io, filename: "#{basename}.bin", content_type: "application/octet-stream")
                 else
-                  cache.result = StringIoUploadFile.new(basename, statistics.to_html, false)
+                  io = StringIoUploadFile.new(basename, statistics.to_html, false)
+                  cache.result.attach(io: io, filename: "#{basename}.html", content_type: "text/html")
                 end
-                cache.csv = statistics.to_csv(csv_file)
-                cache.xls = statistics.to_xls(xls_file)
+                statistics.to_csv(csv_file)
+                csv_file.rewind
+                cache.csv.attach(io: csv_file, filename: "#{basename}.csv", content_type: "text/csv")
+                statistics.to_xls(xls_file)
+                xls_file.rewind
+                cache.xls.attach(io: xls_file, filename: "#{basename}.xls", content_type: "application/vnd.ms-excel")
                 cache.state = 'completed'
                 cache.cost_time = Time.now - statistics.async_statistics_start_at
                 cache.save!

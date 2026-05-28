@@ -5,7 +5,7 @@ module Ddt
     belongs_to :owner
     validates_presence_of :file_name, :file_path
 
-    include Ddt::CarrierWaveBridge
-    mount_uploader :file_path, DFileUploader
+    include Ddt::Attachable
+    attachable_one :file_path
   end
 end

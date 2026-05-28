@@ -2,8 +2,8 @@ module Ddt
   class ComboImage < Ddt::Image
 
     include Ddt::Core::Engine.routes.url_helpers
-    include Ddt::CarrierWaveBridge
-    mount_uploader :attachment, ComboImageUploader
+    include Ddt::Attachable
+    attachable_one :attachment, variants: { small: [100, 100], rect_normal: [240, 133], rect_large: [720, 400] }
 
     has_many :combos_combo_images, class_name: 'Ddt::CombosComboImage'
     has_many :combos, class_name: 'Ddt::Combo', through: :combos_combo_images

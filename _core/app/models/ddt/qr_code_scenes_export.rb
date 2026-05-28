@@ -28,7 +28,7 @@ module Ddt
           qr_code_tmp_file = Tempfile.new_in_project((q.owner.name rescue "qrcode_#{index}"), ".png")
           # download qr_code file
           open(qr_code_tmp_file.path, 'wb') do |file|
-            file << open(q.url.url).read
+            file << q.url.file.download
           end
           file_compressor.compress_file(qr_code_tmp_file.path)
           qr_code_tmp_file.destroy

@@ -52,7 +52,7 @@
         = f.input :show_on_wechat
         = f.input :enable_change_price
       .col-sm-6
-        = f.input :description, :as => :ckeditor, :input_html => { :ckeditor => {:toolbar => 'mini'} }
+        = f.input :description, :as => :text, :input_html => { rows: 5 }
       .clearfix
 
     .form-actions.col-xs-offset-2
