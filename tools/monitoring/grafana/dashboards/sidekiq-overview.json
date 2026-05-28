@@ -1,0 +1,132 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 1,
+  "id": null,
+  "panels": [
+    {
+      "title": "Jobs Processed (per min)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "sum(rate(sidekiq_jobs_processed_total[5m])) * 60",
+          "legendFormat": "Processed",
+          "refId": "A"
+        },
+        {
+          "expr": "sum(rate(sidekiq_jobs_failed_total[5m])) * 60",
+          "legendFormat": "Failed",
+          "refId": "B"
+        }
+      ]
+    },
+    {
+      "title": "Queue Sizes by Priority",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "sidekiq_queue_size",
+          "legendFormat": "{{ queue }}",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Job Duration (P95)",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "histogram_quantile(0.95, sum(rate(sidekiq_job_duration_seconds_bucket[5m])) by (le, queue))",
+          "legendFormat": "{{ queue }}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": { "defaults": { "unit": "s" } }
+    },
+    {
+      "title": "Active Workers",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 8 },
+      "targets": [
+        {
+          "expr": "sidekiq_active_workers",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Total Failed Jobs",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 8 },
+      "targets": [
+        {
+          "expr": "sidekiq_failed_jobs_total",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 50 }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "title": "Retry Set Size",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 12 },
+      "targets": [
+        {
+          "expr": "sidekiq_retry_set_size",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Dead Set Size",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 12 },
+      "targets": [
+        {
+          "expr": "sidekiq_dead_set_size",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Sidekiq Error Logs",
+      "type": "logs",
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 16 },
+      "targets": [
+        {
+          "expr": "{job=\"sidekiq\"} |= \"ERROR\" or {job=\"sidekiq\"} |= \"exception\"",
+          "refId": "A",
+          "datasource": { "type": "loki", "uid": "${DS_LOKI}" }
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["sidekiq", "diandantong"],
+  "templating": {
+    "list": [
+      {
+        "name": "DS_LOKI",
+        "type": "datasource",
+        "query": "Loki",
+        "current": { "selected": true, "text": "Loki", "value": "Loki" }
+      }
+    ]
+  },
+  "time": { "from": "now-1h", "to": "now" },
+  "title": "Sidekiq Overview",
+  "uid": "sidekiq-overview"
+}

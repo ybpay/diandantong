@@ -1,0 +1,112 @@
+{
+  "annotations": { "list": [] },
+  "editable": true,
+  "graphTooltip": 1,
+  "id": null,
+  "panels": [
+    {
+      "title": "Nginx Request Rate",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 0 },
+      "targets": [
+        {
+          "expr": "rate(nginx_http_requests_total[5m])",
+          "legendFormat": "Requests/s",
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "title": "Nginx Connections",
+      "type": "timeseries",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 0 },
+      "targets": [
+        {
+          "expr": "nginx_connections_accepted",
+          "legendFormat": "Accepted",
+          "refId": "A"
+        },
+        {
+          "expr": "nginx_connections_handled",
+          "legendFormat": "Handled",
+          "refId": "B"
+        },
+        {
+          "expr": "nginx_connections_active",
+          "legendFormat": "Active",
+          "refId": "C"
+        },
+        {
+          "expr": "nginx_connections_waiting",
+          "legendFormat": "Waiting",
+          "refId": "D"
+        }
+      ]
+    },
+    {
+      "title": "All Services Health",
+      "type": "stat",
+      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 8 },
+      "targets": [
+        {
+          "expr": "up",
+          "legendFormat": "{{ job }}",
+          "refId": "A"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          },
+          "mappings": [
+            { "type": "value", "options": { "0": { "text": "DOWN", "color": "red" }, "1": { "text": "UP", "color": "green" } } }
+          ]
+        }
+      }
+    },
+    {
+      "title": "Nginx Access Logs",
+      "type": "logs",
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 12 },
+      "targets": [
+        {
+          "expr": "{job=\"nginx_access\"}",
+          "refId": "A",
+          "datasource": { "type": "loki", "uid": "${DS_LOKI}" }
+        }
+      ]
+    },
+    {
+      "title": "Nginx Error Logs",
+      "type": "logs",
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 12 },
+      "targets": [
+        {
+          "expr": "{job=\"nginx_error\"}",
+          "refId": "A",
+          "datasource": { "type": "loki", "uid": "${DS_LOKI}" }
+        }
+      ]
+    }
+  ],
+  "schemaVersion": 39,
+  "tags": ["nginx", "infra", "diandantong"],
+  "templating": {
+    "list": [
+      {
+        "name": "DS_LOKI",
+        "type": "datasource",
+        "query": "Loki",
+        "current": { "selected": true, "text": "Loki", "value": "Loki" }
+      }
+    ]
+  },
+  "time": { "from": "now-1h", "to": "now" },
+  "title": "Infrastructure Overview",
+  "uid": "infrastructure-overview"
+}

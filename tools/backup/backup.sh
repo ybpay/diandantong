@@ -1,22 +1,23 @@
 #!/bin/bash -e
 # PostgreSQL backup script for diandantong
-# Usage: ./backup.sh (run via cron daily)
+# Supports: local filesystem, S3, MinIO
+# Usage: ./backup.sh (run via cron or sidekiq scheduler)
 
 BACKUP_DIR="${BACKUP_DIR:-/var/backups/diandantong}"
 DB_NAME="${DB_NAME:-diandantong_production}"
 DB_USER="${DB_USER:-diandantong}"
 DB_HOST="${DB_HOST:-localhost}"
 RETENTION_DAYS="${RETENTION_DAYS:-30}"
-S3_BUCKET="${S3_BUCKET:-}"  # Optional S3 upload
-
+S3_BUCKET="${S3_BUCKET:-}"
+S3_ENDPOINT="${S3_ENDPOINT:-}"  # MinIO endpoint if using MinIO
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-BACKUP_FILE="${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.sql.gz"
 
 mkdir -p "${BACKUP_DIR}"
 
-echo "[$(date)] Starting backup of ${DB_NAME}..."
+echo "[$(date)] Starting PostgreSQL backup of ${DB_NAME}..."
 
-# Create pg_dump with custom format for parallel restore
+# Create custom format backup (parallel restore capable)
+CUSTOM_FILE="${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.dump"
 pg_dump \
   -h "${DB_HOST}" \
   -U "${DB_USER}" \
@@ -24,9 +25,10 @@ pg_dump \
   --format=custom \
   --compress=6 \
   --verbose \
-  -f "${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.dump"
+  -f "${CUSTOM_FILE}"
 
-# Also create plain SQL backup
+# Create plain SQL backup
+SQL_FILE="${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.sql.gz"
 pg_dump \
   -h "${DB_HOST}" \
   -U "${DB_USER}" \
@@ -34,23 +36,47 @@ pg_dump \
   --format=plain \
   --no-owner \
   --no-acl \
-  | gzip > "${BACKUP_FILE}"
+  | gzip > "${SQL_FILE}"
 
-echo "[$(date)] Backup created: ${BACKUP_FILE}"
-echo "[$(date)] Custom format: ${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.dump"
+echo "[$(date)] PostgreSQL backup created:"
+echo "  Custom: ${CUSTOM_FILE} ($(du -h "${CUSTOM_FILE}" | cut -f1))"
+echo "  SQL:    ${SQL_FILE} ($(du -h "${SQL_FILE}" | cut -f1))"
 
-# Upload to S3 if configured
+# Upload to S3/MinIO if configured
 if [ -n "${S3_BUCKET}" ]; then
-  echo "[$(date)] Uploading to S3..."
-  aws s3 cp "${BACKUP_DIR}/${DB_NAME}_${TIMESTAMP}.dump" \
-    "s3://${S3_BUCKET}/backups/postgres/${DB_NAME}_${TIMESTAMP}.dump"
-  aws s3 cp "${BACKUP_FILE}" \
-    "s3://${S3_BUCKET}/backups/postgres/$(basename ${BACKUP_FILE})"
+  S3_ARGS=""
+  if [ -n "${S3_ENDPOINT}" ]; then
+    S3_ARGS="--endpoint-url ${S3_ENDPOINT}"
+  fi
+
+  echo "[$(date)] Uploading to S3/MinIO..."
+  aws s3 ${S3_ARGS} cp "${CUSTOM_FILE}" \
+    "s3://${S3_BUCKET}/backups/postgres/$(basename "${CUSTOM_FILE}")"
+  aws s3 ${S3_ARGS} cp "${SQL_FILE}" \
+    "s3://${S3_BUCKET}/backups/postgres/$(basename "${SQL_FILE}")"
   echo "[$(date)] S3 upload complete"
 fi
 
-# Cleanup old backups
-find "${BACKUP_DIR}" -name "*.dump" -mtime +${RETENTION_DAYS} -delete
-find "${BACKUP_DIR}" -name "*.sql.gz" -mtime +${RETENTION_DAYS} -delete
+# Cleanup old local backups
+find "${BACKUP_DIR}" -name "${DB_NAME}_*.dump" -mtime +${RETENTION_DAYS} -delete
+find "${BACKUP_DIR}" -name "${DB_NAME}_*.sql.gz" -mtime +${RETENTION_DAYS} -delete
 
-echo "[$(date)] Backup completed. Cleaned up backups older than ${RETENTION_DAYS} days."
+# Cleanup old S3 backups (if configured)
+if [ -n "${S3_BUCKET}" ]; then
+  S3_ARGS=""
+  if [ -n "${S3_ENDPOINT}" ]; then
+    S3_ARGS="--endpoint-url ${S3_ENDPOINT}"
+  fi
+  CUT_DATE=$(date -d "-${RETENTION_DAYS} days" +%Y%m%d 2>/dev/null || date -v-${RETENTION_DAYS}d +%Y%m%d)
+  aws s3 ${S3_ARGS} ls "s3://${S3_BUCKET}/backups/postgres/" | \
+    awk "{print \$4}" | \
+    while read -r fname; do
+      FILE_DATE=$(echo "${fname}" | grep -oP '\d{8}' | head -1)
+      if [ -n "${FILE_DATE}" ] && [ "${FILE_DATE}" -lt "${CUT_DATE}" ]; then
+        aws s3 ${S3_ARGS} rm "s3://${S3_BUCKET}/backups/postgres/${fname}"
+        echo "  Deleted old S3 backup: ${fname}"
+      fi
+    done
+fi
+
+echo "[$(date)] PostgreSQL backup completed."

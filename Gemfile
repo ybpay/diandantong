@@ -74,6 +74,8 @@ gem 'rack-attack', '~> 6.7'
 
 gem 'exception_notification', '~> 4.5'
 
+gem 'prometheus_exporter', '~> 2.1'
+
 gem 'settingslogic', '~> 2.0'
 
 
