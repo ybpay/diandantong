@@ -1,8 +1,28 @@
 import client from '../client'
-import type { AdminOrder, OrderType, AdminPaginatedResult } from '@diandantong/admin-types'
+import type {
+  AdminOrder,
+  AdminOrderSubtype,
+  AdminDeliveryOrder,
+  OrderType,
+  OrderStatus,
+  AdminPaginatedResult,
+} from '@diandantong/admin-types'
+
+export interface OrderListParams {
+  page?: number
+  per_page?: number
+  q?: {
+    order_type_eq?: OrderType
+    status_eq?: OrderStatus
+    order_no_cont?: string
+    placed_at_gteq?: string
+    placed_at_lteq?: string
+    [key: string]: unknown
+  }
+}
 
 export const orderApi = {
-  list(params?: { page?: number; per_page?: number; status?: string; order_type?: OrderType; start_date?: string; end_date?: string }) {
+  list(params?: OrderListParams) {
     return client.get<AdminPaginatedResult<AdminOrder>>('/orders', { params })
   },
 
@@ -10,12 +30,25 @@ export const orderApi = {
     return client.get<AdminOrder>(`/orders/${orderId}`)
   },
 
-  listByType(orderType: OrderType, params?: { page?: number; per_page?: number; status?: string }) {
-    return client.get<AdminPaginatedResult<AdminOrder>>(`/orders`, { params: { ...params, order_type: orderType } })
+  listByType(orderType: OrderType, params?: Omit<OrderListParams, 'q'> & { status?: string; order_no?: string }) {
+    const q: Record<string, unknown> = { order_type_eq: orderType }
+    if (params?.status) q.status_eq = params.status as OrderStatus
+    if (params?.order_no) q.order_no_cont = params.order_no
+    return client.get<AdminPaginatedResult<AdminOrderSubtype>>('/orders', {
+      params: { page: params?.page, per_page: params?.per_page, q },
+    })
+  },
+
+  confirm(orderId: number) {
+    return client.put<AdminOrder>(`/orders/${orderId}/confirm`)
   },
 
   cancel(orderId: number, reason?: string) {
-    return client.post<AdminOrder>(`/orders/${orderId}/cancel`, { reason })
+    return client.put<AdminOrder>(`/orders/${orderId}/cancel`, { reason })
+  },
+
+  complete(orderId: number) {
+    return client.put<AdminOrder>(`/orders/${orderId}/complete`)
   },
 
   refund(orderId: number, reason?: string) {
@@ -24,5 +57,18 @@ export const orderApi = {
 
   reprint(orderId: number, printerId?: number) {
     return client.post(`/orders/${orderId}/reprint`, { printer_id: printerId })
+  },
+
+  // Delivery-specific actions
+  delivery: {
+    assign(orderId: number, deliveryManId: number) {
+      return client.put<AdminDeliveryOrder>(`/delivery_orders/${orderId}/assign`, { delivery_man_id: deliveryManId })
+    },
+    start(orderId: number) {
+      return client.put<AdminDeliveryOrder>(`/delivery_orders/${orderId}/start`)
+    },
+    ship(orderId: number) {
+      return client.put<AdminDeliveryOrder>(`/delivery_orders/${orderId}/ship`)
+    },
   },
 }

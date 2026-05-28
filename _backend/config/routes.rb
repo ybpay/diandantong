@@ -251,7 +251,20 @@ Ddt::Core::Engine.add_routes do
         resources :branches, only: [:index, :show, :create, :update]
         resources :products, only: [:index, :show, :create, :update, :destroy]
         resources :categories, only: [:index, :show, :create, :update, :destroy]
-        resources :orders, only: [:index, :show, :update]
+        resources :orders, only: [:index, :show, :update] do
+          member do
+            put :confirm
+            put :cancel
+            put :complete
+          end
+        end
+        resources :delivery_orders, only: [:index, :show] do
+          member do
+            put :assign
+            put :start
+            put :ship
+          end
+        end
         resources :payments, only: [:index, :show]
       end
     end

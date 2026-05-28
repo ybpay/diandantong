@@ -105,14 +105,17 @@ export interface AdminOrder {
   id: number
   order_no: string
   branch_id: number
+  branch_name?: string
   order_type: OrderType
   status: OrderStatus
+  state?: string
   total_price: number
   total_amount: number
   original_price: number
   discount_amount: number
   line_items: AdminLineItem[]
   note: string
+  placed_at?: string
   created_at: string
   completed_at: string
   // Eat-in-hall specific
@@ -123,21 +126,97 @@ export interface AdminOrder {
   delivery_address?: string
   delivery_man_id?: number
   delivery_man_name?: string
+  delivery_status?: DeliveryStatus
   // Fast-food specific
   take_no?: string
   // Groupon specific
   groupon_id?: number
+  groupon_code?: string
+  groupon_platform?: string
   // Reservation specific
   reserved_at?: string
+  person_count?: number
+  customer_name?: string
+  customer_phone?: string
   // Recharge specific
   recharge_amount?: number
   bonus_amount?: number
+  vip_id?: number
+  vip_name?: string
+  vip_phone?: string
   // Payment specific
   payment_method?: PaymentMethod
+  related_order_id?: number
+  related_order_no?: string
+  operator_name?: string
   // Common
   vip_info?: AdminVipInfo
   pay_items?: AdminPayItem[]
+  adjustments?: AdminAdjustment[]
 }
+
+export interface AdminEatInHallOrder extends AdminOrder {
+  order_type: 'eat_in_hall'
+  table_id: number
+  table_name: string
+  guest_num: number
+}
+
+export interface AdminDeliveryOrder extends AdminOrder {
+  order_type: 'delivery'
+  delivery_address: string
+  delivery_man_id: number | null
+  delivery_man_name: string
+  delivery_status: DeliveryStatus
+}
+
+export interface AdminFastfoodOrder extends AdminOrder {
+  order_type: 'fast_food'
+  take_no: string
+}
+
+export interface AdminGrouponOrder extends AdminOrder {
+  order_type: 'groupon'
+  groupon_id: number
+  groupon_code: string
+  groupon_platform: string
+}
+
+export interface AdminReservationOrder extends AdminOrder {
+  order_type: 'reservation'
+  reserved_at: string
+  person_count: number
+  customer_name: string
+  customer_phone: string
+  table_id?: number
+  table_name?: string
+}
+
+export interface AdminRechargeOrder extends AdminOrder {
+  order_type: 'recharge'
+  recharge_amount: number
+  bonus_amount: number
+  vip_id: number
+  vip_name: string
+  vip_phone: string
+}
+
+export interface AdminPaymentOrder extends AdminOrder {
+  order_type: 'payment'
+  payment_method: PaymentMethod
+  related_order_id: number
+  related_order_no: string
+  operator_name: string
+}
+
+export type AdminOrderSubtype =
+  | AdminEatInHallOrder
+  | AdminDeliveryOrder
+  | AdminFastfoodOrder
+  | AdminGrouponOrder
+  | AdminReservationOrder
+  | AdminRechargeOrder
+  | AdminPaymentOrder
 
 export interface AdminLineItem {
   id: number
@@ -332,6 +411,17 @@ export interface AdminPayItem {
   amount: number
   status: 'pending' | 'paid' | 'refunded'
 }
+
+export interface AdminAdjustment {
+  id: number
+  adjustment_type: 'discount' | 'coupon' | 'promotion' | 'manual'
+  label: string
+  amount: number
+  source_type?: string
+  source_id?: number
+}
+
+export type DeliveryStatus = 'pending' | 'assigned' | 'preparing' | 'delivering' | 'delivered' | 'cancelled'
 
 export type OrderType = 'eat_in_hall' | 'fast_food' | 'delivery' | 'groupon' | 'reservation' | 'recharge' | 'payment'
 
